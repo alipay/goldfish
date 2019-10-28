@@ -1,2 +1,3 @@
-# goldfish
-开箱即用的小程序开发框架
+# Goldfish
+
+A development framework for Alipay mini programs.
