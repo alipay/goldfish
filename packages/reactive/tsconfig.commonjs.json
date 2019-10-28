@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./types",
+    "declarationMap": false,
+    "diagnostics": true,
+    "help": true,
+    "lib": ["dom", "es2015"],
+    "locale": "zh-CN",
+    "module": "commonjs",
+    "outDir": "./lib",
+    "strict": true,
+    "target": "es5",
+    "traceResolution": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./node_modules",
+    "./test"
+  ]
+}

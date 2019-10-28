@@ -1,0 +1,42 @@
+{
+  "name": "@alipay/goldfish-reactive",
+  "version": "0.0.1",
+  "description": "Reactive.",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "scripts": {
+    "test": "jest --coverage --passWithNoTests",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "dev": "jest --debug --watch",
+    "build": "rm -rf ./types && rm -rf ./lib && tsc --build tsconfig.commonjs.json",
+    "lint": "tslint ./src/**",
+    "ci": "npm run test",
+    "release": "npm run test && npm run lint && npm run build && npm publish"
+  },
+  "keywords": [],
+  "author": "yibuyisheng@163.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/lodash": "^4.14.117",
+    "@types/react": "^16.7.3",
+    "@types/react-dom": "^16.0.9",
+    "jest": "^23.6.0",
+    "lodash": "^4.17.11",
+    "pre-commit": "^1.2.2",
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
+    "ts-jest": "^23.10.2",
+    "tslint": "^5.11.0",
+    "tslint-config-airbnb": "^5.11.0",
+    "typescript": "^3.1.4"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
+  },
+  "types": "./types/index.d.ts",
+  "sideEffects": false,
+  "pre-commit": [
+    "lint"
+  ]
+}

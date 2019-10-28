@@ -1,0 +1,19 @@
+{
+  "name": "goldfish-opensouce",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "ci": "npm run boot && npm run build && npm run lint && npm run test",
+    "release": "node scripts/release.js",
+    "lint": "node scripts/lint.js",
+    "build": "node scripts/build.js",
+    "reboot": "node scripts/reboot.js",
+    "boot": "lerna bootstrap",
+    "test": "node scripts/test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^3.13.4"
+  }
+}

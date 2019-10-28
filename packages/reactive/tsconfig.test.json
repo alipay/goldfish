@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.es",
+  "compilerOptions": {
+    "jsx": "react",
+    "lib": [
+      "es2015",
+      "dom"
+    ]
+  }
+}
