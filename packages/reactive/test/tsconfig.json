@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.es",
+  "extends": "../src/tsconfig",
   "compilerOptions": {
     "jsx": "react",
     "lib": [
