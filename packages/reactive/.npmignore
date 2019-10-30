@@ -6,8 +6,6 @@ coverage
 .gitignore
 .npmignore
 jest.config.js
-tsconfig.commonjs.json
-tsconfig.es.json
-tsconfig.test.json
+tsconfig.json
 tslint.json
 package-lock.json
