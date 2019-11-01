@@ -19,8 +19,6 @@ function cache<FuncType extends PromiseCreator>(
   let resolveQueue: Array<(value?: any) => void> = [];
   let rejectQueue: Array<(reason?: any) => void> = [];
 
-  let cacheArgs: any[];
-
   function createFunc(config: Config): FuncType {
     return ((...args: Array<any>) => new Promise<any>((resolve, reject) => {
       if (result && !config.force) {
@@ -32,10 +30,7 @@ function cache<FuncType extends PromiseCreator>(
       rejectQueue.push(reject);
       if (pending) return;
       pending = true;
-      if (args && args.length) {
-        cacheArgs = args;
-      }
-      fn(...(args || cacheArgs))
+      fn(...args)
         .then((resolveResult) => {
           if (resolveQueue.length) {
             resolveQueue.forEach((r) => r(resolveResult));
