@@ -1,0 +1,35 @@
+{
+  "name": "@alipay/goldfish-requester",
+  "version": "0.0.1",
+  "description": "goldfish-requester",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -b ./tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alipay/goldfish/blob/master/packages/requester/README.md"
+  },
+  "keywords": [
+    "request",
+    "tiny",
+    "app"
+  ],
+  "files": [
+    "lib",
+    "types"
+  ],
+  "types": "types",
+  "author": "likun7981 <likun7891@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "2.6.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "6.1.0",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "mini-types": "^0.0.4",
+    "typescript": "^3.6.4"
+  }
+}
