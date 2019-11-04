@@ -1,4 +1,4 @@
-import { PromiseCreator } from '../types';
+import { PromiseCreator } from './types';
 
 function takeLatest<FuncType extends PromiseCreator>(
   promiseCreator: FuncType,

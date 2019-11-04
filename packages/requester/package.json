@@ -4,8 +4,10 @@
   "description": "goldfish-requester",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -b ./tsconfig.json"
+    "build:commonjs": "tsc -b ./tsconfig.json",
+    "build:es": "tsc -b ./tsconfig.commonjs.json",
+    "build": "npm run clean && npm run build:commonjs && npm run build:es",
+    "clean": "rm -rf lib && rm -rf es && rm -rf types"
   },
   "repository": {
     "type": "git",
@@ -18,7 +20,8 @@
   ],
   "files": [
     "lib",
-    "types"
+    "types",
+    "es"
   ],
   "types": "types",
   "author": "likun7981 <likun7891@gmail.com>",

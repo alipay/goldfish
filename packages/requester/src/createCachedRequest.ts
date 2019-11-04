@@ -1,4 +1,4 @@
-import { RequestOptions, Request, withForceUpdate } from './types';
+import { RequestOptions, Request, withForceUpdate } from './utils/types';
 import cache from './utils/cache';
 import createRequest from './index';
 

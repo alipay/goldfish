@@ -1,8 +1,8 @@
-import { PromiseCreator, withForceUpdate } from '../types';
+import { PromiseCreator, withForceUpdate } from './types';
 
 type CacheOptions = {
   /**
-   * 缓存时间，单位ms
+   * Cache time. Unit of milliseconds.If the permanent storage, set to -1
    */
   time?: number;
 };
@@ -36,10 +36,11 @@ function cache<FuncType extends PromiseCreator>(
             resolveQueue.forEach((r) => r(resolveResult));
           }
           result = resolveResult;
-          setTimeout(() => {
-            // 1.5s后清除缓存
-            result = undefined;
-          }, time);
+          if (time !== -1) {
+            setTimeout(() => {
+              result = undefined;
+            }, time);
+          }
         })
         .catch((e: any) => {
           if (rejectQueue.length) {

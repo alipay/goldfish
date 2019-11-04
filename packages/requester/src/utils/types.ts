@@ -50,7 +50,7 @@ export type ResultData<T> = {
     ? DataTypeResultMap[keyof DataTypeResultMap]
     : T;
   /**
-   * 响应码
+   * Response code
    * - 11：无权跨域
    * - 12：网络出错
    * - 13：超时
@@ -60,44 +60,50 @@ export type ResultData<T> = {
    */
   status: StatusCodes;
   /**
-   * 响应码映射的错误信息
+   * The response code mapping error message
    */
   errorMessage: StatusMessageMap[StatusCodes];
   /**
-   * 响应头
+   * Response header
    */
   headers?: Record<string, string>;
 };
-export type RequestOptions = {
+
+export interface $RequestOptions extends RequestOptions {
+  $$takeLatest?: boolean;
+}
+
+export interface RequestOptions {
+
   method?: 'POST' | 'GET';
   /**
-   * 期望返回的数据格式，默认JSON，支持JSON，text，base64
+   * Expect to return to the data format, the default JSON, support JSON, text, base64
    */
   dataType?: keyof DataTypeResultMap;
   /**
-   * 超时时间，单位 ms，默认 30000。
+   * Unit of milliseconds, 30000 by default.
    */
   timeout?: number;
   /**
-   * 设置请求的 HTTP 头对象，默认 {'content-type': 'application/json'}，该对象里面的 key 和 value 必须是 String 类型。
+   * Set the http request header, default {'content-type': 'application/json'},
+   * The object inside the key and the value must be a String type.
    */
   headers?: Record<string, string>;
   /**
-   * datahub name
+   * For example
+   * - the value true
+   *  url: 'http://api.com/getUserInfo' => '/getUserInfo';
+   *
+   * - the value 'http://mock.com'
+   *  url: 'http://api.com/getUserInfo' => 'http://mock.com/getUserInfo';
    */
-  hub?: string;
+  mock?: string | boolean;
   /**
-   * 是否开启mock
-   */
-  mock?: boolean;
-  /**
-   * loadingCount延迟计数，默认不延迟
+   * Delay loading count, default 0. Unit of milliseconds
    */
   loadingDelay?: number;
   /**
-   * 请求模式:
-   *  - takeLatest 取最后一次请求，例如：在输入框搜索时使用
-   *  - preventIfLoading 上一次请求未完成时不允许二次请求。
+   * The last request before his response do not allow the second request, default: true
    */
-  requestModel?: 'takeLatest' | 'preventIfLoading';
-};
+  preventIfLoading?: boolean;
+}

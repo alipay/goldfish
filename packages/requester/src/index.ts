@@ -1,11 +1,16 @@
 import {
-  RequestOptions, ResultData, IfNoInOut, IfNull,
-} from './types';
+  RequestOptions,
+  ResultData,
+  IfNoInOut,
+  IfNull,
+  Request,
+  $RequestOptions,
+} from './utils/types';
 
 // 1. 实现mock功能
 // 2. 请求计数，当前有多少个请求
 // 3. loading计数，当前有多少个loading(配置loading延迟)), 当loading 延迟为0时，请求计数 === loading计数
-// 4. 实现takeLatest或者preventIfLoading
+// 4. preventIfLoading
 // 5. cache功能, 能使用forceRequest强制刷新
 
 const defaultOptions: RequestOptions = {
@@ -19,7 +24,7 @@ let count = 0;
 let loading = false;
 
 const createRequest = <M = Record<string, any>>(
-  options: RequestOptions = defaultOptions,
+  options: $RequestOptions = defaultOptions,
 ) => <
   Url extends keyof M,
   ParamType extends IfNull<M, Url>,
@@ -34,6 +39,9 @@ const createRequest = <M = Record<string, any>>(
     ...defaultOptions,
     ...overrideOptions,
   };
+  if (options.$$takeLatest) {
+    finalOptions.preventIfLoading = false;
+  }
   count += 1;
   let loadingEmit = false;
   let timerHandle: number;
@@ -47,7 +55,7 @@ const createRequest = <M = Record<string, any>>(
     loadingEmit = true;
   }
   return new Promise((resolve, reject) => {
-    if (finalOptions.requestModel === 'preventIfLoading') {
+    if (finalOptions.preventIfLoading) {
       loading = true;
       if (loading) {
         return;
@@ -81,4 +89,10 @@ export const getLoadingCount = (): number => loadingCount;
 
 export const getRequestCount = (): number => count;
 
-export default createRequest;
+type realCreateRequest = <M = Record<string, any>>(
+  options?: RequestOptions,
+) => Request<M>;
+
+export const $$innerCreateRequest = createRequest;
+
+export default createRequest as realCreateRequest;

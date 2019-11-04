@@ -1,9 +1,9 @@
-import { RequestOptions, Request } from './types';
+import { RequestOptions, Request } from './utils/types';
 import takeLatest from './utils/takeLatest';
-import createRequest from './index';
+import { $$innerCreateRequest } from './index';
 
 function createTakeLatestRequest<M>(options?: RequestOptions): Request<M> {
-  const request = createRequest<M>(options);
+  const request = $$innerCreateRequest<M>({ ...options, $$takeLatest: true });
   return takeLatest(request) as Request<M>;
 }
 

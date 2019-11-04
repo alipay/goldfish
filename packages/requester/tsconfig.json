@@ -13,10 +13,10 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "outDir": "./lib",
+    "outDir": "./es",
     "declaration": true,
     "declarationDir": "./types",
     "help": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src"],
 }
