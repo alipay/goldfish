@@ -1,27 +1,29 @@
 import { connect, IViewInstance } from '@alipay/goldfish-reactive';
 import PageStore from './PageStore';
+import attachLogic from './attachLogic';
+import AppStore from './AppStore';
 
 export type PageInstance<D, S> =
   tinyapp.IPageInstance<D> & Omit<IViewInstance, 'store'> & { store: S };
 
-export type PageOption<D, S> =
+export type PageOptions<D, S> =
   ThisType<tinyapp.IPageInstance<D> & { store: S }> & tinyapp.PageOptions<D>;
 
-export default function createMiniPage<PS extends PageStore, D = any>(
+export default function createMiniPage<AS extends AppStore, PS extends PageStore<AS>, D = any>(
   storeClass: new () => PS,
-  pageOptions: PageOption<D, PS> = {},
+  pageOptions: PageOptions<D, PS> = {},
   options?: {
     beforeCreateStore?: (view: PageInstance<D, PS>) => void;
   },
 ): tinyapp.PageOptions<D> {
-  const preOnUnload = pageOptions.onUnload;
-  pageOptions.onUnload = function (this: PageInstance<D, PS>) {
-    this.store && (this.store.isSyncDataSafe = false);
-
-    if (preOnUnload) {
-      preOnUnload.call(this);
-    }
-  };
+  attachLogic<'onUnload', Required<PageOptions<D, PS>>['onUnload']>(
+    pageOptions,
+    'onUnload',
+    'before',
+    function (this: PageInstance<D, PS>) {
+      this.store && (this.store.isSyncDataSafe = false);
+    },
+  );
 
   const beforeCreateStore = options && options.beforeCreateStore;
   connect(

@@ -12,7 +12,7 @@ export * from './watch';
 export { default as connect } from './connect';
 export * from './connect';
 
-export { IErrorCallback } from './dep';
+export { IErrorCallback, DepList } from './dep';
 
 export { default as reactive } from './reactive';
 export * from './reactive';

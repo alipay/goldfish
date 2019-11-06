@@ -1,10 +1,11 @@
 import { connect, IViewInstance } from '@alipay/goldfish-reactive';
 import ComponentStore from './ComponentStore';
+import attachLogic from './attachLogic';
 
-const isComponent2 = typeof my !== 'undefined' ? my.canIUse('component2') : false;
+export const isComponent2 = typeof my !== 'undefined' ? my.canIUse('component2') : false;
 
 export type ComponentInstance<P, D, CS, M> =
-{ store: CS } & tinyapp.IComponentInstance<P, D> & Omit<IViewInstance, 'store'> & M;
+  { store: CS } & tinyapp.IComponentInstance<P, D> & Omit<IViewInstance, 'store'> & M;
 
 export type ComponentOptions<P, D, CS, M extends tinyapp.IComponentMethods> =
   ThisType<ComponentInstance<P, D, CS, M>> & tinyapp.ComponentOptions<P, D, M>;
@@ -65,23 +66,20 @@ export default function createTinyappComponent<
     }
   }
 
-  const preEnter = componentOptions[enterKey];
-  componentOptions[enterKey] = function (this: ComponentInstance<P, D, CS, M>) {
-    if (preEnter) {
-      preEnter.call(this);
-    }
-    syncProps.call(this);
-  };
+  attachLogic<typeof enterKey, Required<ComponentOptions<P, D, CS, M>>[typeof enterKey]>(
+    componentOptions,
+    enterKey,
+    'after',
+    syncProps,
+  );
 
   const refreshKey = isComponent2 ? 'didUpdate' : 'deriveDataFromProps';
-  const preRefresh = componentOptions[refreshKey];
-  componentOptions[refreshKey] = function (this: ComponentInstance<P, D, CS, M>, nextProps: P) {
-    if (preRefresh) {
-      refreshKey === 'didUpdate'
-        ? (preRefresh as any).call(this)
-        : (preRefresh as any).call(this, nextProps);
-    }
-  };
+  attachLogic<typeof refreshKey, Required<ComponentOptions<P, D, CS, M>>[typeof refreshKey]>(
+    componentOptions,
+    refreshKey,
+    'after',
+    syncProps,
+  );
 
   return componentOptions;
 }
