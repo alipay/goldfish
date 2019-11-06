@@ -7,6 +7,8 @@ class Runner {
 
   private isStopped = false;
 
+  private removeListenersGroup: Function[][] = [];
+
   constructor(fn: AutorunFunction, errorCb?: IErrorCallback) {
     this.autorun(fn, errorCb);
   }
@@ -16,9 +18,10 @@ class Runner {
       () => {
         fn();
         this.depList = getCurrent();
-        this.depList.addChangeListener(() => {
+        const removeFns = this.depList.addChangeListener(() => {
           !this.isStopped && this.autorun(fn);
         });
+        this.removeListenersGroup.push(removeFns);
       },
       errorCb,
     );
@@ -26,6 +29,8 @@ class Runner {
 
   stop() {
     this.isStopped = true;
+    this.removeListenersGroup.forEach(group => group.forEach(fn => fn()));
+    this.removeListenersGroup = [];
   }
 }
 

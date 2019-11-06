@@ -70,12 +70,14 @@ export class DepList {
 
         removeListeners.forEach(fn => fn());
         isDone = true;
+        removeListeners.splice(0, removeListeners.length);
         Promise.resolve().then(() => cb(n, o, type));
       }
     };
     this.list.forEach((dep) => {
       removeListeners.push(dep.addListener(checker));
     });
+    return removeListeners;
   }
 }
 

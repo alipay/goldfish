@@ -72,6 +72,7 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
     let depList: DepList;
     let cachedValue: any;
     const dep = new Dep(obj, key);
+    let removeListenersGroup: Function[][] = [];
     Object.defineProperty(obj, key, {
       configurable: false,
       enumerable: true,
@@ -86,7 +87,11 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
             cachedValue = realGetter();
             depList = getCurrent();
             depMap[key] = depList;
-            depList.addChangeListener(
+
+            removeListenersGroup.forEach(group => group.forEach(fn => fn()));
+            removeListenersGroup = [];
+
+            const removeFns = depList.addChangeListener(
               () => {
                 isDirty = true;
                 dep.notifyChange(undefined, cachedValue, 'computed', () => true);
@@ -94,6 +99,7 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
               false,
             );
             isDirty = false;
+            removeListenersGroup.push(removeFns);
           });
         }
 

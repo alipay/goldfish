@@ -22,6 +22,8 @@ class Watcher<R> {
 
   private isFirstTime = true;
 
+  private removeListenersGroup: Function[][] = [];
+
   constructor(
     fn: IWatchExpressionFn<R>,
     cb: IWatchCallback<R>,
@@ -36,6 +38,10 @@ class Watcher<R> {
 
   public stop() {
     this.isStopped = true;
+    this.removeListenersGroup.forEach((group) => {
+      group.forEach(fn => fn());
+    });
+    this.removeListenersGroup = [];
   }
 
   // 递归访问一下，方便搜集依赖
@@ -64,20 +70,22 @@ class Watcher<R> {
         if (this.options.deep) {
           this.deepVisit(result);
         }
-        getCurrent().addChangeListener((n: any, o: any, type: SourceType) => {
-          if (this.isStopped) {
-            return;
-          }
-
-          const currentResult = this.watch();
-          if (this.options.deep || type === 'notify' || currentResult !== result) {
-            try {
-              this.cb(currentResult, result);
-            } catch (e) {
-              this.options.onError && this.options.onError(e);
+        this.removeListenersGroup.push(
+          getCurrent().addChangeListener((n: any, o: any, type: SourceType) => {
+            if (this.isStopped) {
+              return;
             }
-          }
-        });
+
+            const currentResult = this.watch();
+            if (this.options.deep || type === 'notify' || currentResult !== result) {
+              try {
+                this.cb(currentResult, result);
+              } catch (e) {
+                this.options.onError && this.options.onError(e);
+              }
+            }
+          }),
+        );
       },
       this.options.onError,
     );
