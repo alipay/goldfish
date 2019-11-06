@@ -1,6 +1,6 @@
-import GoldFishUtils from './types';
+import { PromiseCreator } from './types';
 
-function takeLatest<FuncType extends GoldFishUtils.PromiseCreator>(
+function takeLatest<FuncType extends PromiseCreator>(
   promiseCreator: FuncType,
 ): FuncType {
   let index = 0;

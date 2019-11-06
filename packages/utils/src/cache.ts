@@ -1,4 +1,4 @@
-import GoldFishUtils from './types';
+import { PromiseCreator, WithForceUpdate } from './types';
 
 type CacheOptions = {
   /**
@@ -9,7 +9,7 @@ type CacheOptions = {
 
 type Config = { force: boolean };
 
-function cache<FuncType extends GoldFishUtils.PromiseCreator>(
+function cache<FuncType extends PromiseCreator>(
   fn: FuncType,
   options: CacheOptions = { time: 2000 },
 ): FuncType {
@@ -54,7 +54,7 @@ function cache<FuncType extends GoldFishUtils.PromiseCreator>(
         });
     })) as FuncType;
   }
-  const func = createFunc({ force: false }) as GoldFishUtils.WithForceUpdate<FuncType>;
+  const func = createFunc({ force: false }) as WithForceUpdate<FuncType>;
   func.forceRefresh = createFunc({ force: true });
   return func;
 }

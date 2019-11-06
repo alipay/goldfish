@@ -1,12 +1,13 @@
 {
-  "name": "@alipay/goldfish-requester",
+  "name": "goldfish-utils",
   "version": "0.0.1",
-  "description": "goldfish-requester",
+  "description": "goldfish-utils",
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean && tsc -b ./tsconfig.json",
     "clean": "rm -rf lib && rm -rf types"
   },
+  "publishConfig": {"access": "public"},
   "repository": {
     "type": "git",
     "url": "https://github.com/alipay/goldfish/blob/master/packages/requester/README.md"
@@ -20,7 +21,7 @@
     "lib",
     "types"
   ],
-  "typings": "",
+  "typings": "./types/index.d.ts",
   "author": "likun7981 <likun7891@gmail.com>",
   "license": "ISC",
   "devDependencies": {
