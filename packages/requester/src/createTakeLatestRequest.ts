@@ -1,10 +1,10 @@
-import { RequestOptions, Request } from './utils/types';
+import { RequestOptions, Request, $RequestOptions } from './utils/types';
 import takeLatest from './utils/takeLatest';
-import { $$innerCreateRequest } from './index';
+import createRequest from './index';
 
 function createTakeLatestRequest<M>(options?: RequestOptions): Request<M> {
-  const request = $$innerCreateRequest<M>({ ...options, $$takeLatest: true });
-  return takeLatest(request) as Request<M>;
+  const request = createRequest<M>({ ...options, $$takeLatest: true } as $RequestOptions);
+  return takeLatest(request);
 }
 
 export default createTakeLatestRequest;

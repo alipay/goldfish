@@ -1,17 +1,11 @@
+import mockUrl from 'utils/mockUrl';
 import {
   RequestOptions,
   ResultData,
-  IfNoInOut,
-  IfNull,
-  Request,
+  PickInOrOutType,
+  DefaultTypeIfNullOrUndefined,
   $RequestOptions,
 } from './utils/types';
-
-// 1. 实现mock功能
-// 2. 请求计数，当前有多少个请求
-// 3. loading计数，当前有多少个loading(配置loading延迟)), 当loading 延迟为0时，请求计数 === loading计数
-// 4. preventIfLoading
-// 5. cache功能, 能使用forceRequest强制刷新
 
 const defaultOptions: RequestOptions = {
   method: 'GET',
@@ -24,27 +18,27 @@ let count = 0;
 let loading = false;
 
 const createRequest = <M = Record<string, any>>(
-  options: $RequestOptions = defaultOptions,
+  options: RequestOptions = defaultOptions,
 ) => <
-  Url extends keyof M,
-  ParamType extends IfNull<M, Url>,
-  ReturnType extends ResultData<IfNoInOut<ParamType, 'out'>>
+  Url extends Extract<keyof M, string>,
+  ParamType extends DefaultTypeIfNullOrUndefined<M, Url>,
+  ResultType extends ResultData<PickInOrOutType<ParamType, 'out'>>
 >(
       url: Url,
-      param?: IfNoInOut<ParamType, 'in'>,
+      param?: PickInOrOutType<ParamType, 'in'>,
       overrideOptions?: RequestOptions,
-    ): Promise<ReturnType> => {
+    ): Promise<ResultType> => {
   const finalOptions: RequestOptions = {
-    ...options,
     ...defaultOptions,
+    ...options,
     ...overrideOptions,
   };
-  if (options.$$takeLatest) {
+  if ((options as $RequestOptions).$$takeLatest) {
     finalOptions.preventIfLoading = false;
   }
   count += 1;
   let loadingEmit = false;
-  let timerHandle: number;
+  let timerHandle: any;
   if (finalOptions.loadingDelay) {
     timerHandle = setTimeout(() => {
       loadingCount += 1;
@@ -54,6 +48,11 @@ const createRequest = <M = Record<string, any>>(
     loadingCount += 1;
     loadingEmit = true;
   }
+
+  if (process.env.NODE_ENV === 'development') {
+    url = mockUrl(url, finalOptions.mock) as Url;
+  }
+
   return new Promise((resolve, reject) => {
     if (finalOptions.preventIfLoading) {
       loading = true;
@@ -61,13 +60,13 @@ const createRequest = <M = Record<string, any>>(
         return;
       }
     }
-    (my.httpRequest || my.request)({
-      url: url as string,
+    (my.request || my.httpRequest)({
+      url,
       data: param,
       method: finalOptions.method,
       timeout: finalOptions.timeout,
       success(res) {
-        resolve(res as ReturnType);
+        resolve(res as ResultType);
       },
       fail(res) {
         reject(res);
@@ -89,10 +88,4 @@ export const getLoadingCount = (): number => loadingCount;
 
 export const getRequestCount = (): number => count;
 
-type realCreateRequest = <M = Record<string, any>>(
-  options?: RequestOptions,
-) => Request<M>;
-
-export const $$innerCreateRequest = createRequest;
-
-export default createRequest as realCreateRequest;
+export default createRequest;

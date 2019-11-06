@@ -4,10 +4,8 @@
   "description": "goldfish-requester",
   "main": "lib/index.js",
   "scripts": {
-    "build:commonjs": "tsc -b ./tsconfig.json",
-    "build:es": "tsc -b ./tsconfig.commonjs.json",
-    "build": "npm run clean && npm run build:commonjs && npm run build:es",
-    "clean": "rm -rf lib && rm -rf es && rm -rf types"
+    "build": "npm run clean && tsc -b ./tsconfig.json",
+    "clean": "rm -rf lib && rm -rf types"
   },
   "repository": {
     "type": "git",
@@ -23,7 +21,7 @@
     "types",
     "es"
   ],
-  "types": "types",
+  "typings": "",
   "author": "likun7981 <likun7891@gmail.com>",
   "license": "ISC",
   "devDependencies": {

@@ -1,4 +1,4 @@
-import { PromiseCreator, withForceUpdate } from './types';
+import { PromiseCreator, WithForceUpdate } from './types';
 
 type CacheOptions = {
   /**
@@ -54,7 +54,7 @@ function cache<FuncType extends PromiseCreator>(
         });
     })) as FuncType;
   }
-  const func = createFunc({ force: false }) as withForceUpdate<FuncType>;
+  const func = createFunc({ force: false }) as WithForceUpdate<FuncType>;
   func.forceRefresh = createFunc({ force: true });
   return func;
 }
