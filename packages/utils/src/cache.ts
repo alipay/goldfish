@@ -2,7 +2,7 @@ import { PromiseCreator, WithForceUpdate } from './types';
 
 type CacheOptions = {
   /**
-   * Cache time. Unit of milliseconds.If the permanent storage, set to -1
+   * Cache time. Unit of milliseconds. If the permanent storage, set to -1, default 2000ms
    */
   time?: number;
 };
@@ -18,10 +18,11 @@ function cache<FuncType extends PromiseCreator>(
   let result: any;
   let resolveQueue: Array<(value?: any) => void> = [];
   let rejectQueue: Array<(reason?: any) => void> = [];
+  let resetTimeHandle: any;
 
   function createFunc(config: Config): FuncType {
     return ((...args: Array<any>) => new Promise<any>((resolve, reject) => {
-      if (result && !config.force) {
+      if (typeof result !== 'undefined' && !config.force) {
         resolve(result);
         return;
       }
@@ -37,7 +38,10 @@ function cache<FuncType extends PromiseCreator>(
           }
           result = resolveResult;
           if (time !== -1) {
-            setTimeout(() => {
+            if (resetTimeHandle) {
+              return;
+            }
+            resetTimeHandle = setTimeout(() => {
               result = undefined;
             }, time);
           }

@@ -1,5 +1,8 @@
 import { PromiseCreator } from './types';
 
+/**
+ * Discard the previous return values, only keep the last return values
+ */
 function takeLatest<FuncType extends PromiseCreator>(
   promiseCreator: FuncType,
 ): FuncType {
@@ -8,7 +11,7 @@ function takeLatest<FuncType extends PromiseCreator>(
     index += 1;
     const promise = promiseCreator(...args);
 
-    function guardLatest(
+    function lastest(
       func: (value?: any | PromiseLike<any>) => void,
       reqIndex: number,
     ) {
@@ -20,7 +23,7 @@ function takeLatest<FuncType extends PromiseCreator>(
     }
 
     return new Promise((resolve, reject) => {
-      promise.then(guardLatest(resolve, index), guardLatest(reject, index));
+      promise.then(lastest(resolve, index), lastest(reject, index));
     });
   }) as FuncType;
 }

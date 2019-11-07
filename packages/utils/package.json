@@ -5,9 +5,12 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean && tsc -b ./tsconfig.json",
-    "clean": "rm -rf lib && rm -rf types"
+    "clean": "rm -rf lib && rm -rf types",
+    "test": "jest"
   },
-  "publishConfig": {"access": "public"},
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/alipay/goldfish/blob/master/packages/requester/README.md"
@@ -25,11 +28,15 @@
   "author": "likun7981 <likun7891@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^24.0.22",
     "@typescript-eslint/eslint-plugin": "2.6.0",
     "@typescript-eslint/parser": "^2.0.0",
     "eslint": "6.1.0",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "jest": "^24.9.0",
+    "sinon": "^7.5.0",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.6.4"
   }
 }
