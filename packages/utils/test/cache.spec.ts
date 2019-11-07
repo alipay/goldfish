@@ -1,17 +1,21 @@
 import cache from '../src/cache';
 
 const promiseCreator = jest.fn(
-  (num = 12) => new Promise((resolve) => {
+  (num = 12, error = false) => new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(num);
+      if (!error) {
+        resolve(num);
+      } else {
+        reject(new Error(`${num}`));
+      }
     }, 100);
   }),
 );
 
 
 describe('Test cache', () => {
-  let cachePromiseCreator: (num?: number) => Promise<any>;
-  let cachePromiseCreator3000: (num?: number) => Promise<any>;
+  let cachePromiseCreator: (num?: number, error?: boolean) => Promise<any>;
+  let cachePromiseCreator3000: (num?: number, error?: boolean) => Promise<any>;
   beforeEach(() => {
     promiseCreator.mockClear();
     cachePromiseCreator = cache(promiseCreator);
@@ -23,6 +27,9 @@ describe('Test cache', () => {
       expect(promiseCreator.mock.calls.length).toEqual(1);
       done();
     });
+  });
+  it('Error call, can get the correct result', () => {
+    expect(cachePromiseCreator(13, true)).rejects.toThrow('13');
   });
   it('Call the original function directly, the original function will be called several times', (done) => {
     const resultFn = (result: any, i: number): void => {
