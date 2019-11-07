@@ -5,6 +5,7 @@ export { default as autorun } from './autorun';
 export * from './autorun';
 
 export { default as computed } from './computed';
+export * from './computed';
 
 export { default as watch } from './watch';
 export * from './watch';

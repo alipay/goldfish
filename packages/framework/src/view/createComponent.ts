@@ -48,18 +48,3 @@ export default function createComponent<
     options,
   );
 }
-
-class MyStore extends ComponentStore<{}> {
-  props = {};
-
-  name: string = '';
-}
-
-createComponent(
-  MyStore,
-  {
-    didMount() {
-
-    },
-  },
-);
