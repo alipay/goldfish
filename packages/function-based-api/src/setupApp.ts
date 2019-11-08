@@ -1,6 +1,6 @@
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import AppSetup from './setup/AppSetup';
-import { AppStore, createApp } from '@alipay/goldfish';
+import { AppStore, createApp, IConfig } from '@alipay/goldfish';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import { PluginClass } from '@alipay/goldfish-plugins';
 import { attachLogic, AppInstance, observable } from '@alipay/goldfish-reactive-connect';
@@ -16,6 +16,7 @@ export interface ISetupAppOptions {
 }
 
 export default function setupApp(
+  config: IConfig,
   fn: ISetupFunction,
   setupOptions?: ISetupAppOptions,
 ): tinyapp.AppOptions {
@@ -64,6 +65,7 @@ export default function setupApp(
   }
 
   createApp(
+    config,
     BizAppStore,
     options,
     {

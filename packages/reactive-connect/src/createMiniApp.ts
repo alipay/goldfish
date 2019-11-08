@@ -13,9 +13,11 @@ export default function createMiniApp<G, S extends AppStore>(
   appOptions: AppOptions<G, S> = {},
   options?: {
     beforeCreateStore?: (view: AppInstance<G, S>) => void;
+    afterCreateStore?: (view: AppInstance<G, S>) => void;
   },
 ): tinyapp.AppOptions<G> {
   const beforeCreateStore = options && options.beforeCreateStore;
+  const afterCreateStore = options && options.afterCreateStore;
 
   attachLogic<'onLaunch', Required<AppOptions<G, S>>['onLaunch']>(
     appOptions,
@@ -26,6 +28,7 @@ export default function createMiniApp<G, S extends AppStore>(
     ) {
       beforeCreateStore && beforeCreateStore(this);
       this.store = new storeClass();
+      afterCreateStore && afterCreateStore(this);
       this.store.init();
     },
   );
