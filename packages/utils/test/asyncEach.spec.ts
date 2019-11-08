@@ -1,7 +1,7 @@
 import asyncEach from '../src/asyncEach';
 
 
-describe.skip('Test asyncEach', () => {
+describe('Test asyncEach', () => {
   it('Return the correct value', (done) => {
     const plusTen = jest.fn((input) => new Promise((resolve) => {
       setTimeout(() => {

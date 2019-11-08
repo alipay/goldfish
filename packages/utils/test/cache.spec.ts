@@ -13,7 +13,7 @@ const promiseCreator = jest.fn(
 );
 
 
-describe.skip('Test cache', () => {
+describe('Test cache', () => {
   let cachePromiseCreator: (num?: number, error?: boolean) => Promise<any>;
   let cachePromiseCreator3000: (num?: number, error?: boolean) => Promise<any>;
   beforeEach(() => {

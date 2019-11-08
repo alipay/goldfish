@@ -9,7 +9,7 @@ const promiseCreator = jest.fn(
 );
 
 
-describe.skip('Test takeLatest', () => {
+describe('Test takeLatest', () => {
   let takeLatestPromiseCreator: (num?: number, time?: number) => Promise<any>;
   beforeEach(() => {
     promiseCreator.mockClear();

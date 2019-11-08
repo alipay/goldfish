@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npm run clean && tsc -b ./tsconfig.json",
     "clean": "rm -rf lib && rm -rf types",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
   },
   "publishConfig": {
     "access": "public"
