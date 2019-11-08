@@ -1,4 +1,4 @@
-import bridge, { BridgeType, APBridgeType } from '../src/index';
+import bridge, { BridgeMethods, APBridgeMethods } from '../src/index';
 
 describe('bridge', () => {
   it('native bridge function', async () => {
@@ -7,9 +7,7 @@ describe('bridge', () => {
     });
     result1.authCode;
 
-    const result2 = await bridge.call('request', {
-      url: 'https://taobao.com',
-    });
+    const result2 = await bridge.call('reportCustomError', new Error('test'));
 
     return Promise.resolve().then(() => {
       expect(1).toBe(1);
@@ -22,7 +20,7 @@ describe('bridge', () => {
       success?: (res: { a: number }) => void;
     }
 
-    interface ICustomBridge extends BridgeType {
+    interface ICustomBridge extends BridgeMethods {
       test: (options: IOptions) => void;
     }
 
@@ -84,7 +82,7 @@ describe('bridge', () => {
       success?: (res: { a: number }) => void;
     }
 
-    interface ICustomBridge extends BridgeType {
+    interface ICustomBridge extends APBridgeMethods {
       test: (options: IOptions) => void;
     }
 
