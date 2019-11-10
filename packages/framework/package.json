@@ -18,6 +18,7 @@
   "dependencies": {
     "@alipay/goldfish-reactive-connect": "^0.0.1",
     "@alipay/goldfish-plugins": "^0.0.1",
+    "@alipay/goldfish-utils": "^0.0.1",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {
