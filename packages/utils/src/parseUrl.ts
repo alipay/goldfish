@@ -1,22 +1,14 @@
-const urlParseRE = /^\s*(((([^:/#?]+:)?(?:(\/\/)((?:(([^:@/#?]+)(?::([^:@/#?]+))?)@)?(([^:/#?\][]+|\[[^/\]@#?]+\])(?::([0-9]+))?))?)?)?((\/?(?:[^/?#]+\/+)*)([^?#]*)))?(\?[^#]+)?)(#.*)?/;
+const urlParseRE = /^((\w+):\/\/)?((\w+):?(\w+)?@)?([^/?:]+):?(\d+)?(\/?[^?#]+)?(\?[^#]+)?(#.*)?/;
 
 type Keys =
-  | 'href'
-  | 'hrefNoHash'
-  | 'hrefNoSearch'
-  | 'domain'
-  | 'protocol'
-  | 'doubleSlash'
-  | 'authority'
   | 'username'
   | 'password'
-  | 'host'
-  | 'hostname'
   | 'port'
+  | 'host'
   | 'pathname'
-  | 'directory'
-  | 'filename'
+  | 'href'
   | 'search'
+  | 'protocol'
   | 'hash';
 
 type UrlParseResult = {
@@ -28,22 +20,14 @@ function parseUrl(url: string): UrlParseResult {
 
   return {
     href: matches[0] || '',
-    hrefNoHash: matches[1] || '',
-    hrefNoSearch: matches[2] || '',
-    domain: matches[3] || '',
-    protocol: matches[4] || '',
-    doubleSlash: matches[5] || '',
-    authority: matches[6] || '',
-    username: matches[8] || '',
-    password: matches[9] || '',
-    host: matches[10] || '',
-    hostname: matches[11] || '',
-    port: matches[12] || '',
-    pathname: matches[13] || '',
-    directory: matches[14] || '',
-    filename: matches[15] || '',
-    search: matches[16] || '',
-    hash: matches[17] || '',
+    protocol: matches[2] || '',
+    host: matches[6] || '',
+    port: matches[7] || '',
+    pathname: matches[8] || '',
+    search: matches[9] || '',
+    hash: matches[10] || '',
+    username: matches[4] || '',
+    password: matches[5] || '',
   };
 }
 

@@ -1,7 +1,7 @@
 /**
  * forEach async
  */
-async function asyncEach<T>(
+async function asyncForEach<T>(
   arr: T[],
   callback: (result: T, index: number, fullArray: T[]) => Promise<any>,
 ): Promise<any> {
@@ -10,4 +10,4 @@ async function asyncEach<T>(
   }
 }
 
-export default asyncEach;
+export default asyncForEach;
