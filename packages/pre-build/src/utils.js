@@ -9,9 +9,15 @@ function error(...args) {
   console.error(chalk.bold.red('[Goldfish]'), ...args);
 }
 
+function warn(...args) {
+  console.error(chalk.bold.yellow('[Goldfish]'), ...args);
+}
+
 exports.log = log;
 
 exports.error = error;
+
+exports.warn = warn;
 
 exports.exec = (cmd, options) => {
   return new Promise((resolve, reject) => {

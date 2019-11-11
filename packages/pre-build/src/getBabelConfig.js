@@ -1,5 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
+const utils = require('./utils');
 
 const cwd = process.cwd();
 const importConfigPackages = [
@@ -23,7 +24,7 @@ function getPkgImportConfig(pkgName) {
       return require(importConfigPath);
     }
   } catch (e) {
-    console.warn(e);
+    utils.log(`Find package failed: ${pkgName}.`);
   }
 }
 
@@ -38,26 +39,19 @@ function getBabelConfig(env) {
             browsers: ['last 2 versions', 'safari >= 7']
           },
         },
-      ],
-      require.resolve('@babel/preset-react'),
+      ]
     ],
     plugins: [
       ...importConfigPackages.reduce(
         (prev, pkgName) => {
           const config = getPkgImportConfig(pkgName);
           if (config) {
-            prev.push(['import', config, pkgName]);
+            prev.push([require.resolve('babel-plugin-import'), config, pkgName]);
           }
           return prev;
         },
         [],
       ),
-      [
-        require.resolve('@babel/plugin-transform-react-jsx'),
-        {
-          pragma: '$createReactElement',
-        },
-      ],
       [
         require.resolve('@babel/plugin-transform-for-of'),
         {

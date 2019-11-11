@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { exec } = require('../src/utils');
 const path = require('path');
 
