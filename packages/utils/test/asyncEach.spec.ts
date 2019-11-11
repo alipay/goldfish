@@ -1,4 +1,4 @@
-import asyncEach from '../src/asyncEach';
+import asyncEach from '../src/asyncForEach';
 
 
 describe('Test asyncEach', () => {

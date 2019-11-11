@@ -24,7 +24,7 @@
   "files": [
     "lib",
     "types",
-    "lodash.custom.min.js",
+    "lodash.custom.js",
     "babel-plugin-import-loader.js"
   ],
   "typings": "./types/index.d.ts",
