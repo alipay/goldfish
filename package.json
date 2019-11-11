@@ -11,9 +11,11 @@
     "boot": "lerna bootstrap",
     "test": "node scripts/test.js"
   },
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "lerna": "^3.13.4"
+  },
+  "dependencies": {
+    "@types/jest": "^24.0.22"
   }
 }
