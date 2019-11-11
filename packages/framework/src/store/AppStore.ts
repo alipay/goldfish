@@ -1,5 +1,5 @@
 import { AppStore as BaseAppStore } from '@alipay/goldfish-reactive-connect';
-import { PluginHub, PluginClass } from '@alipay/goldfish-plugins';
+import { PluginHub, PluginClass, BridgePlugin } from '@alipay/goldfish-plugins';
 import { IConfig, default as ConfigPlugin } from '../plugins/ConfigPlugin';
 import FeedbackPlugin, {
   IToastOption,
@@ -37,6 +37,7 @@ export default class AppStore extends BaseAppStore {
     return [
       ConfigPlugin,
       FeedbackPlugin,
+      BridgePlugin,
     ];
   }
 
