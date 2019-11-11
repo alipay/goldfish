@@ -1,11 +1,14 @@
 import { createMiniApp, AppOptions, AppInstance, attachLogic } from '@alipay/goldfish-reactive-connect';
 import AppStore from '../store/AppStore';
+import { IConfig } from '../plugins/ConfigPlugin';
 
 export default function createApp<G, S extends AppStore>(
+  config: IConfig,
   storeClass: new () => S,
   appOptions: AppOptions<G, S> = {},
   options?: {
     beforeCreateStore?: (view: AppInstance<G, S>) => void;
+    afterCreateStore?: (view: AppInstance<G, S>) => void;
   },
 ) {
   attachLogic<'onLaunch', Required<AppOptions<G, S>>['onLaunch']>(
@@ -29,6 +32,16 @@ export default function createApp<G, S extends AppStore>(
   return createMiniApp<G, S>(
     storeClass,
     appOptions,
-    options,
+    {
+      ...options,
+      afterCreateStore: (view) => {
+        const store = view.store!;
+        store.setConfig(config);
+
+        if (options && options.afterCreateStore) {
+          options.afterCreateStore(view);
+        }
+      },
+    },
   );
 }
