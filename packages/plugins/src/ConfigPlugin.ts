@@ -1,4 +1,4 @@
-import { Plugin } from '@alipay/goldfish-plugins';
+import Plugin from './Plugin';
 
 export interface IConfig {}
 

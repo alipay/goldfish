@@ -1,13 +1,17 @@
 import { AppStore as BaseAppStore } from '@alipay/goldfish-reactive-connect';
-import { PluginHub, PluginClass, BridgePlugin } from '@alipay/goldfish-plugins';
-import { IConfig, default as ConfigPlugin } from '../plugins/ConfigPlugin';
-import FeedbackPlugin, {
+import {
+  PluginHub,
+  PluginClass,
+  BridgePlugin,
+  FeedbackPlugin,
+  IConfig,
+  ConfigPlugin,
   IToastOption,
   IAlertOption,
   IConfirmOption,
   IPromptOption,
   FeedbackOption,
-} from '../plugins/feedback/FeedbackPlugin';
+} from '@alipay/goldfish-plugins';
 import { asyncForEach } from '@alipay/goldfish-utils';
 
 export default class AppStore extends BaseAppStore {
