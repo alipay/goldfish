@@ -1,10 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-
-
-import { find } from 'lodash';
-
-find({ a: 1 }, 'a');
-
 type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 type Many<T> = T | ReadonlyArray<T>;
 
