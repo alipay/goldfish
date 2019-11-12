@@ -23,6 +23,9 @@
     },
     {
       "path": "packages/bridge"
+    },
+    {
+      "path": "packages/boilerplate"
     }
   ],
   "settings": {}
