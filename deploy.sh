@@ -4,7 +4,7 @@
 set -e
 
 # 生成静态文件
-npm run docs:build
+npm run build
 
 # 进入生成的文件夹
 cd docs/.vuepress/dist
@@ -16,6 +16,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push --set-upstream https://github.com/smallfishjs/smallfishjs.github.io.git master --force
+git push -f git@github.com/alipay/goldfish.git docs:gh-pages
 
 cd -

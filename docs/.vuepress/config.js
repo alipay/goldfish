@@ -2,7 +2,7 @@ const { join } = require('path');
 const { description } = require('../../package');
 
 module.exports = {
-  dest: 'dist',
+  base: '/goldfish/',
   title: 'Goldfish',
   description: description,
 

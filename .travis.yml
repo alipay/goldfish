@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - 'v10.14.2'
+branches:
+  only:
+    - docs
+cache:
+  directories:
+    - node_modules
+before_install:
+  - export TZ='Asia/Shanghai'
+install:
+  - npm install -g vuepress
+script:
+  - vuepress build docs
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  local-dir: ./docs/.vuepress/dist/
+  target-branch: gh-pages
+  verbose: true
+  on:
+    branch: docs
