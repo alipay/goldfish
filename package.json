@@ -11,14 +11,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.alipay-inc.com:fetest/fe_hook_test.git"
+    "url": "https://github.com/alipay/goldfish.git"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "vuepress": "^1.0.0",
     "@vuepress/plugin-back-to-top": "^1.0.0",
-    "@vuepress/plugin-medium-zoom": "^1.0.0",
-    "@alipay/vuepress-plugin-basement": "^1.0.0"
+    "@vuepress/plugin-medium-zoom": "^1.0.0"
   }
 }
