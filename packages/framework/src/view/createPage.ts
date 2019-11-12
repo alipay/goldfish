@@ -7,6 +7,7 @@ export default function createPage<AS extends AppStore, PS extends PageStore<AS>
   pageOptions: PageOptions<D, PS> = {},
   options?: {
     beforeCreateStore?: (view: PageInstance<D, PS>) => void;
+    afterCreateStore?: (view: PageInstance<D, PS>) => void;
   },
 ) {
   attachLogic<'onLoad', Required<PageOptions<D, PS>>['onLoad']>(

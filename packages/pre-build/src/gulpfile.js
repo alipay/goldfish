@@ -16,7 +16,6 @@ const sourceFiles = {
   js: ['**/*.js', '!node_modules/**', '!dist/**'],
   copy: [
     '**/*.@(json|axml|png|svg)',
-    'mobile.config.js',
     '!node_modules/**',
     '!dist/**',
     '!mini.project.json',

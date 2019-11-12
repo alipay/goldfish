@@ -14,7 +14,7 @@ export default class PluginHub {
   }
 
   public async register(pluginClass: PluginClass) {
-    if (pluginClass.type) {
+    if (!pluginClass.type) {
       throw new Error(`Please set the static type property for PluginClass: ${pluginClass}`);
     }
 

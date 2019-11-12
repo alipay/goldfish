@@ -1,0 +1,18 @@
+{
+  "miniprogramRoot": "dist",
+  "scripts": {
+    "beforePreview": "./node_modules/.bin/goldfish-compile",
+    "beforeCompile": "./node_modules/.bin/goldfish-compile",
+    "beforeUpload": "./node_modules/.bin/goldfish-compile"
+  },
+  "node_modules_es6_whitelist": [
+    "@alipay/goldfish-utils",
+    "@alipay/goldfish-reactive",
+    "@alipay/goldfish-bridge",
+    "@alipay/goldfish",
+    "@alipay/goldfish-function-based-api",
+    "@alipay/goldfish-plugins",
+    "@alipay/goldfish-reactive-connect",
+    "@alipay/goldfish-requester"
+  ]
+}

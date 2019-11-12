@@ -23,7 +23,7 @@ export default class AppStore extends BaseAppStore {
    * @param config
    */
   public setConfig(config: IConfig) {
-    if (!this.config) {
+    if (this.config) {
       throw new Error('The config has bean initialized.');
     }
     this.config = config;
