@@ -32,9 +32,9 @@ export default {
   call: async function call<
     T extends keyof R,
     R extends Record<string, any> = BridgeMethods & SpecialMethods,
-  >(
-    api: T,
-    params?: Parameters<R[T]>[0],
+    >(
+      api: T,
+      params?: Parameters<R[T]>[0],
   ): Promise<PickSuccessResult<Parameters<R[T]>[0]>> {
     return new Promise((resolve, reject) => {
       if (
@@ -75,7 +75,7 @@ export default {
     return new Promise((resolve, reject) => {
       if (
         typeof (my as R extends APBridgeMethods ? R : any)[api] ===
-          'function' &&
+        'function' &&
         params
       ) {
         (my as R extends APBridgeMethods ? R : any)[api]({
