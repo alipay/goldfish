@@ -1,16 +1,30 @@
-import Plugin from './Plugin';
+import Plugin, { GetPlugin } from './Plugin';
 import {
-  bridge,
+  mockBridge as bridge,
   BridgeMethods,
   SpecialMethods,
   Fn,
   APBridgeMethods,
 } from '@alipay/goldfish-bridge';
+import ConfigPlugin, { IConfig } from './ConfigPlugin';
 
-export default class BridgePlugin extends Plugin {
+export default class MockBridgePlugin extends Plugin {
   public static type = 'bridge';
 
-  public init() {}
+  private host?: string;
+
+  private get normalizedHost() {
+    if (!this.host) {
+      throw new Error('No host config.');
+    }
+
+    return this.host;
+  }
+
+  public init(getPlugin: GetPlugin) {
+    const configPlugin = getPlugin(ConfigPlugin) as ConfigPlugin<IConfig>;
+    this.host = configPlugin.get('mockServerHost');
+  }
 
   public destroy() {}
 
@@ -22,7 +36,7 @@ export default class BridgePlugin extends Plugin {
     api: T,
     params?: Parameters<R[T]>[0],
   ) {
-    return bridge.call(api, params);
+    return bridge.call(this.normalizedHost, api, params);
   }
 
   // my.call('xxx')
@@ -32,7 +46,7 @@ export default class BridgePlugin extends Plugin {
       ? P
       : Record<string, any> | ((...args: any[]) => void),
   ) {
-    return bridge.mycall(api, params);
+    return bridge.mycall(this.normalizedHost, api, params);
   }
 
   // my.ap.xxx
@@ -43,6 +57,6 @@ export default class BridgePlugin extends Plugin {
     api: T,
     params?: Parameters<R[T]>[0],
   ) {
-    return bridge.ap(api, params);
+    return bridge.ap(this.normalizedHost, api, params);
   }
 }

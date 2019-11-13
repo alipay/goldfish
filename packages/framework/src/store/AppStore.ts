@@ -3,6 +3,7 @@ import {
   PluginHub,
   PluginClass,
   BridgePlugin,
+  MockBridgePlugin,
   FeedbackPlugin,
   IConfig,
   ConfigPlugin,
@@ -41,7 +42,7 @@ export default class AppStore extends BaseAppStore {
     return [
       ConfigPlugin,
       FeedbackPlugin,
-      BridgePlugin,
+      process.env.NODE_ENV === 'development' ? MockBridgePlugin : BridgePlugin,
     ];
   }
 

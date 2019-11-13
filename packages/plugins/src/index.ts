@@ -4,6 +4,7 @@ export * from './Plugin';
 export { default as PluginHub } from './PluginHub';
 
 export { default as BridgePlugin } from './BridgePlugin';
+export { default as MockBridgePlugin } from './MockBridgePlugin';
 
 export { default as FeedbackPlugin } from './FeedbackPlugin';
 export * from './FeedbackPlugin';

@@ -4,7 +4,7 @@ import {
   APBridgeMethods,
   PickSuccessResult,
   Fn,
-} from './index';
+} from './bridge';
 
 function mockServer<T>(host: string, api: string, params?: any): Promise<T> {
   return new Promise((resolve, reject) => {
