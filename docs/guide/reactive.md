@@ -164,3 +164,125 @@ watch(() => computed.shopTags, (newVal, oldVal) => {
   // when computed.shopTags changed, do something
 });
 ```
+
+## 小心！响应式链断裂
+
+在方便的使用响应式数据的同时，也要理解响应式链断裂的问题，主要表现为更改了数据，但是视图没有更新，之所以会断裂简单的来讲是因为覆盖了最顶层的对象或者返回了一个快照。
+
+因为响应式的本质是覆写对象的 `getter` 和 `setter` 方法，如果覆写的对象都没替换成了快照，或者返回的内容变成了快照，那么将无法监听数据的变更。
+
+常见的反例：
+
+```js
+const data = useState({
+  a: 1,
+});
+
+const data2 = {
+  a: 2,
+};
+
+// 直接覆盖了 data
+data = data2;
+
+return {
+  data,
+}
+```
+
+正确的样例：
+
+```js
+const data = useState({
+  a: 1,
+});
+
+// 所有操作都在顶层上处理
+data.a = 2;
+
+return {
+  data,
+}
+```
+
+常见的反例 2：
+
+```js
+const data = useState({
+  a: 1,
+});
+
+return {
+  // 只是返回了快照
+  a: data.a,
+}
+```
+
+正确的样例 2：
+
+```js
+const data = useState({
+  a: 1,
+});
+
+return {
+  // 统一返回顶层对象
+  data,
+}
+```
+
+复杂点的例子：
+
+```js
+const data = useState({
+  a: {
+    b: {
+      c: {
+        x: 1,
+      }
+    },
+  },
+});
+
+const c = {
+  x: 2,
+};
+
+// 响应式链会断
+data.a.b.c = c;
+
+// 这个不会更新
+c.x = 3;
+
+return {
+  data,
+}
+```
+
+对于对象的处理，使用 `assign` ：
+
+```js
+const data = useState({
+  a: {
+    b: {
+      c: {
+        x: 1,
+      }
+    },
+  },
+});
+
+const c = {
+  x: 2,
+};
+
+// 使用 assgin 保证对象引用
+assgin(data.a.b, c);
+
+// 可以正确的更新
+c.x = 3;
+
+return {
+  data,
+}
+```

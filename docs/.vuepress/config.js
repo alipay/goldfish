@@ -72,6 +72,7 @@ module.exports = {
               children: [
                 'getting-start',
                 'reactive',
+                'dive-in-reactive',
               ],
             },
           ],
