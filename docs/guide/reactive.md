@@ -1,27 +1,37 @@
 # 使用状态管理
 
-## 小程序本身的状态管理
+## 支付宝小程序的状态管理
 
-小程序原生框架是提供了页面、组件级别的数据状态管理（`this.setData`），但是在跨页面、跨组件的场景下是没有的，通常的解决方法是将 `data` 放到 `globalData` 中，解决跨页面共享数据的问题。
+支付宝小程序原生框架是提供了页面、组件级别的数据状态管理（[`this.setData()`](https://docs.alipay.com/mini/framework/page-detail#pageprototypesetdatadata-object-callback-function)），但是在跨页面、跨组件的场景下是没有的，通常的解决方法是将 `data` 放到 `globalData` 中，解决跨页面共享数据的问题。
 
-可以看出是原生框架的状态管理是无法满足业务需求的，稍微复杂点的项目就会变得难以维护。
+可以看出原生支付宝小程序在状态管理方面只提供了较为基础的机制，难以满足复杂项目的状态管理需求。
 
 ## Goldfish 响应式状态管理
 
-在借鉴了社区优秀的框架思想之后，Goldfish 沉淀了一套适用于小程序的响应式状态管理内容，可以让使用者方便快速的处理数据状态。
+在借鉴了社区相关优秀的思想之后，Goldfish 沉淀了一套适用于小程序的响应式状态管理框架，可以让使用者灵活高效地处理状态数据。
+
+在 Goldfish 中，状态数据是[响应式](https://vuejs.org/v2/guide/reactivity.html)的，借助 `useValue()`、`useState()`、`useComputed()` 生成响应式数据。同时，状态逻辑模块基于函数式的 Composition API 进行抽离、组装、复用。
 
 ### 组件的状态管理
 
 ```js
 import { setupComponent, useState } from '@goldfishjs/goldfish';
 
+export interface IProps {
+  name: string;
+}
+
+export interface IState {
+  hasVisible: boolean;
+}
+
 Component(
-  setupComponent<IProps, {}>(
+  setupComponent<IProps>(
     {
-      // props
+      // 初始默认 props
     },
     () => {
-      const data = useState<{ hasVisible: boolean; }>({
+      const data = useState<IState>({
         hasVisible: false,
       });
 
