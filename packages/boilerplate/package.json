@@ -3,7 +3,7 @@
   "name": "goldfish-boilerplate",
   "dependencies": {
     "@alipay/goldfish": "^0.0.1",
-    "@alipay/goldfish-function-based-api": "^0.0.1",
+    "@alipay/goldfish-composition-api": "^0.0.1",
     "@alipay/goldfish-utils": "^0.0.1",
     "@alipay/goldfish-reactive": "^0.0.1",
     "@alipay/goldfish-reactive-connect": "^0.0.1",

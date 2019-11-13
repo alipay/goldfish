@@ -1,8 +1,8 @@
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import AppSetup from './setup/AppSetup';
-import { AppStore, createApp, IConfig } from '@alipay/goldfish';
+import { AppStore, createApp  } from '@alipay/goldfish';
+import { IConfig, PluginClass } from '@alipay/goldfish-plugins';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
-import { PluginClass } from '@alipay/goldfish-plugins';
 import { attachLogic, AppInstance, observable } from '@alipay/goldfish-reactive-connect';
 import appendFn from './appendFn';
 

@@ -8,7 +8,7 @@ const importConfigPackages = [
   '@alipay/goldfish-reactive',
   '@alipay/goldfish-bridge',
   '@alipay/goldfish',
-  '@alipay/goldfish-function-based-api',
+  '@alipay/goldfish-composition-api',
   '@alipay/goldfish-plugins',
   '@alipay/goldfish-reactive-connect',
   '@alipay/goldfish-requester',

@@ -12,16 +12,16 @@ export type BridgeMethods = Omit<
 // my.ap.xxx type bridge
 export type APBridgeMethods = typeof my.ap;
 
-type PickSuccessResult<T> = T extends {
+export type PickSuccessResult<T> = T extends {
   success?: (r: infer R) => any | void;
   fail?: (r?: any) => any | void;
 }
   ? R
   : never;
 
-type Fn = (params: any, ...args: any[]) => any | void;
+export type Fn = (params: any, ...args: any[]) => any | void;
 
-type SpecialMethods = {
+export type SpecialMethods = {
   reportCustomError: (error: Error) => void;
   reportAnalytics: (eventName: string, data: Record<string, any>) => void;
   getRunScene: (res: my.IGetRunSceneOptions) => void;
@@ -40,7 +40,7 @@ export default {
       if (
         typeof (my as R extends BridgeMethods ? R : any)[api] === 'function') {
         (my as R extends BridgeMethods ? R : any)[api]({
-          ...params,
+          ...(params as any),
           success(res: PickSuccessResult<Parameters<R[T]>[0]>) {
             resolve(res);
           },
@@ -65,7 +65,7 @@ export default {
   },
 
   // my.ap.xxx
-  ap: async function call<
+  ap: async function ap<
     T extends keyof R,
     R extends Record<string, Fn> = APBridgeMethods
   >(

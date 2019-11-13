@@ -1,0 +1,32 @@
+{
+  "folders": [
+    {
+      "path": "packages/utils"
+    },
+    {
+      "path": "packages/plugins"
+    },
+    {
+      "path": "packages/reactive"
+    },
+    {
+      "path": "packages/reactive-connect"
+    },
+    {
+      "path": "packages/function-based-api"
+    },
+    {
+      "path": "packages/pre-build"
+    },
+    {
+      "path": "packages/framework"
+    },
+    {
+      "path": "packages/bridge"
+    },
+    {
+      "path": "packages/boilerplate"
+    }
+  ],
+  "settings": {}
+}

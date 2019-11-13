@@ -1,5 +1,5 @@
 import { observable, state } from '@alipay/goldfish-reactive-connect';
-import { Plugin, GetPlugin } from '@alipay/goldfish-plugins';
+import { default as Plugin, GetPlugin } from './Plugin';
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
