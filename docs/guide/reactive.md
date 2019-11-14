@@ -246,11 +246,7 @@ return {
 ```js
 const data = useState({
   a: {
-    b: {
-      c: {
-        x: 1,
-      }
-    },
+    b: {},
   },
 });
 
@@ -262,7 +258,7 @@ const c = {
 data.a.b.c = c;
 
 // 这个不会更新
-c.x = 3;
+data.a.b.c.x = 3;
 
 return {
   data,
@@ -274,11 +270,7 @@ return {
 ```js
 const data = useState({
   a: {
-    b: {
-      c: {
-        x: 1,
-      }
-    },
+    b: {},
   },
 });
 
@@ -286,11 +278,14 @@ const c = {
   x: 2,
 };
 
-// 使用 assgin 保证对象引用
-assgin(data.a.b, c);
+// 之前未被添加到对象的属性，需要新添加一次才能通过 setter 属性获取
+data.a.b = {
+  ...data.a.b,
+  c,
+};
 
 // 可以正确的更新
-c.x = 3;
+data.a.b.c.x = 3;
 
 return {
   data,
