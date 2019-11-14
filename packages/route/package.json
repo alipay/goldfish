@@ -1,32 +1,30 @@
 {
-  "name": "@alipay/goldfish-plugins",
+  "name": "@alipay/goldfish-route",
   "version": "0.0.1",
-  "description": "goldfish-plugins",
+  "description": "goldfish-route",
   "main": "lib/index.js",
   "scripts": {
     "test": "jest --coverage --passWithNoTests",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "dev": "jest --debug --watch",
-    "build": "rm -rf ./types && rm -rf ./lib && tsc --build ./src/tsconfig.json",
+    "build": "rm -rf ./types && rm -rf ./lib && node_modules/.bin/tsc --build ./src/tsconfig.json",
     "lint": "tslint ./src/**",
     "ci": "npm run test",
     "release": "npm run test && npm run lint && npm run build && npm publish"
   },
   "keywords": [],
-  "author": "yibuyisheng@163.com",
+  "author": "644506165@qq.com",
   "license": "ISC",
   "dependencies": {
-    "@alipay/goldfish-utils": "^0.0.1",
-    "@alipay/goldfish-reactive-connect": "^0.0.1",
-    "@alipay/goldfish-reactive": "^0.0.1",
-    "@alipay/goldfish-bridge": "^0.0.1",
-    "@alipay/goldfish-route": "^0.0.1"
+    "@types/qs": "^6.9.0",
+    "mini-types": "^0.0.4",
+    "qs": "^6.9.1"
   },
   "devDependencies": {
     "ts-jest": "^23.10.2",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.1.4"
   },
   "types": "./types/index.d.ts",
   "sideEffects": false
