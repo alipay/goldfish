@@ -1,4 +1,6 @@
-import watch from './watch';
+import { default as optimizedSetData } from './setData';
+import watchDeep from './watchDeep';
+import generateKeyPathString from './generateKeyPathString';
 
 export interface IStore {
   getState(): Record<string, any>;
@@ -11,8 +13,6 @@ type ReactiveThis = { store: Pick<IStore, Exclude<keyof IStore, 'destroy'>> };
 export default function reactive<T extends ReactiveThis = ReactiveThis>(
   this: T,
   setData: (this: T, data: Record<string, any>) => void,
-  shouldBatchUpdate = false,
-  keyMap: Record<string, string> = {},
   onError?: (error: any) => void,
 ) {
   if (!this.store) {
@@ -21,47 +21,23 @@ export default function reactive<T extends ReactiveThis = ReactiveThis>(
 
   this.store.init && this.store.init();
 
-  let cacheData: Record<string, any> | undefined;
-  const setSingleData = shouldBatchUpdate
-    ? (key: string, value: any) => {
-      if (cacheData) {
-        cacheData[key] = value;
-        return;
-      }
-
-      cacheData = {};
-      cacheData[key] = value;
-      Promise.resolve().then(() => {
+  const watchKeys = (data: Record<string, any>) => {
+    const stopList = watchDeep(
+      data,
+      (_: any, keyPathList: (string | number)[], newV) => {
         try {
-          cacheData && setData.call(this, cacheData);
+          const keyPath = generateKeyPathString(keyPathList);
+          optimizedSetData(keyPath.replace(/^./, ''), newV, setData.bind(this));
         } catch (e) {
           onError && onError(e);
-        } finally {
-          cacheData = undefined;
+          optimizedSetData(keyPathList[0] as string, data[keyPathList[0]], setData.bind(this));
         }
-      });
-    }
-    : (key: string, value: any) => {
-      setData.call(this, { [key]: value });
-    };
-
-  const watchKeys = (data: Record<string, any>) => {
-    const stopList: (() => void)[] = [];
-    for (const key in data) {
-      stopList.push(
-        watch(
-          () => data[key],
-          () => {
-            setSingleData(keyMap[key] || key, data[key]);
-          },
-          {
-            onError,
-            immediate: true,
-            deep: true,
-          },
-        ),
-      );
-    }
+      },
+      {
+        onError,
+        immediate: true,
+      },
+    );
     return stopList;
   };
 

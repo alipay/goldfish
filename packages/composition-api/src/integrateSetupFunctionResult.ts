@@ -1,5 +1,5 @@
 import CommonSetup from './setup/CommonSetup';
-import { computed } from '@alipay/goldfish-reactive-connect';
+import { watchDeep, generateKeyPathString, setData as optimizedSetData } from '@alipay/goldfish-reactive';
 
 type Kind = 'page' | 'component' | 'app';
 
@@ -28,12 +28,26 @@ function connectData(
       writable: true,
     });
   } else {
-    Object.defineProperty(store, k, {
-      enumerable: true,
-      configurable: true,
-      writable: true,
-      value: computed(config[k]),
-    });
+    watchDeep(
+      config[k],
+      (_: any, keyPathList, newV) => {
+        try {
+          const keyPath = generateKeyPathString(keyPathList);
+          optimizedSetData(
+            `${k}${keyPath}`,
+            newV,
+            (viewInstance as any).setData.bind(viewInstance),
+          );
+        } catch (e) {
+          console.warn(e);
+          optimizedSetData(k, config[k], (viewInstance as any).setData.bind(viewInstance));
+        }
+      },
+      {
+        immediate: true,
+        customWatch: (store as any).watch.bind(store),
+      },
+    );
   }
 }
 

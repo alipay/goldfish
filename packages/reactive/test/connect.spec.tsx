@@ -35,9 +35,6 @@ describe('connect', () => {
           },
         };
       },
-      {
-        shouldBatchUpdate: false,
-      },
     );
 
     const div = document.createElement('div');
@@ -46,9 +43,8 @@ describe('connect', () => {
     expect(div.innerHTML).toBe('<div>diandao</div>');
 
     obj.name = 'yibuyisheng';
-    return Promise.resolve().then(() => {
-      expect(div.innerHTML).toBe('<div>yibuyisheng</div>');
-    });
+    await Promise.resolve();
+    expect(div.innerHTML).toBe('<div>yibuyisheng</div>');
   });
 
   it('should auto update the view after the computed changed.', async () => {
@@ -88,9 +84,6 @@ describe('connect', () => {
           },
         };
       },
-      {
-        shouldBatchUpdate: false,
-      },
     );
 
     const div = document.createElement('div');
@@ -101,55 +94,6 @@ describe('connect', () => {
     backObj.name = 'yibuyisheng';
     return new Promise(resolve => setTimeout(resolve)).then(() => {
       expect(div.innerHTML).toBe('<div>yibuyisheng.zl</div>');
-    });
-  });
-
-  it('should convert the key.', () => {
-    class MyComponent extends React.Component<{}, { realName: string; }> {
-      state = {
-        realName: '',
-      };
-
-      render () {
-        return (<div>{ this.state.realName }</div>);
-      }
-    }
-
-    const obj = { name: 'diandao' };
-    observable(obj);
-
-    connect(
-      MyComponent.prototype,
-      'componentDidMount',
-      'componentWillUnmount',
-      function (this: React.Component, data: Record<string, any>) {
-        this.setState(data);
-      },
-      () => {
-        return {
-          getState() {
-            return obj;
-          },
-          getComputed() {
-            return {};
-          },
-        };
-      },
-      {
-        keyMap: {
-          name: 'realName',
-        },
-        shouldBatchUpdate: false,
-      },
-    );
-
-    const div = document.createElement('div');
-    render(<MyComponent />, div);
-    return Promise.resolve().then(() => {
-      expect(div.innerHTML).toBe('<div>diandao</div>');
-      obj.name = 'yibuyisheng';
-    }).then(() => {
-      expect(div.innerHTML).toBe('<div>yibuyisheng</div>');
     });
   });
 

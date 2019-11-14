@@ -14,6 +14,9 @@ module.exports = {
       reactive: `${codeDir}/reactive`,
       set: `${codeDir}/set`,
       markObservable: `${codeDir}/markObservable`,
+      setData: `${codeDir}/setData`,
+      watchDeep: `${codeDir}/watchDeep`,
+      generateKeyPathString: `${codeDir}/generateKeyPathString`,
     }[name];
   },
 };

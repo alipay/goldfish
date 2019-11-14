@@ -60,7 +60,6 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
     },
     {
       onError: pageOptions.onError,
-      shouldBatchUpdate: true,
     },
   );
 

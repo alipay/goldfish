@@ -58,7 +58,6 @@ export default function createTinyappComponent<
     },
     {
       onError: componentOptions.onError,
-      shouldBatchUpdate: true,
     },
   );
 

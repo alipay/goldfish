@@ -12,14 +12,10 @@ export default function connect<E extends string, L extends string>(
   setData: (this: any, data: Record<string, any>) => void,
   createStore: (instance: IViewInstance) => IStore,
   options: {
-    keyMap?: Record<string, string>;
     onError?: (error: any) => void;
-    shouldBatchUpdate?: boolean;
   } = {},
 ) {
-  const keyMap = options.keyMap || {};
   const onError = options.onError;
-  const shouldBatchUpdate = options.shouldBatchUpdate !== false;
 
   const prevEnterFunction = target[enterKey];
   target[enterKey] = function (this: IViewInstance, ...args: any[]) {
@@ -27,8 +23,6 @@ export default function connect<E extends string, L extends string>(
     this.stopWatchList = reactive.call(
       this as { store: IStore; },
       setData,
-      shouldBatchUpdate,
-      keyMap,
       onError,
     );
 

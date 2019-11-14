@@ -47,7 +47,10 @@ export default function setupApp(
   class BizAppStore extends AppStore {
     public constructor() {
       super();
-      integrateSetupFunctionResult<'app'>(fn, view.$setup!, view, this);
+      const setup = view.$setup!;
+      setup.wrap(() => {
+        integrateSetupFunctionResult<'app'>(fn, setup, view, this);
+      });
     }
 
     public getPlugins() {

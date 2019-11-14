@@ -17,3 +17,11 @@ export { IErrorCallback, DepList } from './dep';
 
 export { default as reactive } from './reactive';
 export * from './reactive';
+
+export { default as watchDeep } from './watchDeep';
+export * from './watchDeep';
+
+export { default as setData } from './setData';
+export * from './setData';
+
+export { default as generateKeyPathString } from './generateKeyPathString';
