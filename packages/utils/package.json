@@ -25,7 +25,7 @@
     "lib",
     "types",
     "lodash.custom.js",
-    "babel-plugin-import-loader.js"
+    "babel-plugin-import-config.js"
   ],
   "typings": "./types/index.d.ts",
   "author": "likun7981 <likun7891@gmail.com>",
