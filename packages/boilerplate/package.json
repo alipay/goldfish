@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "goldfish-boilerplate",
+  "dependencies": {
+    "@alipay/goldfish": "^0.0.1",
+    "@alipay/goldfish-composition-api": "^0.0.1",
+    "@alipay/goldfish-utils": "^0.0.1",
+    "@alipay/goldfish-reactive": "^0.0.1",
+    "@alipay/goldfish-reactive-connect": "^0.0.1",
+    "@alipay/goldfish-bridge": "^0.0.1",
+    "@alipay/goldfish-plugins": "^0.0.1",
+    "debounce": "^1.2.0",
+    "mini-antui": "^0.4.29"
+  },
+  "devDependencies": {
+    "@alipay/goldfish-pre-build": "^0.0.1",
+    "tslint": "^5.20.1",
+    "tslint-config-airbnb": "^5.11.2"
+  }
+}

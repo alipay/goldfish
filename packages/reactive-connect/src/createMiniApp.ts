@@ -1,5 +1,6 @@
-import { connect, IViewInstance } from '@alipay/goldfish-reactive';
+import { IViewInstance } from '@alipay/goldfish-reactive';
 import AppStore from './AppStore';
+import attachLogic from './attachLogic';
 
 export type AppInstance<G, S extends AppStore> =
   tinyapp.IAppInstance<G> & IViewInstance & { store?: S };
@@ -12,19 +13,25 @@ export default function createMiniApp<G, S extends AppStore>(
   appOptions: AppOptions<G, S> = {},
   options?: {
     beforeCreateStore?: (view: AppInstance<G, S>) => void;
+    afterCreateStore?: (view: AppInstance<G, S>) => void;
   },
 ): tinyapp.AppOptions<G> {
   const beforeCreateStore = options && options.beforeCreateStore;
+  const afterCreateStore = options && options.afterCreateStore;
 
-  const preOnLaunch = appOptions.onLaunch;
-  appOptions.onLaunch = function (this: AppInstance<G, S>, opts) {
-    beforeCreateStore && beforeCreateStore(this);
-    this.store = new storeClass();
-
-    if (preOnLaunch) {
-      preOnLaunch.call(this, opts);
-    }
-  };
+  attachLogic<'onLaunch', Required<AppOptions<G, S>>['onLaunch']>(
+    appOptions,
+    'onLaunch',
+    'before',
+    function (
+      this: AppInstance<G, S>,
+    ) {
+      beforeCreateStore && beforeCreateStore(this);
+      this.store = new storeClass();
+      afterCreateStore && afterCreateStore(this);
+      this.store.init();
+    },
+  );
 
   return appOptions;
 }

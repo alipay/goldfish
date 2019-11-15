@@ -11,7 +11,7 @@ function takeLatest<FuncType extends PromiseCreator>(
     index += 1;
     const promise = promiseCreator(...args);
 
-    function lastest(
+    function latest(
       func: (value?: any | PromiseLike<any>) => void,
       reqIndex: number,
     ) {
@@ -23,7 +23,7 @@ function takeLatest<FuncType extends PromiseCreator>(
     }
 
     return new Promise((resolve, reject) => {
-      promise.then(lastest(resolve, index), lastest(reject, index));
+      promise.then(latest(resolve, index), latest(reject, index));
     });
   }) as FuncType;
 }

@@ -25,7 +25,7 @@ export default function connect<E extends string, L extends string>(
   target[enterKey] = function (this: IViewInstance, ...args: any[]) {
     this.store = createStore(this);
     this.stopWatchList = reactive.call(
-      this as { store: IStore },
+      this as { store: IStore; },
       setData,
       shouldBatchUpdate,
       keyMap,

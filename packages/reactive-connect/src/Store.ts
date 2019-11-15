@@ -11,6 +11,8 @@ import {
 } from '@alipay/goldfish-reactive';
 import STATE_KEY from './decorators/STATE_KEY';
 import COMPUTED_KEY from './decorators/COMPUTED_KEY';
+import observable from './decorators/observable';
+import state from './decorators/state';
 
 export type UnAutorun = (() => void) & {
   depList?: DepList | undefined;
@@ -37,7 +39,11 @@ function accessStoreProperties(
   );
 }
 
+@observable
 export default abstract class Store implements IStore {
+  @state
+  public isInitLoading = true;
+
   public stopWatchList: (() => void)[] = [];
 
   public stopAutorunList: (() => void)[] = [];
@@ -79,7 +85,25 @@ export default abstract class Store implements IStore {
     return accessStoreProperties(keys, this);
   }
 
-  public abstract init(): void;
+  /**
+   * Fetch the init data from the server.
+   *
+   * @return Promise<void>
+   */
+  public fetchInitData(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  public init() {
+    (async () => {
+      this.isInitLoading = true;
+      try {
+        await this.fetchInitData();
+      } finally {
+        this.isInitLoading = false;
+      }
+    })();
+  }
 
   public destroy() {
     this.stopWatchList.forEach(stop => stop());
