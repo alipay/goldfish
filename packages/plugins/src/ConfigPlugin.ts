@@ -1,17 +1,19 @@
 import Plugin from './Plugin';
 
-export interface IConfig {}
+export interface IConfig {
+  mockServerHost?: string;
+}
 
-export default class ConfigPlugin extends Plugin {
+export default class ConfigPlugin<C extends IConfig = IConfig> extends Plugin {
   public static type = 'config';
 
-  protected config?: IConfig;
+  protected config?: C;
 
-  public setConfig(config: IConfig) {
+  public setConfig(config: C) {
     this.config = config;
   }
 
-  public get<K extends keyof IConfig>(key: K) {
+  public get<K extends keyof C>(key: K) {
     return this.config![key];
   }
 

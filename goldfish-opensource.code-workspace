@@ -13,9 +13,6 @@
       "path": "packages/reactive-connect"
     },
     {
-      "path": "packages/function-based-api"
-    },
-    {
       "path": "packages/pre-build"
     },
     {
@@ -26,6 +23,9 @@
     },
     {
       "path": "packages/boilerplate"
+    },
+    {
+      "path": "packages/composition-api"
     }
   ],
   "settings": {}
