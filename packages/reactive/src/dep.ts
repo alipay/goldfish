@@ -1,11 +1,21 @@
+import { Methods } from './observable';
+
 export type SourceType = 'computed' | 'normal' | 'notify';
 type CheckChangeMethod = (n: any, o: any) => boolean;
+
+export type ChangeOptions = {
+  type: SourceType;
+  isChanged: CheckChangeMethod;
+  isArray?: boolean;
+  method?: Methods;
+  args?: any[];
+  oldV?: any[];
+};
 
 type DepListener = (
   newValue: any,
   oldValue: any,
-  type: SourceType,
-  isChanged: CheckChangeMethod,
+  options: ChangeOptions,
 ) => void;
 
 function defaultIsChanged(n: any, o: any) {
@@ -34,11 +44,15 @@ export class Dep {
   public notifyChange(
     newValue: any,
     oldValue: any,
-    type: SourceType = 'normal',
-    isChanged: CheckChangeMethod = defaultIsChanged,
+    options?: Partial<ChangeOptions>,
   ) {
+    const realOptions = {
+      type: options && options.type || 'normal',
+      isChanged: options && options.isChanged || defaultIsChanged,
+      ...(options || {}),
+    };
     this.listenerList.forEach((listener) => {
-      listener(newValue, oldValue, type, isChanged);
+      listener(newValue, oldValue, realOptions);
     });
   }
 }
@@ -51,18 +65,22 @@ export class DepList {
   }
 
   public addChangeListener(
-    cb: (n: any, o: any, type: SourceType) => void,
+    cb: (n: any, o: any, options: ChangeOptions) => void,
     shouldBatch: boolean = true,
   ) {
     const removeListeners: Function[] = [];
     let isDone = false;
-    const checker = (n: any, o: any, type: SourceType, isChanged: CheckChangeMethod): void => {
-      if (type !== 'notify' && !isChanged(n, o)) {
+    const checker = (
+      n: any,
+      o: any,
+      options: ChangeOptions,
+    ): void => {
+      if (options.type !== 'notify' && !options.isChanged(n, o)) {
         return;
       }
 
       if (!shouldBatch) {
-        cb(n, o, type);
+        cb(n, o, options);
       } else {
         if (isDone) {
           return;
@@ -71,7 +89,7 @@ export class DepList {
         removeListeners.forEach(fn => fn());
         isDone = true;
         removeListeners.splice(0, removeListeners.length);
-        Promise.resolve().then(() => cb(n, o, type));
+        Promise.resolve().then(() => cb(n, o, options));
       }
     };
     this.list.forEach((dep) => {

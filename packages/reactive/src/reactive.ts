@@ -1,6 +1,5 @@
-import { default as optimizedSetData } from './setData';
 import watchDeep from './watchDeep';
-import generateKeyPathString from './generateKeyPathString';
+import { ChangeOptions } from './dep';
 
 export interface IStore {
   getState(): Record<string, any>;
@@ -10,9 +9,14 @@ export interface IStore {
 }
 
 type ReactiveThis = { store: Pick<IStore, Exclude<keyof IStore, 'destroy'>> };
+
+export interface ISetData {
+  (_: any, keyPathList: (string | number)[], newV: any, oldV: any, options?: ChangeOptions): void;
+}
+
 export default function reactive<T extends ReactiveThis = ReactiveThis>(
   this: T,
-  setData: (this: T, data: Record<string, any>) => void,
+  setData: ISetData,
   onError?: (error: any) => void,
 ) {
   if (!this.store) {
@@ -24,15 +28,7 @@ export default function reactive<T extends ReactiveThis = ReactiveThis>(
   const watchKeys = (data: Record<string, any>) => {
     const stopList = watchDeep(
       data,
-      (_: any, keyPathList: (string | number)[], newV) => {
-        try {
-          const keyPath = generateKeyPathString(keyPathList);
-          optimizedSetData(keyPath.replace(/^./, ''), newV, setData.bind(this));
-        } catch (e) {
-          onError && onError(e);
-          optimizedSetData(keyPathList[0] as string, data[keyPathList[0]], setData.bind(this));
-        }
-      },
+      setData,
       {
         onError,
         immediate: true,

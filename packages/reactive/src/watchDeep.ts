@@ -1,7 +1,8 @@
 import watch, { IWatchOptions } from './watch';
+import { ChangeOptions } from './dep';
 
 export interface IWatchDeepCallback {
-  (obj: any, keyPathList: (string | number)[], newV: any, oldV: any): void;
+  (obj: any, keyPathList: (string | number)[], newV: any, oldV: any, options?: ChangeOptions): void;
 }
 
 export interface IWatchDeepOptions extends Omit<IWatchOptions, 'deep'> {
@@ -32,40 +33,13 @@ class Watcher {
   private iterate(curObj: any, keyPathList: (string | number)[] = []) {
     const baseWatch = this.options && this.options.customWatch || watch;
     const stopList: (() => void)[] = [];
-    // TODO: use `$spliceData` to optimize Arrays.
-    if (Array.isArray(curObj)) {
+    if (curObj && typeof curObj === 'object') {
       for (const key in curObj) {
         const keyStopList: Function[] = [];
         stopList.push(baseWatch(
           () => curObj[key],
-          (newV, oldV) => {
-            this.callback && this.callback(this.obj, [...keyPathList, key], newV, oldV);
-
-            // If the old value is an object, then clear all children watchers on it.
-            if (isObject(oldV)) {
-              keyStopList.forEach(stop => stop());
-              keyStopList.splice(0, keyStopList.length);
-            }
-
-            // If the new value is an object, then set watchers on it's children.
-            if (isObject(newV)) {
-              keyStopList.push(...this.iterate(newV, [...keyPathList, key]));
-            }
-          },
-          this.options,
-        ));
-
-        if (!this.options || !this.options.immediate) {
-          keyStopList.push(...this.iterate(curObj[key], [...keyPathList, key]));
-        }
-      }
-    } else if (curObj && typeof curObj === 'object') {
-      for (const key in curObj) {
-        const keyStopList: Function[] = [];
-        stopList.push(baseWatch(
-          () => curObj[key],
-          (newV, oldV) => {
-            this.callback && this.callback(this.obj, [...keyPathList, key], newV, oldV);
+          (newV, oldV, options) => {
+            this.callback && this.callback(this.obj, [...keyPathList, key], newV, oldV, options);
 
             // If the old value is an object, then clear all children watchers on it.
             if (isObject(oldV)) {

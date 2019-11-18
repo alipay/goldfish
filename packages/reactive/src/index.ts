@@ -21,7 +21,6 @@ export * from './reactive';
 export { default as watchDeep } from './watchDeep';
 export * from './watchDeep';
 
-export { default as setData } from './setData';
-export * from './setData';
-
 export { default as generateKeyPathString } from './generateKeyPathString';
+
+export * from './dep';

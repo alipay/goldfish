@@ -1,5 +1,6 @@
-import { getCurrent, Dep } from './dep';
+import { getCurrent, Dep, ChangeOptions } from './dep';
 import { isObject, isArray } from './utils';
+import silentValue, { isSilentValue } from './silentValue';
 
 type ObservableBaseTypes = null | undefined | string | number | boolean;
 type ObservableArrayElement = ObservableBaseTypes | IObservableObject;
@@ -29,12 +30,13 @@ export function markObservable(obj: any) {
 }
 
 // 改写 Array 相关方法
-type Methods = 'push' | 'splice' | 'unshift' | 'pop' | 'sort' | 'reverse' | 'shift';
+export type Methods = 'push' | 'splice' | 'unshift' | 'pop' | 'sort' | 'reverse' | 'shift';
 const methods: Methods[] = ['push', 'splice', 'unshift', 'pop', 'sort', 'reverse', 'shift'];
 methods.forEach((methodName) => {
   const oldMethod = Array.prototype[methodName] as Function;
   Array.prototype[methodName] = function (this: any[], ...args: any[]) {
     const originLength = this.length;
+    const oldV = this.slice(0);
     const result = oldMethod.call(this, ...args);
 
     if (isObservable(this)) {
@@ -46,7 +48,12 @@ methods.forEach((methodName) => {
 
       const notify = (this as any).__notify;
       if (notify) {
-        notify(this, this);
+        notify(this, this, {
+          args,
+          oldV,
+          isArray: true,
+          method: methodName,
+        });
       }
     }
 
@@ -78,8 +85,11 @@ function defineProperty(obj: any, key: any) {
             configurable: true,
             enumerable: false,
             writable: false,
-            value: (n: any, o: any) => {
-              dep.notifyChange(n, o, 'notify');
+            value: (n: any, o: any, options?: Partial<ChangeOptions>) => {
+              dep.notifyChange(n, o, {
+                type: 'notify',
+                ...(options || {}),
+              });
             },
           });
         }
@@ -95,7 +105,9 @@ function defineProperty(obj: any, key: any) {
       const oldValue = value;
       value = v;
 
-      dep.notifyChange(newValue, oldValue);
+      if (!isSilentValue(v)) {
+        dep.notifyChange(newValue, oldValue);
+      }
     },
   });
 
@@ -126,17 +138,23 @@ function createObserver(obj: IObservableObject | ObservableArray) {
   markObservable(obj);
 }
 
-export function set(obj: IObservableObject, name: string, value: any) {
-  if (!Object.prototype.hasOwnProperty.call(obj, name)) {
-    defineProperty(obj, name);
-    const notify = (obj as any).__notify;
-    if (notify) {
-      notify(obj, obj);
-    }
-    return;
+export function set(
+  obj: IObservableObject,
+  name: string,
+  value: any,
+  options?: { silent?: boolean },
+) {
+  if (!isObservable(obj)) {
+    obj[name] = value;
   }
 
-  obj[name] = value;
+  const silent = options && options.silent || false;
+
+  if (!Object.prototype.hasOwnProperty.call(obj, name)) {
+    defineProperty(obj, name);
+  }
+
+  obj[name] = silent ? silentValue(value) : value;
 }
 
 export default function observable<T extends IObservableObject>(obj: T): { [K in keyof T]: T[K] } {
