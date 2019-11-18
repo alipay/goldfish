@@ -1,1 +1,1 @@
-<view>Hello world!</view>
+<view>Hello world! {{ data.name }}</view>

@@ -32,7 +32,10 @@ export default function setupPage<D, AS extends AppStore>(
   class BizPageStore extends PageStore<AS> {
     public constructor() {
       super();
-      integrateSetupFunctionResult<'page'>(fn, view.$setup!, view, this);
+      const setup = view.$setup!;
+      setup.wrap(() => {
+        integrateSetupFunctionResult<'page'>(fn, setup, view, this);
+      });
     }
 
     public async fetchInitData() {

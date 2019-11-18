@@ -94,7 +94,10 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
             const removeFns = depList.addChangeListener(
               () => {
                 isDirty = true;
-                dep.notifyChange(undefined, cachedValue, 'computed', () => true);
+                dep.notifyChange(undefined, cachedValue, {
+                  type: 'computed',
+                  isChanged: () => true,
+                });
               },
               false,
             );
@@ -111,7 +114,9 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
         }
 
         setter(v);
-        dep.notifyChange(undefined, cachedValue, 'computed');
+        dep.notifyChange(undefined, cachedValue, {
+          type: 'computed',
+        });
       },
     });
   }

@@ -1,7 +1,8 @@
-import { connect, IViewInstance } from '@alipay/goldfish-reactive';
+import { connect, IViewInstance, ChangeOptions } from '@alipay/goldfish-reactive';
 import PageStore from './PageStore';
 import attachLogic from './attachLogic';
 import AppStore from './AppStore';
+import MiniDataSetter from './MiniDataSetter';
 
 export type PageInstance<D, S> =
   tinyapp.IPageInstance<D> & Omit<IViewInstance, 'store'> & { store: S };
@@ -32,23 +33,25 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
     pageOptions,
     'onLoad',
     'onUnload',
-    function (this: { setData: tinyapp.SetDataMethod<D>; store: PS; }, data: any) {
+    function (
+      this: tinyapp.IPageInstance<D> & {
+        setData: tinyapp.SetDataMethod<D>;
+        store: PS;
+        $$miniDataSetter?: MiniDataSetter<tinyapp.IPageInstance<D>>
+      },
+      _: any,
+      keyPathList: (string | number)[],
+      newV: any,
+      oldV: any,
+      options?: ChangeOptions,
+    ) {
       if (!this.store.isSyncDataSafe) {
         return;
       }
 
-      const isObject = (val: any) => val && typeof val === 'object';
-      if (isObject(data)) {
-        const realData = { ...data };
-        for (const k in realData) {
-          if (isObject(realData[k])) {
-            realData[k] = Array.isArray(realData[k]) ? [...realData[k]] : { ...realData[k] };
-          }
-        }
-        this.setData(realData);
-      } else {
-        this.setData(data);
-      }
+      const miniDataSetter = this.$$miniDataSetter || new MiniDataSetter(this);
+      this.$$miniDataSetter = miniDataSetter;
+      miniDataSetter.set(keyPathList, newV, oldV, options);
     },
     (instance) => {
       beforeCreateStore && beforeCreateStore(instance as PageInstance<D, PS>);
@@ -60,7 +63,6 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
     },
     {
       onError: pageOptions.onError,
-      shouldBatchUpdate: true,
     },
   );
 

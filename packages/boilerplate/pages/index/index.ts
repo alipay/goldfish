@@ -1,8 +1,21 @@
-import { createPage, PageStore as BasePageStore } from '@alipay/goldfish';
-import { AppStore } from '../../app';
+import { setupPage, useState, useFetchInitData } from '@alipay/goldfish-composition-api';
 
-class PageStore extends BasePageStore<AppStore> {
+Page(setupPage(() => {
+  const data = useState<{ name: string }>({
+    name: 'zhangsan'
+  });
 
-}
+  useFetchInitData(async () => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 5000);
+    });
+  });
 
-Page(createPage(PageStore, {}));
+  setTimeout(() => {
+    data.name = 'lisi';
+  }, 3000);
+
+  return {
+    data,
+  };
+}));

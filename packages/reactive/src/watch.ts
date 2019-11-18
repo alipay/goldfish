@@ -1,8 +1,9 @@
-import { call, getCurrent, IErrorCallback, SourceType } from './dep';
+import { call, getCurrent, IErrorCallback, SourceType, ChangeOptions } from './dep';
 import { isObject, isArray } from './utils';
 
 export type Unwatch = () => void;
-export type IWatchCallback<N, O = any> = (newValue: N, oldValue?: O) => void;
+export type IWatchCallback<N, O = any> =
+  (newValue: N, oldValue?: O, options?: ChangeOptions) => void;
 export type IWatchExpressionFn<R> = () => R;
 
 export interface IWatchOptions {
@@ -71,15 +72,15 @@ class Watcher<R> {
           this.deepVisit(result);
         }
         this.removeListenersGroup.push(
-          getCurrent().addChangeListener((n: any, o: any, type: SourceType) => {
+          getCurrent().addChangeListener((n: any, o: any, options: ChangeOptions) => {
             if (this.isStopped) {
               return;
             }
 
             const currentResult = this.watch();
-            if (this.options.deep || type === 'notify' || currentResult !== result) {
+            if (this.options.deep || options.type === 'notify' || currentResult !== result) {
               try {
-                this.cb(currentResult, result);
+                this.cb(currentResult, result, options);
               } catch (e) {
                 this.options.onError && this.options.onError(e);
               }

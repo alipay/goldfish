@@ -7,7 +7,7 @@
     "test": "jest --coverage --passWithNoTests",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "dev": "jest --debug --watch",
-    "build": "rm -rf ./types && rm -rf ./lib && tsc --build ./src/tsconfig.json",
+    "build": "rm -rf ./types && rm -rf ./lib && gulp ts",
     "lint": "tslint ./src/**",
     "ci": "npm run test",
     "release": "npm run test && npm run lint && npm run build && npm publish"
@@ -26,7 +26,18 @@
     "ts-jest": "^23.10.2",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-typescript": "^5.0.1",
+    "@babel/core": "^7.7.0",
+    "@babel/plugin-transform-classes": "^7.7.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "@types/jest": "^24.0.23",
+    "babel-plugin-import": "^1.12.2",
+    "jest": "^24.9.0",
+    "merge2": "^1.3.0"
   },
   "types": "./types/index.d.ts",
   "sideEffects": false

@@ -1,5 +1,6 @@
 import CommonSetup from './setup/CommonSetup';
-import { computed } from '@alipay/goldfish-reactive-connect';
+import { watchDeep } from '@alipay/goldfish-reactive';
+import { MiniDataSetter } from '@alipay/goldfish-reactive-connect';
 
 type Kind = 'page' | 'component' | 'app';
 
@@ -28,12 +29,23 @@ function connectData(
       writable: true,
     });
   } else {
-    Object.defineProperty(store, k, {
-      enumerable: true,
-      configurable: true,
-      writable: true,
-      value: computed(config[k]),
-    });
+    watchDeep(
+      config[k],
+      (_: any, keyPathList, newV, oldV, options) => {
+        if (!(store as any).isSyncDataSafe) {
+          return;
+        }
+
+        const miniDataSetter = (viewInstance as any).$$miniDataSetter
+          || new MiniDataSetter(viewInstance as any);
+        (viewInstance as any).$$miniDataSetter = miniDataSetter;
+        miniDataSetter.set([k, ...keyPathList], newV, oldV, options);
+      },
+      {
+        immediate: true,
+        customWatch: (store as any).watch.bind(store),
+      },
+    );
   }
 }
 

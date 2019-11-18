@@ -1,7 +1,8 @@
-import { createApp, AppStore as BaseAppStore } from '@alipay/goldfish';
+import { setupApp } from '@alipay/goldfish-composition-api';
+import { IConfig } from '@alipay/goldfish-plugins';
 
-export class AppStore extends BaseAppStore {
+const config: IConfig = {};
 
-}
-
-App(createApp({}, AppStore, {}));
+App(setupApp(config, () => {
+  return {};
+}));

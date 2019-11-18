@@ -38,7 +38,7 @@ export default function integrateLifeCycleMethods<K extends Kind>(
           return;
         }
 
-        const fns: Function[] = (setup as any).getLifeCycleMethod(cur as any) || [];
+        const fns: Function[] = (setup.getMethod as any)(cur) || [];
         let result: any;
         for (const i in fns) {
           const fn = fns[i];

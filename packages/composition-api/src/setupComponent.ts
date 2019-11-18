@@ -50,7 +50,10 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
         throw new Error('Please pass in the setup Function.');
       }
 
-      integrateSetupFunctionResult<'component'>(fn, view.$setup!, view, this);
+      const setup = view.$setup!;
+      setup.wrap(() => {
+        integrateSetupFunctionResult<'component'>(fn, setup, view, this);
+      });
     }
   }
 

@@ -1,4 +1,5 @@
-import watch from './watch';
+import watchDeep from './watchDeep';
+import { ChangeOptions } from './dep';
 
 export interface IStore {
   getState(): Record<string, any>;
@@ -8,11 +9,14 @@ export interface IStore {
 }
 
 type ReactiveThis = { store: Pick<IStore, Exclude<keyof IStore, 'destroy'>> };
+
+export interface ISetData {
+  (_: any, keyPathList: (string | number)[], newV: any, oldV: any, options?: ChangeOptions): void;
+}
+
 export default function reactive<T extends ReactiveThis = ReactiveThis>(
   this: T,
-  setData: (this: T, data: Record<string, any>) => void,
-  shouldBatchUpdate = false,
-  keyMap: Record<string, string> = {},
+  setData: ISetData,
   onError?: (error: any) => void,
 ) {
   if (!this.store) {
@@ -21,47 +25,15 @@ export default function reactive<T extends ReactiveThis = ReactiveThis>(
 
   this.store.init && this.store.init();
 
-  let cacheData: Record<string, any> | undefined;
-  const setSingleData = shouldBatchUpdate
-    ? (key: string, value: any) => {
-      if (cacheData) {
-        cacheData[key] = value;
-        return;
-      }
-
-      cacheData = {};
-      cacheData[key] = value;
-      Promise.resolve().then(() => {
-        try {
-          cacheData && setData.call(this, cacheData);
-        } catch (e) {
-          onError && onError(e);
-        } finally {
-          cacheData = undefined;
-        }
-      });
-    }
-    : (key: string, value: any) => {
-      setData.call(this, { [key]: value });
-    };
-
   const watchKeys = (data: Record<string, any>) => {
-    const stopList: (() => void)[] = [];
-    for (const key in data) {
-      stopList.push(
-        watch(
-          () => data[key],
-          () => {
-            setSingleData(keyMap[key] || key, data[key]);
-          },
-          {
-            onError,
-            immediate: true,
-            deep: true,
-          },
-        ),
-      );
-    }
+    const stopList = watchDeep(
+      data,
+      setData,
+      {
+        onError,
+        immediate: true,
+      },
+    );
     return stopList;
   };
 
