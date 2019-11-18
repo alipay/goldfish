@@ -11,7 +11,7 @@
     "boot": "lerna bootstrap",
     "test": "node scripts/test.js"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "lerna": "^3.13.4"
   },
