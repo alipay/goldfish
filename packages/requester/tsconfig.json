@@ -18,5 +18,5 @@
     "declarationDir": "./types",
     "help": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/*/**"],
 }
