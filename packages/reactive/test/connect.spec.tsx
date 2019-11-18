@@ -22,8 +22,8 @@ describe('connect', () => {
       MyComponent.prototype,
       'componentDidMount',
       'componentWillUnmount',
-      function (this: React.Component, data: Record<string, any>) {
-        this.setState(data);
+      function (this: React.Component, ...args: any[]) {
+        this.setState({ [args[1][0]]: args[2] });
       },
       () => {
         return {

@@ -19,3 +19,6 @@ export { default as createMiniPage } from './createMiniPage';
 export * from './createMiniPage';
 
 export { default as attachLogic } from './attachLogic';
+
+export { default as MiniDataSetter } from './MiniDataSetter';
+export * from './MiniDataSetter';
