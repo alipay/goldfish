@@ -1,4 +1,5 @@
-export * from './types'
-export { default as createRequest } from './createRequest';
-export { default as createCachedRequest } from './createCachedRequest'
-export { default as createTakeLatestRequest } from './createTakeLatestRequest'
+export { default as Requester } from './Requester';
+export * from './Requester';
+
+export { default as MockRequester } from './MockRequester';
+export * from './MockRequester';

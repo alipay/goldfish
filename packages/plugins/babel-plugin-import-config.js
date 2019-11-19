@@ -10,6 +10,9 @@ module.exports = {
       ConfigPlugin: `${codeDir}/ConfigPlugin`,
       FeedbackPlugin: `${codeDir}/FeedbackPlugin`,
       MockBridgePlugin: `${codeDir}/MockBridgePlugin`,
+      RoutePlugin: `${codeDir}/RoutePlugin`,
+      RequesterPlugin: `${codeDir}/RequesterPlugin`,
+      MockRequesterPlugin: `${codeDir}/MockRequesterPlugin`,
       Plugin: `${codeDir}/Plugin`,
       PluginHub: `${codeDir}/PluginHub`,
     }[name];

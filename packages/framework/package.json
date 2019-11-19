@@ -7,7 +7,7 @@
     "test": "jest --coverage --passWithNoTests",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "dev": "jest --debug --watch",
-    "build": "rm -rf ./types && rm -rf ./lib && tsc --build ./src/tsconfig.json",
+    "build": "rm -rf ./types && rm -rf ./lib && gulp ts",
     "lint": "tslint ./src/**",
     "ci": "npm run test",
     "release": "npm run test && npm run lint && npm run build && npm publish"

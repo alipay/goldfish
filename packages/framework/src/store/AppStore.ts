@@ -13,6 +13,8 @@ import {
   IPromptOption,
   FeedbackOption,
   RoutePlugin,
+  MockRequesterPlugin,
+  RequesterPlugin,
 } from '@goldfishjs/goldfish-plugins';
 import { asyncForEach } from '@goldfishjs/goldfish-utils';
 
@@ -45,6 +47,7 @@ export default class AppStore extends BaseAppStore {
       RoutePlugin,
       FeedbackPlugin,
       process.env.NODE_ENV === 'development' ? MockBridgePlugin : BridgePlugin,
+      process.env.NODE_ENV === 'development' ? MockRequesterPlugin : RequesterPlugin,
     ];
   }
 

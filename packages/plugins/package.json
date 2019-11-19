@@ -21,6 +21,7 @@
     "@goldfishjs/goldfish-reactive": "^0.0.1",
     "@goldfishjs/goldfish-bridge": "^0.0.1",
     "@goldfishjs/goldfish-route": "^0.0.1",
+    "@goldfishjs/goldfish-requester": "^0.0.1",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {
