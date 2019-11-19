@@ -1,4 +1,4 @@
-import { observable as reactiveObservable } from '@goldfishjs/goldfish-reactive';
+import { observable as reactiveObservable } from '@goldfishjs/reactive';
 import checkSetupEnv from './checkSetupEnv';
 
 const valueFlag = {};

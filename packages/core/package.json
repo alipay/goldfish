@@ -1,5 +1,5 @@
 {
-  "name": "@goldfishjs/goldfish",
+  "name": "@goldfishjs/core",
   "version": "0.0.1",
   "description": "goldfish",
   "main": "lib/index.js",
@@ -16,9 +16,9 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
-    "@goldfishjs/goldfish-reactive-connect": "^0.0.1",
-    "@goldfishjs/goldfish-plugins": "^0.0.1",
-    "@goldfishjs/goldfish-utils": "^0.0.1",
+    "@goldfishjs/reactive-connect": "^0.0.1",
+    "@goldfishjs/plugins": "^0.0.1",
+    "@goldfishjs/utils": "^0.0.1",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {

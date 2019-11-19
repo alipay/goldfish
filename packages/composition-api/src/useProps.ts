@@ -1,7 +1,7 @@
 import checkSetupEnv from './checkSetupEnv';
 import ComponentSetup from './setup/ComponentSetup';
-import { ComponentStore } from '@goldfishjs/goldfish';
-import { IProps } from '@goldfishjs/goldfish-reactive-connect';
+import { ComponentStore } from '@goldfishjs/core';
+import { IProps } from '@goldfishjs/reactive-connect';
 
 export default function useProps<P extends IProps>() {
   checkSetupEnv('useProps', ['component']);

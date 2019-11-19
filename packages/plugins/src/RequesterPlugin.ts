@@ -1,5 +1,5 @@
 import Plugin, { GetPlugin } from './Plugin';
-import { Requester, IRequestOptions } from '@alipay/goldfish-requester';
+import { Requester, IRequestOptions } from '@goldfishjs/requester';
 import ConfigPlugin from './ConfigPlugin';
 
 export default class RequesterPlugin extends Plugin {

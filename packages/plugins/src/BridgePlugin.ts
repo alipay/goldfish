@@ -5,7 +5,7 @@ import {
   SpecialMethods,
   Fn,
   APBridgeMethods,
-} from '@goldfishjs/goldfish-bridge';
+} from '@goldfishjs/bridge';
 
 export default class BridgePlugin extends Plugin {
   public static type = 'bridge';

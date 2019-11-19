@@ -1,4 +1,4 @@
-import { AppStore as BaseAppStore } from '@goldfishjs/goldfish-reactive-connect';
+import { AppStore as BaseAppStore } from '@goldfishjs/reactive-connect';
 import {
   PluginHub,
   PluginClass,
@@ -15,8 +15,8 @@ import {
   RoutePlugin,
   MockRequesterPlugin,
   RequesterPlugin,
-} from '@goldfishjs/goldfish-plugins';
-import { asyncForEach } from '@goldfishjs/goldfish-utils';
+} from '@goldfishjs/plugins';
+import { asyncForEach } from '@goldfishjs/utils';
 
 export default class AppStore extends BaseAppStore {
   protected pluginHub: PluginHub = new PluginHub();

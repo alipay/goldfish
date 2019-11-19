@@ -1,5 +1,5 @@
 import Plugin from './Plugin';
-import { IDatahubConfig, IRequestOptions } from '@alipay/goldfish-requester';
+import { IDatahubConfig, IRequestOptions } from '@goldfishjs/requester';
 
 export interface IConfig {
   mockServerHost?: string;

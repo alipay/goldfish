@@ -1,4 +1,4 @@
-import { IComputedSource, computed as reactiveComputed } from '@goldfishjs/goldfish-reactive';
+import { IComputedSource, computed as reactiveComputed } from '@goldfishjs/reactive';
 
 const computedFlag = {};
 

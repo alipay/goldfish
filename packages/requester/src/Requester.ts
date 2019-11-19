@@ -1,5 +1,5 @@
 import { IHttpRequestOptions } from './httpRequest';
-import { observable, state } from '@alipay/goldfish-reactive-connect';
+import { observable, state } from '@goldfishjs/reactive-connect';
 import httpRequest from './httpRequest';
 
 export interface IRequestOptions extends IHttpRequestOptions {

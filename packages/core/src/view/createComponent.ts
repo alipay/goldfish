@@ -5,7 +5,7 @@ import {
   attachLogic,
   IProps,
   isComponent2,
-} from '@goldfishjs/goldfish-reactive-connect';
+} from '@goldfishjs/reactive-connect';
 import AppStore from '../store/AppStore';
 import ComponentStore from '../store/ComponentStore';
 

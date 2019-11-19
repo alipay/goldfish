@@ -3,9 +3,9 @@ const ts = require('gulp-typescript');
 const babel = require('gulp-babel');
 const merge = require('merge2');
 const path = require('path');
-const utilsImportConfig = require('@goldfishjs/goldfish-utils/babel-plugin-import-config');
-const pluginsImportConfig = require('@goldfishjs/goldfish-plugins/babel-plugin-import-config');
-const reactiveConnectImportConfig = require('@goldfishjs/goldfish-reactive-connect/babel-plugin-import-config');
+const utilsImportConfig = require('@goldfishjs/utils/babel-plugin-import-config');
+const pluginsImportConfig = require('@goldfishjs/plugins/babel-plugin-import-config');
+const reactiveConnectImportConfig = require('@goldfishjs/reactive-connect/babel-plugin-import-config');
 
 const sourceFiles = {
   ts: [

@@ -3,8 +3,8 @@ const ts = require('gulp-typescript');
 const babel = require('gulp-babel');
 const merge = require('merge2');
 const path = require('path');
-const utilsImportConfig = require('@alipay/goldfish-utils/babel-plugin-import-config');
-const reactiveConnectImportConfig = require('@alipay/goldfish-reactive-connect/babel-plugin-import-config');
+const utilsImportConfig = require('@goldfishjs/utils/babel-plugin-import-config');
+const reactiveConnectImportConfig = require('@goldfishjs/reactive-connect/babel-plugin-import-config');
 
 const sourceFiles = {
   ts: [

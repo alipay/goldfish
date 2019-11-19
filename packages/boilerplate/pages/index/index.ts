@@ -1,4 +1,4 @@
-import { setupPage, useState, useFetchInitData } from '@goldfishjs/goldfish-composition-api';
+import { setupPage, useState, useFetchInitData } from '@goldfishjs/composition-api';
 
 Page(setupPage(() => {
   const data = useState<{ name: string }>({

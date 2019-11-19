@@ -5,7 +5,7 @@ import {
   SpecialMethods,
   Fn,
   APBridgeMethods,
-} from '@goldfishjs/goldfish-bridge';
+} from '@goldfishjs/bridge';
 import ConfigPlugin, { IConfig } from './ConfigPlugin';
 
 export default class MockBridgePlugin extends Plugin {
