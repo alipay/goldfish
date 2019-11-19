@@ -18,6 +18,10 @@ module.exports = {
       useFetchInitData: `${codeDir}/useFetchInitData`,
       useProps: `${codeDir}/useProps`,
       useContextType: `${codeDir}/useContextType`,
+      usePlugin: `${codeDir}/usePlugin`,
+      useReady: `${codeDir}/useReady`,
+      useInitDataReady: `${codeDir}/useInitDataReady`,
+      usePluginReady: `${codeDir}/usePluginReady`,
     }[name];
   },
 };

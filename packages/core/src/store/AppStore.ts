@@ -15,6 +15,7 @@ import {
   RoutePlugin,
   MockRequesterPlugin,
   RequesterPlugin,
+  Plugin,
 } from '@goldfishjs/plugins';
 import { asyncForEach } from '@goldfishjs/utils';
 
@@ -69,6 +70,10 @@ export default class AppStore extends BaseAppStore {
 
     // Initialize all plugins.
     this.pluginHub.init();
+  }
+
+  public getPluginInstance<R extends Plugin>(pluginClass: PluginClass<R> | string) {
+    return this.pluginHub.get<R>(pluginClass);
   }
 
   /**

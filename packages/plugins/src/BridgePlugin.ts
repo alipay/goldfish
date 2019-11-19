@@ -1,4 +1,4 @@
-import Plugin from './Plugin';
+import Plugin, { GetPlugin } from './Plugin';
 import {
   bridge,
   BridgeMethods,
@@ -10,7 +10,7 @@ import {
 export default class BridgePlugin extends Plugin {
   public static type = 'bridge';
 
-  public init() {}
+  public init(_: GetPlugin) {}
 
   public destroy() {}
 

@@ -3,6 +3,8 @@ import { Requester, IRequestOptions } from '@goldfishjs/requester';
 import ConfigPlugin from './ConfigPlugin';
 
 export default class RequesterPlugin extends Plugin {
+  public static type = 'requester';
+
   private requester?: Requester;
 
   public init(getPlugin: GetPlugin) {
