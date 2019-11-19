@@ -1,15 +1,19 @@
 {
   "private": true,
   "name": "goldfish-boilerplate",
+  "scripts": {
+    "dev": "goldfish-dev"
+  },
   "dependencies": {
     "@alipay/goldfish": "^0.0.1",
+    "@alipay/goldfish-bridge": "^0.0.1",
     "@alipay/goldfish-composition-api": "^0.0.1",
-    "@alipay/goldfish-utils": "^0.0.1",
+    "@alipay/goldfish-plugins": "^0.0.1",
     "@alipay/goldfish-reactive": "^0.0.1",
     "@alipay/goldfish-reactive-connect": "^0.0.1",
-    "@alipay/goldfish-bridge": "^0.0.1",
-    "@alipay/goldfish-plugins": "^0.0.1",
+    "@alipay/goldfish-utils": "^0.0.1",
     "debounce": "^1.2.0",
+    "gulp": "^4.0.2",
     "mini-antui": "^0.4.29"
   },
   "devDependencies": {

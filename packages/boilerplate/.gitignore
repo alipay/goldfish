@@ -18,3 +18,5 @@ src/package-lock.json
 output
 .node
 coverage
+
+.cache
