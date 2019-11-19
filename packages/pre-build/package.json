@@ -6,20 +6,10 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "bin": {
-    "goldfish-compile": "bin/goldfish-compile.js"
+    "goldfish-compile": "bin/goldfish-compile.js",
+    "goldfish-dev": "bin/goldfish-dev.js"
   },
   "dependencies": {
-    "chalk": "^3.0.0",
-    "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
-    "gulp-less": "^4.0.1",
-    "gulp-postcss": "^8.0.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-replace": "^1.0.0",
-    "gulp-typescript": "^5.0.1",
-    "less-plugin-npm-import": "^2.1.0",
-    "babel-plugin-import": "^1.12.2",
-    "typescript": "^3.7.2",
     "@babel/core": "^7.7.2",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-transform-runtime": "^7.6.2",
@@ -30,6 +20,7 @@
     "chalk": "^3.0.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+    "gulp-filter": "^6.0.0",
     "gulp-less": "^4.0.1",
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
@@ -37,6 +28,7 @@
     "gulp-typescript": "^5.0.1",
     "less-plugin-npm-import": "^2.1.0",
     "micromatch": "^4.0.2",
-    "postcss-px-to-viewport": "^1.1.1"
+    "postcss-px-to-viewport": "^1.1.1",
+    "typescript": "^3.7.2"
   }
 }
