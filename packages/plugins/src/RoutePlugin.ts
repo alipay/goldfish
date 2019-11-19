@@ -1,44 +1,72 @@
-import Plugin from './Plugin';
 import { default as route } from '@alipay/goldfish-route';
+import Plugin, { GetPlugin, PluginClass } from './Plugin';
+import BridgePlugin from './BridgePlugin';
+
+interface IPage {
+  path: string;
+  query?: Record<string, any>;
+  referrerInfo?: any;
+}
 
 export default class Route extends Plugin {
   public static type = 'route';
 
-  public init() {}
+  private bridge: BridgePlugin = new BridgePlugin();
+
+  public init(getPlugin: GetPlugin) {
+    this.bridge = getPlugin(BridgePlugin);
+  }
 
   public destroy() {}
 
-  public reLaunch(url: string) {
-    if (my.reLaunch) {
-      return new Promise((resolve) => {
-        my.reLaunch({
-          url,
-          success: resolve,
-          fail: () => {
-            route.pushWindow(url);
-          },
-        });
-      });
-    }
+  private pages: IPage[] = [];
 
-    route.pushWindow(url);
+  private setPages() {
+    const currentPages: tinyapp.IPageInstance<any>[] = getCurrentPages();
+    const newPageStack = currentPages.map((page: tinyapp.IPageInstance<any>) => ({
+      path: page.route,
+    }));
+
+    // When pages stack updated, cachePages need updated page
+    const newPages = newPageStack.map((newPage: Pick<IPage, 'path'>) =>
+      this.pages.find((page: IPage) => page.path === newPage.path) || newPage);
+
+    this.pages = [...newPages];
+  }
+
+  public updatePages(options?: tinyapp.IAppLaunchOptions) {
+    this.setPages();
+
+    // update query
+    if (!options || !options.path || !(options.query || options.referrerInfo)) return;
+    const index = this.pages.findIndex((page: IPage) => page.path === options.path);
+    if (index >= 0) {
+      this.pages[index].query = options.query;
+      this.pages[index].referrerInfo = options.referrerInfo;
+    }
+  }
+
+  public async reLaunch(url: string) {
+    try {
+      await this.bridge.call('reLaunch', {
+        url,
+      });
+    } catch (e) {
+      route.pushWindow(url);
+    }
   }
 
   public popWindow(delta: number = 1) {
-    my.navigateBack({ delta });
+    this.bridge.call('navigateBack', { delta });
   }
 
   public popToHome() {
-    route.popWindow(getCurrentPages().length - 1);
+    this.popWindow(getCurrentPages().length - 1);
   }
 
-  public switchTab(options: Pick<my.ISwitchTabOptions, 'url'>) {
-    return new Promise((resolve, reject) => {
-      my.switchTab({
-        ...options,
-        success: resolve,
-        fail: reject,
-      });
+  public async switchTab(options: Pick<my.ISwitchTabOptions, 'url'>) {
+    await this.bridge.call('switchTab', {
+      ...options,
     });
   }
 
@@ -53,6 +81,6 @@ export default class Route extends Plugin {
 
       return false;
     });
-    route.popWindow(pages.length - targetIndex - 1);
+    this.popWindow(pages.length - targetIndex - 1);
   }
 }

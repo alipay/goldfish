@@ -11,3 +11,6 @@ export * from './FeedbackPlugin';
 
 export { default as ConfigPlugin } from './ConfigPlugin';
 export * from './ConfigPlugin';
+
+export { default as RoutePlugin } from './RoutePlugin';
+export * from './RoutePlugin';

@@ -15,9 +15,10 @@ export default function createApp<G, S extends AppStore>(
     appOptions,
     'onLaunch',
     'after',
-    async function (this: AppInstance<G, S>) {
+    async function (this: AppInstance<G, S>, options: tinyapp.IAppLaunchOptions) {
       const store = this.store!;
       store.isInitLoading = true;
+      store.updatePages(options);
       await store.waitForReady();
       try {
         await store.fetchInitData();
