@@ -7,7 +7,7 @@
     "test": "jest --coverage --passWithNoTests",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "dev": "jest --debug --watch",
-    "build": "rm -rf ./types && rm -rf ./lib && node_modules/.bin/tsc --build ./src/tsconfig.json",
+    "build": "rm -rf ./types && rm -rf ./lib && gulp ts",
     "lint": "tslint ./src/**",
     "ci": "npm run test",
     "release": "npm run test && npm run lint && npm run build && npm publish"
@@ -21,10 +21,27 @@
     "qs": "^6.9.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.0",
+    "@babel/plugin-transform-classes": "^7.7.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "@types/jest": "^23.3.2",
+    "@types/lodash": "^4.14.117",
+    "@types/react": "^16.7.3",
+    "@types/react-dom": "^16.0.9",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-typescript": "^5.0.1",
+    "jest": "^23.6.0",
+    "lodash": "^4.17.11",
+    "merge2": "^1.3.0",
+    "pre-commit": "^1.2.2",
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
     "ts-jest": "^23.10.2",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
-    "typescript": "^3.1.4"
+    "typescript": "^3.7.2"
   },
   "types": "./types/index.d.ts",
   "sideEffects": false

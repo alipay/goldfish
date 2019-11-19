@@ -1,1 +1,1 @@
-<view>Hello world! {{ data.name }}</view>
+<view>Hello world! {{ data.name }} --- {{ data.realName }}</view>

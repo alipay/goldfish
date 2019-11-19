@@ -12,6 +12,7 @@ const importConfigPackages = [
   '@goldfishjs/plugins',
   '@goldfishjs/reactive-connect',
   '@goldfishjs/requester',
+  '@goldfishjs/route',
 ];
 
 function getPkgImportConfig(pkgName) {

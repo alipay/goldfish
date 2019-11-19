@@ -2,7 +2,10 @@ import { setupPage, useState, useFetchInitData } from '@goldfishjs/composition-a
 
 Page(setupPage(() => {
   const data = useState<{ name: string }>({
-    name: 'zhangsan'
+    name: 'zhangsan',
+    get realName() {
+      return `${this.name}.haha`;
+    },
   });
 
   useFetchInitData(async () => {

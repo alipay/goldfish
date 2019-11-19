@@ -3,7 +3,7 @@
     "declarationMap": false,
     "diagnostics": true,
     "help": true,
-    "lib": ["dom", "es2015"],
+    "lib": ["dom", "esnext"],
     "locale": "zh-CN",
     "strict": true,
     "traceResolution": false,

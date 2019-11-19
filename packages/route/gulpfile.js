@@ -3,9 +3,6 @@ const ts = require('gulp-typescript');
 const babel = require('gulp-babel');
 const merge = require('merge2');
 const path = require('path');
-const utilsImportConfig = require('@goldfishjs/utils/babel-plugin-import-config');
-const pluginsImportConfig = require('@goldfishjs/plugins/babel-plugin-import-config');
-const reactiveConnectImportConfig = require('@goldfishjs/reactive-connect/babel-plugin-import-config');
 
 const sourceFiles = {
   ts: [
@@ -30,21 +27,6 @@ const babelOptions = {
     // 所以此处将 class 语法转一下，绕过这个 bug。
     ['@babel/plugin-transform-classes'],
     ['@babel/plugin-transform-runtime'],
-    [
-      'import',
-      utilsImportConfig,
-      'utils',
-    ],
-    [
-      'import',
-      pluginsImportConfig,
-      'plugins',
-    ],
-    [
-      'import',
-      reactiveConnectImportConfig,
-      'reactive-connect',
-    ],
   ],
 };
 

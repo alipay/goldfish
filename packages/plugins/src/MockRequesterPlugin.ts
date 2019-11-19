@@ -1,27 +1,14 @@
-import Plugin, { GetPlugin } from './Plugin';
-import { MockRequester, IRequestOptions } from '@goldfishjs/requester';
+import { GetPlugin } from './Plugin';
+import { MockRequester } from '@goldfishjs/requester';
 import ConfigPlugin from './ConfigPlugin';
+import RequesterPlugin from './RequesterPlugin';
 
-export default class RequesterPlugin extends Plugin {
-  private requester?: MockRequester;
-
+export default class MockRequesterPlugin extends RequesterPlugin {
   public init(getPlugin: GetPlugin) {
     const configPlugin = getPlugin(ConfigPlugin);
     const options = configPlugin.get('requesterOptions');
     const datahubOptions = configPlugin.get('datahubConfig');
     this.requester = new MockRequester(options, datahubOptions);
-  }
-
-  public request<R>(
-    url: IRequestOptions['url'],
-    data?: IRequestOptions['data'],
-    options?: Omit<IRequestOptions, 'url' | 'params'>,
-  ) {
-    if (!this.requester) {
-      throw new Error('The requester is not ready.');
-    }
-
-    return this.requester.request<R>(url, data, options);
   }
 
   public destroy() {}

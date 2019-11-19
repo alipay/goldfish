@@ -44,7 +44,7 @@ const babelOptions = {
     [
       'import',
       reactiveConnectImportConfig,
-      'reactiveConnect',
+      'reactive-connect',
     ],
     [
       'import',

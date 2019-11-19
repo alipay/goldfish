@@ -5,7 +5,7 @@ import ConfigPlugin from './ConfigPlugin';
 export default class RequesterPlugin extends Plugin {
   public static type = 'requester';
 
-  private requester?: Requester;
+  protected requester?: Requester;
 
   public init(getPlugin: GetPlugin) {
     const configPlugin = getPlugin(ConfigPlugin);
