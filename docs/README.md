@@ -12,7 +12,7 @@ features:
   details: Powerful & complete TypeScript Support.
 - title: Composition API
   details: A set of additive, function-based APIs that allow flexible composition of component logic.
-footer: Made by VuePress with ❤️
+footer: Copyright © Goldfish & Thanks for Goldfish logo Designer Eric.
 ---
 
 ### Production
