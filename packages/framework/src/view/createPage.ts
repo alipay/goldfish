@@ -14,8 +14,11 @@ export default function createPage<AS extends AppStore, PS extends PageStore<AS>
     pageOptions,
     'onLoad',
     'after',
-    async function (this: PageInstance<D, PS>) {
+    async function (this: PageInstance<D, PS>, query) {
       const store = this.store!;
+      store.globalStore.updatePages({
+        query,
+      });
       store.globalStore = (getApp() as any).store;
       store.isInitLoading = true;
       await store.globalStore.waitForReady();

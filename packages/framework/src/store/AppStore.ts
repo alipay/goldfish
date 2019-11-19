@@ -12,6 +12,7 @@ import {
   IConfirmOption,
   IPromptOption,
   FeedbackOption,
+  RoutePlugin,
 } from '@alipay/goldfish-plugins';
 import { asyncForEach } from '@alipay/goldfish-utils';
 
@@ -41,6 +42,7 @@ export default class AppStore extends BaseAppStore {
   protected getPlugins(): PluginClass[] {
     return [
       ConfigPlugin,
+      RoutePlugin,
       FeedbackPlugin,
       process.env.NODE_ENV === 'development' ? MockBridgePlugin : BridgePlugin,
     ];
@@ -276,5 +278,12 @@ export default class AppStore extends BaseAppStore {
         });
       },
     });
+  }
+
+  /**
+   * Update Pages for Route
+   */
+  public updatePages(page: tinyapp.IAppLaunchOptions) {
+    this.pluginHub.get(RoutePlugin).updatePages(page);
   }
 }
