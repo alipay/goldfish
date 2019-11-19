@@ -1,10 +1,10 @@
-# 快速开始
+# Quick Start
 
-## 环境准备
+## Environment preparation
 
-* [小程序开发者工具](https://docs.alipay.com/mini/ide/download)
+* [Mini program developer tools](https://docs.alipay.com/mini/ide/download)
 * [Node.js](https://nodejs.org/)
 
-## 使用项目模板
+## Use project template
 
 TODO
