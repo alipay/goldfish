@@ -1,5 +1,5 @@
-import { state, observable } from '@alipay/goldfish-reactive-connect';
-import { watch } from '@alipay/goldfish-reactive';
+import { state, observable } from '@goldfishjs/goldfish-reactive-connect';
+import { watch } from '@goldfishjs/goldfish-reactive';
 import Plugin, { PluginClass } from './Plugin';
 
 @observable

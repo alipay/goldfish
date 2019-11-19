@@ -8,7 +8,7 @@ import {
   AutorunFunction,
   IErrorCallback,
   DepList,
-} from '@alipay/goldfish-reactive';
+} from '@goldfishjs/goldfish-reactive';
 import STATE_KEY from './decorators/STATE_KEY';
 import COMPUTED_KEY from './decorators/COMPUTED_KEY';
 import observable from './decorators/observable';

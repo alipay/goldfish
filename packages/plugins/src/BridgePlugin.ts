@@ -5,7 +5,7 @@ import {
   SpecialMethods,
   Fn,
   APBridgeMethods,
-} from '@alipay/goldfish-bridge';
+} from '@goldfishjs/goldfish-bridge';
 
 export default class BridgePlugin extends Plugin {
   public static type = 'bridge';

@@ -1,5 +1,5 @@
 {
-  "name": "@alipay/goldfish-reactive-connect",
+  "name": "@goldfishjs/goldfish-reactive-connect",
   "version": "0.0.1",
   "description": "goldfish-reactive-connect",
   "main": "lib/index.js",
@@ -16,7 +16,7 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
-    "@alipay/goldfish-reactive": "^0.0.1",
+    "@goldfishjs/goldfish-reactive": "^0.0.1",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {

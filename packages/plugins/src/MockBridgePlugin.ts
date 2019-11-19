@@ -5,7 +5,7 @@ import {
   SpecialMethods,
   Fn,
   APBridgeMethods,
-} from '@alipay/goldfish-bridge';
+} from '@goldfishjs/goldfish-bridge';
 import ConfigPlugin, { IConfig } from './ConfigPlugin';
 
 export default class MockBridgePlugin extends Plugin {

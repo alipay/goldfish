@@ -1,4 +1,4 @@
-import { parseUrl } from '@alipay/goldfish-utils';
+import { parseUrl } from '@goldfishjs/goldfish-utils';
 
 
 function mockUrl(fullPath: string, mock?: string | boolean): string {

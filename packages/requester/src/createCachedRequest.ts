@@ -1,4 +1,4 @@
-import { cache, WithForceUpdate } from '@alipay/goldfish-utils';
+import { cache, WithForceUpdate } from '@goldfishjs/goldfish-utils';
 import { RequestOptions, Request } from './types';
 import createRequest from './createRequest';
 

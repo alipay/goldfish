@@ -4,14 +4,14 @@ const utils = require('./utils');
 
 const cwd = process.cwd();
 const importConfigPackages = [
-  '@alipay/goldfish-utils',
-  '@alipay/goldfish-reactive',
-  '@alipay/goldfish-bridge',
-  '@alipay/goldfish',
-  '@alipay/goldfish-composition-api',
-  '@alipay/goldfish-plugins',
-  '@alipay/goldfish-reactive-connect',
-  '@alipay/goldfish-requester',
+  '@goldfishjs/goldfish-utils',
+  '@goldfishjs/goldfish-reactive',
+  '@goldfishjs/goldfish-bridge',
+  '@goldfishjs/goldfish',
+  '@goldfishjs/goldfish-composition-api',
+  '@goldfishjs/goldfish-plugins',
+  '@goldfishjs/goldfish-reactive-connect',
+  '@goldfishjs/goldfish-requester',
 ];
 
 function getPkgImportConfig(pkgName) {

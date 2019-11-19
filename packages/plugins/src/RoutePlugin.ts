@@ -1,4 +1,4 @@
-import { default as route } from '@alipay/goldfish-route';
+import { default as route } from '@goldfishjs/goldfish-route';
 import Plugin, { GetPlugin, PluginClass } from './Plugin';
 import BridgePlugin from './BridgePlugin';
 

@@ -1,4 +1,4 @@
-import { createMiniPage, PageOptions, PageInstance, attachLogic } from '@alipay/goldfish-reactive-connect';
+import { createMiniPage, PageOptions, PageInstance, attachLogic } from '@goldfishjs/goldfish-reactive-connect';
 import AppStore from '../store/AppStore';
 import PageStore from '../store/PageStore';
 

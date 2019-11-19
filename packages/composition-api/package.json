@@ -1,5 +1,5 @@
 {
-  "name": "@alipay/goldfish-composition-api",
+  "name": "@goldfishjs/goldfish-composition-api",
   "version": "0.0.1",
   "description": "goldfish-composition-api",
   "main": "lib/index.js",
@@ -16,10 +16,10 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
-    "@alipay/goldfish": "^0.0.1",
-    "@alipay/goldfish-reactive": "^0.0.1",
-    "@alipay/goldfish-reactive-connect": "^0.0.1",
-    "@alipay/goldfish-plugins": "^0.0.1",
+    "@goldfishjs/goldfish": "^0.0.1",
+    "@goldfishjs/goldfish-reactive": "^0.0.1",
+    "@goldfishjs/goldfish-reactive-connect": "^0.0.1",
+    "@goldfishjs/goldfish-plugins": "^0.0.1",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {

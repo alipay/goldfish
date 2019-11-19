@@ -1,5 +1,5 @@
 import { RequestOptions, Request, $RequestOptions } from './types';
-import { takeLatest } from '@alipay/goldfish-utils';
+import { takeLatest } from '@goldfishjs/goldfish-utils';
 import createRequest from './createRequest';
 
 function createTakeLatestRequest<M>(options?: RequestOptions): Request<M> {
