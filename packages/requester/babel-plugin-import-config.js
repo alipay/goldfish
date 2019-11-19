@@ -1,5 +1,5 @@
 module.exports = {
-  libraryName: '@alipay/goldfish-requester',
+  libraryName: '@goldfishjs/goldfish-requester',
   camel2DashComponentName: false,
   libraryDirectory: 'lib',
 };

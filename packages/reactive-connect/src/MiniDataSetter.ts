@@ -3,7 +3,7 @@ import {
   generateKeyPathString,
   set as reactiveSet,
   Methods,
-} from '@alipay/goldfish-reactive';
+} from '@goldfishjs/goldfish-reactive';
 
 export default class MiniDataSetter<
   V extends tinyapp.IPageInstance<any> | tinyapp.IComponentInstance<any, any>

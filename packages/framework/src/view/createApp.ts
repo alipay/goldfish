@@ -1,6 +1,6 @@
-import { createMiniApp, AppOptions, AppInstance, attachLogic } from '@alipay/goldfish-reactive-connect';
+import { createMiniApp, AppOptions, AppInstance, attachLogic } from '@goldfishjs/goldfish-reactive-connect';
 import AppStore from '../store/AppStore';
-import { IConfig } from '@alipay/goldfish-plugins';
+import { IConfig } from '@goldfishjs/goldfish-plugins';
 
 export default function createApp<G, S extends AppStore>(
   config: IConfig,

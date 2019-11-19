@@ -1,9 +1,9 @@
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import AppSetup from './setup/AppSetup';
-import { AppStore, createApp  } from '@alipay/goldfish';
-import { IConfig, PluginClass } from '@alipay/goldfish-plugins';
+import { AppStore, createApp  } from '@goldfishjs/goldfish';
+import { IConfig, PluginClass } from '@goldfishjs/goldfish-plugins';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
-import { attachLogic, AppInstance, observable } from '@alipay/goldfish-reactive-connect';
+import { attachLogic, AppInstance, observable } from '@goldfishjs/goldfish-reactive-connect';
 import appendFn from './appendFn';
 
 interface IAppInstance extends tinyapp.IAppInstance<any> {

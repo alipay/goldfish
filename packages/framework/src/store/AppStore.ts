@@ -1,4 +1,4 @@
-import { AppStore as BaseAppStore } from '@alipay/goldfish-reactive-connect';
+import { AppStore as BaseAppStore } from '@goldfishjs/goldfish-reactive-connect';
 import {
   PluginHub,
   PluginClass,
@@ -13,8 +13,8 @@ import {
   IPromptOption,
   FeedbackOption,
   RoutePlugin,
-} from '@alipay/goldfish-plugins';
-import { asyncForEach } from '@alipay/goldfish-utils';
+} from '@goldfishjs/goldfish-plugins';
+import { asyncForEach } from '@goldfishjs/goldfish-utils';
 
 export default class AppStore extends BaseAppStore {
   protected pluginHub: PluginHub = new PluginHub();

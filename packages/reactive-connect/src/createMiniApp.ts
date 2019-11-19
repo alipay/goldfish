@@ -1,4 +1,4 @@
-import { IViewInstance } from '@alipay/goldfish-reactive';
+import { IViewInstance } from '@goldfishjs/goldfish-reactive';
 import AppStore from './AppStore';
 import attachLogic from './attachLogic';
 

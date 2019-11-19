@@ -1,4 +1,4 @@
-import { connect, IViewInstance, ChangeOptions } from '@alipay/goldfish-reactive';
+import { connect, IViewInstance, ChangeOptions } from '@goldfishjs/goldfish-reactive';
 import PageStore from './PageStore';
 import attachLogic from './attachLogic';
 import AppStore from './AppStore';

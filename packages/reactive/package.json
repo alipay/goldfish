@@ -1,5 +1,5 @@
 {
-  "name": "@alipay/goldfish-reactive",
+  "name": "@goldfishjs/goldfish-reactive",
   "version": "0.0.1",
   "description": "Reactive.",
   "main": "lib/index.js",
