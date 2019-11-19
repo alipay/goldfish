@@ -43,10 +43,9 @@ module.exports = {
   },
 
   themeConfig: {
-    repo: '',
-    editLinks: false,
+    repo: 'alipay/goldfish',
     docsDir: 'docs',
-    editLinkText: '',
+    editLinks: true,
     lastUpdated: '',
     locales: {
       '/': {
