@@ -20,6 +20,7 @@ export default function createApp<G, S extends AppStore>(
       store.isInitLoading = true;
       store.updatePages(options);
       await store.waitForReady();
+      store.initFeedback();
       try {
         await store.fetchInitData();
       } catch (e) {

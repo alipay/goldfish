@@ -1,8 +1,26 @@
-import { setupPage, useState, useFetchInitData, useGlobalData } from '@goldfishjs/composition-api';
+import {
+  setupPage,
+  useState,
+  useFetchInitData,
+  useGlobalData,
+  usePlugins,
+  usePageLifeCycle,
+  useReady,
+} from '@goldfishjs/composition-api';
 
 Page(setupPage(() => {
   const globalData = useGlobalData();
-  const data = useState<{ name: string }>({
+  const plugins = usePlugins();
+  const ready = useReady();
+
+  usePageLifeCycle('onLoad', async () => {
+    await ready();
+    plugins.feedback.addAlert({
+      content: 'hahha',
+    });
+  });
+
+  const data = useState({
     name: 'zhangsan',
     get realName() {
       return `${this.name}.haha`;

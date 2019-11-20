@@ -3,7 +3,7 @@ import AppSetup from './setup/AppSetup';
 import { AppStore, createApp  } from '@goldfishjs/core';
 import { IConfig, PluginClass } from '@goldfishjs/plugins';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
-import { attachLogic, AppInstance, observable } from '@goldfishjs/reactive-connect';
+import { AppInstance, observable } from '@goldfishjs/reactive-connect';
 import appendFn from './appendFn';
 
 export interface ISetupAppOptions {
@@ -22,17 +22,6 @@ export default function setupApp(
     'onError',
     'onShareAppMessage',
   ]);
-
-  attachLogic<'onLaunch', Required<tinyapp.AppOptions>['onLaunch']>(
-    options,
-    'onLaunch',
-    'before',
-    async function (this: AppInstance<any, AppStore>) {
-      const store = this.store!;
-      await store.waitForReady();
-      // TODO: Feedback
-    },
-  );
 
   type View = AppInstance<any, AppStore> & { $setup?: AppSetup };
 

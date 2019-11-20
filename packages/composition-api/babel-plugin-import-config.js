@@ -25,6 +25,7 @@ module.exports = {
       useGlobalData: `${codeDir}/useGlobalData`,
       useWatch: `${codeDir}/useWatch`,
       useAutorun: `${codeDir}/useAutorun`,
+      usePlugins: `${codeDir}/usePlugins`,
     }[name];
   },
 };

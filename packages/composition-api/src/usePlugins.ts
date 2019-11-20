@@ -8,7 +8,6 @@ import {
   RequesterPlugin,
   PluginClass,
 } from '@goldfishjs/plugins';
-import CommonSetup from './setup/CommonSetup';
 import getAppStore from './getAppStore';
 
 export default function usePlugins(): {
@@ -117,9 +116,6 @@ export default function usePlugins(
   pluginClassList?: PluginClass[],
 ): Record<string, Plugin> {
   checkSetupEnv('usePlugins', ['page', 'app', 'component']);
-
-  const setup = CommonSetup.getCurrent<CommonSetup<any>>();
-  const store = setup.getStoreInstance();
   const appStore: AppStore = getAppStore();
 
   if (!pluginClassList) {

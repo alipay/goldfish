@@ -200,20 +200,21 @@ export default class AppStore extends BaseAppStore {
 
   public async initFeedback() {
     await this.waitForPluginsReady();
+    const bridge = this.getPluginInstance(BridgePlugin);
 
     this.startWatchFeedbackQueue({
       showToast: (item): Promise<void> => {
         return new Promise((resolve) => {
-          my.showToast(item);
+          bridge.call('showToast', item);
           if (item.isBlock || item.duration) {
             if (item.duration) {
               setTimeout(() => resolve(), item.duration);
             } else {
               resolve();
-              my.hideToast();
+              bridge.call('hideToast');
             }
           } else {
-            my.hideToast();
+            bridge.call('hideToast');
             resolve();
           }
         });
@@ -221,7 +222,7 @@ export default class AppStore extends BaseAppStore {
       alert: (item) => {
         return new Promise((resolve) => {
           if (item.isBlock) {
-            my.alert({
+            bridge.call('alert', {
               ...item,
               complete: () => {
                 resolve();
@@ -231,14 +232,14 @@ export default class AppStore extends BaseAppStore {
               },
             });
           } else {
-            my.alert(item);
+            bridge.call('alert', item);
             resolve();
           }
         });
       },
       confirm: (item) => {
         return new Promise((resolve) => {
-          my.confirm({
+          bridge.call('confirm', {
             ...item,
             confirmButtonText: item.okButtonText,
             complete: (result) => {
@@ -261,7 +262,7 @@ export default class AppStore extends BaseAppStore {
       },
       prompt: (item) => {
         return new Promise((resolve) => {
-          my.prompt({
+          bridge.call('prompt', {
             ...item,
             message: item.content || 'prompt',
             success: (result) => {
