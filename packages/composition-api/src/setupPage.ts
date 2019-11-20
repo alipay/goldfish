@@ -1,6 +1,6 @@
-import { createPage, AppStore, PageStore } from '@goldfishjs/goldfish';
+import { createPage, AppStore, PageStore } from '@goldfishjs/core';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
-import { observable, PageInstance } from '@goldfishjs/goldfish-reactive-connect';
+import { observable, PageInstance } from '@goldfishjs/reactive-connect';
 import PageSetup from './setup/PageSetup';
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import appendFn from './appendFn';

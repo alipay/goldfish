@@ -228,6 +228,11 @@ describe('observer', () => {
 
     await Promise.resolve();
     expect(counter).toBe(1);
+
+    obj.name = 'diandao2';
+    await Promise.resolve();
+    expect(counter).toBe(2);
+
     stop();
   });
 });

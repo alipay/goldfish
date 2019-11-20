@@ -1,6 +1,6 @@
-import { createMiniApp, AppOptions, AppInstance, attachLogic } from '@goldfishjs/goldfish-reactive-connect';
+import { createMiniApp, AppOptions, AppInstance, attachLogic } from '@goldfishjs/reactive-connect';
 import AppStore from '../store/AppStore';
-import { IConfig } from '@goldfishjs/goldfish-plugins';
+import { IConfig } from '@goldfishjs/plugins';
 
 export default function createApp<G, S extends AppStore>(
   config: IConfig,

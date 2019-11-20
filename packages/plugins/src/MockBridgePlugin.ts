@@ -1,16 +1,15 @@
-import Plugin, { GetPlugin } from './Plugin';
+import { GetPlugin } from './Plugin';
 import {
   mockBridge as bridge,
   BridgeMethods,
   SpecialMethods,
   Fn,
   APBridgeMethods,
-} from '@goldfishjs/goldfish-bridge';
+} from '@goldfishjs/bridge';
 import ConfigPlugin, { IConfig } from './ConfigPlugin';
+import BridgePlugin from './BridgePlugin';
 
-export default class MockBridgePlugin extends Plugin {
-  public static type = 'bridge';
-
+export default class MockBridgePlugin extends BridgePlugin {
   private host?: string;
 
   private get normalizedHost() {

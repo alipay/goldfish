@@ -1,5 +1,5 @@
-import { setupApp } from '@goldfishjs/goldfish-composition-api';
-import { IConfig } from '@goldfishjs/goldfish-plugins';
+import { setupApp } from '@goldfishjs/composition-api';
+import { IConfig } from '@goldfishjs/plugins';
 
 const config: IConfig = {};
 

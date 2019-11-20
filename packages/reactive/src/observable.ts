@@ -65,8 +65,8 @@ function defineProperty(obj: IObservableObject, key: string): void;
 function defineProperty(obj: ObservableArray, key: number): void;
 function defineProperty(obj: any, key: any) {
   const desc = Object.getOwnPropertyDescriptor(obj, key);
-  // 不要去动无法配置的属性
-  if (desc && !desc.configurable) {
+  // Do not modify the un-configurable properties and `getter/setter` properties.
+  if (desc && (!desc.configurable || desc.get)) {
     return;
   }
 
@@ -152,9 +152,14 @@ export function set(
 
   if (!Object.prototype.hasOwnProperty.call(obj, name)) {
     defineProperty(obj, name);
+    obj[name] = silent ? silentValue(value) : value;
+    const notify = (obj as any).__notify;
+    if (notify) {
+      notify(obj, obj);
+    }
+  } else {
+    obj[name] = silent ? silentValue(value) : value;
   }
-
-  obj[name] = silent ? silentValue(value) : value;
 }
 
 export default function observable<T extends IObservableObject>(obj: T): { [K in keyof T]: T[K] } {

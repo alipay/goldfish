@@ -1,4 +1,4 @@
-import { IViewInstance } from '@goldfishjs/goldfish-reactive';
+import { IViewInstance } from '@goldfishjs/reactive';
 import AppStore from './AppStore';
 import attachLogic from './attachLogic';
 

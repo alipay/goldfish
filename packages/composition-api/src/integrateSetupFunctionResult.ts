@@ -1,6 +1,6 @@
 import CommonSetup from './setup/CommonSetup';
-import { watchDeep } from '@goldfishjs/goldfish-reactive';
-import { MiniDataSetter } from '@goldfishjs/goldfish-reactive-connect';
+import { watchDeep } from '@goldfishjs/reactive';
+import { MiniDataSetter } from '@goldfishjs/reactive-connect';
 
 type Kind = 'page' | 'component' | 'app';
 

@@ -1,5 +1,5 @@
-import { state, observable } from '@goldfishjs/goldfish-reactive-connect';
-import { watch } from '@goldfishjs/goldfish-reactive';
+import { state, observable } from '@goldfishjs/reactive-connect';
+import { watch } from '@goldfishjs/reactive';
 import Plugin, { PluginClass } from './Plugin';
 
 @observable

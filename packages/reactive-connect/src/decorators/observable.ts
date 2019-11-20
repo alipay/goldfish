@@ -2,7 +2,7 @@ import {
   observable as reactiveObservable,
   computed as reactiveComputed,
   markObservable as reactiveMarkObservable,
-} from '@goldfishjs/goldfish-reactive';
+} from '@goldfishjs/reactive';
 import STATE_KEY from './STATE_KEY';
 import COMPUTED_KEY from './COMPUTED_KEY';
 import { isOrigin, default as markState } from './state';

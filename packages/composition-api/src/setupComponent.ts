@@ -1,9 +1,9 @@
-import { observable, IProps, state, ComponentInstance } from '@goldfishjs/goldfish-reactive-connect';
+import { observable, IProps, state, ComponentInstance } from '@goldfishjs/reactive-connect';
 import appendFn from './appendFn';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import ComponentSetup from './setup/ComponentSetup';
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
-import { AppStore, createComponent, ComponentStore } from '@goldfishjs/goldfish';
+import { AppStore, createComponent, ComponentStore } from '@goldfishjs/core';
 
 const lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[] = [
   'onInit',

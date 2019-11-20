@@ -14,3 +14,9 @@ export * from './ConfigPlugin';
 
 export { default as RoutePlugin } from './RoutePlugin';
 export * from './RoutePlugin';
+
+export { default as RequesterPlugin } from './RequesterPlugin';
+export * from './RequesterPlugin';
+
+export { default as MockRequesterPlugin } from './MockRequesterPlugin';
+export * from './MockRequesterPlugin';

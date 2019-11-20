@@ -1,5 +1,5 @@
 module.exports = {
-  libraryName: '@goldfishjs/goldfish-utils',
+  libraryName: '@goldfishjs/utils',
   camel2DashComponentName: false,
   libraryDirectory: 'lib',
 };

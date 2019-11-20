@@ -4,14 +4,15 @@ const utils = require('./utils');
 
 const cwd = process.cwd();
 const importConfigPackages = [
-  '@goldfishjs/goldfish-utils',
-  '@goldfishjs/goldfish-reactive',
-  '@goldfishjs/goldfish-bridge',
-  '@goldfishjs/goldfish',
-  '@goldfishjs/goldfish-composition-api',
-  '@goldfishjs/goldfish-plugins',
-  '@goldfishjs/goldfish-reactive-connect',
-  '@goldfishjs/goldfish-requester',
+  '@goldfishjs/utils',
+  '@goldfishjs/reactive',
+  '@goldfishjs/bridge',
+  '@goldfishjs/core',
+  '@goldfishjs/composition-api',
+  '@goldfishjs/plugins',
+  '@goldfishjs/reactive-connect',
+  '@goldfishjs/requester',
+  '@goldfishjs/route',
 ];
 
 function getPkgImportConfig(pkgName) {

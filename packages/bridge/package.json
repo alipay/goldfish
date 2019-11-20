@@ -1,5 +1,5 @@
 {
-  "name": "@goldfishjs/goldfish-bridge",
+  "name": "@goldfishjs/bridge",
   "version": "0.0.1",
   "description": "goldfish-bridge",
   "main": "lib/index.js",

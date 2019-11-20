@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "declarationMap": false,
+    "diagnostics": true,
+    "help": true,
+    "lib": ["esnext", "dom"],
+    "locale": "zh-CN",
+    "strict": true,
+    "traceResolution": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "target": "esnext",
+    "outDir": "../lib",
+    "declaration": true,
+    "declarationDir": "../types",
+    "types": ["mini-types"]
+  }
+}

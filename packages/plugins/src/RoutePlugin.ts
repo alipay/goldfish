@@ -1,4 +1,4 @@
-import { default as route } from '@goldfishjs/goldfish-route';
+import { route } from '@goldfishjs/route';
 import Plugin, { GetPlugin, PluginClass } from './Plugin';
 import BridgePlugin from './BridgePlugin';
 
