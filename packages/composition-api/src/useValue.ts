@@ -10,7 +10,7 @@ export function isValue(val: any) {
 type PrimaryType = number | boolean | null | undefined | string;
 
 export default function useValue<T extends PrimaryType>(val: T): { value: T } {
-  checkSetupEnv('useState', ['app', 'localPage', 'component', 'page']);
+  checkSetupEnv('useValue', ['app', 'component', 'page']);
 
   const obj: Record<string, any> = { value: val };
   Object.defineProperty(obj, '__type__', {

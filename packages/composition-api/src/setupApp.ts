@@ -6,11 +6,6 @@ import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFu
 import { attachLogic, AppInstance, observable } from '@goldfishjs/reactive-connect';
 import appendFn from './appendFn';
 
-interface IAppInstance extends tinyapp.IAppInstance<any> {
-  $setup: AppSetup;
-  stopWatchFeedback: () => void;
-}
-
 export interface ISetupAppOptions {
   plugins?: PluginClass[];
 }

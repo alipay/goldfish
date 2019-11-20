@@ -21,7 +21,7 @@ export default function createTinyappComponent<
   componentOptions: ComponentOptions<P, D, CS, M>  & { onError?: (e: any) => void; } = {},
   options?: {
     beforeCreateStore?: (view: ComponentInstance<P, D, CS, M>) => void;
-    afterCreateStore?: (view: ComponentInstance<P, D, CS, M>) => void;
+    afterCreateStore?: (view: ComponentInstance<P, D, CS, M>, store: CS) => void;
   },
 ): tinyapp.ComponentOptions {
   const beforeCreateStore = options && options.beforeCreateStore;
@@ -56,7 +56,7 @@ export default function createTinyappComponent<
     (instance) => {
       beforeCreateStore && beforeCreateStore(instance as ComponentInstance<P, D, CS, M>);
       const store = new storeClass();
-      afterCreateStore && afterCreateStore(instance as ComponentInstance<P, D, CS, M>);
+      afterCreateStore && afterCreateStore(instance as ComponentInstance<P, D, CS, M>, store);
       return store;
     },
     {

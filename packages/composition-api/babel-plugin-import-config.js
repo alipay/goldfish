@@ -22,6 +22,9 @@ module.exports = {
       useReady: `${codeDir}/useReady`,
       useInitDataReady: `${codeDir}/useInitDataReady`,
       usePluginReady: `${codeDir}/usePluginReady`,
+      useGlobalData: `${codeDir}/useGlobalData`,
+      useWatch: `${codeDir}/useWatch`,
+      useAutorun: `${codeDir}/useAutorun`,
     }[name];
   },
 };

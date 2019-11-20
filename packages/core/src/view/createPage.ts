@@ -7,7 +7,7 @@ export default function createPage<AS extends AppStore, PS extends PageStore<AS>
   pageOptions: PageOptions<D, PS> = {},
   options?: {
     beforeCreateStore?: (view: PageInstance<D, PS>) => void;
-    afterCreateStore?: (view: PageInstance<D, PS>) => void;
+    afterCreateStore?: (view: PageInstance<D, PS>, store: PS) => void;
   },
 ) {
   attachLogic<'onLoad', Required<PageOptions<D, PS>>['onLoad']>(
@@ -19,7 +19,6 @@ export default function createPage<AS extends AppStore, PS extends PageStore<AS>
       store.globalStore.updatePages({
         query,
       });
-      store.globalStore = (getApp() as any).store;
       store.isInitLoading = true;
       await store.globalStore.waitForReady();
       try {
@@ -34,6 +33,12 @@ export default function createPage<AS extends AppStore, PS extends PageStore<AS>
   return createMiniPage<AS, PS, D>(
     storeClass,
     pageOptions,
-    options,
+    {
+      ...options,
+      afterCreateStore: (view, store) => {
+        options && options.afterCreateStore && options.afterCreateStore(view, store);
+        store.globalStore = (getApp() as any).store;
+      },
+    },
   );
 }

@@ -1,6 +1,6 @@
 import useContextType from './useContextType';
 
-export type SetupEnv = 'page' | 'localPage' | 'component' | 'app';
+export type SetupEnv = 'page' | 'component' | 'app';
 
 export default function checkSetupEnv<
   A extends SetupEnv,
