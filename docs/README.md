@@ -6,12 +6,12 @@ tagline: A development framework for Alipay mini programs.
 actionText: Getting Start →
 actionLink: /guide/
 features:
-- title: Out Of Box
+- title: Easy to Use
   details: You just need a goldfish dependency then you can develop mini app quickly.
-- title: Hi-Q
+- title: High Quality
   details: Powerful & complete TypeScript Support.
 - title: Composition API
-  details: A set of additive, function-based APIs that allow flexible composition of component logic.
+  details: A set of additive, function-based APIs that allow flexible composition of logic.
 footer: Copyright © Goldfish & Thanks for Goldfish logo Designer Eric.
 ---
 
