@@ -1,255 +1,513 @@
 ---
-sidebarDepth: 2
+sidebarDepth: 3
 ---
 
-# App
+# State Management
 
-在小程序中，有 App 实例。一个小程序对应唯一一个 App 实例，用于管理所有页面和全局数据。
+In Goldfish, we can use *Store Classes* to manage states.
 
-在本框架中，我们在 App 的基础上封装了 [Function-based API](https://zhuanlan.zhihu.com/p/68477600)。
+## AppStore
 
-## setupApp(config, fn, options)
+`AppStore` is the base class for managing the states of [App](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000314095).
 
-* **参数：**
+You can create a class to extend the base `AppStore`:
 
-  * `{Object} config` [全局配置](../api/globalConfig.html)
-  * `{Function} fn`
-  * `{Object} options?`
-    * `{Function} onBeforeStart?` 应用初始化之前触发
-    * `{Function} onAfterStart?` 应用完成初始化时触发
-    * `{Function} onGlobalLoading?` “是否存在全局加载”状态发生变化时触发
-    * `{Array} plugins?` 注册插件，如果传入该参数，则所有内置插件都不会注册，只会注册此处传入的插件
+```ts
+import { AppStore } from '@goldfishjs/core';
 
-* **返回值：**`{AppOptions} options`
-* **说明：**
+export default class MyAppStore extends AppStore {
+  // Put your codes here.
+}
+```
 
-  构造小程序应用的配置对象，同时提供获取应用相关 Function-based API 的执行环境 `fn`。
+In the base class `AppStore`, there are some useful members.
 
-  `fn()` 返回的是全局数据。
+### `pluginHub`
 
-* **示例：**
+* **Protected**
+* **Type:** `PluginHub`
+* **Description:**
 
-  ```ts {9}
-  import { setupApp, useComputed } from '@alipay/goldfish';
+  The `pluginHub` is used to manage all plugins. About the plugin system, you can refer it [here](./plugins.html).
 
-  export interface IGlobalData {}
+### `isInitLoading`
 
-  const config: IConfigOptions = {};
-  const options = {};
+* **Public**
+* **Type:** `boolean`
+* **Description:**
 
-  App(
-    setupApp(
-      config,
-      () => {
-        const globalData: IGlobalData = useComputed({});
-        return globalData;
-      },
-      options,
-    ),
-  );
+  Refer to [`fetchInitData()`](#fetchinitdata).
+
+### `init()`
+
+* **Public**
+* **Lifecycle**
+* **Description:**
+
+  Called while the App is being initialized. More detailed, it is called in [the onLaunch lifecycle](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000314095#36ba73e5) of the App.
+
+  You can override this method to add your own logic:
+
+  ```ts {4-8}
+  import { AppStore } from '@goldfishjs/core';
+
+  export default class MyAppStore extends AppStore {
+    public init() {
+      super.init();
+
+      // Add your codes here.
+    }
+  }
   ```
 
-## useAppLifeCycle(name, fn)
+### `fetchInitData()`
 
-* **参数：**
-  * `{string} name` 应用生命周期钩子的名字
-  * `{Function} fn` 钩子函数
+* **Public**
+* **Lifecycle**
+* **Returns:** A promise object to infer that all asynchronous tasks are finished.
+* **description:**
 
-* **说明：**
+  `fetchInitData()` is used to execute asynchronous tasks like requesting data from server while initializing. This method is called in `init()`. During the method being executed, the `isInitLoading` is `true`, otherwise it is `false`.
 
-  添加应用生命周期钩子函数。
+  ```ts {17-25}
+  import {
+    AppStore,
+    observable,
+    state,
+    RequesterPlugin,
+  } from '@goldfishjs/core';
 
-  `fn()` 的参数会根据 `name` 来注入，比如 `name` 为 `onLaunch` 时，`fn()` 会收到 `options` 参数。
+  export interface IStudent {
+    name: string;
+    age: number;
+  }
 
-* **示例：**
+  @observable
+  export default class MyAppStore extends AppStore {
+    public studentList: IStudent[] = [];
 
-  ```ts {14}
-  import { setupApp, useComputed, useAppLifeCycle } from '@alipay/goldfish';
+    async public fetchInitData() {
+      await super.fetchInitData();
 
-  export interface IGlobalData {}
-
-  const config: IConfigOptions = {};
-  const options = {};
-
-  App(
-    setupApp(
-      config,
-      () => {
-        const globalData: IGlobalData = useComputed({});
-
-        usePageLifeCycle('onLaunch', () => {});
-
-        return {};
-      },
-      options,
-    ),
-  );
+      const requesterPlugin = this.pluginHub.getPluginInstance(Requester);
+      this.studentList = await requesterPlugin.request<IStudent[]>(
+        'http://www.xxx.com',
+        {},
+      );
+    }
+  }
   ```
 
-## useApp()
+### `getPlugins()`
 
-* **返回值：**`{AppStore} appStore`
-* **说明：**
+* **Public**
+* **Returns:** A list of plugin classes.
+* **Description:**
 
-  获取全局 AppStore 对象。
+  It is used to configure all the plugins that will be used in current App. The base `getPlugins()` method returns the inner plugin classes, and you should not remove this members in the derived `getPlugins()` method. But you can add new plugins:
 
-* **示例：**
+  ```ts {18-23}
+  import {
+    AppStore,
+    Plugin,
+    GetPlugin,
+  } from '@goldfishjs/core';
 
-  ```ts
-  import { setupApp, useComputed, useApp } from '@alipay/goldfish';
+  class MyPlugin extends Plugin {
+    public static type = 'myplugin';
 
-  export interface IGlobalData {}
+    public init(getPlugin: GetPlugin) {
+      // `getPlugin` can be used to access other registered plugins.
+    }
 
-  const config: IConfigOptions = {};
-  const options = {};
+    public destroy() {}
+  }
 
-  App(
-    setupApp(
-      config,
-      () => {
-        const globalData: IGlobalData = useComputed({});
-
-        const app = useApp();
-
-        return globalData;
-      },
-      options,
-    ),
-  );
+  export default class MyAppStore extends AppStore {
+    public getPlugins() {
+      return [
+        ...super.getPlugins(),
+        MyPlugin,
+      ];
+    }
+  }
   ```
 
-::: warning
-大多数情况下，并不需要使用 `useApp()`。
-:::
+### `getPluginInstance()`
 
-## useValue(value)
+* **Public**
+* **Arguments:**
+  * `{PluginClass | string} pluginClass`
+* **Returns:** The plugin instance of the `pluginClass`.
+* **Description:**
 
-* **参数：**
-  * `{boolean | undefined | null | number | string} value`
+  Get the specified plugin instance from the registered plugins.
 
-* **返回值：**`{Object} obj`
-* **说明：**
+  ```ts {29-33}
+  import {
+    AppStore,
+    Plugin,
+    GetPlugin,
+  } from '@goldfishjs/core';
 
-  传入一个原始值，构造响应式的原始数据，返回值是一个带有 `value` 属性的对象 obj。
+  class MyPlugin extends Plugin {
+    public static type = 'myplugin';
 
-* **示例：**
+    public init(getPlugin: GetPlugin) {
+      // `getPlugin` can be used to access other registered plugins.
+    }
 
-  ```ts {6,9}
-  import { useValue, setupApp } from '@alipay/goldfish';
+    public destroy() {}
 
-  App(setupApp(
-    {},
-    () => {
-      const name = useValue('diandao');
+    public bar() {
+      console.log('bar');
+    }
+  }
 
-      setTimeout(() => {
-        name.value = 'diandao.zl';
+  export default class MyAppStore extends AppStore {
+    public getPlugins() {
+      return [
+        ...super.getPlugins(),
+        MyPlugin,
+      ];
+    }
+
+    public foo() {
+      const myPlugin = this.getPluginInstance(MyPlugin);
+      // Output: bar.
+      myPlugin.bar();
+    }
+  }
+  ```
+
+### `waitForPluginsReady()`
+
+* **Public**
+* **Returns:** A promise object to ensure that all plugins have been initialized.
+* **Description:**
+
+  Wait for all the plugins returned by `getPlugins()` being initialized.
+
+  ```ts {4-7}
+  import { AppStore } from '@goldfishjs/core';
+
+  export default class MyAppStore extends AppStore {
+    async public foo() {
+      await this.waitForPluginsReady();
+      console.log('All plugins have been initialized, and you can use them now.');
+    }
+  }
+  ```
+
+### `waitForInitDataReady()`
+
+* **Public**
+* **Returns:** A promise object to ensure that all asynchronous tasks have been finished.
+* **Description:**
+
+  Wait for [`fetchInitData()`](./#fetchinitdata) being finished.
+
+  ```ts {4-8}
+  import { AppStore } from '@goldfishjs/core';
+
+  export default class MyAppStore extends AppStore {
+    async public foo() {
+      await this.waitForIniDataReady();
+      // Output: false.
+      console.log(this.isInitLoading);
+    }
+  }
+  ```
+
+### `waitForReady()`
+
+* **Public**
+* **Returns:** A promise object to ensure all plugins initializations and asynchronous tasks have completed.
+* **Usage:**
+
+  ```ts {4-7}
+  import { AppStore } from '@goldfishjs/core';
+
+  export default class MyAppStore extends AppStore {
+    async public foo() {
+      await this.waitForReady();
+      // You can use plugins now and the init data is prepared.
+    }
+  }
+
+### `autorun()`
+
+* **Public**
+* **Arguments:**
+  * `{AutorunFunction} fn`
+  * `{IErrorCallback?} errorCb` Called when there is some wrong with `fn()`.
+* **Returns:** A function to stop listening to the dependency data changes.
+* **Description:**
+
+  Auto executing the `fn()` when the reactive data in the `fn()` is changed.
+
+  ```ts {8-23}
+  import { AppStore, observable, state } from '@goldfishjs/core';
+
+  @observable
+  export default class MyAppStore extends AppStore {
+    @state
+    public name: string = 'Yu Jiang';
+
+    public foo() {
+      this.autorun(() => {
+        console.log(this.name);
       });
 
-      return {
-        name,
-      };
-    },
-  ));
-  ```
-
-## useState(obj)
-
-* **参数：**
-  * `{Object} obj`
-
-* **返回值：**`{Object} obj`
-* **说明：**
-
-  传入一个对象，将其转换成响应式的对象。
-
-* **示例：**
-
-  ```ts {6-8,11}
-  import { useState, setupApp } from '@alipay/goldfish';
-
-  App(setupApp(
-    {},
-    () => {
-      const person = useState({
-        name: 'diandao',
-      });
-
-      setTimeout(() => {
-        person.name = 'diandao.zl';
-      });
-
-      // 注意这里必须返回整个 useState() 的返回值 `person`，不然响应式链路会断掉。
-      return {
-        person,
-      };
-    },
-  ));
-  ```
-
-## useComputed(obj)
-
-* **参数：**
-  * `{Object} obj`
-
-* **返回值：**`{object} obj`
-* **说明：**
-
-  传入一个带有 getter 或者 setter 的对象，将其转换成响应式的计算属性。
-
-* **示例：**
-
-  ```ts {10-14}
-  import { useState, useComputed, setupApp } from '@alipay/goldfish';
-
-  App(setupApp(
-    {},
-    () => {
-      const person = useState({
-        name: 'diandao',
-      });
-
-      const computed = useComputed({
-        get fullName() {
-          return `${person.name}.zl`;
+      setTimeout(
+        () => {
+          this.name = 'Dian Dao';
         },
-      });
-
-      return {
-        computed,
-      };
-    },
-  ));
-  ```
-
-## useFetchInitData(fn, isAsync?)
-
-* **参数：**
-  * `{Function} fn`
-  * `{boolean} isAsync?`
-
-* **说明：**
-
-  在应用获取初始化数据的时候执行 `fn()` 函数。在一个 `setupApp()` 的同步流程中，可以添加多个初始化函数。
-
-  `isAsync` 为 `true` 时，则当前 `fn()` 与之前添加的函数是并行执行的，否则是串行执行。默认为 `true`。
-
-* **示例：**
-
-  ```ts {6-11}
-  import { useFetchInitData, setupApp } from '@alipay/goldfish';
-
-  App(setupApp(
-    {},
-    () => {
-      useFetchInitData(
-        async () => {
-          // 获取初始数据
-        },
-        false,
+        1000,
       );
 
-      return {};
-    },
-  ));
+      // Output:
+      // Yu Jiang
+      // Dian Dao
+    }
+  }
   ```
+
+### `watch()`
+
+* **Public**
+* **Arguments:**
+  * `{IWatchExpressionFn} fn`
+  * `{IWatchCallback} cb`
+  * `{IWatchOptions?} options`
+    * `{boolean?} deep` Whether detect nested value changes inside reactive objects. Default is `false`.
+    * `{boolean?} immediate` Whether to execute `cb()` immediately with the initial return value of `fn()`.
+    * `{IErrorCallback?} onError` Called when there is some thing wrong with `fn()` or `cb()`.
+* **Returns:** A function to stop listening to the dependency data in `fn()`.
+* **Description:**
+
+  Call the `cb()` when the reactive data in the `fn()` is changed.
+
+  ```ts {8-25}
+  import { AppStore, observable, state } from '@goldfishjs/core';
+
+  @observable
+  export default class MyAppStore extends AppStore {
+    @state
+    public name: string = 'Yu Jiang';
+
+    public foo() {
+      this.watch(
+        () => this.name,
+        () => {
+          console.log('Enter,', this.name);
+        },
+      );
+
+      setTimeout(
+        () => {
+          this.name = 'Dian Dao';
+        },
+        1000,
+      );
+
+      // Output:
+      // Enter, Dian Dao
+    }
+  }
+  ```
+
+## PageStore
+
+### `globalStore`
+
+* **Public**
+* **Type:** `AppStore`
+* **Description:**
+
+  Reference to the global `AppStore` instance.
+
+  You can specify the type of global store when create the subclass of `PageStore`:
+
+  ```ts
+  import { PageStore } from '@goldfishjs/core';
+  import MyAppStore from '../../MyAppStore';
+
+  export default class MyPageStore extends PageStore<MyAppStore> {
+  }
+  ```
+
+  Now, you can visit the extended members in `MyAppStore` with `this.globalStore.myExtendedMember`, and the TypeScript compiler does not complain.
+
+### `init()`
+
+* **Public**
+* **Lifecycle**
+* **Description**
+
+  It is similar with [`AppStore#init()`](./#init), but in the [Page](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000314093) lifecycle.
+
+### `destroy()`
+
+* **Public**
+* **Lifecycle**
+* **Description:**
+
+  Called when the Page is destroyed.
+
+  ```ts {4-7}
+  import { PageStore } from '@goldfishjs/core';
+
+  export default class MyPageStore extends PageStore {
+    public destroy() {
+      super.destroy();
+      // Put your destroy logic here.
+    }
+  }
+  ```
+
+### `fetchInitData()`
+
+* **Public**
+* **Lifecycle**
+* **Returns:** `Promise<void>`
+
+  It is similar with [`AppStore#fetchInitData()`](./#fetchinitdata), but in the [Page](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000314093) lifecycle.
+
+### `autorun()`
+
+* **Public**
+* **Arguments:**
+  * `{AutorunFunction} fn`
+  * `{IErrorCallback?} errorCb`
+* **Returns:** `Function`
+* **Description:**
+
+  It is similar with [`AppStore#autorun()`](./#autorun). If you do not stop the listening manually, it will be stopped when [Page](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000314093) is destroyed.
+
+### `watch()`
+
+* **Public**
+* **Arguments:**
+  * `{IWatchExpressionFn} fn`
+  * `{IWatchCallback} cb`
+  * `{IWatchOptions?} options`
+    * `{boolean?} deep`
+    * `{boolean?} immediate`
+    * `{IErrorCallback?} onError`
+* **Returns:** Function
+* **Description:**
+
+  It is similar with [`AppStore#init()`](./#init). If you do not stop the listening manually, it will be stopped when [Page](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000314093) is destroyed.
+
+## ComponentStore
+
+### `props`
+
+* **Public**
+* **Type:** `object`
+* **Description:**
+
+  You should declare all component props here:
+
+  ```ts {14-17}
+  import { ComponentStore, observable } from '@goldfishjs/core';
+  import MyAppStore from '../../MyAppStore';
+
+  export interface IProps {
+    name?: string;
+    age?: number;
+  }
+
+  @observable
+  export default class MyComponentStore
+    extends ComponentStore<IProps, MyAppStore>
+  {
+    @state
+    public props = {
+      name: undefined,
+      age: undefined,
+    };
+  }
+  ```
+
+### `globalStore`
+
+* **Public**
+* **Type:** `AppStore`
+* **Description:**
+
+  Reference to the global `AppStore` instance.
+
+  You can specify the type of global store when create the subclass of `ComponentStore`:
+
+  ```ts
+  import { PageStore } from '@goldfishjs/core';
+  import MyAppStore from '../../MyAppStore';
+
+  export default class MyPageStore extends PageStore<{}, MyAppStore> {
+  }
+  ```
+
+  Now, you can visit the extended members in `MyAppStore` with `this.globalStore.myExtendedMember`, and the TypeScript compiler does not complain.
+
+### `init()`
+
+* **Public**
+* **Lifecycle**
+* **Description**
+
+  It is similar with [`AppStore#init()`](./#init), but in the [Component](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000310008) lifecycle.
+
+### `destroy()`
+
+* **Public**
+* **Lifecycle**
+* **Description:**
+
+  Called when the [Component](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000310008) is destroyed.
+
+  ```ts {4-7}
+  import { PageStore } from '@goldfishjs/core';
+
+  export default class MyPageStore extends PageStore {
+    public destroy() {
+      super.destroy();
+      // Put your destroy logic here.
+    }
+  }
+  ```
+
+### `fetchInitData()`
+
+* **Public**
+* **Lifecycle**
+* **Returns:** `Promise<void>`
+
+  It is similar with [`AppStore#fetchInitData()`](./#fetchinitdata), but in the [Component](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000310008) lifecycle.
+
+### `autorun()`
+
+* **Public**
+* **Arguments:**
+  * `{AutorunFunction} fn`
+  * `{IErrorCallback?} errorCb`
+* **Returns:** `Function`
+* **Description:**
+
+  It is similar with [`AppStore#autorun()`](./#autorun). If you do not stop the listening manually, it will be stopped when [Component](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000310008) is destroyed.
+
+### `watch()`
+
+* **Public**
+* **Arguments:**
+  * `{IWatchExpressionFn} fn`
+  * `{IWatchCallback} cb`
+  * `{IWatchOptions?} options`
+    * `{boolean?} deep`
+    * `{boolean?} immediate`
+    * `{IErrorCallback?} onError`
+* **Returns:** Function
+* **Description:**
+
+  It is similar with [`AppStore#init()`](./#init). If you do not stop the listening manually, it will be stopped when [Component](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000310008) is destroyed.

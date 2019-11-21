@@ -61,7 +61,7 @@ module.exports = {
         algolia: {},
         nav: [
           { text: 'Guide', link: '/guide/' },
-          // { text: 'API', link: '/api/' },
+          { text: 'API', link: '/api/' },
         ],
         sidebar: {
           '/guide/': [
@@ -81,11 +81,12 @@ module.exports = {
               collapsable: false,
               children: [
                 '',
-                'globalConfig',
-                'Page',
-                'Component',
+                'reactivity',
                 'plugins',
-                'utils',
+                // 'globalConfig',
+                // 'Page',
+                // 'Component',
+                // 'utils',
               ],
             },
           ],
