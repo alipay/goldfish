@@ -12,17 +12,9 @@ import BridgePlugin from './BridgePlugin';
 export default class MockBridgePlugin extends BridgePlugin {
   private host?: string;
 
-  private get normalizedHost() {
-    if (!this.host) {
-      throw new Error('No host config.');
-    }
-
-    return this.host;
-  }
-
   public init(getPlugin: GetPlugin) {
     const configPlugin = getPlugin(ConfigPlugin) as ConfigPlugin<IConfig>;
-    this.host = configPlugin.get('mockServerHost');
+    this.host = configPlugin.get('bridgeMockServerHost');
   }
 
   public destroy() {}
@@ -35,7 +27,7 @@ export default class MockBridgePlugin extends BridgePlugin {
     api: T,
     params?: Parameters<R[T]>[0],
   ) {
-    return bridge.call(this.normalizedHost, api, params);
+    return this.host ? bridge.call(this.host, api, params) : super.call(api, params);
   }
 
   // my.call('xxx')
@@ -45,7 +37,7 @@ export default class MockBridgePlugin extends BridgePlugin {
       ? P
       : Record<string, any> | ((...args: any[]) => void),
   ) {
-    return bridge.mycall(this.normalizedHost, api, params);
+    return this.host ? bridge.mycall(this.host, api, params) : super.mycall(api, params);
   }
 
   // my.ap.xxx
@@ -56,6 +48,6 @@ export default class MockBridgePlugin extends BridgePlugin {
     api: T,
     params?: Parameters<R[T]>[0],
   ) {
-    return bridge.ap(this.normalizedHost, api, params);
+    return this.host ? bridge.ap(this.host, api, params) : super.ap(api, params);
   }
 }

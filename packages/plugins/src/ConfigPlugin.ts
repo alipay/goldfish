@@ -2,7 +2,7 @@ import Plugin from './Plugin';
 import { IDatahubConfig, IRequestOptions } from '@goldfishjs/requester';
 
 export interface IConfig {
-  mockServerHost?: string;
+  bridgeMockServerHost?: string;
   requesterOptions?: Pick<IRequestOptions, 'showLoading' | 'delay' | 'method' | 'dataType'>;
   datahubConfig?: IDatahubConfig;
 }

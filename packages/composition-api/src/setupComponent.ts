@@ -43,6 +43,8 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
     @state
     props = props;
 
+    private stopWatchDeepList: (() => void)[] = [];
+
     public constructor() {
       super();
 
@@ -52,8 +54,14 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
 
       const setup = view.$setup!;
       setup.wrap(() => {
-        integrateSetupFunctionResult<'component'>(fn, setup, view, this);
+        this.stopWatchDeepList = integrateSetupFunctionResult<'component'>(fn, setup, view, this);
       });
+    }
+
+    public destroy() {
+      super.destroy();
+      this.stopWatchDeepList.forEach(stop => stop());
+      this.stopWatchDeepList = [];
     }
   }
 

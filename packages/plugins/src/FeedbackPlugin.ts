@@ -54,7 +54,7 @@ export type InputConfirmOption = Omit<IConfirmOption, 'popType'>;
 export type FeedbackOption = IToastOption | IAlertOption | IConfirmOption | IPromptOption;
 
 @observable
-export default class extends Plugin {
+export default class FeedbackPlugin extends Plugin {
   public static readonly type = 'feedback';
 
   @state

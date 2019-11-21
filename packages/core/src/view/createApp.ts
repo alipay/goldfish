@@ -8,7 +8,7 @@ export default function createApp<G, S extends AppStore>(
   appOptions: AppOptions<G, S> = {},
   options?: {
     beforeCreateStore?: (view: AppInstance<G, S>) => void;
-    afterCreateStore?: (view: AppInstance<G, S>) => void;
+    afterCreateStore?: (view: AppInstance<G, S>, store: S) => void;
   },
 ) {
   attachLogic<'onLaunch', Required<AppOptions<G, S>>['onLaunch']>(
@@ -20,6 +20,7 @@ export default function createApp<G, S extends AppStore>(
       store.isInitLoading = true;
       store.updatePages(options);
       await store.waitForReady();
+      store.initFeedback();
       try {
         await store.fetchInitData();
       } catch (e) {
@@ -35,12 +36,11 @@ export default function createApp<G, S extends AppStore>(
     appOptions,
     {
       ...options,
-      afterCreateStore: (view) => {
-        const store = view.store!;
+      afterCreateStore: (view, store) => {
         store.setConfig(config);
 
         if (options && options.afterCreateStore) {
-          options.afterCreateStore(view);
+          options.afterCreateStore(view, store);
         }
       },
     },

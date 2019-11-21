@@ -30,11 +30,13 @@ export default function setupPage<D, AS extends AppStore>(
 
   @observable
   class BizPageStore extends PageStore<AS> {
+    private stopWatchDeepList: (() => void)[] = [];
+
     public constructor() {
       super();
       const setup = view.$setup!;
       setup.wrap(() => {
-        integrateSetupFunctionResult<'page'>(fn, setup, view, this);
+        this.stopWatchDeepList = integrateSetupFunctionResult<'page'>(fn, setup, view, this);
       });
     }
 
@@ -42,6 +44,12 @@ export default function setupPage<D, AS extends AppStore>(
       await super.fetchInitData();
       const fn = view.$setup!.getFetchInitDataMethod();
       fn && await fn();
+    }
+
+    public destroy() {
+      super.destroy();
+      this.stopWatchDeepList.forEach(stop => stop());
+      this.stopWatchDeepList = [];
     }
   }
 

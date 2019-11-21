@@ -5,7 +5,7 @@ export default function useFetchInitData(
   fn: () => Promise<void>,
   isAsync: boolean = true,
 ) {
-  checkSetupEnv('useFetchInitData', ['page', 'app']);
+  checkSetupEnv('useFetchInitData', ['page', 'app', 'component']);
 
   const setup = CommonSetup.getCurrent<CommonSetup<any>>();
   setup.addFetchInitDataMethod(fn, isAsync);

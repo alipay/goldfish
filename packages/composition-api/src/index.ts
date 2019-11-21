@@ -14,3 +14,6 @@ export { default as usePlugins } from './usePlugins';
 export { default as useReady } from './useReady';
 export { default as useInitDataReady } from './useInitDataReady';
 export { default as usePluginsReady } from './usePluginsReady';
+export { default as useGlobalData } from './useGlobalData';
+export { default as useWatch } from './useWatch';
+export { default as useAutorun } from './useAutorun';
