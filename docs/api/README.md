@@ -319,6 +319,20 @@ In the base class `AppStore`, there are some useful members.
 
 ## PageStore
 
+`PageStore` is the base class for managing the states of [Page](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000314093).
+
+You can create a class to extend the base `PageStore`:
+
+```ts
+import { PageStore } from '@goldfishjs/core';
+
+export default class MyPageStore extends PageStore {
+  // Put your codes here.
+}
+```
+
+In the base class `PageStore`, there are some useful members.
+
 ### `globalStore`
 
 * **Public**
@@ -401,6 +415,20 @@ In the base class `AppStore`, there are some useful members.
   It is similar with [`AppStore#init()`](./#init). If you do not stop the listening manually, it will be stopped when [Page](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000314093) is destroyed.
 
 ## ComponentStore
+
+`ComponentStore` is the base class for managing the states of [Component](https://open-ewallet.dl.alipaydev.com/document/ninbavtm/0000000000310008).
+
+You can create a class to extend the base `ComponentStore`:
+
+```ts
+import { ComponentStore } from '@goldfishjs/core';
+
+export default class MyComponentStore extends ComponentStore<{}> {
+  // Put your codes here.
+}
+```
+
+In the base class `ComponentStore`, there are some useful members.
 
 ### `props`
 
