@@ -1,0 +1,46 @@
+Arguments: 
+  /Users/niko/.nvm/versions/node/v10.14.2/bin/node /Users/niko/.nvm/versions/node/v10.14.2/bin/yarn
+
+PATH: 
+  /Users/niko/.just-installs/bin:/Users/niko/.nvm/versions/node/v10.14.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+
+Yarn version: 
+  1.17.3
+
+Node version: 
+  10.14.2
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: EINVAL: invalid argument, mkdir '/Users/niko/Work/intl/github/goldfish/node_modules/define-property/node_modules/is-data-descriptor/node_modules'
+
+npm manifest: 
+  {
+    "name": "goldfishjs",
+    "version": "0.0.1",
+    "description": "",
+    "scripts": {
+      "ci": "npm run boot && npm run build && npm run lint && npm run test",
+      "release": "node scripts/release.js",
+      "lint": "node scripts/lint.js",
+      "build": "node scripts/build.js",
+      "reboot": "node scripts/reboot.js",
+      "boot": "lerna bootstrap",
+      "test": "node scripts/test.js"
+    },
+    "license": "MIT",
+    "devDependencies": {
+      "lerna": "^3.13.4"
+    },
+    "dependencies": {
+      "@types/jest": "^24.0.22"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

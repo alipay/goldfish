@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "List",
+  "usingComponents":{
+    "list": "mini-antui/es/list/index",
+    "list-item": "mini-antui/es/list/list-item/index",
+    "tips-dialog": "mini-antui/es/tips/tips-dialog/index"
+  }
+}

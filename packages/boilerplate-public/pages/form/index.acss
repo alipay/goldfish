@@ -1,0 +1,29 @@
+.form {
+  padding: 24rpx;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  height: 120rpx;
+}
+
+.form-row-label {
+  flex: 0 200rpx;
+}
+
+.form-row-content {
+  flex: 1 0 auto;
+}
+
+.radio {
+  margin-right: 32rpx;
+}
+
+.form-button {
+  margin-top: 36rpx;
+}
+
+.form-preview {
+  margin-top: 32rpx;
+}
