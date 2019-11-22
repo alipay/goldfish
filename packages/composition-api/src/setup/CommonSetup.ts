@@ -1,15 +1,15 @@
 import Setup from './Setup';
 
-export default class CommonSetup<M> extends Setup {
+export default class CommonSetup<M, S, V> extends Setup {
   private fetchInitDataMethod?: () => Promise<void>;
 
-  private storeInstance?: object;
+  private storeInstance?: S;
 
-  private viewInstance?: object;
+  private viewInstance?: V;
 
   private methods: { [K in keyof M]?: M[K][] } = {};
 
-  public setViewInstance(val: object) {
+  public setViewInstance(val: V) {
     this.viewInstance = val;
   }
 
@@ -37,7 +37,7 @@ export default class CommonSetup<M> extends Setup {
     return this.fetchInitDataMethod;
   }
 
-  public setStoreInstance(instance: object) {
+  public setStoreInstance(instance: S) {
     this.storeInstance = instance;
   }
 

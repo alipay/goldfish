@@ -1,7 +1,7 @@
 import { observable, IProps, state, ComponentInstance } from '@goldfishjs/reactive-connect';
 import appendFn from './appendFn';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
-import ComponentSetup from './setup/ComponentSetup';
+import ComponentSetup, { SetupComponentInstance } from './setup/ComponentSetup';
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import { AppStore, createComponent, ComponentStore } from '@goldfishjs/core';
 
@@ -35,11 +35,11 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
     ...integrateLifeCycleMethods<'component'>(lifeCycleMethods),
   };
 
-  type View = ComponentInstance<P, D, BizComponentStore, {}> & { $setup?: ComponentSetup };
+  type View = SetupComponentInstance & { $setup?: ComponentSetup };
   let view: View;
 
   @observable
-  class BizComponentStore extends ComponentStore<P, AppStore> {
+  class BizComponentStore extends ComponentStore<any, AppStore> {
     @state
     props = props;
 
@@ -75,7 +75,7 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
         view = v;
 
         setup.iterateMethods((fns, name) => {
-          appendFn(v, name, fns);
+          appendFn(v, name, fns as Function[]);
         });
       },
     },
