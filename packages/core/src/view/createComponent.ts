@@ -9,6 +9,13 @@ import {
 import AppStore from '../store/AppStore';
 import ComponentStore from '../store/ComponentStore';
 
+/**
+ * Connect ComponentStore with Component.
+ *
+ * @param storeClass
+ * @param componentOptions
+ * @param options
+ */
 export default function createComponent<
   AS extends AppStore,
   CS extends ComponentStore<P, AS>,

@@ -2,6 +2,14 @@ import { createMiniApp, AppOptions, AppInstance, attachLogic } from '@goldfishjs
 import AppStore from '../store/AppStore';
 import { IConfig } from '@goldfishjs/plugins';
 
+/**
+ * Connect the AppStore with the App.
+ *
+ * @param config The configuration for the whole App.
+ * @param storeClass The AppStore.
+ * @param appOptions The options to configure the App.
+ * @param options?
+ */
 export default function createApp<G, S extends AppStore>(
   config: IConfig,
   storeClass: new () => S,

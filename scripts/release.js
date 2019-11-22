@@ -1,13 +1,12 @@
 const { runCommand, runScript, lerna } = require('./utils');
 
-// 干净一点
 runCommand('lerna clean --yes');
 runCommand('lerna bootstrap');
 
 const changedPackages = lerna.changed();
 
 changedPackages.forEach((pkg) => {
-  // 不理会 private 项目
+  // Do not handle the private packages.
   if (pkg.private) {
     return;
   }
@@ -20,7 +19,7 @@ changedPackages.forEach((pkg) => {
 runCommand('lerna version --allow-branch master');
 
 changedPackages.forEach((pkg) => {
-  // 不要发布 private 项目
+  // Do not release the private packages.
   if (pkg.private) {
     return;
   }
