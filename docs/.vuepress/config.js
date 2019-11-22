@@ -11,10 +11,6 @@ module.exports = {
       lang: 'en-US',
       description: 'A development framework for Alipay mini programs.',
     },
-    '/zh/': {
-      lang: 'zh-CN',
-      description: '支付宝小程序开发框架',
-    },
   },
 
   head: [
@@ -81,6 +77,7 @@ module.exports = {
               collapsable: false,
               children: [
                 '',
+                'stores',
                 'reactivity',
                 'plugins',
                 // 'globalConfig',
