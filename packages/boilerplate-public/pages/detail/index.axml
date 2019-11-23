@@ -1,0 +1,18 @@
+<view>
+  <view class="page-title">Shop Detail</view>
+  <view class="shop-content">
+    <view class="shop-thumb">
+      <image mode="widthFix" src="{{currentShop.thumb || '/common/assets/shop.png'}}">
+    </view>
+    <view class="shop-meta">
+      <view class="shop-title" a:if="{{currentShop.title}}">
+        {{currentShop.title}}
+      </view>
+      <view class="shop-extra" a:if="{{currentShop.extra}}">
+        {{currentShop.extra}}
+      </view>
+      <view class="shop-brief" a:if="{{currentShop.brief}}">
+        {{currentShop.brief}}
+      </view>
+    </view>
+</view>

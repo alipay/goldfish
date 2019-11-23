@@ -1,0 +1,29 @@
+<scroll-view
+  class="list-wrapper"
+  scroll-y="{{true}}"
+  onScrollToLower="onScrollToLower"
+>
+  <list>
+    <view slot="header">
+      Nearby stores
+    </view>
+    <block a:for="{{list}}">
+      <list-item
+        thumb="{{item.thumb || '/common/assets/shop.png'}}"
+        arrow="{{item.arrow}}"
+        onClick="onItemClick"
+        data-item="{{item}}"
+        index="items-multiple-{{index}}"
+        last="{{index === (itemsThumbMultiple.length - 1)}}"
+        key="items-multiple-{{index}}"
+        multipleLine="{{true}}"
+      >
+        {{item.title}}
+        <view class="am-list-brief">{{item.brief}}</view>
+        <view a:if="{{item.extra}}" slot="extra">
+          {{item.extra}}
+        </view>
+      </list-item>
+    </block>
+  </list>
+</scroll-view>

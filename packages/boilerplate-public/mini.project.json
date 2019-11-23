@@ -1,0 +1,13 @@
+{
+  "node_modules_es6_whitelist": [
+    "@goldfishjs/utils",
+    "@goldfishjs/reactive",
+    "@goldfishjs/bridge",
+    "@goldfishjs/core",
+    "@goldfishjs/composition-api",
+    "@goldfishjs/plugins",
+    "@goldfishjs/reactive-connect",
+    "@goldfishjs/requester",
+    "@goldfishjs/route"
+  ]
+}

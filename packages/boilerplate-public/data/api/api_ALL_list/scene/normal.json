@@ -1,0 +1,56 @@
+{
+  "sceneName": "normal",
+  "data": [
+    {
+      "title": "Shop Item 1",
+      "brief": "Brief Content."
+    },
+    {
+      "title": "Shop Item 2"
+    },
+    {
+      "title": "Shop Item 3",
+      "extra": "CLOSED"
+    },
+    {
+      "title": "Shop Item 1",
+      "brief": "Brief Content."
+    },
+    {
+      "title": "Shop Item 2"
+    },
+    {
+      "title": "Shop Item 3",
+      "extra": "CLOSED"
+    },
+    {
+      "title": "Shop Item 1",
+      "brief": "Brief Content."
+    },
+    {
+      "title": "Shop Item 2"
+    },
+    {
+      "title": "Shop Item 3",
+      "extra": "CLOSED"
+    },
+    {
+      "title": "Shop Item 1",
+      "brief": "Brief Content."
+    },
+    {
+      "title": "Shop Item 2"
+    },
+    {
+      "title": "Shop Item 3",
+      "extra": "CLOSED"
+    }
+  ],
+  "interfaceUniqId": "ff561f28-5898-4f44-be62-cc404c2e42ca",
+  "contextConfig": {
+    "responseDelay": 0,
+    "responseStatus": 200,
+    "responseHeaders": {}
+  },
+  "uniqId": "94495a09-ac62-4dda-85fd-2e98e43ea2ed"
+}
