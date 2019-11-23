@@ -5,6 +5,7 @@
   "description": "A development framework for Alipay mini programs.",
   "main": "index.js",
   "scripts": {
+    "reboot": "rm -rf node_modules && npm i",
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
     "deploy": "./deploy.sh"

@@ -18,136 +18,152 @@ Thanks to the reactivity system, we just need to declare the logic relation betw
 
 ## Reactivity in Goldfish
 
-In fact there are many JavaScript libraries in the community which have been reactivity enabled, such as Vue and MobX.
+In fact there are many JavaScript libraries in the community which have been reactivity enabled, such as [Vue](https://vuejs.org/v2/api/) and [MobX](https://mobx.js.org/README.html).
 
 Goldfish is built with its own implementation, which is basically consistent with Vue in terms of principle and experience.
 
 In principle, Goldfish implements the reactivity by intercepting getters and setters.
 
-To convert normal data into a reactive one, use `useState()` function:
+To convert normal data into a reactive one, use `state()` function:
 
-```ts
-import { useState, setupPage } from '@alipay/goldfish';
+```ts {4,7}
+import { state, observable } from '@alipay/goldfish';
 
-interface IState {
-  name: string;
-  age: number;
-  fullName: string;
+class MyClass {
+  public name = state('Yu Jiang');
 }
 
-Page(setupPage(() => {
-  const data = useState<IState>({
-    name: 'Yu Jiang',
-    age: 29,
-    get fullName() {
-      return `${this.name}.alilang`;
+export default observable(MyClass);
+```
+
+Use `computed()` to create the derived data:
+
+```ts {6,8-13,20}
+import { state, computed } from '@alipay/goldfish';
+
+class MyClass {
+  public name = state('Yu Jiang');
+
+  public fullName = computed(() => `${this.name}.alilang`);
+
+  public nameAlias = computed({
+    get: () => this.name,
+    set: (v: string) => {
+      this.name = v;
     },
   });
 
-  return {};
-}));
+  public foo() {
+    this.name = 'Blue hole';
+  }
+}
+
+export default observable(MyClass);
 ```
 
-The common JavaScript object becomes a reactive JavaScript object after being processed by the `useState()`. The `useState()` traverses the passed in objects recursively and converts all enumerable attributes into corresponding getters and setters, and gets ready for the interception logics. When the `data.name = 'Blue hole’` is executed, it triggers the prepared setter, so Goldfish senses the change and marks the `data.name` with `changed`. When the `data.name` data is visited, it triggers the prepared getter, then Goldfish knows it's value is visited, and the new value of `data.name` is returned.
+The `fullName` is only readable, and the `nameAlias` is both readable and writable. The value of `fullName` and `nameAlias` is calculated from `name`;
 
-`data.fullName` is the data derived from `data.name`. When the `data.name` changes, the `computed.fullName` changes too. So the `data.name` can also be said as the dependence of the `computed.fullName`.
+The common JavaScript object becomes a reactive JavaScript object after being processed by the `state()` or `computed()`. The `state()` and `computed` mark the target to reactive data. `observable()` traverses the marked values recursively and converts all enumerable attributes into corresponding getters and setters, and gets ready for the interception logics. When `this.name = 'Blue hole'` is executed, it triggers the prepared setter, so Goldfish senses the change and marks the `this.name` with `changed`. When the `this.name` data is visited, it triggers the prepared getter, then Goldfish knows it's value is being visited, and the new value of `this.name` is returned.
+
+`this.fullName` is the data derived from `this.name`. When `this.name` changes, `this.fullName` changes too. So `this.name` can also be said as the dependence of the `this.fullName`.
 
 When the reactive data changes, you can use the `autorun()` to execute some operations:
 
-```ts
-import { useState, setupPage, useAutorun } from '@alipay/goldfish';
+```ts {6-21}
+import { state, observable } from '@alipay/goldfish';
 
-interface IState {
-  name: string;
-  age: number;
+class MyClass {
+  public name = state('Yu Jiang');
+
+  public foo() {
+    this.autorun(() => {
+      console.log(this.name);
+    });
+
+    setTimeout(
+      () => {
+        this.name = 'Blue hole';
+      },
+      1000,
+    );
+
+    // Output:
+    // Yu Jiang
+    // Blue hole
+  }
 }
 
-Page(setupPage(() => {
-  const data = useState<IState>({
-    name: 'Yu Jiang',
-    age: 29,
-  });
-
-  const autorun = useAutorun();
-  autorun(() => {
-    console.log(data.name);
-  });
-
-  return {};
-}));
+export default observable(MyClass);
 ```
 
-When the `data.name` changes, the callback function that is passed to the `autorun()` will be executed. The `data.name` is called the dependent data of the `autorun()`.
+When `this.name` changes, the callback function that is passed to the `autorun()` will be executed. `this.name` is called the *dependent data* of the `autorun()`.
 
 You can also use `watch()` to listen to the change of the reactive data, and execute some operations upon the change:
 
-```ts
-import { useState, setupPage, useWatch } from '@alipay/goldfish';
+```ts {6-23}
+import { state, observable } from '@alipay/goldfish';
 
-interface IState {
-  name: string;
-  age: number;
+class MyClass {
+  public name = state('Yu Jiang');
+
+  public foo() {
+    this.watch(
+      () => this.name,
+      (newVal) => {
+        console.log(newVal);
+      },
+    );
+
+    setTimeout(
+      () => {
+        this.name = 'Blue hole';
+      },
+      1000,
+    );
+
+    // Output:
+    // Blue hole
+  }
 }
 
-Page(setupPage(() => {
-  const data = useState<IState>({
-    name: 'Yu Jiang',
-    age: 29,
-  });
-
-  const watch = useWatch();
-  watch(
-    () => data.name,
-    (newVal) => {
-      console.log(newVal);
-    },
-  );
-
-  return {};
-}));
+export default observable(MyClass);
 ```
 
-Here we passed two function parameters to the `watch()`. When the reactive result of the first callback function changes, the second callback function will be executed. The `data.name` that affects the reactive result of the first callback function is called the dependent data of the `watch()`.
+Here we passed two function parameters to the `watch()`. When the reactive result of the first callback function changes, the second callback function will be executed. The `this.name` that affects the reactive result of the first callback function is called the dependent data of the `watch()`.
 
 The above are the basic contents of the reactivity in Goldfish.
 
-Now you may have a question: why the derived data (like `data.fullName`), `autorun()` and `watch()` can sense the change of the dependent data?
+Now you may have a question: why the derived data (like `this.fullName`), `autorun()` and `watch()` can sense the change of the dependent data?
 
 Actually when the getter of the derived data, `autorun()` callback function and the first callback function of `watch()` is executed, it accesses the getter of a series of reactive data in the function body, so Goldfish knows the dependencies. When such dependencies change, the corresponding logic is triggered.
 
 Suppose there are some codes as below:
 
 ```ts
-import { useState, setupPage } from '@alipay/goldfish';
+import { state, observable } from '@alipay/goldfish';
 
-interface IState {
-  name: string;
-  age: number;
-  year: number;
-  fullName: string;
+class MyClass {
+  public name = state('Yu Jiang');
+
+  public age = state(29);
+
+  public year = state(5);
+
+  public fullName = computed(() => {
+    if (this.age > 30) {
+      return `${this.name}.${this.year} Senior ant`;
+    }
+
+    return `${this.name}.Young ant`;
+  });
 }
 
-Page(setupPage(() => {
-  const data = useState<IState>({
-    name: 'Yu Jiang',
-    age: 29,
-    year: 5,
-    get fullName() {
-      if (data.age > 30) {
-        return `${data.name}.${data.year} Senior ant`;
-      }
-
-      return `${data.name}.Young ant`;
-    },
-  });
-
-  return {};
-}));
+export default observable(MyClass);
 ```
 
-When first getting the value of the derived `data.fullName`, the getter function is executed. Then the `data.age` is accessed, so `data.age` become a dependency of `data.fullName`. And then, the `data.name` is accessed, so `data.name` also become a dependency of `data.fullName`. Now the first value calculation of `data.fullName` and dependency recoding are completed.
+When first getting the value of the derived `this.fullName`, the getter function is executed. Then the `this.age` is accessed, so `this.age` become a dependency of `data.fullName`. And then, the `this.name` is accessed, so `this.name` also become a dependency of `this.fullName`. Now the first value calculation of `this.fullName` and dependency recoding are completed.
 
-When the `data.age` turns into 31, Goldfish internally marks `data.fullName` as dirty. In the next accessing to `data.fullName`, the getter function of `data.fullName` is executed, and the discovered dependencies are `data.age`, `data.name` and `data.year` in turn.
+When the `this.age` turns into 31, Goldfish internally marks `this.fullName` as dirty. In the next accessing to `this.fullName`, the getter function of `this.fullName` is executed, and the discovered dependencies are `this.age`, `this.name` and `this.year` in turn.
 
 The dependence recording of `autorun()` and `watch()` is similar to the derived data.
 
@@ -158,47 +174,28 @@ When passing the reactive data, the reactive link may be broken frequently if yo
 Suppose there are codes as below:
 
 ```ts
-import { useState, setupPage } from '@alipay/goldfish';
+import { state, observable } from '@alipay/goldfish';
 
-interface IState {
-  name: string;
-  age: number;
+class MyClass {
+  public name = state('Yu Jiang');
+
+  public foo() {
+    return {
+      name: this.name;
+    };
+  }
+
+  public bar() {
+    this.watch(
+      () => this.foo().name,
+      () => {
+        console.log('change');
+      },
+    );
+  }
 }
-
-Page(setupPage(() => {
-  const data = useState<IState>({
-    name: 'Yu Jiang',
-    age: 29,
-  });
-
-  return {
-    name: data.name,
-  };
-}));
 ```
 
-We assign the `data.name` to the `name` property of the returned object. Actually, we just assign the snapshot value of `data.name` to the `name` property while initializing the returned object. When we change the value of `data.name`, the value of `name` property in returned object will not be updated.
+We assign the `this.name` to the `name` property of the returned object in `foo()`. Actually, we just assign the snapshot value of `this.name` to the `name` property while initializing the returned object. When we change the value of `this.name`, the value of `name` property in returned object will not be updated. So the second callback of `watch()` will not be triggered when `this.name` is changed.
 
-Luckily, there is a workaround:
-
-```ts
-import { useState, setupPage } from '@alipay/goldfish';
-
-interface IState {
-  name: string;
-  age: number;
-}
-
-Page(setupPage(() => {
-  const data = useState<IState>({
-    name: 'Yu Jiang',
-    age: 29,
-  });
-
-  return {
-    get name() {
-      return data.name;
-    },
-  };
-}));
-```
+**We recommend to declare all reactive data as data members of the class when it is created.**
