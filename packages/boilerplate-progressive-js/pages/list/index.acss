@@ -1,0 +1,16 @@
+.list-wrapper {
+  height: 100vh;
+}
+
+.tips-dialog-content {
+  color: #fff;
+}
+
+.empty {
+  margin-top: 200rpx;
+  text-align: center;
+}
+
+.empty-content {
+  color: #999;
+}

@@ -1,7 +1,0 @@
-.list-wrapper {
-  height: 100vh;
-}
-
-.tips-dialog-content {
-  color: #fff;
-}

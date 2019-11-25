@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "goldfish-boilerplate-public",
+  "name": "goldfish-progressive-js",
   "scripts": {
     "datahub": "datahub server -c datahub.config.js"
   },

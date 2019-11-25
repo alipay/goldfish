@@ -1,0 +1,54 @@
+.g-popup {
+  position: relative;
+  z-index: 100;
+}
+
+.g-popup-title {
+  color: #060606;
+  font-size: 36rpx;
+  text-align: center;
+  padding: 34rpx 0 16rpx 0;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+
+.g-popup-subtitle {
+  color: #999;
+  font-size: 24rpx;
+  text-align: center;
+  padding: 34rpx 0 16rpx 0;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+
+.g-popup-content {
+  background: #fff;
+  border-radius: 16rpx 16rpx 0 0;
+  position: relative;
+  height: 950rpx;
+}
+
+.g-popup-scroll-content {
+  height: 860rpx;
+}
+
+.g-popup-close {
+  position: absolute;
+  top: 38rpx;
+  left: 32rpx;
+  width: 28rpx;
+  height: 28rpx;
+  z-index: 99;
+}
+
+.g-popup-close .am-icon {
+  color: #8a8a8a !important;
+  font-size: 32rpx !important;
+  width: 28rpx;
+  height: 28rpx;
+}
+
+.g-popup .am-popup-content {
+  left: 0;
+  right: 0;
+}
