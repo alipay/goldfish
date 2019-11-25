@@ -1,18 +1,20 @@
-# Use Status Management
+# Use State Management
 
-## Alipay mini program status management
+> If you only want to use part of state management of Goldfish, please visit [Use state Management Progressive](./reactive-progressive.md).
 
-The original framework of Alipay mini program provides the page/component level data status management ([this.setData()](https://docs.alipay.com/mini/framework/page-detail#pageprototypesetdatadata-object-callback-function)), but that is not available for page or component across scenarios. The general solution is to put data into globalData to solve the data sharing problem across pages.
+## Alipay mini program State Management
 
-It can be seen that basic mechanism is available for status management in the original Alipay mini program, which does not suffice the status management in complicated projects.
+The original framework of Alipay mini program provides the Page/Component level data state management ([this.setData()](https://docs.alipay.com/mini/framework/page-detail#pageprototypesetdatadata-object-callback-function)), but that is not available for Page or Component across scenarios. The general solution is to put data into globalData to solve the data sharing problem across pages.
 
-## Goldfish responsive status management
+It can be seen that basic mechanism is available for state management in the original Alipay mini program, which does not suffice the state management in complicated projects.
 
-On basis of the related great ideas in the community, Goldfish deposits a set of mini program friendly responsive status management framework, which enables the user to flexibly and efficiently handle the status data.
+## Goldfish reactive State Management
 
-In Goldfish, status data is responsive, where the [responsive](https://vuejs.org/v2/guide/reactivity.html) data are generated with useValue(), useState(), and useComputed(). Meanwhile, the status logic module is extracted, assembled and reused on basis of function type Composition API.
+On basis of the related great ideas in the community, Goldfish deposits a set of mini program friendly reactive state management framework, which enables the user to flexibly and efficiently handle the state data.
 
-### Component status management
+In Goldfish, state data is reactive, where the [reactive](https://vuejs.org/v2/guide/reactivity.html) data are generated with useValue(), useState(), and useComputed(). Meanwhile, the state logic module is extracted, assembled and reused on basis of function type Composition API.
+
+### Component State Management
 
 ```js
 import { setupComponent, useState } from '@goldfishjs/goldfish';
@@ -43,13 +45,13 @@ Component(
 );
 ```
 
-Direct reference is possible in the component:
+Direct reference is possible in the Component:
 
 ```xml
 <view>{{data.hasVisible}}</view>
 ```
 
-### Page status management
+### Page State Management
 
 ```js
 import { setupPage, useState } from '@goldfishjs/goldfish';
@@ -70,13 +72,13 @@ Page(
 );
 ```
 
-Direct reference is possible in the page:
+Direct reference is possible in the Page:
 
 ```xml
 <view>{{data.title}}</view>
 ```
 
-### Global status management
+### Global State Management
 
 #### New Store
 
@@ -118,7 +120,7 @@ App(
 );
 ```
 
-#### Use in any page or component
+#### Use in any Page or Component
 
 ```js
 import { useGlobalData } from '@goldfishjs/goldfish';
@@ -136,15 +138,15 @@ Page(
 );
 ```
 
-Direct reference is possible in the page and component:
+Direct reference is possible in the Page and Component:
 
 ```xml
 <view>{{data.title}}</view>
 ```
 
-### Change data
+### Change Data
 
-To change data in the responsive system is even more simple -- just modify data directly and then all places with the data used are updated synchronously:
+To change data in the reactive system is even more simple -- just modify data directly and then all places with the data used are updated synchronously:
 ```js
 ...
 
@@ -159,7 +161,7 @@ globalData.orderInfo.money = 200;
 
 ### Use computed & watch
 
-In more cases when your attributes need calculation or listen, the “computed” and “watch” can be used. For more concepts, see [Vue Computed Properties and Watchers](https://vuejs.org/v2/guide/computed.html#ad):
+In more cases when your attributes need calculation or listen, the `computed` and `watch` can be used. For more concepts, see [Vue Computed Properties and Watchers](https://vuejs.org/v2/guide/computed.html#ad):
 
 ```js
 const computed = useComputed({
@@ -174,11 +176,11 @@ watch(() => computed.shopTags, (newVal, oldVal) => {
 });
 ```
 
-## Caution! Responsive link broken
+## Caution! reactive link broken
 
-While you are enjoying the convenience with responsive data, you may have to understand the responsive link broken problem. When a data is changed, the view is not updated. The link broken is simply because the top level object is overriden or a snapshot is returned.
+While you are enjoying the convenience with reactive data, you may have to understand the reactive link broken problem. When a data is changed, the view is not updated. The link broken is simply because the top level object is overriden or a snapshot is returned.
 
-The nature of responsiveness is to overwrite the `getter` and `setter` methods of the object. If the overwritten objects are not replaced with snapshot or the returned contents become snapshot, it is impossible to listen to the data change.
+The nature of reactiveness is to overwrite the `getter` and `setter` methods of the object. If the overwritten objects are not replaced with snapshot or the returned contents become snapshot, it is impossible to listen to the data change.
 
 Common counterexample:
 
@@ -253,7 +255,7 @@ const c = {
   x: 2,
 };
 
-// Responsive link broken
+// reactive link broken
 data.a.b.c = c;
 
 // This will be updated
