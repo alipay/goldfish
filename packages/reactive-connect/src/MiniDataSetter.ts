@@ -91,7 +91,8 @@ export default class MiniDataSetter<
       }
     });
     await Promise.resolve();
-    this.view.$batchedUpdates(() => {
+    // Component Store needs $page.$batchedUpdates
+    (this.view.$batchedUpdates || this.view.$page.$batchedUpdates)(() => {
       this.updateList.forEach(update => update());
       this.updateList = [];
     });

@@ -8,7 +8,7 @@
   z-index="{{zIndex || 1}}"
 >
   <view className="g-popup-content">
-    <view class="g-popup-title" a:if="{{title}}">{{title}}</view>
+    <view class="g-popup-title" a:if="{{title}}">{{title}} - Closed: {{closeCount}}</view>
     <view class="g-popup-subtitle" a:if="{{subTitle || subTitleSlot}}">{{subTitle}}<slot name="subTitle" /></view>
     <view class="g-popup-close" onTap="onPopupClose">
       <am-icon type="cross" />
