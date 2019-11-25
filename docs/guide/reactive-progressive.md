@@ -4,15 +4,15 @@
 
 ## Alipay mini program State Management
 
-The original framework of Alipay mini program provides the Page/Component level data state management ([this.setData()](https://docs.alipay.com/mini/framework/page-detail#pageprototypesetdatadata-object-callback-function)), but that is not available for Page or Component across scenarios. The general solution is to put data into globalData to solve the data sharing problem across pages.
+The original framework of Alipay mini program provides the Page/Component level data state management ([this.setData()](https://docs.alipay.com/mini/framework/page-detail#pageprototypesetdatadata-object-callback-function)), but that is not available for Page or Component across scenarios. The general solution is to put data into `globalData` to solve the data sharing problem across pages.
 
-It can be seen that basic mechanism is available for state management in the original Alipay mini program, which does not suffice the state management in complicated projects.
+It can be seen that basic mechanism is available for state management in the original Alipay mini program, which is not satisfied with the state management in complicated projects.
 
 ## Goldfish Reactive State Management
 
-On basis of the related great ideas in the community, Goldfish deposits a set of mini program friendly responsive state management framework, which enables the user to flexibly and efficiently handle the state data.
+On basis of the related great ideas in the community, Goldfish deposits a set of mini program friendly reactive state management framework, which enables the user to flexibly and efficiently handle the state data.
 
-In Goldfish, state data is responsive, you can use `observable`, `state`, `computed` to create reactive data, and use `AppStore` `PageStore` `ComponentStore` declare store, finally use `createApp` `createPage` `createComponent` to connect store data.
+In Goldfish, state data is reactive, you can use `observable`, `state`, `computed` to create reactive data, and use `AppStore` `PageStore` `ComponentStore` declare store, then use `createApp` `createPage` `createComponent` to connect the store with the view instance (Page, Component, or App).
 
 ### Component State Management
 
@@ -38,14 +38,14 @@ Component(createComponent(store, {
   didMount() {},
   methods: {
     onPopupClose(event) {
-      // responsive data
+      // reactive data
       this.store.closeCount++;
     },
   }
 }));
 ```
 
-Direct reference is possible in the component:
+Direct reference is available in the component:
 
 ```xml
 <view>{{closeCount}}</view>
@@ -84,7 +84,7 @@ Page(createPage(store, {
 }));
 ```
 
-Direct reference is possible in the Page:
+Direct reference is available in the Page:
 
 ```xml
 <list>
@@ -147,7 +147,7 @@ class MyPageStore extends PageStore {
 export default observable(MyPageStore);
 ```
 
-When connect store to Page, directly reference is possible in the Page and Component:
+When connect store to Page, directly reference is available in the Page and Component:
 
 ```xml
 <view>{{currentShop}}</view>
@@ -155,7 +155,7 @@ When connect store to Page, directly reference is possible in the Page and Compo
 
 ### Change Data
 
-To change data in the responsive system is even more simple -- just modify data directly and then all places with the data used are updated synchronously:
+To change data in the reactive system is even more simple - just modify data directly and then all places with the data used are updated synchronously:
 ```js
 ...
 
@@ -170,7 +170,7 @@ globalData.orderInfo.money = 200;
 
 ### Use computed & watch
 
-In more cases when your attributes need calculation or listen, the “computed” and “watch” can be used. For more concepts, see [Vue Computed Properties and Watchers](https://vuejs.org/v2/guide/computed.html#ad):
+In more cases when your attributes need calculation or listen, the `computed` and `watch` can be used. For more concepts, see [Vue Computed Properties and Watchers](https://vuejs.org/v2/guide/computed.html#ad):
 
 ```js
 class MyPageStore extends PageStore {
