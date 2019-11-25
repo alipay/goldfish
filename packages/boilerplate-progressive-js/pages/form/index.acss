@@ -16,6 +16,10 @@
   flex: 1 0 auto;
 }
 
+.form-row-content input {
+  width: 100%;
+}
+
 .radio {
   margin-right: 32rpx;
 }

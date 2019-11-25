@@ -3,7 +3,7 @@
   scroll-y="{{true}}"
   onScrollToLower="onScrollToLower"
 >
-  <list>
+  <list a:if="{{!isEmpty}}">
     <view slot="header">
       Nearby stores
     </view>
@@ -26,4 +26,8 @@
       </list-item>
     </block>
   </list>
+  <view class="empty" a:if="{{isEmpty}}">
+    No Data.
+    <view class="empty-content">Please check your network & mock server.</view>
+  </view>
 </scroll-view>

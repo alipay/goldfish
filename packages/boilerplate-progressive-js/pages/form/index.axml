@@ -32,6 +32,12 @@
       <slider name="age" value="20" min="0" max="100" show-value/>
     </view>
   </view>
+  <view class="form-row">
+    <view class="form-row-label">Date</view>
+    <view class="form-row-content" onTap="onOpenSelectDate">
+      <input name="date" placeholder="select date" class="input" controlled="{{true}}" value="{{date}}" />
+    </view>
+  </view>
   <view class="form-button">
     <button type="primary" formType="submit">Submit</button>
   </view>
@@ -40,4 +46,16 @@
     <view>Submit FormData:</view>
     {{formatFormData}}
   </view>
+
+  <g-popup
+    title="Select Date"
+    show="{{ showDate }}"
+    position="bottom"
+    onClose="onCloseSelectDate"
+  >
+    <calendar
+      haveYear="{{true}}"
+      onSelect="handleSelect"
+    />
+  </g-popup>
 </form>

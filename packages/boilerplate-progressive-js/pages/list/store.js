@@ -7,19 +7,22 @@ class MyPageStore extends PageStore {
   loading = state(false);
   showDialog = state(true);
   list = state([]);
+  isEmpty = state(false);
 
   // Any compute operation of data, need integrate to store.
   async getList(config = {}) {
     this.loading = true;
     const data = await request({
       url: '/api/list'
-    });
+    }) || [];
 
     if (config.append) {
       this.list.push(...data);
     } else {
       this.list = [...data];
     }
+
+    this.isEmpty = this.list.length < 1;
     this.loading = false;
   }
 }
