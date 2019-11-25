@@ -1,7 +1,9 @@
 import useContextType from './useContextType';
 import CommonSetup from './setup/CommonSetup';
-import { AppStore, PageStore, ComponentStore } from '@goldfishjs/core';
 import checkSetupEnv from './checkSetupEnv';
+import AppSetup from './setup/AppSetup';
+import ComponentSetup from './setup/ComponentSetup';
+import PageSetup from './setup/PageSetup';
 
 export default function useAutorun() {
   checkSetupEnv('useAutorun', ['app', 'page', 'component']);
@@ -9,19 +11,17 @@ export default function useAutorun() {
   const type = useContextType();
 
   if (type === 'app') {
-    const store = CommonSetup.getCurrent<CommonSetup<any>>().getStoreInstance() as AppStore;
+    const store = CommonSetup.getCurrent<AppSetup>().getStoreInstance()!;
     return store.autorun.bind(store);
   }
 
   if (type === 'page') {
-    const store =
-      CommonSetup.getCurrent<CommonSetup<any>>().getStoreInstance() as PageStore;
+    const store = CommonSetup.getCurrent<PageSetup>().getStoreInstance()!;
     return store.autorun.bind(store);
   }
 
   if (type === 'component') {
-    const store =
-      CommonSetup.getCurrent<CommonSetup<any>>().getStoreInstance() as ComponentStore<{}>;
+    const store = CommonSetup.getCurrent<ComponentSetup>().getStoreInstance()!;
     return store.autorun.bind(store);
   }
 

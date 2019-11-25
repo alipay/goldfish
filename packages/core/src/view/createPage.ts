@@ -2,6 +2,13 @@ import { createMiniPage, PageOptions, PageInstance, attachLogic } from '@goldfis
 import AppStore from '../store/AppStore';
 import PageStore from '../store/PageStore';
 
+/**
+ * Connect PageStore with Page.
+ *
+ * @param storeClass
+ * @param pageOptions
+ * @param options
+ */
 export default function createPage<AS extends AppStore, PS extends PageStore<AS>, D = any>(
   storeClass: new () => PS,
   pageOptions: PageOptions<D, PS> = {},
@@ -16,11 +23,11 @@ export default function createPage<AS extends AppStore, PS extends PageStore<AS>
     'after',
     async function (this: PageInstance<D, PS>, query) {
       const store = this.store!;
-      store.globalStore.updatePages({
+      store.globalStore && store.globalStore.updatePages({
         query,
       });
       store.isInitLoading = true;
-      await store.globalStore.waitForReady();
+      store.globalStore && (await store.globalStore.waitForReady());
       try {
         await store.fetchInitData();
       } catch (e) {

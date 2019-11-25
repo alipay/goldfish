@@ -19,9 +19,26 @@ import {
 } from '@goldfishjs/plugins';
 import { asyncForEach } from '@goldfishjs/utils';
 
+/**
+ * State management for App.
+ */
 export default class AppStore extends BaseAppStore {
+  /**
+   * The plugins manager.
+   *
+   * @protected
+   * @type {PluginHub}
+   * @memberof AppStore
+   */
   protected pluginHub: PluginHub = new PluginHub();
 
+  /**
+   * Store the configuration data.
+   *
+   * @protected
+   * @type {IConfig}
+   * @memberof AppStore
+   */
   protected config?: IConfig;
 
   protected stopWatchFeedbackQueue: (() => void) | undefined;
@@ -72,6 +89,11 @@ export default class AppStore extends BaseAppStore {
     this.pluginHub.init();
   }
 
+  /**
+   * Get the specified plugin instance.
+   *
+   * @param pluginClass
+   */
   public getPluginInstance<R extends Plugin>(pluginClass: PluginClass<R> | string) {
     return this.pluginHub.get<R>(pluginClass);
   }
@@ -133,7 +155,7 @@ export default class AppStore extends BaseAppStore {
     this.pluginHub.destroy();
   }
 
-  public startWatchFeedbackQueue(options: {
+  private startWatchFeedbackQueue(options: {
     showToast?: (item: IToastOption) => Promise<void>;
     alert?: (item: IAlertOption) => Promise<void>;
     confirm?: (item: IConfirmOption) => Promise<void>;
@@ -198,6 +220,10 @@ export default class AppStore extends BaseAppStore {
     return this.stopWatchFeedbackQueue;
   }
 
+  /**
+   * Initialize the global feedback module.
+   * It is used to manage the global toasts, alerts, prompts and confirms.
+   */
   public async initFeedback() {
     await this.waitForPluginsReady();
     const bridge = this.getPluginInstance(BridgePlugin);
@@ -290,7 +316,7 @@ export default class AppStore extends BaseAppStore {
   }
 
   /**
-   * Update Pages for Route
+   * Update Pages for Route. Only for inner usages.
    */
   public updatePages(page: tinyapp.IAppLaunchOptions) {
     this.pluginHub.get(RoutePlugin).updatePages(page);

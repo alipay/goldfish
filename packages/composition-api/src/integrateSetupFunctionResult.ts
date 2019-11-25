@@ -2,13 +2,31 @@ import CommonSetup from './setup/CommonSetup';
 import { watchDeep } from '@goldfishjs/reactive';
 import { MiniDataSetter } from '@goldfishjs/reactive-connect';
 import { reactive } from './useState';
+import PageSetup, { SetupPageInstance, SetupPageStore } from './setup/PageSetup';
+import ComponentSetup, {
+  SetupComponentInstance,
+  SetupComponentStore,
+} from './setup/ComponentSetup';
+import AppSetup, { SetupAppInstance, SetupAppStore } from './setup/AppSetup';
 
 type Kind = 'page' | 'component' | 'app';
 
-type ViewType<P, D> = {
-  page: tinyapp.IPageInstance<D>;
-  component: tinyapp.IComponentInstance<P, D>;
-  app: tinyapp.IAppInstance<any>;
+type ViewType = {
+  page: SetupPageInstance;
+  component: SetupComponentInstance;
+  app: SetupAppInstance;
+};
+
+type StoreType = {
+  page: SetupPageStore;
+  component: SetupComponentStore;
+  app: SetupAppStore;
+};
+
+type SetupType = {
+  page: PageSetup;
+  component: ComponentSetup;
+  app: AppSetup;
 };
 
 export interface ISetupFunction {
@@ -24,11 +42,17 @@ export interface ISetupFunction {
  * @param viewInstance
  * @param store
  */
-export default function integrateSetupFunctionResult<K extends Kind, D = any, P = any>(
+export default function integrateSetupFunctionResult<K extends Kind>(
   fn: ISetupFunction,
-  setup: CommonSetup<any>,
-  viewInstance: ViewType<P, D>[K],
-  store: Object,
+  setup: SetupType[K],
+  viewInstance: ViewType[K],
+  store: StoreType[K],
+): (() => void)[];
+export default function integrateSetupFunctionResult(
+  fn: ISetupFunction,
+  setup: any,
+  viewInstance: any,
+  store: any,
 ) {
   setup.setStoreInstance(store);
   setup.setViewInstance(viewInstance);

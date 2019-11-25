@@ -7,7 +7,7 @@
     "release": "node scripts/release.js",
     "lint": "node scripts/lint.js",
     "build": "node scripts/build.js",
-    "reboot": "node scripts/reboot.js",
+    "reboot": "rm -rf node_modules && npm i && node scripts/reboot.js",
     "boot": "lerna bootstrap",
     "test": "node scripts/test.js"
   },

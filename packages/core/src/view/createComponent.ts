@@ -9,6 +9,13 @@ import {
 import AppStore from '../store/AppStore';
 import ComponentStore from '../store/ComponentStore';
 
+/**
+ * Connect ComponentStore with Component.
+ *
+ * @param storeClass
+ * @param componentOptions
+ * @param options
+ */
 export default function createComponent<
   AS extends AppStore,
   CS extends ComponentStore<P, AS>,
@@ -31,7 +38,7 @@ export default function createComponent<
     async function (this: ComponentInstance<P, D, CS, M>) {
       const store = this.store!;
       store.isInitLoading = true;
-      await store.globalStore.waitForReady();
+      store.globalStore && (await store.globalStore.waitForReady());
       try {
         await store.fetchInitData();
       } catch (e) {
