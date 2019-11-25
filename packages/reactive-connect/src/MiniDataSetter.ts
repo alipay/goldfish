@@ -96,11 +96,9 @@ export default class MiniDataSetter<
       this.view.$batchedUpdates ?
       this.view.$batchedUpdates.bind(this.view) :
       this.view.$page.$batchedUpdates.bind(this.view.$page)
-    )(
-      () => {
-        this.updateList.forEach(update => update());
-        this.updateList = [];
-      }
-    );
+    )(() => {
+      this.updateList.forEach(update => update());
+      this.updateList = [];
+    });
   }
 }
