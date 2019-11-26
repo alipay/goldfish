@@ -79,7 +79,7 @@ export default function createTinyappComponent<
     syncProps,
   );
 
-  const refreshKey = isComponent2 ? 'didUpdate' : 'deriveDataFromProps';
+  const refreshKey = isComponent2 ? 'deriveDataFromProps' : 'didUpdate';
   attachLogic<typeof refreshKey, Required<ComponentOptions<P, D, CS, M>>[typeof refreshKey]>(
     componentOptions,
     refreshKey,
