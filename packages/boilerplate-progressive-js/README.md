@@ -7,7 +7,7 @@
 ```bash
 $ # Create Repositories from github:
 $ git clone https://github.com/alipay/goldfish.git
-$ cd packages/boilerplate-public
+$ cd packages/boilerplate-progressive-js
 
 $ # Install dependencies:
 $ npm install
