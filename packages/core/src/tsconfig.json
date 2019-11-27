@@ -10,8 +10,8 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "target": "esnext",
+    "module": "es6",
+    "target": "es6",
     "outDir": "../lib",
     "declaration": true,
     "declarationDir": "../types"
