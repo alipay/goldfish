@@ -17,7 +17,7 @@ In Goldfish, state data is reactive, where the [reactive](https://vuejs.org/v2/g
 ### Component State Management
 
 ```js
-import { setupComponent, useState } from '@goldfishjs/goldfish';
+import { setupComponent, useState } from '@goldfishjs/core';
 
 export interface IProps {
   name: string;
@@ -54,16 +54,13 @@ Direct reference is possible in the Component:
 ### Page State Management
 
 ```js
-import { setupPage, useState } from '@goldfishjs/goldfish';
+import { setupPage, useState } from '@goldfishjs/core';
 
 Page(
   setupPage(() => {
-    const data =
-      useState <
-      { title: string } >
-      {
-        title: 'hello goldfish',
-      };
+    const data = useState<{ title: string }>({
+      title: 'hello goldfish',
+    });
 
     return {
       data,
@@ -86,7 +83,7 @@ Create a new corresponding store data file in the store folder under the root di
 
 ```js
 // store/OrderInfo.ts
-import { observable, state, computed } from '@goldfishjs/goldfish';
+import { observable, state, computed } from '@goldfishjs/core';
 
 @observable
 export default class OrderInfo {
@@ -103,17 +100,14 @@ export default class OrderInfo {
 #### Register in app.js
 
 ```js
-import { setupApp } from '@goldfishjs/goldfish';
+import { setupApp } from '@goldfishjs/core';
 import OrderInfo from './store/OrderInfo';
 
 App(
   setupApp(config, () => {
-    const data =
-      useState <
-      IState >
-      {
-        orderInfo: new OrderInfo(),
-      };
+    const data = useState<IState>({
+      orderInfo: new OrderInfo(),
+    });
 
     return data;
   }),
@@ -123,7 +117,7 @@ App(
 #### Use in any Page or Component
 
 ```js
-import { useGlobalData } from '@goldfishjs/goldfish';
+import { useGlobalData } from '@goldfishjs/core';
 import OrderInfo from './store/OrderInfo';
 
 Page(
@@ -164,23 +158,37 @@ globalData.orderInfo.money = 200;
 In more cases when your attributes need calculation or listen, the `computed` and `watch` can be used. For more concepts, see [Vue Computed Properties and Watchers](https://vuejs.org/v2/guide/computed.html#ad):
 
 ```js
-const computed = useComputed({
-  get shopTags() {
-    return data.source.map(item => item.tag);
-  },
-});
+Page(
+  setupPage(() => {
+    const computed = useComputed({
+      get shopTags() {
+        return data.source.map(item => item.tag);
+      },
+    });
 
+    return {
+      computed,
+    };
+  }),
+);
+```
+
+```xml
+<view>{{computed.shopTags}}</view>
+```
+
+```js
 const watch = useWatch();
 watch(() => computed.shopTags, (newVal, oldVal) => {
   // when computed.shopTags changed, do something
 });
 ```
 
-## Caution! reactive link broken
+## Caution! Reactive Link Broken
 
 While you are enjoying the convenience with reactive data, you may have to understand the reactive link broken problem. When a data is changed, the view is not updated. The link broken is simply because the top level object is overriden or a snapshot is returned.
 
-The nature of reactiveness is to overwrite the `getter` and `setter` methods of the object. If the overwritten objects are not replaced with snapshot or the returned contents become snapshot, it is impossible to listen to the data change.
+The nature of reactive is to overwrite the `getter` and `setter` methods of the object. If the overwritten objects are not replaced with snapshot or the returned contents become snapshot, it is impossible to listen to the data change.
 
 Common counterexample:
 

@@ -18,8 +18,7 @@ In Goldfish, state data is reactive, you can use `observable`, `state`, `compute
 
 ```js
 // store.js
-import { observable, state } from '@goldfishjs/reactive-connect';
-import { ComponentStore } from '@goldfishjs/core';
+import { observable, state, ComponentStore } from '@goldfishjs/core';
 
 class MyComponentStore extends ComponentStore {
   props = state({});
@@ -55,8 +54,7 @@ Direct reference is available in the component:
 
 ```js
 // store.js
-import { observable, state } from '@goldfishjs/reactive-connect';
-import { PageStore } from '@goldfishjs/core';
+import { observable, state, PageStore } from '@goldfishjs/core';
 
 class MyPageStore extends PageStore {
   list = state([
@@ -107,8 +105,7 @@ Create a new corresponding store data file in the store folder under the root di
 
 ```js
 // appStore.js
-import { observable, state } from '@goldfishjs/reactive-connect';
-import { AppStore } from '@goldfishjs/core';
+import { observable, state, AppStore } from '@goldfishjs/core';
 
 class MyAppStore extends AppStore {
   currentShop = state({});
@@ -137,8 +134,7 @@ App(createApp(appConfig, MyAppStore, {
 
 ```js
 // store.js (Page or Component)
-import { observable, computed } from '@goldfishjs/reactive-connect';
-import { PageStore } from '@goldfishjs/core';
+import { observable, computed, PageStore } from '@goldfishjs/core';
 
 class MyPageStore extends PageStore {
   currentShop = computed(() => this.globalStore.currentShop);

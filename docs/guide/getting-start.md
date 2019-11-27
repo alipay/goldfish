@@ -1,13 +1,17 @@
 # Quick Start
 
-## Environment preparation
+### Environment Preparation
 
 * [Mini Program Developer Tool](https://docs.alipay.com/mini/ide/download)
 * [Node.js](https://nodejs.org/)
 
-## Use project template
+### How to use
 
 * Use templates from IDE.
-* Clone Github repository: https://github.com/alipay/goldfish.git.
- - packages/boilerplate: Standard Goldfish boilerplate with TypeScript.
- - packages/boilerplate-progressive-js: Progressive Goldfish boilerplate with JavaScript.
+* Use boilerplate from [Github Repository](https://github.com/alipay/goldfish.git).
+  - packages/boilerplate: Standard Goldfish boilerplate with TypeScript.
+  - packages/boilerplate-progressive-js: Progressive Goldfish boilerplate with JavaScript.
+
+```bash
+$ git clone https://github.com/alipay/goldfish.git
+```
