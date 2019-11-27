@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "target": "es5",
+    "target": "es6",
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -9,7 +9,7 @@
     "strict": true,
     "locale": "zh-CN",
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
+    "module": "es6",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "outDir": "./lib",
