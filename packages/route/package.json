@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/route",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "goldfish-route",
   "main": "lib/index.js",
   "scripts": {
