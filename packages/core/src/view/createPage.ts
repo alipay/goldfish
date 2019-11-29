@@ -1,6 +1,7 @@
 import { createMiniPage, PageOptions, PageInstance, attachLogic } from '@goldfishjs/reactive-connect';
 import AppStore from '../store/AppStore';
 import PageStore from '../store/PageStore';
+import { silent } from '@goldfishjs/utils';
 
 /**
  * Connect PageStore with Page.
@@ -23,11 +24,13 @@ export default function createPage<AS extends AppStore, PS extends PageStore<AS>
     'after',
     async function (this: PageInstance<D, PS>, query) {
       const store = this.store!;
-      store.globalStore && store.globalStore.updatePages({
-        query,
-      });
       store.isInitLoading = true;
-      store.globalStore && (await store.globalStore.waitForReady());
+
+      await silent.async(async () => {
+        store.appStore.updatePages({ query });
+        await store.appStore.waitForReady();
+      })();
+
       try {
         await store.fetchInitData();
       } catch (e) {
@@ -44,7 +47,7 @@ export default function createPage<AS extends AppStore, PS extends PageStore<AS>
       ...options,
       afterCreateStore: (view, store) => {
         options && options.afterCreateStore && options.afterCreateStore(view, store);
-        store.globalStore = (getApp() as any).store;
+        store.appStore = (getApp() as any).store;
       },
     },
   );

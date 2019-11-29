@@ -5,5 +5,6 @@ export { default as asyncForEach } from './asyncForEach';
 export { default as find } from './find';
 export { default as omit } from './omit';
 export { default as pick } from './pick';
+export { default as silent } from './silent';
 
 export * from './types';
