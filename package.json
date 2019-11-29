@@ -9,6 +9,7 @@
     "build": "node scripts/build.js",
     "reboot": "rm -rf node_modules && npm i && node scripts/reboot.js",
     "boot": "lerna bootstrap",
+    "clear": "lerna clean --yes",
     "test": "node scripts/test.js",
     "dev:docs": "vuepress dev docs",
     "build:docs": "vuepress build docs",

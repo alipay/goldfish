@@ -2,11 +2,11 @@ import { observable, computed } from '@goldfishjs/reactive-connect';
 import { PageStore } from '@goldfishjs/core';
 
 class MyPageStore extends PageStore {
-  // Get currentShop from AppStore.
+  // Get currentUser from AppStore.
   // AppStore can not be used by PageView directly.
-  currentShop = computed({
+  currentUser = computed({
     get: () => {
-      return this.appStore.currentShop;
+      return this.appStore.currentUser;
     }
   });
 }

@@ -40,9 +40,10 @@ Page(createPage(store, {
     try {
       // Get item data from event
       const item = e.target.dataset.item;
-      this.store.appStore.currentShop = {...item};
+      this.store.appStore.currentUser = {...item};
     } catch(e) {
-      throw new Error('no shop item');
+      // console.log(e);
+      throw new Error(e);
     }
 
     // Navigate to next page

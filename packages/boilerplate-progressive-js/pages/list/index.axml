@@ -5,23 +5,24 @@
 >
   <list a:if="{{!isEmpty}}">
     <view slot="header">
-      Nearby stores
+      Current staff.
     </view>
     <block a:for="{{list}}">
       <list-item
-        thumb="{{item.thumb || '/common/assets/shop.png'}}"
-        arrow="{{item.arrow}}"
-        onClick="onItemClick"
+        class="user-list-item"
+        thumb="{{item.avatar}}"
         data-item="{{item}}"
-        index="items-multiple-{{index}}"
-        last="{{index === (itemsThumbMultiple.length - 1)}}"
-        key="items-multiple-{{index}}"
         multipleLine="{{true}}"
+        onClick="onItemClick"
       >
-        {{item.title}}
-        <view class="am-list-brief">{{item.brief}}</view>
-        <view a:if="{{item.extra}}" slot="extra">
-          {{item.extra}}
+        <view class="name">
+          {{item.name}}
+        </view>
+        <view class="position">
+          <text class="position-item" a:for="{{item.position}}">{{item}}</text>
+        </view>
+        <view class="description">
+          {{item.description}}
         </view>
       </list-item>
     </block>
