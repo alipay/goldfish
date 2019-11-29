@@ -1,17 +1,22 @@
-<view>
-  <view class="page-title">Shop Detail</view>
-  <view class="user-content">
-    <view class="avatar">
-      <image mode="widthFix" src="{{currentUser.avatar}}">
-    </view>
-    <view class="name">
-      {{currentUser.name}}
-    </view>
-    <view class="position">
-      <text class="position-item" a:for="{{currentUser.position}}">{{item}}</text>
-    </view>
-    <view class="description">
-      {{currentUser.description}}
-    </view>
+<view class="user-content">
+  <view class="avatar">
+    <image mode="widthFix" src="{{currentUser.avatar}}">
+  </view>
+  <view class="name">
+    {{currentUser.name}}
+  </view>
+  <view class="position">
+    <text class="position-item">Age: {{currentUser.age}}</text>
+    <text class="position-item" a:for="{{currentUser.position}}">{{item}}</text>
+  </view>
+  <view class="description">
+    {{currentUser.description}}
+  </view>
+  <view class="heart" onTap="onHeart">
+    <am-icon
+      color="{{currentUser.heart ? 'red' : 'gray'}}"
+      type="{{currentUser.heart ? 'heart' : 'heart-o'}}"
+      size="50"
+    />
   </view>
 </view>

@@ -5,7 +5,8 @@ import store from './store';
 // Observable page store to reactive
 Page(createPage(store, {
   onShow() {
-    console.log('on show');
+    // When back from detail, use currentUser update list data.
+    this.store.updateCurrentUser();
   },
   onReady() {
     console.log('on ready');
@@ -46,7 +47,7 @@ Page(createPage(store, {
       throw new Error(e);
     }
 
-    // Navigate to next page
+    // Navigate to detail page
     my.navigateTo({
       url: '/pages/detail/index',
     });

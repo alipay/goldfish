@@ -2,48 +2,95 @@
   "sceneName": "normal",
   "data": [
     {
-      "title": "Shop Item 1",
-      "brief": "Brief Content."
+      "name": "Kostas Antetokounmpo",
+      "age": "29",
+      "position": [
+        "Developer"
+      ],
+      "description": "Work with developers to design algorithms and flowcharts."
     },
     {
-      "title": "Shop Item 2"
+      "name": "Avery Bradley",
+      "age": "23",
+      "position": [
+        "Desinger"
+      ],
+      "description": "Produce clean, efficient code based on specifications."
     },
     {
-      "title": "Shop Item 3",
-      "extra": "CLOSED"
+      "name": "Alex Caruso",
+      "age": "31",
+      "position": [
+        "Architect",
+        "Sales"
+      ],
+      "description": "Integrate software components and third-party programs."
     },
     {
-      "title": "Shop Item 1",
-      "brief": "Brief Content."
+      "name": "Quinn Cook",
+      "age": "25",
+      "position": [
+        "Editor"
+      ],
+      "description": "Proven experience as a Software Developer, Software Engineer or similar role."
     },
     {
-      "title": "Shop Item 2"
+      "name": "Troy Daniels",
+      "age": "22",
+      "position": [
+        "Sales",
+        "Editor"
+      ],
+      "description": "Experience with databases and Object-Relational Mapping (ORM) frameworks (e.g. Hibernate)."
     },
     {
-      "title": "Shop Item 3",
-      "extra": "CLOSED"
+      "name": "Danny Green",
+      "age": "33",
+      "position": [
+        "Architect",
+        "Editor"
+      ],
+      "description": "Experience with software design and development in a test-driven environment."
     },
     {
-      "title": "Shop Item 1",
-      "brief": "Brief Content."
+      "name": "LeBron James",
+      "age": "32",
+      "position": [
+        "Developer",
+        "Desinger"
+      ],
+      "description": "Knowledge of coding languages (e.g. C++, Java, JavaScript) and frameworks/systems (e.g. AngularJS, Git)."
     },
     {
-      "title": "Shop Item 2"
+      "name": "Kyle Kuzma",
+      "age": "40",
+      "position": [
+        "Developer",
+        "Editor"
+      ],
+      "description": "Create technical documentation for reference and reporting."
     },
     {
-      "title": "Shop Item 3",
-      "extra": "CLOSED"
+      "name": "JaVale McGee",
+      "age": "20",
+      "position": [
+        "Developer",
+        "Architect",
+        "Sales"
+      ],
+      "description": "Troubleshoot, debug and upgrade existing software."
     },
     {
-      "title": "Shop Item 1",
-      "brief": "Brief Content."
-    },
-    {
-      "title": "Shop Item 2"
-    },
-    {
-      "title": "Shop Item 3",
-      "extra": "CLOSED"
+      "name": "Rajon Rondo",
+      "age": "28",
+      "position": [
+        "Developer",
+        "Desinger",
+        "Architect",
+        "Sales",
+        "Editor"
+      ],
+      "description": "Integrate software components and third-party programs."
     }
   ],
   "interfaceUniqId": "ff561f28-5898-4f44-be62-cc404c2e42ca",

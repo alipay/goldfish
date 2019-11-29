@@ -18,6 +18,13 @@
         <view class="name">
           {{item.name}}
         </view>
+        <view class="heart" a:if="{{item.heart}}">
+          <am-icon
+            color="red"
+            type="heart"
+            size="14"
+          />
+        </view>
         <view class="position">
           <text class="position-item" a:for="{{item.position}}">{{item}}</text>
         </view>

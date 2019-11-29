@@ -1,4 +1,3 @@
 <view>
-  <view class="page-title">This page is a webview h5 page.</view>
-  <web-view src="https://render.alipay.com/p/s/web-view/index"></web-view>
+  <web-view src="https://www.apple.com/"></web-view>
 </view>

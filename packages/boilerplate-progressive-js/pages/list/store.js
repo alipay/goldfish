@@ -45,6 +45,13 @@ class MyPageStore extends PageStore {
 
     this.isEmpty = this.list.length < 1;
     this.loading = false;
+  };
+
+  updateCurrentUser() {
+    const currentUser = this.appStore.currentUser;
+    if (!currentUser) return;
+    const index = this.list.findIndex(item => item.name == currentUser.name);
+    this.list[index] = currentUser;
   }
 }
 

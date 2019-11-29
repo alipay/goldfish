@@ -1,11 +1,33 @@
+page {
+  background-color: #eee;
+}
+
+.form-wrapper {
+  padding: 32rpx;
+}
+
 .form {
-  padding: 24rpx;
+  background: #fff;
+  border-radius: 8rpx;
+  padding-bottom: 32rpx;
+}
+
+.form-header {
+  font-size: 32rpx;
+  color: #454545;
+  text-align: center;
 }
 
 .form-row {
+  border-bottom: 1px solid #eee;
+  padding: 0 32rpx;
   display: flex;
   align-items: center;
-  height: 120rpx;
+  min-height: 120rpx;
+}
+
+.form-row-no-border {
+  border-bottom: none;
 }
 
 .form-row-label {
@@ -17,7 +39,14 @@
 }
 
 .form-row-content input {
+  color: #454545;
+  font-size: 26rpx;
   width: 100%;
+}
+
+.form-row-content textarea {
+  width: 100%;
+  margin-top: 56rpx;
 }
 
 .radio {
@@ -25,9 +54,5 @@
 }
 
 .form-button {
-  margin-top: 36rpx;
-}
-
-.form-preview {
-  margin-top: 32rpx;
+  margin: 36rpx 32rpx 0 32rpx;
 }

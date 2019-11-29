@@ -1,42 +1,58 @@
-.page-title {
-  padding: 24rpx;
+.user-content {
+  padding: 32rpx;
 }
 
-.shop-content {
-  box-shadow: 0 0 0 2rpx rgba(0, 0, 0, 0.1);
-  display: flex;
-  margin: 24rpx;
-  padding: 24rpx;
+.avatar {
+  text-align: center;
 }
 
-.shop-thumb {
-  flex: 0 0 200rpx;
-}
-
-.shop-thumb image {
-  margin-right: 24rpx;
+.avatar .a-image {
+  display: inline-block;
+  height: 200rpx;
   width: 200rpx;
 }
 
-.shop-meta {
-  flex: 1 0 auto;
-}
-
-.shop-title {
-  font-size: 32rpx;
+.name {
+  color: #454545;
+  font-size: 40rpx;
   line-height: 60rpx;
+  text-align: center;
+  margin: 24rpx 0;
 }
 
-.shop-brief {
+.age {
+  color: #666;
+  line-height: 40rpx;
+  font-size: 32rpx;
+}
+
+.position {
+  margin: 20rpx 0;
+  text-align: center;
+}
+
+.position-item {
+  background: gray;
+  color: #fff;
+  display: inline-block;
   font-size: 24rpx;
-  color: #999;
+  line-height: 26rpx;
+  padding: 2rpx 8rpx;
+  border-radius: 4rpx;
+  margin-right: 8rpx;
+}
+
+.description {
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  color: #454545;
+  padding: 32rpx;
+  font-size: 32rpx;
   line-height: 40rpx;
 }
 
-.shop-extra {
-  border: 1px solid #ddd;
-  display: inline-block;
-  font-size: 24rpx;
-  padding: 6rpx;
-  margin-bottom: 12rpx;
+.heart {
+  display: flex;
+  justify-content: center;
+  margin: 20rpx;
 }
