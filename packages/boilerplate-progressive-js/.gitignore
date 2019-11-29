@@ -13,7 +13,6 @@ yarn-error.log
 src/.entry
 src/.tea
 .tea
-src/package-lock.json
 
 output
 .node

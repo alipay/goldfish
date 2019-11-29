@@ -4,6 +4,5 @@ node_modules
 .vscode
 .DS_Store
 .tea
-package-lock.json
 docs/.vuepress/dist/
 packages/.alipay
