@@ -1,0 +1,32 @@
+{
+  "textColor": 14540253,
+  "selectedColor": 4827630,
+  "backgroundColor": 16777215,
+  "items": [
+    {
+      "icon": "common/assets/icon-tab.png",
+      "activeIcon": "common/assets/icon-tab-active.png",
+      "name": "Teams",
+      "tag": "pages/list/index",
+      "url": "index.html#pages/list/index",
+      "launchParamsTag": "pages/list/index"
+    },
+    {
+      "icon": "common/assets/icon-tab.png",
+      "activeIcon": "common/assets/icon-tab-active.png",
+      "name": "Record",
+      "tag": "pages/form/index",
+      "url": "index.html#pages/form/index",
+      "launchParamsTag": "pages/form/index"
+    },
+    {
+      "icon": "common/assets/icon-tab.png",
+      "activeIcon": "common/assets/icon-tab-active.png",
+      "name": "WebView",
+      "tag": "pages/webview/index",
+      "url": "index.html#pages/webview/index",
+      "launchParamsTag": "pages/webview/index"
+    }
+  ],
+  "disableOnInit": true
+}
