@@ -8,6 +8,7 @@ import {
 } from '@goldfishjs/reactive-connect';
 import AppStore from '../store/AppStore';
 import ComponentStore from '../store/ComponentStore';
+import { silent } from '@goldfishjs/utils';
 
 /**
  * Connect ComponentStore with Component.
@@ -38,7 +39,11 @@ export default function createComponent<
     async function (this: ComponentInstance<P, D, CS, M>) {
       const store = this.store!;
       store.isInitLoading = true;
-      store.globalStore && (await store.globalStore.waitForReady());
+
+      await silent.async(async () => {
+        await store.appStore.waitForReady();
+      })();
+
       try {
         await store.fetchInitData();
       } catch (e) {
@@ -56,7 +61,7 @@ export default function createComponent<
       ...options,
       afterCreateStore: (view, store) => {
         options && options.afterCreateStore && options.afterCreateStore(view, store);
-        store.globalStore = (getApp() as any).store;
+        store.appStore = (getApp() as any).store;
       },
     },
   );

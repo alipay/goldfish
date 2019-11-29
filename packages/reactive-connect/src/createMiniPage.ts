@@ -58,7 +58,7 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
       const store = new storeClass();
       afterCreateStore && afterCreateStore(instance as PageInstance<D, PS>, store);
 
-      store.globalStore = (getApp() as any).store;
+      store.appStore = (getApp() as any).store;
       return store;
     },
     {
