@@ -9,13 +9,20 @@
     "build": "node scripts/build.js",
     "reboot": "rm -rf node_modules && npm i && node scripts/reboot.js",
     "boot": "lerna bootstrap",
-    "test": "node scripts/test.js"
+    "clear": "lerna clean --yes",
+    "test": "node scripts/test.js",
+    "dev:docs": "vuepress dev docs",
+    "build:docs": "vuepress build docs",
+    "deploy": "./deploy.sh"
   },
   "license": "MIT",
   "devDependencies": {
     "lerna": "^3.13.4"
   },
   "dependencies": {
-    "@types/jest": "^24.0.22"
+    "@types/jest": "^24.0.22",
+    "vuepress": "^1.0.0",
+    "@vuepress/plugin-back-to-top": "^1.0.0",
+    "@vuepress/plugin-medium-zoom": "^1.0.0"
   }
 }

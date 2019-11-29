@@ -1,61 +1,25 @@
-<form class="form" onSubmit="onSubmit">
-  <view class="form-row">
-    <view class="form-row-label">Name</view>
-    <view class="form-row-content">
-      <input name="name" class="input" placeholder="input name" />
+<view class="form-wrapper">
+  <form class="form" onSubmit="onSubmit">
+    <view class="form-row">
+      <view class="form-row-label">Name:</view>
+      <view class="form-row-content">
+        <input name="name" class="input" placeholder="Input name" />
+      </view>
     </view>
-  </view>
-  <view class="form-row">
-    <view class="form-row-label">Sex</view>
-    <view class="form-row-content">
-      <radio-group class="radio-group" name="sex">
-        <label class="radio" key="label-male">
-          <radio value="sex-male" />
-          <text class="radio-text">Male</text>
-        </label>
-        <label class="radio" key="label-female">
-          <radio value="sex-female" />
-          <text class="radio-text">Female</text>
-        </label>
-      </radio-group>
+    <view class="form-row">
+      <view class="form-row-label">Age:</view>
+      <view class="form-row-content">
+        <slider name="age" value="20" min="0" max="100" show-value/>
+      </view>
     </view>
-  </view>
-  <view class="form-row">
-    <view class="form-row-label">Married</view>
-    <view class="form-row-content">
-      <switch name="married"/>
+    <view class="form-row form-row-no-border">
+      <view class="form-row-label">Description:</view>
+      <view class="form-row-content">
+        <textarea name="description" placeholder="Input description" />
+      </view>
     </view>
-  </view>
-  <view class="form-row">
-    <view class="form-row-label">Age</view>
-    <view class="form-row-content">
-      <slider name="age" value="20" min="0" max="100" show-value/>
+    <view class="form-button">
+      <button type="primary" formType="submit">Submit</button>
     </view>
-  </view>
-  <view class="form-row">
-    <view class="form-row-label">Date</view>
-    <view class="form-row-content" onTap="onOpenSelectDate">
-      <input name="date" placeholder="select date" class="input" controlled="{{true}}" value="{{date}}" />
-    </view>
-  </view>
-  <view class="form-button">
-    <button type="primary" formType="submit">Submit</button>
-  </view>
-
-  <view class="form-preview" a:if="{{formData}}">
-    <view>Submit FormData:</view>
-    {{formatFormData}}
-  </view>
-
-  <g-popup
-    title="Select Date"
-    show="{{ showDate }}"
-    position="bottom"
-    onClose="onCloseSelectDate"
-  >
-    <calendar
-      haveYear="{{true}}"
-      onSelect="handleSelect"
-    />
-  </g-popup>
-</form>
+  </form>
+</view>

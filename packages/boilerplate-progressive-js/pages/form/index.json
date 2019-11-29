@@ -2,5 +2,6 @@
   "usingComponents": {
     "calendar": "mini-antui/es/calendar/index",
     "g-popup": "../../components/g-popup/index"
-  }
+  },
+  "defaultTitle": "Staff Record"
 }

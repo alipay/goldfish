@@ -26,19 +26,19 @@
         "icon": "common/assets/icon-tab.png",
         "activeIcon": "common/assets/icon-tab-active.png",
         "pagePath": "pages/list/index",
-        "name": "List"
+        "name": "Teams"
+      },
+      {
+        "icon": "common/assets/icon-tab.png",
+        "activeIcon": "common/assets/icon-tab-active.png",
+        "pagePath": "pages/form/index",
+        "name": "Record"
       },
       {
         "icon": "common/assets/icon-tab.png",
         "activeIcon": "common/assets/icon-tab-active.png",
         "pagePath": "pages/webview/index",
         "name": "WebView"
-      },
-      {
-        "icon": "common/assets/icon-tab.png",
-        "activeIcon": "common/assets/icon-tab-active.png",
-        "pagePath": "pages/form/index",
-        "name": "Form"
       }
     ]
   }

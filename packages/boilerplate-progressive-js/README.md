@@ -26,3 +26,7 @@ Visit [DataHub](https://macacajs.github.io/macaca-datahub/).
 
 
 <img style="width: 230px" src="https://gw.alipayobjects.com/mdn/rms_2ed70a/afts/img/A*CHt5QZ8_up8AAAAAAAAAAABkARQnAQ" />
+
+## Thanks
+
+Boilerplate Icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/).

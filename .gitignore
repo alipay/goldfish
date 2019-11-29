@@ -5,3 +5,4 @@ node_modules
 .DS_Store
 .tea
 package-lock.json
+docs/.viewpress/dist

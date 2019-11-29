@@ -4,16 +4,22 @@ import store from './store';
 Page(createPage(store, {
   onLoad() {},
   onSubmit(e) {
-    this.store.formData = e.detail.value;
-  },
-  onOpenSelectDate() {
-    this.store.showDate = true;
-  },
-  onCloseSelectDate() {
-    this.store.showDate = false;
-  },
-  handleSelect(date) {
-    this.store.showDate = false;
-    this.store.date = date[0];
+    // Get Form Data from `e.detail.value`;
+    const value = e.detail.value;
+    if (!value.name || !value.description) {
+      my.alert({
+        content: 'Please Fill in the Form.',
+      });
+
+      return;
+    }
+
+    this.store.formData = value;
+
+    my.confirm({
+      title: 'Your Submit Data',
+      // Using the format output.
+      content: this.store.formatFormData,
+    });
   },
 }));
