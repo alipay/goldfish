@@ -13,6 +13,7 @@ install:
   - npm install -g vuepress
 script:
   - vuepress build docs
+  - npm run deploy:boilerplate
 deploy:
   provider: pages
   skip-cleanup: true
