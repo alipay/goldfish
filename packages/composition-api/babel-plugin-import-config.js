@@ -21,7 +21,7 @@ module.exports = {
       usePlugin: `${codeDir}/usePlugin`,
       useReady: `${codeDir}/useReady`,
       useInitDataReady: `${codeDir}/useInitDataReady`,
-      usePluginReady: `${codeDir}/usePluginReady`,
+      usePluginsReady: `${codeDir}/usePluginsReady`,
       useGlobalData: `${codeDir}/useGlobalData`,
       useWatch: `${codeDir}/useWatch`,
       useAutorun: `${codeDir}/useAutorun`,

@@ -112,6 +112,7 @@ export default function usePlugins<
   Record<F['type'], InstanceType<F>> &
   Record<G['type'], InstanceType<G>> &
   Record<H['type'], InstanceType<H>>;
+export default function usePlugins(list: PluginClass<Plugin>[]): Record<string, Plugin>;
 export default function usePlugins(
   pluginClassList?: PluginClass[],
 ): Record<string, Plugin> {
