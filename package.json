@@ -7,7 +7,7 @@
     "release": "node scripts/release.js",
     "lint": "node scripts/lint.js",
     "build": "node scripts/build.js",
-    "reboot": "rm -rf node_modules && npm i && node scripts/reboot.js",
+    "reboot": "rm -rf node_modules && npm i --no-package-lock --registry=https://registry.npm.taobao.org && node scripts/reboot.js",
     "boot": "lerna bootstrap",
     "clear": "lerna clean --yes",
     "test": "node scripts/test.js",

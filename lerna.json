@@ -5,7 +5,8 @@
   "command": {
     "bootstrap": {
       "npmClientArgs": [
-        "--no-package-lock"
+        "--no-package-lock",
+        "--registry=https://registry.npm.taobao.org"
       ]
     }
   },

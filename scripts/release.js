@@ -1,11 +1,12 @@
 const { runCommand, runScript, lerna } = require('./utils');
 
+runCommand('rm -rf node_modules && npm i --no-package-lock --registry=https://registry.npm.taobao.org');
 runCommand('lerna clean --yes');
-runCommand('lerna bootstrap');
+runCommand('lerna bootstrap --loglevel=verbose');
 
-const changedPackages = lerna.changed();
+const packages = lerna.list();
 
-changedPackages.forEach((pkg) => {
+packages.forEach((pkg) => {
   // Do not handle the private packages.
   if (pkg.private) {
     return;
@@ -16,9 +17,9 @@ changedPackages.forEach((pkg) => {
   runScript('test', pkg.location);
 });
 
-runCommand('lerna version --allow-branch master');
+runCommand('lerna version --allow-branch master --loglevel=verbose');
 
-changedPackages.forEach((pkg) => {
+packages.forEach((pkg) => {
   // Do not release the private packages.
   if (pkg.private) {
     return;
