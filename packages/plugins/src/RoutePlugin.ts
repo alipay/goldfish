@@ -1,5 +1,5 @@
 import { route } from '@goldfishjs/route';
-import Plugin, { GetPlugin, PluginClass } from './Plugin';
+import Plugin, { GetPlugin } from './Plugin';
 import BridgePlugin from './BridgePlugin';
 
 interface IPage {

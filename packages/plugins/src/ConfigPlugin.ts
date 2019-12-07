@@ -16,8 +16,11 @@ export default class ConfigPlugin<C extends IConfig = IConfig> extends Plugin {
     this.config = config;
   }
 
-  public get<K extends keyof C>(key: K) {
-    return this.config![key];
+  public get<K extends keyof C>(key: K): C[K] {
+    if (!this.config) {
+      throw new Error('The ConfigPlugin is not ready.');
+    }
+    return this.config[key];
   }
 
   public init() {}

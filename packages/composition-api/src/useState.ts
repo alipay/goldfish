@@ -3,6 +3,10 @@ import checkSetupEnv from './checkSetupEnv';
 
 export function reactive(obj: any) {
   for (const k in obj) {
+    if (typeof obj[k] === 'function') {
+      throw new Error(`Do not put function to the reactive object: ${k}.`);
+    }
+
     const descriptor = Object.getOwnPropertyDescriptor(obj, k);
     if (!descriptor || (!descriptor.get && !descriptor.set)) {
       continue;

@@ -17,7 +17,7 @@ packages.forEach((pkg) => {
   runScript('test', pkg.location);
 });
 
-runCommand('lerna version --allow-branch master --loglevel=verbose');
+runCommand('lerna version --allow-branch master --loglevel=verbose --force-publish');
 
 packages.forEach((pkg) => {
   // Do not release the private packages.

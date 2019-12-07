@@ -24,7 +24,7 @@ function isSetter(x: any): x is Setter {
 }
 
 function isFullComputedValue(x: any): x is FullComputedValue {
-  return typeof x === 'object'
+  return x !== null && typeof x === 'object'
     && (isGetter(x.get) || isSetter(x.set));
 
 }
