@@ -19,7 +19,7 @@ export default class Route extends Plugin {
 
   public destroy() {}
 
-  private pages: IPage[] = [];
+  public pages: IPage[] = [];
 
   private setPages() {
     const currentPages: tinyapp.IPageInstance<any>[] = getCurrentPages();
