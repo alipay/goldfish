@@ -87,5 +87,14 @@ export default function createTinyappComponent<
     syncProps,
   );
 
+  attachLogic<typeof leaveKey, Required<ComponentOptions<P, D, CS, M>>[typeof leaveKey]>(
+    componentOptions,
+    leaveKey,
+    'after',
+    function (this: ComponentInstance<P, D, CS, M>) {
+      this.store && (this.store.isSyncDataSafe = false);
+    },
+  );
+
   return componentOptions;
 }
