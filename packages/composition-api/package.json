@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/composition-api",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "goldfish-composition-api",
   "main": "lib/index.js",
   "scripts": {
@@ -16,10 +16,10 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
-    "@goldfishjs/core": "^0.0.6",
-    "@goldfishjs/plugins": "^0.0.6",
-    "@goldfishjs/reactive": "^0.0.6",
-    "@goldfishjs/reactive-connect": "^0.0.6",
+    "@goldfishjs/core": "^0.0.7",
+    "@goldfishjs/plugins": "^0.0.7",
+    "@goldfishjs/reactive": "^0.0.7",
+    "@goldfishjs/reactive-connect": "^0.0.7",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {
