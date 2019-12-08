@@ -91,6 +91,13 @@ export default class MiniDataSetter<
       }
     });
     await Promise.resolve();
+
+    const store = (this.view as any).store;
+    const isSyncDataSafe = store && store.isSyncDataSafe === false ? false : true;
+    if (!isSyncDataSafe) {
+      return;
+    }
+
     // Component Store needs $page.$batchedUpdates
     (
       this.view.$batchedUpdates ?
