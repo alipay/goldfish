@@ -1,6 +1,7 @@
 import { route } from '@goldfishjs/route';
 import Plugin, { GetPlugin } from './Plugin';
 import BridgePlugin from './BridgePlugin';
+import { observable, state } from '@goldfishjs/reactive-connect';
 
 interface IPage {
   path: string;
@@ -8,18 +9,20 @@ interface IPage {
   referrerInfo?: any;
 }
 
+@observable
 export default class Route extends Plugin {
   public static type = 'route';
 
   private bridge: BridgePlugin = new BridgePlugin();
 
-  public init(getPlugin: GetPlugin) {
+  @state
+  public pages: IPage[] = [];
+
+  public async init(getPlugin: GetPlugin) {
     this.bridge = getPlugin(BridgePlugin);
   }
 
   public destroy() {}
-
-  public pages: IPage[] = [];
 
   private setPages() {
     const currentPages: tinyapp.IPageInstance<any>[] = getCurrentPages();
@@ -82,5 +85,9 @@ export default class Route extends Plugin {
       return false;
     });
     this.popWindow(pages.length - targetIndex - 1);
+  }
+
+  public pushWindow(...args: Parameters<(typeof route)['pushWindow']>) {
+    return route.pushWindow(...args);
   }
 }

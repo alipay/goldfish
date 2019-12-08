@@ -12,7 +12,7 @@ import BridgePlugin from './BridgePlugin';
 export default class MockBridgePlugin extends BridgePlugin {
   private host?: string;
 
-  public init(getPlugin: GetPlugin) {
+  public async init(getPlugin: GetPlugin) {
     const configPlugin = getPlugin(ConfigPlugin) as ConfigPlugin<IConfig>;
     this.host = configPlugin.get('bridgeMockServerHost');
   }

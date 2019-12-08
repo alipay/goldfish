@@ -10,7 +10,7 @@ import {
 export default class BridgePlugin extends Plugin {
   public static type = 'bridge';
 
-  public init(_: GetPlugin) {}
+  public async init(_: GetPlugin) {}
 
   public destroy() {}
 

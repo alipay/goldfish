@@ -7,7 +7,7 @@ export default class RequesterPlugin extends Plugin {
 
   protected requester?: Requester;
 
-  public init(getPlugin: GetPlugin) {
+  public async init(getPlugin: GetPlugin) {
     const configPlugin = getPlugin(ConfigPlugin);
     const options = configPlugin.get('requesterOptions');
     this.requester = new Requester(options);

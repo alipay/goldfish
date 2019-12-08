@@ -69,7 +69,7 @@ export default class PluginHub {
     this.state = 'init_start';
     for (const type in this.plugins) {
       const plugin = this.plugins[type];
-      plugin.init(this.get.bind(this));
+      await plugin.init(this.get.bind(this));
     }
     this.state = 'ready';
   }

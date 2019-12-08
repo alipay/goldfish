@@ -23,7 +23,7 @@ export default class ConfigPlugin<C extends IConfig = IConfig> extends Plugin {
     return this.config[key];
   }
 
-  public init() {}
+  public async init() {}
 
   public destroy() {}
 }

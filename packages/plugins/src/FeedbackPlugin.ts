@@ -60,7 +60,7 @@ export default class FeedbackPlugin extends Plugin {
   @state
   public feedbackQueue: FeedbackOption[] = [];
 
-  public init(getPlugin: GetPlugin) {}
+  public async init(_: GetPlugin) {}
 
   public addToast(option: InputToastOption) {
     this.feedbackQueue.push({
