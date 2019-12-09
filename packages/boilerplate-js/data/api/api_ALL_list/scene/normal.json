@@ -7,7 +7,8 @@
       "position": [
         "Developer"
       ],
-      "description": "Work with developers to design algorithms and flowcharts."
+      "description": "Work with developers to design algorithms and flowcharts.",
+      "heart": false
     },
     {
       "name": "Avery Bradley",
@@ -15,7 +16,8 @@
       "position": [
         "Desinger"
       ],
-      "description": "Produce clean, efficient code based on specifications."
+      "description": "Produce clean, efficient code based on specifications.",
+      "heart": false
     },
     {
       "name": "Alex Caruso",
@@ -24,7 +26,8 @@
         "Architect",
         "Sales"
       ],
-      "description": "Integrate software components and third-party programs."
+      "description": "Integrate software components and third-party programs.",
+      "heart": false
     },
     {
       "name": "Quinn Cook",
@@ -32,7 +35,8 @@
       "position": [
         "Editor"
       ],
-      "description": "Proven experience as a Software Developer, Software Engineer or similar role."
+      "description": "Proven experience as a Software Developer, Software Engineer or similar role.",
+      "heart": false
     },
     {
       "name": "Troy Daniels",
@@ -41,7 +45,8 @@
         "Sales",
         "Editor"
       ],
-      "description": "Experience with databases and Object-Relational Mapping (ORM) frameworks (e.g. Hibernate)."
+      "description": "Experience with databases and Object-Relational Mapping (ORM) frameworks (e.g. Hibernate).",
+      "heart": false
     },
     {
       "name": "Danny Green",
@@ -50,7 +55,8 @@
         "Architect",
         "Editor"
       ],
-      "description": "Experience with software design and development in a test-driven environment."
+      "description": "Experience with software design and development in a test-driven environment.",
+      "heart": false
     },
     {
       "name": "LeBron James",
@@ -59,7 +65,8 @@
         "Developer",
         "Desinger"
       ],
-      "description": "Knowledge of coding languages (e.g. C++, Java, JavaScript) and frameworks/systems (e.g. AngularJS, Git)."
+      "description": "Knowledge of coding languages (e.g. C++, Java, JavaScript) and frameworks/systems (e.g. AngularJS, Git).",
+      "heart": false
     },
     {
       "name": "Kyle Kuzma",
@@ -68,7 +75,8 @@
         "Developer",
         "Editor"
       ],
-      "description": "Create technical documentation for reference and reporting."
+      "description": "Create technical documentation for reference and reporting.",
+      "heart": false
     },
     {
       "name": "JaVale McGee",
@@ -78,7 +86,8 @@
         "Architect",
         "Sales"
       ],
-      "description": "Troubleshoot, debug and upgrade existing software."
+      "description": "Troubleshoot, debug and upgrade existing software.",
+      "heart": false
     },
     {
       "name": "Rajon Rondo",
@@ -90,7 +99,8 @@
         "Sales",
         "Editor"
       ],
-      "description": "Integrate software components and third-party programs."
+      "description": "Integrate software components and third-party programs.",
+      "heart": false
     }
   ],
   "interfaceUniqId": "ff561f28-5898-4f44-be62-cc404c2e42ca",

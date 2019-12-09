@@ -1,6 +1,5 @@
-import { observable, state } from '@goldfishjs/reactive-connect';
-import { PageStore } from '@goldfishjs/core';
-import request from '../../common/request';
+import { observable, state } from '@goldfishjs/core';
+import request from '../common/request';
 
 const localAvatarUrl = [
   '/common/assets/avatar/boy-1.png',
@@ -14,7 +13,7 @@ const localAvatarUrl = [
   '/common/assets/avatar/man.png',
 ];
 
-class MyPageStore extends PageStore {
+class List {
   // State statement means this properties need to be observable.
   loading = state(false);
   showDialog = state(true);
@@ -47,13 +46,12 @@ class MyPageStore extends PageStore {
     this.loading = false;
   };
 
-  updateCurrentUser() {
-    const currentUser = this.appStore.currentUser;
-    if (!currentUser) return;
-    const index = this.list.findIndex(item => item.name == currentUser.name);
-    this.list[index] = currentUser;
+  toggleHeart(name) {
+    const index = this.list.findIndex(item => item.name === name);
+    // Make sure the list data must have heart property in the beginning.
+    this.list[index].heart = !this.list[index].heart;
   }
 }
 
 // MyPageStore need observable
-export default observable(MyPageStore);
+export default observable(List);

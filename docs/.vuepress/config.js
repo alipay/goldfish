@@ -67,7 +67,7 @@ module.exports = {
               children: [
                 'getting-start',
                 'reactive',
-                'reactive-progressive',
+                // 'reactive-progressive',
                 'dive-in-reactive',
               ],
             },
