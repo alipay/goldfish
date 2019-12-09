@@ -1,0 +1,22 @@
+<view class="user-content">
+  <view class="avatar">
+    <image mode="widthFix" src="{{state.current.avatar}}">
+  </view>
+  <view class="name">
+    {{state.current.name}}
+  </view>
+  <view class="position">
+    <text class="position-item">Age: {{state.current.age}}</text>
+    <text class="position-item" a:for="{{state.current.position}}">{{item}}</text>
+  </view>
+  <view class="description">
+    {{state.current.description}}
+  </view>
+  <view class="heart" onTap="onHeart">
+    <am-icon
+      color="{{state.current.heart ? 'red' : 'gray'}}"
+      type="{{state.current.heart ? 'heart' : 'heart-o'}}"
+      size="50"
+    />
+  </view>
+</view>

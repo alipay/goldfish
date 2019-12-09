@@ -198,4 +198,4 @@ async onLoad() {
 }
 ```
 
-Other details please visit: [boilerplate-progressive-js](https://github.com/alipay/goldfish/tree/master/packages/boilerplate-progressive-js).
+Other details please visit: [boilerplate-js](https://github.com/alipay/goldfish/tree/master/packages/boilerplate-js).

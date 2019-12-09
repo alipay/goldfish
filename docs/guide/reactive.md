@@ -1,7 +1,5 @@
 # Use State Management
 
-> If you only want to use part of state management of Goldfish, please visit [Use state Management Progressive](./reactive-progressive.md).
-
 ## Alipay mini program State Management
 
 The original framework of Alipay mini program provides the Page/Component level data state management ([this.setData()](https://docs.alipay.com/mini/framework/page-detail#pageprototypesetdatadata-object-callback-function)), but that is not available for Page or Component across scenarios. The general solution is to put data into globalData to solve the data sharing problem across pages.

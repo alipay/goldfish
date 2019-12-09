@@ -3,11 +3,11 @@
   scroll-y="{{true}}"
   onScrollToLower="onScrollToLower"
 >
-  <list a:if="{{!isEmpty}}">
+  <list a:if="{{!list.isEmpty}}">
     <view slot="header">
       Current staff.
     </view>
-    <block a:for="{{list}}">
+    <block a:for="{{list.list}}">
       <list-item
         class="user-list-item"
         thumb="{{item.avatar}}"
@@ -34,7 +34,7 @@
       </list-item>
     </block>
   </list>
-  <view class="empty" a:if="{{isEmpty}}">
+  <view class="empty" a:if="{{list.isEmpty}}">
     No Data.
     <view class="empty-content">Please check your network & mock server.</view>
   </view>

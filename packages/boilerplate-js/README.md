@@ -1,4 +1,4 @@
-# Goldfish Progressive Boilerplate
+# Goldfish Boilerplate by JavaScript
 
 ## How to use
 
@@ -7,7 +7,7 @@
 ```bash
 $ # Create Repositories from github:
 $ git clone https://github.com/alipay/goldfish.git
-$ cd packages/boilerplate-progressive-js
+$ cd packages/boilerplate-js
 
 $ # Install dependencies:
 $ npm install
