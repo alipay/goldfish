@@ -1,9 +1,10 @@
-import { observable, IProps, state, ComponentInstance } from '@goldfishjs/reactive-connect';
+import { observable, IProps, state } from '@goldfishjs/reactive-connect';
 import appendFn from './appendFn';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import ComponentSetup, { SetupComponentInstance } from './setup/ComponentSetup';
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import { AppStore, createComponent, ComponentStore } from '@goldfishjs/core';
+import { cloneDeep } from '@goldfishjs/utils';
 
 const lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[] = [
   'onInit',
@@ -41,7 +42,7 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
   @observable
   class BizComponentStore extends ComponentStore<any, AppStore> {
     @state
-    props = props;
+    props = cloneDeep(props);
 
     private stopWatchDeepList: (() => void)[] = [];
 

@@ -20,6 +20,7 @@
     "@goldfishjs/plugins": "^0.0.8",
     "@goldfishjs/reactive": "^0.0.8",
     "@goldfishjs/reactive-connect": "^0.0.8",
+    "@goldfishjs/utils": "^0.0.8",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {
