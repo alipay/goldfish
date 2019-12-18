@@ -20,4 +20,8 @@ export default abstract class ComponentStore<P extends IProps, AS = AppStore> ex
   public isSyncDataSafe: boolean = true;
 
   public abstract props: P;
+
+  public getStateKeys() {
+    return super.getStateKeys().filter(key => key !== 'props');
+  }
 }
