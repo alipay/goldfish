@@ -57,3 +57,5 @@ export type FunctionType = (...args: any[]) => any
 export type WithForceUpdate<T> = T & {
   forceRefresh: T;
 };
+
+export type LodashCloneDeep = <T>(value: T) => T;

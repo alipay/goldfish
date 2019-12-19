@@ -1,9 +1,7 @@
-/* eslint-disable */
-// @ts-ignore
 /**
  * @license
  * Lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash include="omit,find,pick" exports="umd"`
+ * Build: `lodash include="omit,find,pick,cloneDeep" exports="umd"`
  * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -3210,6 +3208,28 @@
   /*------------------------------------------------------------------------*/
 
   /**
+   * This method is like `_.clone` except that it recursively clones `value`.
+   *
+   * @static
+   * @memberOf _
+   * @since 1.0.0
+   * @category Lang
+   * @param {*} value The value to recursively clone.
+   * @returns {*} Returns the deep cloned value.
+   * @see _.clone
+   * @example
+   *
+   * var objects = [{ 'a': 1 }, { 'b': 2 }];
+   *
+   * var deep = _.cloneDeep(objects);
+   * console.log(deep[0] === objects[0]);
+   * // => false
+   */
+  function cloneDeep(value) {
+    return baseClone(value, CLONE_DEEP_FLAG | CLONE_SYMBOLS_FLAG);
+  }
+
+  /**
    * Performs a
    * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
    * comparison between two values to determine if they are equivalent.
@@ -4072,6 +4092,7 @@
   /*------------------------------------------------------------------------*/
 
   // Add methods that return unwrapped values in chain sequences.
+  lodash.cloneDeep = cloneDeep;
   lodash.eq = eq;
   lodash.find = find;
   lodash.findIndex = findIndex;

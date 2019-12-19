@@ -6,5 +6,6 @@ export { default as find } from './find';
 export { default as omit } from './omit';
 export { default as pick } from './pick';
 export { default as silent } from './silent';
+export { default as cloneDeep } from './cloneDeep';
 
 export * from './types';
