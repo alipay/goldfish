@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/reactive",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Reactive.",
   "main": "lib/index.js",
   "scripts": {
