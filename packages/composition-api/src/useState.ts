@@ -23,7 +23,6 @@ export function reactive(obj: any) {
     Object.defineProperty(obj, k, {
       configurable: true,
       enumerable: true,
-      writable: true,
       value: {
         get: getter ? () => getter.call(obj) : undefined,
         set: setter ? (val: any) => setter.call(obj, val) : undefined,
