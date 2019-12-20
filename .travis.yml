@@ -11,7 +11,9 @@ before_install:
   - export TZ='Asia/Shanghai'
 install:
   - npm install -g vuepress
+  - npm run reboot
 script:
+  - npm run ci
   - vuepress build docs
   - npm run deploy:boilerplate
 deploy:
