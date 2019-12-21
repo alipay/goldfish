@@ -83,27 +83,32 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
         }
 
         if (isDirty) {
-          call(() => {
-            cachedValue = realGetter();
-            depList = getCurrent();
-            depMap[key] = depList;
+          call(
+            () => {
+              cachedValue = realGetter();
+              depList = getCurrent();
+              depMap[key] = depList;
 
-            removeListenersGroup.forEach(group => group.forEach(fn => fn()));
-            removeListenersGroup = [];
+              removeListenersGroup.forEach(group => group.forEach(fn => fn()));
+              removeListenersGroup = [];
 
-            const removeFns = depList.addChangeListener(
-              () => {
-                isDirty = true;
-                dep.notifyChange(undefined, cachedValue, {
-                  type: 'computed',
-                  isChanged: () => true,
-                });
-              },
-              false,
-            );
-            isDirty = false;
-            removeListenersGroup.push(removeFns);
-          });
+              const removeFns = depList.addChangeListener(
+                () => {
+                  isDirty = true;
+                  dep.notifyChange(undefined, cachedValue, {
+                    type: 'computed',
+                    isChanged: () => true,
+                  });
+                },
+                false,
+              );
+              isDirty = false;
+              removeListenersGroup.push(removeFns);
+            },
+            (error) => {
+              throw error;
+            },
+          );
         }
 
         return cachedValue;
