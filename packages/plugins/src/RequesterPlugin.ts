@@ -18,7 +18,7 @@ export default class RequesterPlugin extends Plugin {
     data?: IRequestOptions['data'],
     options?: Omit<IRequestOptions, 'url' | 'params'>,
   ) {
-    await this.waitForEverythingReady();
+    await this.waitForReady();
     if (!this.requester) {
       throw new Error('The requester is not ready.');
     }
