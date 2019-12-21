@@ -15,7 +15,7 @@ export default abstract class Plugin {
   @state
   public isInitCompleted: boolean = false;
 
-  public async waitForEverythingReady() {
+  public async waitForReady() {
     return new Promise((resolve) => {
       const stop = watch(
         () => this.isInitCompleted,
