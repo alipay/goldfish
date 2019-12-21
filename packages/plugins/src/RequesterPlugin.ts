@@ -13,11 +13,12 @@ export default class RequesterPlugin extends Plugin {
     this.requester = new Requester(options);
   }
 
-  public request<R>(
+  public async request<R>(
     url: IRequestOptions['url'],
     data?: IRequestOptions['data'],
     options?: Omit<IRequestOptions, 'url' | 'params'>,
   ) {
+    await this.waitForEverythingReady();
     if (!this.requester) {
       throw new Error('The requester is not ready.');
     }

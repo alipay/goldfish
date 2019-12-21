@@ -102,20 +102,7 @@ export default class AppStore extends BaseAppStore {
    * Wait for the registered plugins ready.
    */
   public waitForPluginsReady() {
-    return new Promise((resolve) => {
-      const stop = this.watch(
-        () => this.pluginHub.isReady(),
-        (newVal) => {
-          if (newVal) {
-            resolve();
-            stop();
-          }
-        },
-        {
-          immediate: true,
-        },
-      );
-    });
+    return this.pluginHub.waitForReady();
   }
 
   /**

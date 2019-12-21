@@ -13,6 +13,23 @@ export default class PluginHub {
     return this.state === 'ready';
   }
 
+  public waitForReady() {
+    return new Promise((resolve) => {
+      const stop = watch(
+        () => this.isReady(),
+        (newVal) => {
+          if (newVal) {
+            resolve();
+            stop();
+          }
+        },
+        {
+          immediate: true,
+        },
+      );
+    });
+  }
+
   public async register(pluginClass: PluginClass) {
     if (!pluginClass.type) {
       throw new Error(`Please set the static type property for PluginClass: ${pluginClass}`);
@@ -22,26 +39,15 @@ export default class PluginHub {
     this.plugins[pluginClass.type] = plugin;
 
     if (this.state === 'init_start') {
-      return new Promise((resolve, reject) => {
-        const stop = watch(
-          () => this.state,
-          (newVal) => {
-            if (newVal === 'ready') {
-              try {
-                plugin.init(this.get.bind(this));
-                resolve();
-              } catch (e) {
-                reject(e);
-              }
-              stop();
-            }
-          },
-        );
-      });
+      await this.waitForReady();
+      plugin.init(this.get.bind(this));
+      plugin.isInitCompleted = true;
+      return;
     }
 
     if (this.state === 'ready') {
       plugin.init(this.get.bind(this));
+      plugin.isInitCompleted = true;
     }
   }
 
@@ -70,6 +76,7 @@ export default class PluginHub {
     for (const type in this.plugins) {
       const plugin = this.plugins[type];
       await plugin.init(this.get.bind(this));
+      plugin.isInitCompleted = true;
     }
     this.state = 'ready';
   }
