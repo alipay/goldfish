@@ -6,12 +6,12 @@
   },
   "dependencies": {
     "@goldfishjs/bridge": "^0.0.9",
-    "@goldfishjs/composition-api": "^0.0.3",
-    "@goldfishjs/core": "^0.0.3",
-    "@goldfishjs/plugins": "^0.0.3",
+    "@goldfishjs/composition-api": "^0.0.9",
+    "@goldfishjs/core": "^0.0.9",
+    "@goldfishjs/plugins": "^0.0.9",
     "@goldfishjs/reactive": "^0.0.9",
-    "@goldfishjs/reactive-connect": "^0.0.3",
-    "@goldfishjs/utils": "^0.0.3",
+    "@goldfishjs/reactive-connect": "^0.0.9",
+    "@goldfishjs/utils": "^0.0.9",
     "mini-antui": "^0.4.29"
   },
   "devDependencies": {
