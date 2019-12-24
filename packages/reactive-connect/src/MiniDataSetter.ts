@@ -90,22 +90,25 @@ export default class MiniDataSetter<
         console.warn(e);
       }
     });
-    await Promise.resolve();
 
-    const store = (this.view as any).store;
-    const isSyncDataSafe = store && store.isSyncDataSafe === false ? false : true;
-    if (!isSyncDataSafe) {
-      return;
-    }
+    setTimeout(
+      () => {
+        const store = (this.view as any).store;
+        const isSyncDataSafe = store && store.isSyncDataSafe === false ? false : true;
+        if (!isSyncDataSafe || !this.updateList.length) {
+          return;
+        }
 
-    // Component Store needs $page.$batchedUpdates
-    (
-      this.view.$batchedUpdates ?
-      this.view.$batchedUpdates.bind(this.view) :
-      this.view.$page.$batchedUpdates.bind(this.view.$page)
-    )(() => {
-      this.updateList.forEach(update => update());
-      this.updateList = [];
-    });
+        // Component Store needs $page.$batchedUpdates
+        (
+          this.view.$batchedUpdates ?
+          this.view.$batchedUpdates.bind(this.view) :
+          this.view.$page.$batchedUpdates.bind(this.view.$page)
+        )(() => {
+          this.updateList.forEach(update => update());
+          this.updateList = [];
+        });
+      },
+    );
   }
 }
