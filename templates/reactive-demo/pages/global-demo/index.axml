@@ -1,0 +1,5 @@
+<view>
+  FullName: {{state.fullName}}
+
+  <button onTap="onChangeName">Change Name</button>
+</view>
