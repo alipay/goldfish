@@ -17,7 +17,7 @@ module.exports = {
       computed: `${codeDir}/decorators/computed`,
       observable: `${codeDir}/decorators/observable`,
       state: `${codeDir}/decorators/state`,
-      MiniDataSetter: `${codeDir}/MiniDataSetter`,
+      getMiniDataSetter: `${codeDir}/getMiniDataSetter`,
       isComponent2: `${codeDir}/isComponent2`,
     }[name];
   },

@@ -24,3 +24,9 @@ export * from './watchDeep';
 export { default as generateKeyPathString } from './generateKeyPathString';
 
 export * from './dep';
+
+export { default as raw } from './raw';
+
+export { default as isRaw } from './isRaw';
+
+export { default as unraw } from './unraw';

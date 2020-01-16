@@ -2,7 +2,7 @@ import { connect, IViewInstance, ChangeOptions } from '@goldfishjs/reactive';
 import PageStore from './PageStore';
 import attachLogic from './attachLogic';
 import AppStore from './AppStore';
-import MiniDataSetter from './MiniDataSetter';
+import getMiniDataSetter from './getMiniDataSetter';
 
 export type PageInstance<D, S> =
   tinyapp.IPageInstance<D> & Omit<IViewInstance, 'store'> & { store: S };
@@ -37,7 +37,6 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
       this: tinyapp.IPageInstance<D> & {
         setData: tinyapp.SetDataMethod<D>;
         store: PS;
-        $$miniDataSetter?: MiniDataSetter<tinyapp.IPageInstance<D>>
       },
       _: any,
       keyPathList: (string | number)[],
@@ -49,9 +48,8 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
         return;
       }
 
-      const miniDataSetter = this.$$miniDataSetter || new MiniDataSetter(this);
-      this.$$miniDataSetter = miniDataSetter;
-      miniDataSetter.set(keyPathList, newV, oldV, options);
+      const miniDataSetter = getMiniDataSetter();
+      miniDataSetter.set(this, keyPathList, newV, oldV, options);
     },
     (instance) => {
       beforeCreateStore && beforeCreateStore(instance as PageInstance<D, PS>);

@@ -13,7 +13,9 @@ module.exports = {
       connect: `${codeDir}/connect`,
       reactive: `${codeDir}/reactive`,
       set: `${codeDir}/set`,
-      markObservable: `${codeDir}/markObservable`,
+      raw: `${codeDir}/raw`,
+      isRaw: `${codeDir}/isRaw`,
+      unraw: `${codeDir}/unraw`,
       watchDeep: `${codeDir}/watchDeep`,
       generateKeyPathString: `${codeDir}/generateKeyPathString`,
     }[name];
