@@ -1,0 +1,5 @@
+<view>
+  count: {{state.count}}
+
+  <button onTap="onAdd">Add</button>
+</view>

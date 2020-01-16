@@ -1,0 +1,33 @@
+{
+  "pages": [
+    "pages/part-demo/index",
+    "pages/global-demo/index"
+  ],
+  "window": {
+    "enableDSL": "YES",
+    "enableJSC": "YES",
+    "enableKeepAlive": "NO",
+    "enableWK": "YES",
+    "nboffline": "sync",
+    "tinyPubRes": "YES",
+    "showDomain": "NO",
+    "allowsBounceVertical": "YES",
+    "enableTabBar": "NO",
+    "transparentTitle": "none"
+  },
+  "tabBar": {
+    "textColor": "#dddddd",
+    "selectedColor": "#49a9ee",
+    "backgroundColor": "#ffffff",
+    "items": [
+      {
+        "pagePath": "pages/part-demo/index",
+        "name": "Part"
+      },
+      {
+        "pagePath": "pages/global-demo/index",
+        "name": "Global"
+      }
+    ]
+  }
+}
