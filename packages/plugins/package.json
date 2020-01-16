@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/plugins",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "goldfish-plugins",
   "main": "lib/index.js",
   "scripts": {
@@ -16,12 +16,12 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
-    "@goldfishjs/bridge": "^0.0.12",
-    "@goldfishjs/reactive": "^0.0.12",
-    "@goldfishjs/reactive-connect": "^0.0.12",
-    "@goldfishjs/requester": "^0.0.12",
-    "@goldfishjs/route": "^0.0.12",
-    "@goldfishjs/utils": "^0.0.12",
+    "@goldfishjs/bridge": "^0.0.13",
+    "@goldfishjs/reactive": "^0.0.13",
+    "@goldfishjs/reactive-connect": "^0.0.13",
+    "@goldfishjs/requester": "^0.0.13",
+    "@goldfishjs/route": "^0.0.13",
+    "@goldfishjs/utils": "^0.0.13",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {

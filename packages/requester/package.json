@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/requester",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "goldfish-requester",
   "main": "lib/index.js",
   "scripts": {
@@ -25,8 +25,8 @@
   "author": "likun7981 <likun7891@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@goldfishjs/reactive-connect": "^0.0.12",
-    "@goldfishjs/utils": "^0.0.12",
+    "@goldfishjs/reactive-connect": "^0.0.13",
+    "@goldfishjs/utils": "^0.0.13",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {
