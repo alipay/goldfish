@@ -16,6 +16,7 @@ module.exports = {
       raw: `${codeDir}/raw`,
       isRaw: `${codeDir}/isRaw`,
       unraw: `${codeDir}/unraw`,
+      markObservable: `${codeDir}/markObservable`,
       watchDeep: `${codeDir}/watchDeep`,
       generateKeyPathString: `${codeDir}/generateKeyPathString`,
     }[name];
