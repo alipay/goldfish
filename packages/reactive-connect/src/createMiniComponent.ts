@@ -1,7 +1,7 @@
 import { connect, IViewInstance, ChangeOptions } from '@goldfishjs/reactive';
 import ComponentStore from './ComponentStore';
 import attachLogic from './attachLogic';
-import MiniDataSetter from './MiniDataSetter';
+import getMiniDataSetter from './getMiniDataSetter';
 
 export const isComponent2 = typeof my !== 'undefined' ? my.canIUse('component2') : false;
 
@@ -36,8 +36,7 @@ export default function createTinyappComponent<
     function (
       this: tinyapp.IComponentInstance<P, D> & {
         setData: tinyapp.SetDataMethod<D>;
-        store: CS;
-        $$miniDataSetter?: MiniDataSetter<tinyapp.IComponentInstance<P, D>>
+        store: CS
       },
       _: any,
       keyPathList: (string | number)[],
@@ -49,9 +48,8 @@ export default function createTinyappComponent<
         return;
       }
 
-      const miniDataSetter = this.$$miniDataSetter || new MiniDataSetter(this);
-      this.$$miniDataSetter = miniDataSetter;
-      miniDataSetter.set(keyPathList, newV, oldV, options);
+      const miniDataSetter = getMiniDataSetter();
+      miniDataSetter.set(this, keyPathList, newV, oldV, options);
     },
     (instance) => {
       beforeCreateStore && beforeCreateStore(instance as ComponentInstance<P, D, CS, M>);

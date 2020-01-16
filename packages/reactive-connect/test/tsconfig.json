@@ -5,6 +5,7 @@
       "es2015",
       "dom"
     ],
+    "allowJs": true,
     "types": ["@types/jest", "mini-types"]
   }
 }

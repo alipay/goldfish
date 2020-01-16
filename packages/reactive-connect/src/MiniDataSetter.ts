@@ -5,15 +5,83 @@ import {
   Methods,
 } from '@goldfishjs/reactive';
 
-export default class MiniDataSetter<
-  V extends tinyapp.IPageInstance<any> | tinyapp.IComponentInstance<any, any>
-> {
-  private view: V;
+export class Count {
+  private segTotalList: number[] = [];
 
-  private updateList: (() => void)[] = [];
+  private counter = 0;
 
-  public constructor(view: V) {
-    this.view = view;
+  private cb: () => void;
+
+  public constructor(cb: () => void) {
+    this.cb = cb;
+  }
+
+  public async set() {
+    const segIndex = this.counter === 0
+      ? this.segTotalList.length
+      : (this.segTotalList.length - 1);
+
+    if (!this.segTotalList[segIndex]) {
+      this.segTotalList[segIndex] = 0;
+    }
+
+    this.counter += 1;
+    this.segTotalList[segIndex] += 1;
+
+    await Promise.resolve();
+
+    this.counter -= 1;
+
+    // The last invoke of `set`
+    if (this.counter === 0) {
+      const segLength = this.segTotalList.length;
+      await Promise.resolve();
+      if (this.segTotalList.length === segLength) {
+        this.cb();
+        this.counter = 0;
+        this.segTotalList = [];
+      }
+    }
+  }
+}
+
+type View = tinyapp.IPageInstance<any> | tinyapp.IComponentInstance<any, any>;
+
+export default class MiniDataSetter {
+  private count = new Count(() => this.flush());
+
+  private setDataObjectMap: Record<string, Record<string, any>> = {};
+
+  private spliceDataObjectMap: Record<string, Record<string, any>> = {};
+
+  private viewMap: Record<string, View> = {};
+
+  private getBatchUpdates(view: View) {
+    return view.$batchedUpdates ?
+      view.$batchedUpdates.bind(view) :
+      view.$page.$batchedUpdates.bind(view.$page);
+  }
+
+  private flush() {
+    for (const id in this.viewMap) {
+      const setDataObject = this.setDataObjectMap[id];
+      const spliceDataObject = this.spliceDataObjectMap[id];
+      const view = this.viewMap[id];
+
+      const store = (view as any).store;
+      const isSyncDataSafe = store && store.isSyncDataSafe === false ? false : true;
+      if (!isSyncDataSafe) {
+        continue;
+      }
+
+      this.getBatchUpdates(view)(() => {
+        view.setData(setDataObject);
+        view.$spliceData(spliceDataObject);
+      });
+    }
+    this.viewMap = {};
+    this.setDataObjectMap = {};
+    this.spliceDataObjectMap = {};
   }
 
   private setByKeyPathList(
@@ -45,70 +113,46 @@ export default class MiniDataSetter<
     }
   }
 
-  public async set(
+  public set(
+    view: View,
     keyPathList: (string | number)[],
     newV: any,
     oldV: any,
     options?: ChangeOptions,
   ) {
-    this.updateList.push(() => {
-      try {
-        const keyPathString = generateKeyPathString(keyPathList);
-        if (Array.isArray(newV) && Array.isArray(oldV) && options && options.method) {
-          const methodName: Methods = options && options.method;
-          const args = options && options.args!;
-          const optionsOldV = options && options.oldV!;
-          this.setByKeyPathList(this.view.data, keyPathList, options.oldV);
+    this.spliceDataObjectMap[view.$id] = this.spliceDataObjectMap[view.$id] || {};
+    this.setDataObjectMap[view.$id] = this.setDataObjectMap[view.$id] || {};
+    this.viewMap[view.$id] = view;
+    try {
+      const keyPathString = generateKeyPathString(keyPathList);
+      if (Array.isArray(newV) && Array.isArray(oldV) && options && options.method) {
+        const methodName: Methods = options && options.method;
+        const args = options && options.args!;
+        const optionsOldV = options && options.oldV!;
+        this.setByKeyPathList(view.data, keyPathList, options.oldV);
 
-          const map: Record<string, any> = {
-            push: [optionsOldV.length, 0, ...args],
-            splice: args,
-            unshift: [0, 0, ...args],
-            pop: [optionsOldV.length - 1, 1],
-            shift: [0, 1],
-          };
-          const spliceDataArgs = map[methodName];
+        const map: Record<string, any> = {
+          push: [optionsOldV.length, 0, ...args],
+          splice: args,
+          unshift: [0, 0, ...args],
+          pop: [optionsOldV.length - 1, 1],
+          shift: [0, 1],
+        };
+        const spliceDataArgs = map[methodName];
 
-          if (spliceDataArgs) {
-            this.view.$spliceData({
-              [keyPathString]: spliceDataArgs,
-            });
-          } else {
-            this.view.setData({
-              [keyPathString]: newV,
-            });
-          }
+        if (spliceDataArgs) {
+          this.spliceDataObjectMap[view.$id][keyPathString] = spliceDataArgs;
         } else {
-          this.view.setData({
-            [keyPathString]: newV,
-          });
+          this.setDataObjectMap[view.$id][keyPathString] = newV;
         }
-      } catch (e) {
-        this.view.setData({
-          [keyPathList[0]]: this.view.data[keyPathList[0]],
-        });
-        console.warn(e);
+      } else {
+        this.setDataObjectMap[view.$id][keyPathString] = newV;
       }
-    });
+    } catch (e) {
+      this.setDataObjectMap[view.$id][keyPathList[0]] = view.data[keyPathList[0]];
+      console.warn(e);
+    }
 
-    setTimeout(
-      () => {
-        const store = (this.view as any).store;
-        const isSyncDataSafe = store && store.isSyncDataSafe === false ? false : true;
-        if (!isSyncDataSafe || !this.updateList.length) {
-          return;
-        }
-
-        // Component Store needs $page.$batchedUpdates
-        (
-          this.view.$batchedUpdates ?
-          this.view.$batchedUpdates.bind(this.view) :
-          this.view.$page.$batchedUpdates.bind(this.view.$page)
-        )(() => {
-          this.updateList.forEach(update => update());
-          this.updateList = [];
-        });
-      },
-    );
+    this.count.set();
   }
 }

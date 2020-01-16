@@ -1,6 +1,6 @@
 import CommonSetup from './setup/CommonSetup';
 import { watchDeep } from '@goldfishjs/reactive';
-import { MiniDataSetter } from '@goldfishjs/reactive-connect';
+import { getMiniDataSetter } from '@goldfishjs/reactive-connect';
 import { reactive } from './useState';
 import PageSetup, { SetupPageInstance, SetupPageStore } from './setup/PageSetup';
 import ComponentSetup, {
@@ -86,10 +86,8 @@ export default function integrateSetupFunctionResult(
         return;
       }
 
-      const miniDataSetter = (viewInstance as any).$$miniDataSetter
-        || new MiniDataSetter(viewInstance as any);
-      (viewInstance as any).$$miniDataSetter = miniDataSetter;
-      miniDataSetter.set(keyPathList, newV, oldV, options);
+      const miniDataSetter = getMiniDataSetter();
+      miniDataSetter.set(viewInstance, keyPathList, newV, oldV, options);
     },
     {
       immediate: true,
