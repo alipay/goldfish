@@ -1,4 +1,5 @@
 import { call, getCurrent, Dep, DepList } from './dep';
+import { isRaw } from './raw';
 
 type Getter = () => any;
 type Setter = (v: any) => void;
@@ -35,7 +36,7 @@ export function isComputed(obj: any) {
 }
 
 export default function computed<T extends IComputedSource>(obj: T): { [K in keyof T]: T[K]; } {
-  if (isComputed(obj)) {
+  if (isComputed(obj) || isRaw(obj)) {
     return obj;
   }
 

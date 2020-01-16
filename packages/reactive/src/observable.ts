@@ -1,6 +1,7 @@
 import { getCurrent, Dep, ChangeOptions } from './dep';
 import { isObject, isArray } from './utils';
 import silentValue, { isSilentValue } from './silentValue';
+import { isRaw } from './raw';
 
 type ObservableBaseTypes = null | undefined | string | number | boolean;
 type ObservableArrayElement = ObservableBaseTypes | IObservableObject;
@@ -117,7 +118,7 @@ function defineProperty(obj: any, key: any) {
 }
 
 function createObserver(obj: IObservableObject | ObservableArray) {
-  if (isObservable(obj)) {
+  if (isObservable(obj) || isRaw(obj)) {
     return;
   }
 
