@@ -3,9 +3,14 @@ import {
   generateKeyPathString,
   set as reactiveSet,
   Methods,
+  isObservable,
 } from '@goldfishjs/reactive';
 
-export class Count {
+function isObject(v: any) {
+  return typeof v === 'object' && v !== null;
+}
+
+export class Batch {
   private segTotalList: number[] = [];
 
   private counter = 0;
@@ -45,16 +50,159 @@ export class Count {
   }
 }
 
+type AncestorChildren = Record<string, (Ancestor | Leaf)> | (Ancestor | Leaf)[];
+
+class Ancestor {
+  public parent: Ancestor | undefined = undefined;
+
+  public children: AncestorChildren | undefined = undefined;
+}
+
+class Leaf {
+  public parent: Ancestor | undefined = undefined;
+
+  public value: any;
+}
+
+class UpdateTree {
+  private root = new Ancestor();
+
+  private leafTotalCount = 0;
+
+  private limitLeafTotalCount = 20;
+
+  private view: View;
+
+  public constructor(view: View) {
+    this.view = view;
+  }
+
+  public addNode(keyPathList: (string | number)[], value: any) {
+    let curNode = this.root;
+    const len = keyPathList.length;
+    keyPathList.forEach((keyPath, index) => {
+      if (curNode.children === undefined) {
+        if (typeof keyPath === 'number') {
+          curNode.children = [];
+        } else {
+          curNode.children = {};
+        }
+      }
+
+      if (index < len - 1) {
+        const child = (curNode.children as any)[keyPath];
+        if (!child || child instanceof Leaf) {
+          const node = new Ancestor();
+          node.parent = curNode;
+          (curNode.children as any)[keyPath] = node;
+          curNode = node;
+        } else {
+          curNode = child;
+        }
+      } else {
+        const lastLeafNode: Leaf = new Leaf();
+        lastLeafNode.parent = curNode;
+        lastLeafNode.value = value;
+        (curNode.children as any)[keyPath] = lastLeafNode;
+      }
+    });
+  }
+
+  private getViewData(viewData: any, k: string | number) {
+    return isObject(viewData) ? viewData[k] : null;
+  }
+
+  private combine(curNode: Ancestor | Leaf, viewData: any): any {
+    if (curNode instanceof Leaf) {
+      return curNode.value;
+    }
+
+    if (!curNode.children) {
+      return undefined;
+    }
+
+    if (Array.isArray(curNode.children)) {
+      return curNode.children.map((child, index) => {
+        return this.combine(child, this.getViewData(viewData, index));
+      });
+    }
+
+    const result: Record<string, any> = isObject(viewData) ? viewData : {};
+    for (const k in curNode.children) {
+      result[k] = this.combine(curNode.children[k], this.getViewData(viewData, k));
+    }
+    return result;
+  }
+
+  private iterate(
+    curNode: Ancestor | Leaf,
+    keyPathList: (string | number)[],
+    updateObj: Record<string, any>,
+    viewData: any,
+    availableLeafCount: number,
+  ) {
+    if (curNode instanceof Leaf) {
+      updateObj[generateKeyPathString(keyPathList)] = curNode.value;
+      this.leafTotalCount += 1;
+    } else {
+      const children = curNode.children;
+      const len = Array.isArray(children)
+        ? children.length
+        : Object.keys(children || {}).length;
+      if (len > availableLeafCount) {
+        updateObj[generateKeyPathString(keyPathList)] = this.combine(curNode, viewData);
+        this.leafTotalCount += 1;
+      } else if (Array.isArray(children)) {
+        children.forEach((child, index) => {
+          this.iterate(
+            child,
+            [
+              ...keyPathList,
+              index,
+            ],
+            updateObj,
+            this.getViewData(viewData, index),
+            this.limitLeafTotalCount - this.leafTotalCount - len,
+          );
+        });
+      } else {
+        for (const k in children) {
+          this.iterate(
+            children[k],
+            [
+              ...keyPathList,
+              k,
+            ],
+            updateObj,
+            this.getViewData(viewData, k),
+            this.limitLeafTotalCount - this.leafTotalCount - len,
+          );
+        }
+      }
+    }
+  }
+
+  public generate() {
+    const updateObj: Record<string, any> = {};
+    this.iterate(this.root, [], updateObj, this.view.data, this.limitLeafTotalCount);
+    return updateObj;
+  }
+
+  public clear() {
+    this.root = new Ancestor();
+  }
+}
+
 type View = tinyapp.IPageInstance<any> | tinyapp.IComponentInstance<any, any>;
 
 export default class MiniDataSetter {
-  private count = new Count(() => this.flush());
-
-  private setDataObjectMap: Record<string, Record<string, any>> = {};
+  private count = new Batch(() => this.flush());
 
   private spliceDataObjectMap: Record<string, Record<string, any>> = {};
 
   private viewMap: Record<string, View> = {};
+
+  private updateTreeMap: Record<string, UpdateTree> = {};
 
   private getBatchUpdates(view: View) {
     return view.$batchedUpdates ?
@@ -64,7 +212,7 @@ export default class MiniDataSetter {
 
   private flush() {
     for (const id in this.viewMap) {
-      const setDataObject = this.setDataObjectMap[id];
+      const updateTree = this.updateTreeMap[id];
       const spliceDataObject = this.spliceDataObjectMap[id];
       const view = this.viewMap[id];
 
@@ -75,13 +223,21 @@ export default class MiniDataSetter {
       }
 
       this.getBatchUpdates(view)(() => {
-        view.setData(setDataObject);
+        view.setData(updateTree.generate());
         view.$spliceData(spliceDataObject);
       });
     }
     this.viewMap = {};
-    this.setDataObjectMap = {};
+    this.updateTreeMap = {};
     this.spliceDataObjectMap = {};
+  }
+
+  private setValue(obj: any, key: string | number, value: any) {
+    if (isObservable(obj)) {
+      reactiveSet(obj, key as any, value, { silent: true });
+    } else {
+      obj[key] = value;
+    }
   }
 
   private setByKeyPathList(
@@ -99,14 +255,14 @@ export default class MiniDataSetter {
       i += 1
     ) {
       const key = keyPathList[i];
+      // The last one.
       if (i === il - 1) {
-        reactiveSet(curObj, String(key), value, { silent: true });
+        this.setValue(curObj, key, value);
         break;
       }
 
       if (!curObj[key] && i < il) {
-        reactiveSet(curObj, String(key), {}, { silent: true });
-        curObj[key] = {};
+        this.setValue(curObj, key, typeof key === 'number' ? [] : {});
       }
 
       curObj = curObj[key];
@@ -121,7 +277,7 @@ export default class MiniDataSetter {
     options?: ChangeOptions,
   ) {
     this.spliceDataObjectMap[view.$id] = this.spliceDataObjectMap[view.$id] || {};
-    this.setDataObjectMap[view.$id] = this.setDataObjectMap[view.$id] || {};
+    this.updateTreeMap[view.$id] = this.updateTreeMap[view.$id] || new UpdateTree(view);
     this.viewMap[view.$id] = view;
     try {
       const keyPathString = generateKeyPathString(keyPathList);
@@ -143,13 +299,13 @@ export default class MiniDataSetter {
         if (spliceDataArgs) {
           this.spliceDataObjectMap[view.$id][keyPathString] = spliceDataArgs;
         } else {
-          this.setDataObjectMap[view.$id][keyPathString] = newV;
+          this.updateTreeMap[view.$id].addNode(keyPathList, newV);
         }
       } else {
-        this.setDataObjectMap[view.$id][keyPathString] = newV;
+        this.updateTreeMap[view.$id].addNode(keyPathList, newV);
       }
     } catch (e) {
-      this.setDataObjectMap[view.$id][keyPathList[0]] = view.data[keyPathList[0]];
+      this.updateTreeMap[view.$id].addNode([keyPathList[0]], view.data[keyPathList[0]]);
       console.warn(e);
     }
 

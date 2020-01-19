@@ -7,6 +7,7 @@ module.exports = {
   customName(name) {
     return {
       observable: `${codeDir}/observable`,
+      isObservable: `${codeDir}/isObservable`,
       autorun: `${codeDir}/autorun`,
       computed: `${codeDir}/computed`,
       watch: `${codeDir}/watch`,
