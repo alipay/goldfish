@@ -64,17 +64,30 @@ class Leaf {
   public value: any;
 }
 
-class UpdateTree {
-  private root = new Ancestor();
+class LimitLeafCounter {
+  private limitLeafTotalCount = 20;
 
   private leafTotalCount = 0;
 
-  private limitLeafTotalCount = 20;
+  public addLeaf() {
+    this.leafTotalCount += 1;
+  }
+
+  public getRemainCount() {
+    return this.limitLeafTotalCount - this.leafTotalCount;
+  }
+}
+
+class UpdateTree {
+  private root = new Ancestor();
 
   private view: View;
 
-  public constructor(view: View) {
+  private limitLeafTotalCount: LimitLeafCounter;
+
+  public constructor(view: View, limitLeafTotalCount: LimitLeafCounter) {
     this.view = view;
+    this.limitLeafTotalCount = limitLeafTotalCount;
   }
 
   public addNode(keyPathList: (string | number)[], value: any) {
@@ -143,7 +156,7 @@ class UpdateTree {
   ) {
     if (curNode instanceof Leaf) {
       updateObj[generateKeyPathString(keyPathList)] = curNode.value;
-      this.leafTotalCount += 1;
+      this.limitLeafTotalCount.addLeaf();
     } else {
       const children = curNode.children;
       const len = Array.isArray(children)
@@ -151,7 +164,7 @@ class UpdateTree {
         : Object.keys(children || {}).length;
       if (len > availableLeafCount) {
         updateObj[generateKeyPathString(keyPathList)] = this.combine(curNode, viewData);
-        this.leafTotalCount += 1;
+        this.limitLeafTotalCount.addLeaf();
       } else if (Array.isArray(children)) {
         children.forEach((child, index) => {
           this.iterate(
@@ -162,7 +175,7 @@ class UpdateTree {
             ],
             updateObj,
             this.getViewData(viewData, index),
-            this.limitLeafTotalCount - this.leafTotalCount - len,
+            this.limitLeafTotalCount.getRemainCount() - len,
           );
         });
       } else {
@@ -175,7 +188,7 @@ class UpdateTree {
             ],
             updateObj,
             this.getViewData(viewData, k),
-            this.limitLeafTotalCount - this.leafTotalCount - len,
+            this.limitLeafTotalCount.getRemainCount() - len,
           );
         }
       }
@@ -184,7 +197,13 @@ class UpdateTree {
 
   public generate() {
     const updateObj: Record<string, any> = {};
-    this.iterate(this.root, [], updateObj, this.view.data, this.limitLeafTotalCount);
+    this.iterate(
+      this.root,
+      [],
+      updateObj,
+      this.view.data,
+      this.limitLeafTotalCount.getRemainCount(),
+    );
     return updateObj;
   }
 
@@ -193,16 +212,51 @@ class UpdateTree {
   }
 }
 
+class Updater {
+  private list: (UpdateTree | Record<string, any>)[] = [];
+
+  private limitLeafCounter = new LimitLeafCounter();
+
+  public setSetObjectValue(view: View, keyPathList: (string | number)[], value: any) {
+    let last = this.list[this.list.length - 1];
+    if (!last || !(last instanceof UpdateTree)) {
+      last = new UpdateTree(view, this.limitLeafCounter);
+      this.list.push(last);
+    }
+
+    last.addNode(keyPathList, value);
+  }
+
+  public setSpliceObjectValue(keyPathList: (string | number)[] | string, args: any[]) {
+    let last = this.list[this.list.length - 1];
+    if (!last || last instanceof UpdateTree) {
+      last = {};
+      this.list.push(last);
+    }
+
+    const key = typeof keyPathList === 'string' ? keyPathList : generateKeyPathString(keyPathList);
+    last[key] = args;
+  }
+
+  public iterate(fn: (type: 'set' | 'splice', obj: Record<string, any>) => void) {
+    this.list.forEach((item) => {
+      if (item instanceof UpdateTree) {
+        fn('set', item.generate());
+      } else {
+        fn('splice', item);
+      }
+    });
+  }
+}
+
 type View = tinyapp.IPageInstance<any> | tinyapp.IComponentInstance<any, any>;
 
 export default class MiniDataSetter {
   private count = new Batch(() => this.flush());
 
-  private spliceDataObjectMap: Record<string, Record<string, any>> = {};
-
   private viewMap: Record<string, View> = {};
 
-  private updateTreeMap: Record<string, UpdateTree> = {};
+  private updaterMap: Record<string, Updater> = {};
 
   private getBatchUpdates(view: View) {
     return view.$batchedUpdates ?
@@ -212,8 +266,7 @@ export default class MiniDataSetter {
 
   private flush() {
     for (const id in this.viewMap) {
-      const updateTree = this.updateTreeMap[id];
-      const spliceDataObject = this.spliceDataObjectMap[id];
+      const updater = this.updaterMap[id];
       const view = this.viewMap[id];
 
       const store = (view as any).store;
@@ -223,13 +276,17 @@ export default class MiniDataSetter {
       }
 
       this.getBatchUpdates(view)(() => {
-        view.setData(updateTree.generate());
-        view.$spliceData(spliceDataObject);
+        updater.iterate((type, obj) => {
+          if (type === 'set') {
+            view.setData(obj);
+          } else {
+            view.$spliceData(obj);
+          }
+        });
       });
     }
     this.viewMap = {};
-    this.updateTreeMap = {};
-    this.spliceDataObjectMap = {};
+    this.updaterMap = {};
   }
 
   private setValue(obj: any, key: string | number, value: any) {
@@ -276,36 +333,46 @@ export default class MiniDataSetter {
     oldV: any,
     options?: ChangeOptions,
   ) {
-    this.spliceDataObjectMap[view.$id] = this.spliceDataObjectMap[view.$id] || {};
-    this.updateTreeMap[view.$id] = this.updateTreeMap[view.$id] || new UpdateTree(view);
+    this.updaterMap[view.$id] = this.updaterMap[view.$id] || new Updater();
     this.viewMap[view.$id] = view;
     try {
       const keyPathString = generateKeyPathString(keyPathList);
-      if (Array.isArray(newV) && Array.isArray(oldV) && options && options.method) {
-        const methodName: Methods = options && options.method;
-        const args = options && options.args!;
-        const optionsOldV = options && options.oldV!;
-        this.setByKeyPathList(view.data, keyPathList, options.oldV);
-
-        const map: Record<string, any> = {
-          push: [optionsOldV.length, 0, ...args],
-          splice: args,
-          unshift: [0, 0, ...args],
-          pop: [optionsOldV.length - 1, 1],
-          shift: [0, 1],
-        };
-        const spliceDataArgs = map[methodName];
-
-        if (spliceDataArgs) {
-          this.spliceDataObjectMap[view.$id][keyPathString] = spliceDataArgs;
+      if (Array.isArray(newV) && Array.isArray(oldV)) {
+        if (!options || !options.method) {
+          this.updaterMap[view.$id].setSpliceObjectValue(
+            keyPathString,
+            [0, oldV.length, ...newV],
+          );
         } else {
-          this.updateTreeMap[view.$id].addNode(keyPathList, newV);
+          const methodName: Methods = options && options.method;
+          const args = options && options.args!;
+          const optionsOldV = options && options.oldV!;
+          this.setByKeyPathList(view.data, keyPathList, options.oldV);
+
+          const map: Record<string, any> = {
+            push: [optionsOldV.length, 0, ...args],
+            splice: args,
+            unshift: [0, 0, ...args],
+            pop: [optionsOldV.length - 1, 1],
+            shift: [0, 1],
+          };
+          const spliceDataArgs = map[methodName];
+
+          if (spliceDataArgs) {
+            this.updaterMap[view.$id].setSpliceObjectValue(keyPathString, spliceDataArgs);
+          } else {
+            this.updaterMap[view.$id].setSetObjectValue(view, keyPathList, newV);
+          }
         }
       } else {
-        this.updateTreeMap[view.$id].addNode(keyPathList, newV);
+        this.updaterMap[view.$id].setSetObjectValue(view, keyPathList, newV);
       }
     } catch (e) {
-      this.updateTreeMap[view.$id].addNode([keyPathList[0]], view.data[keyPathList[0]]);
+      this.updaterMap[view.$id].setSetObjectValue(
+        view,
+        [keyPathList[0]],
+        view.data[keyPathList[0]],
+      );
       console.warn(e);
     }
 
