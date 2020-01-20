@@ -65,7 +65,7 @@ class Leaf {
 }
 
 class LimitLeafCounter {
-  private limitLeafTotalCount = 20;
+  private limitLeafTotalCount = 100;
 
   private leafTotalCount = 0;
 
@@ -339,6 +339,7 @@ export default class MiniDataSetter {
       const keyPathString = generateKeyPathString(keyPathList);
       if (Array.isArray(newV) && Array.isArray(oldV)) {
         if (!options || !options.method) {
+          // Use `splice` to update the whole array when there is an new array set.
           this.updaterMap[view.$id].setSpliceObjectValue(
             keyPathString,
             [0, oldV.length, ...newV],
