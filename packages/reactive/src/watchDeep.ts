@@ -1,5 +1,6 @@
 import watch, { IWatchOptions } from './watch';
 import { ChangeOptions } from './dep';
+import { isObject } from '@goldfishjs/utils';
 
 export interface IWatchDeepCallback {
   (obj: any, keyPathList: (string | number)[], newV: any, oldV: any, options?: ChangeOptions): void;
@@ -7,10 +8,6 @@ export interface IWatchDeepCallback {
 
 export interface IWatchDeepOptions extends Omit<IWatchOptions, 'deep'> {
   customWatch?: typeof watch;
-}
-
-function isObject(v: any) {
-  return v && typeof v === 'object';
 }
 
 class Watcher {

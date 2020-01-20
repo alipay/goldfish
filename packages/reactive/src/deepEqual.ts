@@ -1,4 +1,5 @@
-import { isObject, isArray, IIndexedObject } from './utils';
+import { isArray, IIndexedObject } from './utils';
+import { isObject } from '@goldfishjs/utils';
 
 function isArrayEqual(a1: any[], a2: any[]) {
   if (a1.length !== a2.length) {

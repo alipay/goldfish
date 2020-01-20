@@ -1,5 +1,6 @@
-import { call, getCurrent, IErrorCallback, SourceType, ChangeOptions } from './dep';
-import { isObject, isArray } from './utils';
+import { call, getCurrent, IErrorCallback, ChangeOptions } from './dep';
+import { isArray } from './utils';
+import { isObject } from '@goldfishjs/utils';
 
 export type Unwatch = () => void;
 export type IWatchCallback<N, O = any> =

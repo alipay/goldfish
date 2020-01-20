@@ -5,10 +5,7 @@ import {
   Methods,
   isObservable,
 } from '@goldfishjs/reactive';
-
-function isObject(v: any) {
-  return typeof v === 'object' && v !== null;
-}
+import { isObject } from '@goldfishjs/utils';
 
 export class Batch {
   private segTotalList: number[] = [];

@@ -1,4 +1,4 @@
-import { Count } from '../src/MiniDataSetter';
+import { Batch as Count } from '../src/MiniDataSetter';
 
 function timeout() {
   return new Promise((resolve) => {

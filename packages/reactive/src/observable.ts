@@ -1,7 +1,8 @@
 import { getCurrent, Dep, ChangeOptions } from './dep';
-import { isObject, isArray } from './utils';
+import { isArray } from './utils';
 import silentValue, { isSilentValue } from './silentValue';
 import { isRaw } from './raw';
+import { isObject } from '@goldfishjs/utils';
 
 type ObservableBaseTypes = null | undefined | string | number | boolean;
 type ObservableArrayElement = ObservableBaseTypes | IObservableObject;
