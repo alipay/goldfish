@@ -15,6 +15,9 @@
   "keywords": [],
   "author": "yibuyisheng@163.com",
   "license": "ISC",
+  "dependencies": {
+    "@goldfishjs/utils": "^0.0.13"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.0",
     "@babel/plugin-transform-classes": "^7.7.0",

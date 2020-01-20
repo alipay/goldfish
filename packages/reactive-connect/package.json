@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@goldfishjs/reactive": "^0.0.13",
+    "@goldfishjs/utils": "^0.0.13",
     "mini-types": "^0.0.4"
   },
   "devDependencies": {
