@@ -1,7 +1,8 @@
 import { getCurrent, Dep, ChangeOptions } from './dep';
-import { isObject, isArray } from './utils';
+import { isArray } from './utils';
 import silentValue, { isSilentValue } from './silentValue';
 import { isRaw } from './raw';
+import { isObject } from '@goldfishjs/utils';
 
 type ObservableBaseTypes = null | undefined | string | number | boolean;
 type ObservableArrayElement = ObservableBaseTypes | IObservableObject;
@@ -96,7 +97,7 @@ function defineProperty(obj: any, key: any) {
         }
       }
 
-      return value;
+      return isSilentValue(value) ? value.value : value;
     },
     set(v) {
       if (isObject(v)) {
@@ -140,8 +141,20 @@ function createObserver(obj: IObservableObject | ObservableArray) {
 }
 
 export function set(
+  obj: ObservableArray,
+  name: number,
+  value: any,
+  options?: { silent?: boolean },
+): void;
+export function set(
   obj: IObservableObject,
   name: string,
+  value: any,
+  options?: { silent?: boolean },
+): void;
+export function set(
+  obj: any,
+  name: any,
   value: any,
   options?: { silent?: boolean },
 ) {

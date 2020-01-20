@@ -1,7 +1,7 @@
 const SILENT_FLAG = {};
 const SILENT_KEY = '__silent__';
 
-export function isSilentValue(v: any) {
+export function isSilentValue(v: any): v is { value: any } {
   return v && v[SILENT_KEY] === SILENT_FLAG;
 }
 

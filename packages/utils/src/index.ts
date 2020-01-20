@@ -7,5 +7,6 @@ export { default as omit } from './omit';
 export { default as pick } from './pick';
 export { default as silent } from './silent';
 export { default as cloneDeep } from './cloneDeep';
+export { default as isObject } from './isObject';
 
 export * from './types';
