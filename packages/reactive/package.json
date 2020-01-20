@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/reactive",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Reactive.",
   "main": "lib/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
-    "@goldfishjs/utils": "^0.0.13"
+    "@goldfishjs/utils": "^0.0.14"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
