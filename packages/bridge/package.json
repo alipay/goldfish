@@ -16,7 +16,7 @@
   "author": "644506165@qq.com",
   "license": "ISC",
   "dependencies": {
-    "mini-types": "^0.0.4"
+    "mini-types": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",

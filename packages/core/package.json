@@ -19,7 +19,7 @@
     "@goldfishjs/plugins": "^0.0.14",
     "@goldfishjs/reactive-connect": "^0.0.14",
     "@goldfishjs/utils": "^0.0.14",
-    "mini-types": "^0.0.4"
+    "mini-types": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
