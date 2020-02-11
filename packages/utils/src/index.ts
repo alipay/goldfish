@@ -8,5 +8,6 @@ export { default as pick } from './pick';
 export { default as silent } from './silent';
 export { default as cloneDeep } from './cloneDeep';
 export { default as isObject } from './isObject';
+export { default as interval } from './interval';
 
 export * from './types';
