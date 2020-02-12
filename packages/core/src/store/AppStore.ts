@@ -1,4 +1,4 @@
-import { AppStore as BaseAppStore } from '@goldfishjs/reactive-connect';
+import { AppStore as BaseAppStore, observable, state } from '@goldfishjs/reactive-connect';
 import {
   PluginHub,
   PluginClass,
@@ -22,6 +22,7 @@ import { asyncForEach } from '@goldfishjs/utils';
 /**
  * State management for App.
  */
+@observable
 export default class AppStore extends BaseAppStore {
   /**
    * The plugins manager.
@@ -42,6 +43,16 @@ export default class AppStore extends BaseAppStore {
   protected config?: IConfig;
 
   protected stopWatchFeedbackQueue: (() => void) | undefined;
+
+  /**
+   * The error in Promise will not be catch by Alipay,
+   * so we should do it by ourself.
+   *
+   * @type {*}
+   * @memberof AppStore
+   */
+  @state
+  public globalErrorInPromise: any = null;
 
   /**
    * Set the config immediately after the AppStore is created.
@@ -86,7 +97,13 @@ export default class AppStore extends BaseAppStore {
     this.pluginHub.get(ConfigPlugin).setConfig(this.config);
 
     // Initialize all plugins.
-    this.pluginHub.init();
+    this.pluginHub.init().catch((e) => {
+      // The Alipay does not catch the exception in Promise,
+      // so print the error here for debug.
+      console.error(e);
+      this.globalErrorInPromise = e;
+      throw e;
+    });
   }
 
   /**
