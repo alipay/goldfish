@@ -27,6 +27,22 @@ export default function createApp<G, S extends AppStore>(
       const store = this.store!;
       store.isInitLoading = true;
       store.updatePages(options);
+
+      // Call onError when there is uncaught error in Promise.
+      const app = getApp();
+      store.watch(
+        () => store.globalErrorInPromise,
+        (error) => {
+          const onError = (app as any).onError;
+          if (error && onError) {
+            onError(error);
+          }
+        },
+        {
+          immediate: true,
+        },
+      );
+
       await store.waitForReady();
       store.initFeedback();
       try {
