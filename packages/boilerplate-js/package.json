@@ -5,18 +5,18 @@
     "datahub": "datahub server -c datahub.config.js"
   },
   "dependencies": {
-    "@goldfishjs/bridge": "^0.0.15",
-    "@goldfishjs/composition-api": "^0.0.15",
-    "@goldfishjs/core": "^0.0.15",
-    "@goldfishjs/plugins": "^0.0.15",
-    "@goldfishjs/reactive": "^0.0.15",
-    "@goldfishjs/reactive-connect": "^0.0.15",
-    "@goldfishjs/utils": "^0.0.15",
+    "@goldfishjs/bridge": "^0.0.16",
+    "@goldfishjs/composition-api": "^0.0.16",
+    "@goldfishjs/core": "^0.0.16",
+    "@goldfishjs/plugins": "^0.0.16",
+    "@goldfishjs/reactive": "^0.0.16",
+    "@goldfishjs/reactive-connect": "^0.0.16",
+    "@goldfishjs/utils": "^0.0.16",
     "mini-antui": "^0.4.29"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^18.0.1",
     "macaca-datahub": "^2.5.2"
   },
-  "version": "0.0.15"
+  "version": "0.0.16"
 }
