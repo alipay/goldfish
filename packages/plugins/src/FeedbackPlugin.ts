@@ -33,7 +33,7 @@ export interface IPromptOption {
   align?: 'left' | 'center' | 'right';
   okButtonText?: string;
   cancelButtonText?: string;
-  complete?: (result: { ok?: boolean; cancel?: boolean, inputValue?: string }) => void;
+  complete?: (result: { ok?: boolean; cancel?: boolean; inputValue?: string }) => void;
   isBlock?: boolean;
 }
 

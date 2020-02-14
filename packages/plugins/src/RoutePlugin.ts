@@ -59,7 +59,7 @@ export default class Route extends Plugin {
     }
   }
 
-  public popWindow(delta: number = 1) {
+  public popWindow(delta = 1) {
     this.bridge.call('navigateBack', { delta });
   }
 

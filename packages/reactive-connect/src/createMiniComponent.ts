@@ -18,7 +18,7 @@ export default function createTinyappComponent<
   M extends tinyapp.IComponentMethods = tinyapp.IComponentMethods,
 >(
   storeClass: new () => CS,
-  componentOptions: ComponentOptions<P, D, CS, M>  & { onError?: (e: any) => void; } = {},
+  componentOptions: ComponentOptions<P, D, CS, M>  & { onError?: (e: any) => void } = {},
   options?: {
     beforeCreateStore?: (view: ComponentInstance<P, D, CS, M>) => void;
     afterCreateStore?: (view: ComponentInstance<P, D, CS, M>, store: CS) => void;
@@ -36,7 +36,7 @@ export default function createTinyappComponent<
     function (
       this: tinyapp.IComponentInstance<P, D> & {
         setData: tinyapp.SetDataMethod<D>;
-        store: CS
+        store: CS;
       },
       _: any,
       keyPathList: (string | number)[],

@@ -1,0 +1,13 @@
+{
+  "[typescript]": {
+    "editor.formatOnSave": false,
+  },
+  "eslint.validate": [
+    "typescript"
+  ],
+  "eslint.debug": true,
+  "eslint.workingDirectories": [
+    "packages/route/src"
+  ],
+  "eslint.lintTask.options": "--ext .ts --config ../.eslintrc.json --ignore-path ../.eslintignore"
+}

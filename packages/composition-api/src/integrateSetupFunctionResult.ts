@@ -1,4 +1,3 @@
-import CommonSetup from './setup/CommonSetup';
 import { watchDeep } from '@goldfishjs/reactive';
 import { getMiniDataSetter } from '@goldfishjs/reactive-connect';
 import { reactive } from './useState';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { getCurrent, Dep, ChangeOptions } from './dep';
 import { isArray } from './utils';
 import silentValue, { isSilentValue } from './silentValue';

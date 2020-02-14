@@ -1,5 +1,5 @@
-const { lerna, runScript } = require('./utils');
+const { lerna, runCommand } = require('./utils');
 
 lerna.list().forEach((pkg) => {
-  runScript('lint', pkg.location);
+  runCommand(`eslint --ext .ts -c .eslintrc.json --no-error-on-unmatched-pattern ${pkg.location}/src`);
 });

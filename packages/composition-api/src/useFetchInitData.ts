@@ -6,7 +6,7 @@ import ComponentSetup from './setup/ComponentSetup';
 
 export default function useFetchInitData(
   fn: () => Promise<void>,
-  isAsync: boolean = true,
+  isAsync = true,
 ) {
   checkSetupEnv('useFetchInitData', ['page', 'app', 'component']);
 

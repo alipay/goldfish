@@ -1,5 +1,4 @@
-import { BaseRouter } from './container-router';
-import { Query } from './container-router/BaseRouter';
+import { Query, default as BaseRouter } from './container-router/BaseRouter';
 import IRoute from './IRoute';
 
 export default abstract class Route implements IRoute {
@@ -31,7 +30,7 @@ export default abstract class Route implements IRoute {
     this.route.redirect(url, params);
   }
 
-  public back(n: number, defaultUrl: string = '') {
+  public back(n: number, defaultUrl = '') {
     this.route.back(n, defaultUrl);
   }
 

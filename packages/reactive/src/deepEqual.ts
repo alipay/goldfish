@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { isArray, IIndexedObject } from './utils';
 import { isObject } from '@goldfishjs/utils';
 
