@@ -1,5 +1,5 @@
-import BaseRouter, { Query } from './BaseRouter';
 import { parse, stringify } from 'qs';
+import BaseRouter, { Query } from './BaseRouter';
 
 export interface IStackItem {
   path: string;
@@ -53,7 +53,7 @@ export default abstract class StackedRouter extends BaseRouter {
    *
    * @param {number} [n] 回退层级
    */
-  public back(n: number = 1, defaultUrl: string = '/') {
+  public back(n = 1, defaultUrl = '/') {
     if (n < 0) {
       throw new Error('The back steps must be a positive integer.');
     }
@@ -84,8 +84,8 @@ export default abstract class StackedRouter extends BaseRouter {
       removeStackLength = 1,
       params = {},
     }: {
-      removeStackLength?: number,
-      params?: any,
+      removeStackLength?: number;
+      params?: any;
     } = {},
   ) {
     const normalizedRemovedStackLength = removeStackLength - 1;

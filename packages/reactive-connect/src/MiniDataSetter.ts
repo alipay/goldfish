@@ -343,8 +343,10 @@ export default class MiniDataSetter {
           );
         } else {
           const methodName: Methods = options && options.method;
+          /* eslint-disable @typescript-eslint/no-non-null-assertion */
           const args = options && options.args!;
           const optionsOldV = options && options.oldV!;
+          /* eslint-enable @typescript-eslint/no-non-null-assertion */
           this.setByKeyPathList(view.data, keyPathList, options.oldV);
 
           const map: Record<string, any> = {

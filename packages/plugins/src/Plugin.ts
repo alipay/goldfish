@@ -13,7 +13,7 @@ export default abstract class Plugin {
   public static readonly type: string;
 
   @state
-  public isInitCompleted: boolean = false;
+  public isInitCompleted = false;
 
   public async waitForReady() {
     return new Promise((resolve) => {

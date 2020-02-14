@@ -17,7 +17,7 @@ export default class CommonSetup<M, S, V> extends Setup {
     return this.viewInstance;
   }
 
-  public addFetchInitDataMethod(fn: () => Promise<void>, isAsync: boolean = true) {
+  public addFetchInitDataMethod(fn: () => Promise<void>, isAsync = true) {
     const fetchInitDataMethod = this.fetchInitDataMethod;
     if (fetchInitDataMethod) {
       this.fetchInitDataMethod = isAsync

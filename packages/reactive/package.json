@@ -8,9 +8,8 @@
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "dev": "jest --debug --watch",
     "build": "rm -rf ./types && rm -rf ./lib && gulp ts",
-    "lint": "tslint ./src/**",
     "ci": "npm run test",
-    "release": "npm run test && npm run lint && npm run build && npm publish"
+    "release": "npm run test && npm run build && npm publish"
   },
   "keywords": [],
   "author": "yibuyisheng@163.com",
@@ -36,10 +35,7 @@
     "pre-commit": "^1.2.2",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
-    "ts-jest": "^23.10.2",
-    "tslint": "^5.11.0",
-    "tslint-config-airbnb": "^5.11.0",
-    "typescript": "^3.7.2"
+    "ts-jest": "^23.10.2"
   },
   "types": "./types/index.d.ts",
   "sideEffects": false

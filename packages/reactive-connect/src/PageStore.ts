@@ -15,5 +15,5 @@ export default abstract class PageStore<AS extends AppStore = AppStore> extends 
     this.$$appStore = v;
   }
 
-  public isSyncDataSafe: boolean = true;
+  public isSyncDataSafe = true;
 }

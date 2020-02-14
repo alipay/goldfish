@@ -1,8 +1,0 @@
-{
-  "extends": "tslint-config-airbnb",
-  "linterOptions": {
-    "exclude": [
-      "src/tsconfig.json"
-    ]
-  }
-}

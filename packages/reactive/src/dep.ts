@@ -66,7 +66,7 @@ export class DepList {
 
   public addChangeListener(
     cb: (n: any, o: any, options: ChangeOptions) => void,
-    shouldBatch: boolean = true,
+    shouldBatch = true,
   ) {
     const removeListeners: Function[] = [];
     let isDone = false;

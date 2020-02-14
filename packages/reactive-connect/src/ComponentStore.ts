@@ -1,7 +1,9 @@
 import Store from './Store';
 import AppStore from './AppStore';
 
+/* eslint-disable @typescript-eslint/no-empty-interface */
 export interface IProps {}
+/* eslint-enable @typescript-eslint/no-empty-interface */
 
 export default abstract class ComponentStore<P extends IProps, AS = AppStore> extends Store {
   private $$appStore?: AS;
@@ -17,7 +19,7 @@ export default abstract class ComponentStore<P extends IProps, AS = AppStore> ex
     this.$$appStore = v;
   }
 
-  public isSyncDataSafe: boolean = true;
+  public isSyncDataSafe = true;
 
   public abstract props: P;
 

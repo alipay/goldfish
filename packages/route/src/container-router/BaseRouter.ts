@@ -9,7 +9,7 @@ export type Query = Record<string, string | string[]>;
 export type ChangeListener = (path: string, query: Query) => void;
 
 export default abstract class BaseRouter {
-  protected fromuKey: string = 'fromu';
+  protected fromuKey = 'fromu';
 
   private path: string | null = '';
 
@@ -20,9 +20,7 @@ export default abstract class BaseRouter {
   public addChangeListener(listener: ChangeListener) {
     this.changeListeners.push(listener);
     return () => {
-      this.changeListeners = this.changeListeners.filter((l) => {
-        return l !== listener;
-      });
+      this.changeListeners = this.changeListeners.filter((l) => l !== listener);
     };
   }
 
@@ -33,8 +31,8 @@ export default abstract class BaseRouter {
   public abstract backTo(
     url: string,
     options: {
-      removeStackLength?: number,
-      params?: any,
+      removeStackLength?: number;
+      params?: any;
     },
   ): void;
 
@@ -78,7 +76,7 @@ export default abstract class BaseRouter {
     return this.query;
   }
 
-  protected setPath(path: string, silent: boolean = false) {
+  protected setPath(path: string, silent = false) {
     if (this.path !== path) {
       this.path = path;
       !silent && this.invokeChangeListeners();
@@ -101,7 +99,7 @@ export default abstract class BaseRouter {
     return true;
   }
 
-  protected setQuery(query: Query, silent: boolean = false) {
+  protected setQuery(query: Query, silent = false) {
     if (!this.isQueryEqual(query, this.query)) {
       this.query = query;
       !silent && this.invokeChangeListeners();
