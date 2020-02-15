@@ -7,9 +7,9 @@ module.exports = {
   customName(name) {
     return {
       BridgePlugin: `${codeDir}/BridgePlugin`,
+      MockBridgePlugin: `${codeDir}/MockBridgePlugin`,
       ConfigPlugin: `${codeDir}/ConfigPlugin`,
       FeedbackPlugin: `${codeDir}/FeedbackPlugin`,
-      MockBridgePlugin: `${codeDir}/MockBridgePlugin`,
       RoutePlugin: `${codeDir}/RoutePlugin`,
       RequesterPlugin: `${codeDir}/RequesterPlugin`,
       MockRequesterPlugin: `${codeDir}/MockRequesterPlugin`,

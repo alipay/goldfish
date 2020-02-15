@@ -1,13 +1,15 @@
 {
   "[typescript]": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": false
   },
   "eslint.validate": [
     "typescript"
   ],
   "eslint.debug": true,
   "eslint.workingDirectories": [
-    "packages/route/src"
+    {
+      "pattern": "packages/*/src/**/*.ts"
+    }
   ],
   "eslint.lintTask.options": "--ext .ts --config ../.eslintrc.json --ignore-path ../.eslintignore"
 }

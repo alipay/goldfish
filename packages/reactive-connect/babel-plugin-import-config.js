@@ -16,6 +16,8 @@ module.exports = {
       Store: `${codeDir}/Store`,
       computed: `${codeDir}/decorators/computed`,
       observable: `${codeDir}/decorators/observable`,
+      COMPUTED_KEY: `${codeDir}/decorators/COMPUTED_KEY`,
+      STATE_KEY: `${codeDir}/decorators/STATE_KEY`,
       state: `${codeDir}/decorators/state`,
       getMiniDataSetter: `${codeDir}/getMiniDataSetter`,
       isComponent2: `${codeDir}/isComponent2`,
