@@ -11,15 +11,22 @@ const getBabelConfig = require('./getBabelConfig');
 const utils = require('./utils');
 const micromatch = require('micromatch');
 const gulpFilter = require('gulp-filter');
+const merge = require('merge2');
+const path = require('path');
+
+const cwd = process.cwd();
+const excludeDistDir = `${utils.distDir.replace(cwd + '/', '')}/**`;
+
+const baseDir = utils.baseDir;
 
 const sourceFiles = {
-  ts: ['**/*.ts', '!node_modules/**', `!${utils.distDir}/**`],
-  less: ['**/*.@(less|acss)', '!node_modules/**', `!${utils.distDir}/**`],
-  js: ['**/*.js', '!node_modules/**', `!${utils.distDir}/**`],
+  ts: ['**/*.ts', '!node_modules/**', `!${excludeDistDir}`],
+  less: ['**/*.@(less|acss)', '!node_modules/**', `!${excludeDistDir}`],
+  js: ['**/*.js', '!node_modules/**', `!${excludeDistDir}`],
   copy: [
     '**/*.@(json|axml|png|svg)',
     '!node_modules/**',
-    `!${utils.distDir}/**`,
+    `!${excludeDistDir}`,
     '!mini.project.json',
     '!package.json',
   ],
@@ -50,7 +57,7 @@ function commonStream(files, cb) {
   const compiledFiles = [];
   let stream = cb(
     gulp
-      .src(files, { base: '.' })
+      .src(files, { base: baseDir })
       .pipe(gulpFilter((file) => {
         const result = utils.shouldCompileFile(file.path, sourceType);
         if (result) {
@@ -59,7 +66,6 @@ function commonStream(files, cb) {
         return result;
       })),
   );
-
 
   stream = stream.pipe(gulp.dest(utils.distDir));
 
@@ -79,14 +85,26 @@ function compileJSStream(files) {
   });
 }
 
+const tsconfigPath = utils.tsconfigPath;
+const tsconfig = require(tsconfigPath);
 function compileTSStream(files) {
+  const declarationDir = path.resolve(
+    path.dirname(tsconfigPath),
+    tsconfig.compilerOptions.declarationDir,
+  );
+  if (tsconfig.compilerOptions.outDir) {
+    utils.warn(`The outDir config in ${tsconfigPath} will not work, and the real outDir is: ${utils.distDir}`);
+  }
+
   return commonStream(files, (stream) => {
-    return stream.pipe(ts.createProject('./tsconfig.json')())
-      .on('error', function(error) {
-        utils.error(error);
-        this.emit('end');
-      })
-      .pipe(babel(getBabelConfig(process.env.NODE_ENV)))
+    const s = stream.pipe(ts.createProject(tsconfigPath)());
+    if (tsconfig.compilerOptions.declaration) {
+      return merge([
+        s.dts.pipe(gulp.dest(declarationDir)),
+        s.js.pipe(babel(getBabelConfig(process.env.NODE_ENV))),
+      ]);
+    }
+    return s.js.pipe(babel(getBabelConfig(process.env.NODE_ENV)));
   });
 }
 
@@ -120,7 +138,7 @@ function compileLessStream(files) {
 }
 
 function copyStream(files) {
-  return gulp.src(files, { base: '.' }).pipe(gulp.dest(utils.distDir));
+  return gulp.src(files, { base: baseDir }).pipe(gulp.dest(utils.distDir));
 }
 
 gulp.task('ts', () => {
@@ -159,7 +177,7 @@ gulp.task(
 
 function getCustomBlobs() {
   try {
-    const miniJson = require(`${process.cwd()}/mini.project.json`);
+    const miniJson = require(`${cwd}/mini.project.json`);
     const includePackages = miniJson['custom_watch_blobs_in_dev'];
     if (!includePackages || !includePackages.length) {
       return;
@@ -223,7 +241,8 @@ gulp.task('dev', gulp.parallel(
       [
         './**/*',
         '!node_modules/**',
-        `!${utils.distDir}/**`,
+        '!coverage/**',
+        `!${excludeDistDir}`,
       ],
     );
   },
@@ -232,3 +251,30 @@ gulp.task('dev', gulp.parallel(
     return createDevWatcherTask(blobs);
   },
 ));
+
+// Compiler for npm package projects.
+gulp.task(
+  'npm',
+  gulp.parallel(
+    function ts() {
+      return compileTSStream([
+        'src/**/*.@(ts|tsx)',
+      ]);
+    },
+    function js() {
+      return compileJSStream([
+        'src/**/*.@(js|jsx)',
+      ]);
+    },
+    function less() {
+      return compileLessStream([
+        'src/**/*.@(acss|less)',
+      ]);
+    },
+    function copy() {
+      return copyStream([
+        'src/**/*.@(json|axml|png|svg)',
+      ]);
+    },
+  ),
+);
