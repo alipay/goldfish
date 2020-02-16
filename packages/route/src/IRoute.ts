@@ -17,4 +17,5 @@ export default interface IRoute {
   popWindow(): void;
 
   popTo(delta: number): void;
+  /* eslint-disable semi */
 }
