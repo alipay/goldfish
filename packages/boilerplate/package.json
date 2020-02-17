@@ -17,7 +17,7 @@
     "mini-antui": "^0.4.29"
   },
   "devDependencies": {
-    "@goldfishjs/pre-build": "^0.0.1",
+    "@goldfishjs/pre-build": "^0.0.17",
     "tslint": "^5.20.1",
     "tslint-config-airbnb": "^5.11.2"
   },

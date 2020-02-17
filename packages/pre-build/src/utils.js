@@ -49,8 +49,25 @@ exports.exec = (cmd, options) => {
   });
 };
 
-const distDir = path.resolve(cwd, require(`${cwd}${path.sep}mini.project.json`).dist || 'dist');
+const distDir = path.resolve(
+  cwd,
+  process.env.OUT_DIR
+    || require(`${cwd}${path.sep}mini.project.json`).dist
+    || 'dist',
+);
 exports.distDir = distDir;
+
+const baseDir = path.resolve(
+  cwd,
+  process.env.BASE_DIR || '.',
+);
+exports.baseDir = baseDir;
+
+const tsconfigPath = path.resolve(
+  cwd,
+  process.env.TSCONFIG_PATH || './tsconfig.json',
+);
+exports.tsconfigPath = tsconfigPath;
 
 const dir = `${cwd}${path.sep}.cache`;
 const cacheFilePath = `${dir}${path.sep}mtimes`;

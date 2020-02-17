@@ -11,7 +11,10 @@
     "@typescript-eslint/interface-name-prefix": ["error", {
       "prefixWithI": "always"
     }],
-    "@typescript-eslint/no-empty-function": 0
+    "@typescript-eslint/no-empty-function": 0,
+    "semi": ["error", "always", {
+      "omitLastInOneLineBlock": true
+    }]
   },
   "globals": {
     "my": true
