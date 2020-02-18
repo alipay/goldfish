@@ -1,6 +1,7 @@
 import watch, { IWatchOptions } from './watch';
 import { ChangeOptions } from './dep';
 import { isObject } from '@goldfishjs/utils';
+import isRaw from './isRaw';
 
 export interface IWatchDeepCallback {
   (obj: any, keyPathList: (string | number)[], newV: any, oldV: any, options?: ChangeOptions): void;
@@ -30,7 +31,7 @@ class Watcher {
   private iterate(curObj: any, keyPathList: (string | number)[] = []) {
     const baseWatch = this.options && this.options.customWatch || watch;
     const stopList: (() => void)[] = [];
-    if (curObj && typeof curObj === 'object') {
+    if (curObj && typeof curObj === 'object' && !isRaw(curObj)) {
       const iterate = (key: string | number) => {
         const keyStopList: Function[] = [];
         stopList.push(baseWatch(
