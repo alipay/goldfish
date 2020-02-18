@@ -22,14 +22,14 @@ function clone(obj: any) {
   return cloneObj;
 }
 
-export function unraw(obj: any) {
+export function unraw<T>(obj: T): T {
   return isRaw(obj) ? clone(obj) : obj;
 }
 
-export default function raw(obj: any) {
+export default function raw<T>(obj: T): T {
   const cloneObj = clone(obj);
 
-  if (isObject(obj) && obj[RAW_KEY] !== RAW_FLAG) {
+  if (isObject(obj) && (obj as any)[RAW_KEY] !== RAW_FLAG) {
     Object.defineProperty(cloneObj, RAW_KEY, {
       value: RAW_FLAG,
       configurable: false,
