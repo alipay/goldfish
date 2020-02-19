@@ -1,4 +1,4 @@
-export function interval(fn: () => void, duration: number) {
+export default function interval(fn: () => void, duration: number) {
   let timer: ReturnType<typeof setTimeout>;
   const start = () => {
     timer = setTimeout(
