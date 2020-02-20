@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { getCurrent, Dep, ChangeOptions } from './dep';
-import { isArray } from './utils';
+import { isArray, genId } from './utils';
 import silentValue, { isSilentValue } from './silentValue';
 import { isRaw } from './raw';
 import { isObject } from '@goldfishjs/utils';
@@ -14,6 +14,8 @@ export interface IObservableObject {
 
 const OBSERVE_FLAG = {};
 const OBSERVE_KEY = '__reactive-ob__';
+
+const NOTIFY_KEY = '__notify';
 
 export function isObservable(obj: any) {
   return obj
@@ -40,7 +42,7 @@ methods.forEach((methodName) => {
   Array.prototype[methodName] = function (this: any[], ...args: any[]) {
     const originLength = this.length;
     const oldV = this.slice(0);
-    const result = oldMethod.call(this, ...args);
+    const result = oldMethod.apply(this, args);
 
     if (isObservable(this)) {
       if (originLength < this.length) {
@@ -49,15 +51,20 @@ methods.forEach((methodName) => {
         }
       }
 
-      const notify = (this as any).__notify;
-      if (notify) {
-        notify(this, this, {
-          args,
-          oldV,
-          isArray: true,
-          method: methodName,
-        });
-      }
+      Promise.resolve().then(() => {
+        const notifyFns = (this as any)[NOTIFY_KEY];
+        if (notifyFns) {
+          for (const k in notifyFns) {
+            notifyFns[k](this, this, {
+              args,
+              result,
+              oldV,
+              isArray: true,
+              method: methodName,
+            });
+          }
+        }
+      });
     }
 
     return result;
@@ -75,6 +82,7 @@ function defineProperty(obj: any, key: any) {
 
   let value = obj[key];
   const dep = new Dep(obj, key);
+  const notifyId = genId(`notify-${key}-`);
   Object.defineProperty(obj, key, {
     configurable: typeof key === 'number',
     enumerable: true,
@@ -84,17 +92,22 @@ function defineProperty(obj: any, key: any) {
         currentDepList.add(dep);
 
         if (isObject(value)) {
-          Object.defineProperty(value, '__notify', {
-            configurable: true,
-            enumerable: false,
-            writable: false,
-            value: (n: any, o: any, options?: Partial<ChangeOptions>) => {
-              dep.notifyChange(n, o, {
-                type: 'notify',
-                ...(options || {}),
-              });
-            },
-          });
+          if (!(value as any)[NOTIFY_KEY]) {
+            Object.defineProperty(value, NOTIFY_KEY, {
+              configurable: true,
+              enumerable: false,
+              writable: false,
+              value: {},
+            });
+          }
+          const notifyFns = (value as any)[NOTIFY_KEY];
+          const notifyFn = (n: any, o: any, options?: Partial<ChangeOptions>) => {
+            dep.notifyChange(n, o, {
+              type: 'notify',
+              ...(options || {}),
+            });
+          };
+          notifyFns[notifyId] = notifyFn;
         }
       }
 
@@ -168,9 +181,11 @@ export function set(
   if (!Object.prototype.hasOwnProperty.call(obj, name)) {
     defineProperty(obj, name);
     obj[name] = silent ? silentValue(value) : value;
-    const notify = (obj as any).__notify;
-    if (notify) {
-      notify(obj, obj);
+    const notifyFns = (obj as any)[NOTIFY_KEY];
+    if (notifyFns) {
+      for (const k in notifyFns) {
+        notifyFns[k](obj, obj);
+      }
     }
   } else {
     obj[name] = silent ? silentValue(value) : value;

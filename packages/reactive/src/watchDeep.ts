@@ -9,6 +9,7 @@ export interface IWatchDeepCallback {
 
 export interface IWatchDeepOptions extends Omit<IWatchOptions, 'deep'> {
   customWatch?: typeof watch;
+  result?: any;
 }
 
 class Watcher {
@@ -28,49 +29,117 @@ class Watcher {
     this.options = options;
   }
 
-  private iterate(curObj: any, keyPathList: (string | number)[] = []) {
-    const baseWatch = this.options && this.options.customWatch || watch;
+  private watchKey(
+    curObj: any,
+    curKey: string | number,
+    keyPathList: (string | number)[],
+    options?: IWatchDeepOptions,
+  ) {
     const stopList: (() => void)[] = [];
-    if (curObj && typeof curObj === 'object' && !isRaw(curObj)) {
-      const iterate = (key: string | number) => {
-        const keyStopList: Function[] = [];
-        stopList.push(baseWatch(
-          () => curObj[key],
-          (newV, oldV, options) => {
-            this.callback && this.callback(this.obj, [...keyPathList, key], newV, oldV, options);
+    const baseWatch = options && options.customWatch || watch;
+    const stop = baseWatch(
+      () => {
+        return curObj[curKey];
+      },
+      (newV, oldV, watchCallbackOptions) => {
+        this.callback && this.callback(
+          this.obj,
+          [...keyPathList, curKey],
+          newV,
+          oldV,
+          watchCallbackOptions,
+        );
 
-            // If the old value is an object, then clear all children watchers on it.
-            if (isObject(oldV)) {
-              keyStopList.forEach(stop => stop());
-              keyStopList.splice(0, keyStopList.length);
-            }
-
-            // If the new value is an object, then set watchers on it's children.
-            if (isObject(newV)) {
-              keyStopList.push(...this.iterate(newV, [...keyPathList, key]));
-            }
-          },
-          this.options,
-        ));
-
-        if (!this.options || !this.options.immediate) {
-          keyStopList.push(...this.iterate(curObj[key], [...keyPathList, key]));
+        // If the old value is an object, then clear all children watchers on it.
+        if (isObject(oldV)) {
+          stopList.forEach(s => s());
+          stopList.splice(0, stopList.length);
         }
-      };
 
-      if (Array.isArray(curObj)) {
-        curObj.forEach((_, index) => iterate(index));
-      } else {
-        for (const key in curObj) {
-          iterate(key);
+        // If the new value is an object, then set watchers on it's children.
+        if (Array.isArray(newV)) {
+          newV.forEach((item, index) => {
+            const lowerStopList = this.watchKey(
+              newV,
+              index,
+              [...keyPathList, curKey],
+              options,
+            );
+            stopList.push(...lowerStopList);
+          });
+        } else if (isObject(newV)) {
+          for (const k in newV) {
+            const lowerStopList = this.watchKey(
+              newV,
+              k,
+              [...keyPathList, curKey],
+              options,
+            );
+            stopList.push(...lowerStopList);
+          }
+        }
+      },
+      {
+        ...options,
+        immediate: false,
+      },
+    );
+
+    if (!isRaw(curObj[curKey])) {
+      if (Array.isArray(curObj[curKey])) {
+        curObj[curKey].forEach((_: any, index: number) => {
+          const lowerStopList = this.watchKey(curObj[curKey], index, [...keyPathList, curKey], options);
+          stopList.push(...lowerStopList);
+        });
+      } else if (isObject(curObj[curKey])) {
+        for (const k in curObj[curKey]) {
+          const lowerStopList = this.watchKey(curObj[curKey], k, [...keyPathList, curKey], options);
+          stopList.push(...lowerStopList);
         }
       }
     }
+
+    return [
+      stop,
+      ...stopList,
+    ];
+  }
+
+  private watchDeep(obj: Record<string, any>) {
+    if (isRaw(obj)) {
+      return [];
+    }
+
+    const stopList: (() => void)[] = [];
+    for (const k in obj) {
+      const lowerStopList = this.watchKey(
+        obj,
+        k,
+        [],
+        this.options,
+      );
+      stopList.push(...lowerStopList);
+
+      if (this.options && this.options.immediate) {
+        Promise.resolve().then(
+          () => {
+            this.callback && this.callback(
+              this.obj,
+              [k],
+              obj[k],
+              undefined,
+              undefined,
+            );
+          },
+        );
+      }
+    }
+
     return stopList;
   }
 
   public watch() {
-    return this.iterate(this.obj);
+    return this.watchDeep(this.obj);
   }
 }
 

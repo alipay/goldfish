@@ -7,7 +7,7 @@ export function isArray(v: any): v is any[] {
 }
 
 let id = 0;
-export function genId() {
+export function genId(prefix = 'g-') {
   id += 1;
-  return id;
+  return `${prefix}${id}`;
 }

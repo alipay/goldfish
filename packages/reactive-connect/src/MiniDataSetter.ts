@@ -7,6 +7,8 @@ import {
 } from '@goldfishjs/reactive';
 import { isObject } from '@goldfishjs/utils';
 
+type KeyPathList = (string | number)[];
+
 export class Batch {
   private segTotalList: number[] = [];
 
@@ -87,7 +89,18 @@ class UpdateTree {
     this.limitLeafTotalCount = limitLeafTotalCount;
   }
 
-  public addNode(keyPathList: (string | number)[], value: any) {
+  private setValue(obj: any, keyPathList: KeyPathList, value: any) {
+    const curObj = obj;
+    for (let i = 0, il = keyPathList.length; i < il; i += 1) {
+      if (i === il - 1) {
+        curObj[keyPathList[i]] = value;
+      } else {
+        curObj[keyPathList[i]] = typeof keyPathList[i + 1] === 'number' ? [] : {};
+      }
+    }
+  }
+
+  public addNode(keyPathList: KeyPathList, value: any) {
     let curNode = this.root;
     const len = keyPathList.length;
     keyPathList.forEach((keyPath, index) => {
@@ -101,11 +114,13 @@ class UpdateTree {
 
       if (index < len - 1) {
         const child = (curNode.children as any)[keyPath];
-        if (!child || child instanceof Leaf) {
+        if (!child) {
           const node = new Ancestor();
           node.parent = curNode;
           (curNode.children as any)[keyPath] = node;
           curNode = node;
+        } else if (child instanceof Leaf) {
+          this.setValue(child.value, keyPathList.slice(index), value);
         } else {
           curNode = child;
         }
@@ -274,6 +289,7 @@ export default class MiniDataSetter {
 
       this.getBatchUpdates(view)(() => {
         updater.iterate((type, obj) => {
+          console.warn('---------数据', view.$id, type, obj);
           if (type === 'set') {
             view.setData(obj);
           } else {
@@ -330,6 +346,7 @@ export default class MiniDataSetter {
     oldV: any,
     options?: ChangeOptions,
   ) {
+    console.warn('======set', view.$id, keyPathList.join('.'), options, newV, oldV);
     this.updaterMap[view.$id] = this.updaterMap[view.$id] || new Updater();
     this.viewMap[view.$id] = view;
     try {
@@ -337,10 +354,15 @@ export default class MiniDataSetter {
       if (Array.isArray(newV) && Array.isArray(oldV)) {
         if (!options || !options.method) {
           // Use `splice` to update the whole array when there is an new array set.
-          this.updaterMap[view.$id].setSpliceObjectValue(
-            keyPathString,
-            [0, oldV.length, ...newV],
+          this.updaterMap[view.$id].setSetObjectValue(
+            view,
+            keyPathList,
+            newV,
           );
+          // this.updaterMap[view.$id].setSpliceObjectValue(
+          //   keyPathString,
+          //   [0, oldV.length, ...newV],
+          // );
         } else {
           const methodName: Methods = options && options.method;
           /* eslint-disable @typescript-eslint/no-non-null-assertion */

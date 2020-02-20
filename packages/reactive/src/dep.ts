@@ -79,15 +79,17 @@ export class DepList {
         return;
       }
 
-      if (!shouldBatch) {
+      if (!shouldBatch || options.isArray) {
         cb(n, o, options);
+        removeListeners.forEach(fn => fn());
+        removeListeners.splice(0, removeListeners.length);
       } else {
         if (isDone) {
           return;
         }
 
-        removeListeners.forEach(fn => fn());
         isDone = true;
+        removeListeners.forEach(fn => fn());
         removeListeners.splice(0, removeListeners.length);
         Promise.resolve().then(() => cb(n, o, options));
       }
