@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/reactive-connect",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "goldfish-reactive-connect",
   "main": "lib/index.js",
   "scripts": {
@@ -15,8 +15,8 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
-    "@goldfishjs/reactive": "^0.0.17",
-    "@goldfishjs/utils": "^0.0.17",
+    "@goldfishjs/reactive": "^0.0.18",
+    "@goldfishjs/utils": "^0.0.18",
     "mini-types": "^0.1.0"
   },
   "devDependencies": {
