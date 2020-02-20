@@ -15,6 +15,7 @@
     "outDir": "../lib",
     "declaration": true,
     "declarationDir": "../types",
-    "types": ["mini-types"]
+    "types": ["mini-types"],
+    "allowJs": true
   }
 }
