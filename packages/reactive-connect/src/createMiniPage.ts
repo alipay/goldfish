@@ -38,7 +38,7 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
         setData: tinyapp.SetDataMethod<D>;
         store: PS;
       },
-      _: any,
+      obj: any,
       keyPathList: (string | number)[],
       newV: any,
       oldV: any,
@@ -49,7 +49,7 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
       }
 
       const miniDataSetter = getMiniDataSetter();
-      miniDataSetter.set(this, keyPathList, newV, oldV, options);
+      miniDataSetter.set(this, obj, keyPathList, newV, oldV, options);
     },
     (instance) => {
       beforeCreateStore && beforeCreateStore(instance as PageInstance<D, PS>);

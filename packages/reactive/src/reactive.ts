@@ -26,7 +26,7 @@ export default function reactive<T extends ReactiveThis = ReactiveThis>(
   this.store.init && this.store.init();
 
   const watchKeys = (data: Record<string, any>) => {
-    const stopList = watchDeep(
+    const stop = watchDeep(
       data,
       setData,
       {
@@ -34,7 +34,7 @@ export default function reactive<T extends ReactiveThis = ReactiveThis>(
         immediate: true,
       },
     );
-    return stopList;
+    return [stop];
   };
 
   const stopWatchList: (() => void)[] = [

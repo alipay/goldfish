@@ -78,19 +78,18 @@ export default function integrateSetupFunctionResult(
   (store as any).$$compositionState = reactiveCompositionState;
 
   const stopList: (() => void)[] = [];
-  stopList.push(...watchDeep(
+  stopList.push(watchDeep(
     reactiveCompositionState,
-    (_: any, keyPathList, newV, oldV, options) => {
+    (obj: any, keyPathList, newV, oldV, options) => {
       if (!(store as any).isSyncDataSafe) {
         return;
       }
 
       const miniDataSetter = getMiniDataSetter();
-      miniDataSetter.set(viewInstance, keyPathList, newV, oldV, options);
+      miniDataSetter.set(viewInstance, obj, keyPathList, newV, oldV, options);
     },
     {
       immediate: true,
-      customWatch: (store as any).watch.bind(store),
     },
   ));
   return stopList;

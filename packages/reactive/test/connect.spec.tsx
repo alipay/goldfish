@@ -6,7 +6,7 @@ import computed from '../src/computed';
 
 describe('connect', () => {
   it('should auto update the view after the observable changed.', async () => {
-    class MyComponent extends React.Component<{}, { name: string; }> {
+    class MyComponent extends React.Component<{}, { name: string }> {
       state = {
         name: '',
       };
@@ -23,7 +23,11 @@ describe('connect', () => {
       'componentDidMount',
       'componentWillUnmount',
       function (this: React.Component, ...args: any[]) {
-        this.setState({ [args[1][0]]: args[2] });
+        if (!args[1].length) {
+          this.setState(args[2]);
+        } else {
+          this.setState({ [args[1][0]]: args[2] });
+        }
       },
       () => {
         return {
@@ -48,7 +52,7 @@ describe('connect', () => {
   });
 
   it('should auto update the view after the computed changed.', async () => {
-    class MyComponent extends React.Component<{}, { name: string; }> {
+    class MyComponent extends React.Component<{}, { name: string }> {
       state = {
         name: '',
       };

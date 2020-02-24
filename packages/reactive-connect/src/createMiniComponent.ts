@@ -38,7 +38,7 @@ export default function createTinyappComponent<
         setData: tinyapp.SetDataMethod<D>;
         store: CS;
       },
-      _: any,
+      obj: any,
       keyPathList: (string | number)[],
       newV: any,
       oldV: any,
@@ -49,7 +49,7 @@ export default function createTinyappComponent<
       }
 
       const miniDataSetter = getMiniDataSetter();
-      miniDataSetter.set(this, keyPathList, newV, oldV, options);
+      miniDataSetter.set(this, obj, keyPathList, newV, oldV, options);
     },
     (instance) => {
       beforeCreateStore && beforeCreateStore(instance as ComponentInstance<P, D, CS, M>);
