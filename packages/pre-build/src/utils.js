@@ -52,8 +52,8 @@ exports.exec = (cmd, options) => {
 const distDir = path.resolve(
   cwd,
   process.env.OUT_DIR
-  || require(`${cwd}${path.sep}mini.project.json`).dist
-  || 'dist',
+    || require(`${cwd}${path.sep}mini.project.json`).dist
+    || 'dist',
 );
 exports.distDir = distDir;
 
