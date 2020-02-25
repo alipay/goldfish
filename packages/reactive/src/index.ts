@@ -32,3 +32,5 @@ export { default as isRaw } from './isRaw';
 export { default as unraw } from './unraw';
 
 export { default as markObservable } from './markObservable';
+
+export { default as call } from './call';

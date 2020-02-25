@@ -125,7 +125,11 @@ export function call(fn: Function, errorCb?: IErrorCallback) {
   try {
     fn();
   } catch (error) {
-    errorCb && errorCb(error);
+    if (errorCb) {
+      errorCb(error);
+    } else {
+      throw error;
+    };
   } finally {
     stack.pop();
   }

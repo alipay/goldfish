@@ -13,6 +13,7 @@ module.exports = {
       setupComponent: `${codeDir}/setupComponent`,
       setupPage: `${codeDir}/setupPage`,
       setupApp: `${codeDir}/setupApp`,
+      Setup: `${codeDir}/setup/Setup`,
       useState: `${codeDir}/useState`,
       useValue: `${codeDir}/useValue`,
       useFetchInitData: `${codeDir}/useFetchInitData`,

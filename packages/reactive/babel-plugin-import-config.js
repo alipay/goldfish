@@ -20,6 +20,8 @@ module.exports = {
       markObservable: `${codeDir}/markObservable`,
       watchDeep: `${codeDir}/watchDeep`,
       generateKeyPathString: `${codeDir}/generateKeyPathString`,
+      call: `${codeDir}/call`,
+      getCurrent: `${codeDir}/getCurrent`,
     }[name];
   },
 };
