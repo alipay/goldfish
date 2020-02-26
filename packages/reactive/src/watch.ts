@@ -1,6 +1,7 @@
 import { call, getCurrent, IErrorCallback, ChangeOptions } from './dep';
 import { isArray } from './utils';
 import { isObject } from '@goldfishjs/utils';
+import isRaw from './isRaw';
 
 export type Unwatch = () => void;
 export type IWatchCallback<N, O = any> =
@@ -48,6 +49,10 @@ class Watcher<R> {
 
   // 递归访问一下，方便搜集依赖
   private deepVisit(obj: any) {
+    if (obj && isRaw(obj)) {
+      return;
+    }
+
     if (isObject(obj)) {
       for (const key in obj) {
         if (!Object.prototype.hasOwnProperty.call(obj, key)) {

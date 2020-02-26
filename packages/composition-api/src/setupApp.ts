@@ -29,6 +29,8 @@ export default function setupApp(
 
   @observable
   class BizAppStore extends AppStore {
+    private stopWatchDeepList: (() => void)[] = [];
+
     public constructor() {
       super();
       // Mount store to the app instance.
@@ -36,7 +38,7 @@ export default function setupApp(
 
       const setup = view.$setup!;
       setup.wrap(() => {
-        integrateSetupFunctionResult<'app'>(fn, setup, view, this);
+        this.stopWatchDeepList = integrateSetupFunctionResult<'app'>(fn, setup, view, this);
       });
     }
 
@@ -51,6 +53,12 @@ export default function setupApp(
       await super.fetchInitData();
       const fn = view.$setup!.getFetchInitDataMethod();
       fn && await fn();
+    }
+
+    public destroy() {
+      super.destroy();
+      this.stopWatchDeepList.forEach(s => s());
+      this.stopWatchDeepList = [];
     }
   }
 
