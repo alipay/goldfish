@@ -39,6 +39,7 @@ export default function observer<
   const fn = (props: P, context?: any) => {
     // Note: The re-render should always be triggered by `setCounter`.
     const [counter, setCounter] = React.useState(0);
+    // The id is used to identity the component instance.
     const [id] = React.useState(counter === 0 ? setupManager.genId() : '');
 
     // The first time.

@@ -27,6 +27,7 @@ module.exports = {
       useWatch: `${codeDir}/useWatch`,
       useAutorun: `${codeDir}/useAutorun`,
       usePlugins: `${codeDir}/usePlugins`,
+      reactive: `${codeDir}/reactive`,
     }[name];
   },
 };
