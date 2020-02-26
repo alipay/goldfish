@@ -51,6 +51,14 @@ export default function observer<
       }
     }
 
+    React.useEffect(() => {
+      return () => {
+        // Remove all listeners.
+        const setup = setupManager.get(id);
+        setup.removeAllStopList();
+      };
+    });
+
     let result: React.ReactElement | null = null;
     // Record the reactive data dependencies and listen to the change.
     call(
