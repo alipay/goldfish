@@ -85,7 +85,7 @@ exports.recordFileUpdateTime = (filePath) => {
     [filePath]: time,
   };
   fs.writeJSONSync(cacheFilePath, mtimesJson);
-}
+};
 
 function getCompiledPath(sourceFilePath, sourceType) {
   const type = sourceType.check(sourceFilePath);
@@ -118,3 +118,5 @@ exports.shouldCompileFile = (filePath, sourceType) => {
   const isModified = lastModifyTime > recordModifyTime;
   return isModified;
 };
+
+exports.getCompiledPath = getCompiledPath;
