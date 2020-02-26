@@ -3,14 +3,27 @@ import * as ReactDOM from 'react-dom';
 import observer from '../src/observer';
 import useState from '../src/useState';
 import { act } from 'react-dom/test-utils';
+import useWatch from '../src/useWatch';
 
-it('should detect the React context type.', () => {
+it('should use `watch` to watch the changes.', () => {
+  const result: any[] = [];
   const component = observer(
     (data) => <div>{data.state.name}</div>,
     () => {
       const state = useState<{ name: string }>({
         name: 'yujiang',
       });
+
+      const watch = useWatch();
+      watch(
+        () => state.name,
+        (newV) => {
+          result.push(newV);
+        },
+        {
+          immediate: true,
+        },
+      );
       setTimeout(() => {
         act(() => {
           state.name = 'diandao';
@@ -23,12 +36,10 @@ it('should detect the React context type.', () => {
   const container = document.createElement('div');
   ReactDOM.render(React.createElement(component), container);
 
-  expect(container.innerHTML).toBe('<div>yujiang</div>');
-
   return new Promise((resolve) => {
     setTimeout(() => {
-      expect(container.innerHTML).toBe('<div>diandao</div>');
+      expect(result).toEqual(['yujiang', 'diandao']);
       resolve();
-    });
+    }, 10);
   });
 });

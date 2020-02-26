@@ -87,8 +87,6 @@ export class DepList {
         }
 
         isDone = true;
-        removeListeners.forEach(fn => fn());
-        removeListeners.splice(0, removeListeners.length);
         Promise.resolve().then(() => cb(n, o, options));
       }
     };

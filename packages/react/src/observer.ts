@@ -56,8 +56,10 @@ export default function observer<
         // Remove all listeners.
         const setup = setupManager.get(id);
         setup.removeAllStopList();
+        setup.stopAllAutorun();
+        setup.stopAllWatch();
       };
-    });
+    }, []);
 
     let result: React.ReactElement | null = null;
     // Record the reactive data dependencies and listen to the change.
