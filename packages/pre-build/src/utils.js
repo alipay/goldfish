@@ -2,6 +2,7 @@ const cp = require('child_process');
 const chalk = require('chalk');
 const fs = require('fs-extra');
 const path = require('path');
+const lodash = require('lodash');
 
 const cwd = process.cwd();
 
@@ -49,23 +50,23 @@ exports.exec = (cmd, options) => {
   });
 };
 
+const miniProjectConfig = require(`${cwd}${path.sep}mini.project.json`);
+
 const distDir = path.resolve(
   cwd,
-  process.env.OUT_DIR
-    || require(`${cwd}${path.sep}mini.project.json`).dist
-    || 'dist',
+  process.env.OUT_DIR || lodash.get(miniProjectConfig, 'dist', 'dist'),
 );
 exports.distDir = distDir;
 
 const baseDir = path.resolve(
   cwd,
-  process.env.BASE_DIR || '.',
+  process.env.BASE_DIR || lodash.get(miniProjectConfig, 'compilerOptions.baseDir', '.'),
 );
 exports.baseDir = baseDir;
 
 const tsconfigPath = path.resolve(
   cwd,
-  process.env.TSCONFIG_PATH || './tsconfig.json',
+  process.env.TSCONFIG_PATH || lodash.get(miniProjectConfig, 'compilerOptions.tsconfigPath', './tsconfig.json'),
 );
 exports.tsconfigPath = tsconfigPath;
 
