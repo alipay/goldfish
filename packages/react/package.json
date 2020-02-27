@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/react",
-  "version": "0.0.17",
+  "version": "1.0.0",
   "description": "goldfish-react",
   "main": "lib/index.js",
   "scripts": {
@@ -15,9 +15,9 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
-    "@goldfishjs/composition-api": "^0.0.17",
-    "@goldfishjs/reactive": "^0.0.17",
-    "@goldfishjs/utils": "^0.0.17"
+    "@goldfishjs/composition-api": "^1.0.0",
+    "@goldfishjs/reactive": "^1.0.0",
+    "@goldfishjs/utils": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
