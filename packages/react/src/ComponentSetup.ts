@@ -9,6 +9,8 @@ export default class ComponentSetup extends Setup {
 
   public setupFnResult: any;
 
+  public props: any = undefined;
+
   public setStopList(list: Function[]) {
     this.stopList = list;
   }

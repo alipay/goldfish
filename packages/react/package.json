@@ -16,7 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "@goldfishjs/composition-api": "^0.0.17",
-    "@goldfishjs/reactive": "^0.0.17"
+    "@goldfishjs/reactive": "^0.0.17",
+    "@goldfishjs/utils": "^0.0.17"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
