@@ -5,7 +5,7 @@ import useState from '../src/useState';
 import { act } from 'react-dom/test-utils';
 import useAutorun from '../src/useAutorun';
 
-it('should use `watch` to watch the changes.', () => {
+it('should use `autorun` to detect the changes.', () => {
   const result: any[] = [];
   const component = observer(
     (data) => <div>{data.state.name}</div>,
