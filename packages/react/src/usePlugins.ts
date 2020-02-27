@@ -121,16 +121,16 @@ export default function usePlugins(
     if (!pluginClassList) {
       return {
         get bridge() {
-          return pluginHub.get(BridgePlugin);
+          return global.get(BridgePlugin);
         },
         get route() {
-          return pluginHub.get(RoutePlugin);
+          return global.get(RoutePlugin);
         },
         get requester() {
-          return pluginHub.get(RequesterPlugin);
+          return global.get(RequesterPlugin);
         },
         get feedback() {
-          return pluginHub.get(FeedbackPlugin);
+          return global.get(FeedbackPlugin);
         },
       };
     }

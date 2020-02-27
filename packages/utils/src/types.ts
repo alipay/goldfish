@@ -1,3 +1,5 @@
+import { isEqual } from 'lodash';
+
 type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 type Many<T> = T | ReadonlyArray<T>;
 
@@ -59,3 +61,5 @@ export type WithForceUpdate<T> = T & {
 };
 
 export type LodashCloneDeep = <T>(value: T) => T;
+
+export type LodashIsEqual = typeof isEqual;
