@@ -25,7 +25,7 @@ class Watcher<R> {
 
   private isFirstTime = true;
 
-  private removeListenersGroup: Function[][] = [];
+  private removeListeners: Function[] = [];
 
   constructor(
     fn: IWatchExpressionFn<R>,
@@ -41,10 +41,12 @@ class Watcher<R> {
 
   public stop() {
     this.isStopped = true;
-    this.removeListenersGroup.forEach((group) => {
-      group.forEach(fn => fn());
-    });
-    this.removeListenersGroup = [];
+    this.callRemoveListeners();
+  }
+
+  private callRemoveListeners() {
+    this.removeListeners.forEach(r => r());
+    this.removeListeners.splice(0, this.removeListeners.length);
   }
 
   // 递归访问一下，方便搜集依赖
@@ -77,8 +79,9 @@ class Watcher<R> {
         if (this.options.deep) {
           this.deepVisit(result);
         }
-        this.removeListenersGroup.push(
-          getCurrent().addChangeListener((n: any, o: any, options: ChangeOptions) => {
+        this.removeListeners.push(
+          ...getCurrent().addChangeListener((n: any, o: any, options: ChangeOptions) => {
+            this.callRemoveListeners();
             if (this.isStopped) {
               return;
             }

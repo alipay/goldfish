@@ -87,8 +87,6 @@ export class DepList {
         }
 
         isDone = true;
-        removeListeners.forEach(fn => fn());
-        removeListeners.splice(0, removeListeners.length);
         Promise.resolve().then(() => cb(n, o, options));
       }
     };
@@ -125,7 +123,11 @@ export function call(fn: Function, errorCb?: IErrorCallback) {
   try {
     fn();
   } catch (error) {
-    errorCb && errorCb(error);
+    if (errorCb) {
+      errorCb(error);
+    } else {
+      throw error;
+    };
   } finally {
     stack.pop();
   }

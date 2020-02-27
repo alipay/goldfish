@@ -1,6 +1,6 @@
 import { watchDeep } from '@goldfishjs/reactive';
 import { getMiniDataSetter } from '@goldfishjs/reactive-connect';
-import { reactive } from './useState';
+import reactive from './reactive';
 import PageSetup, { SetupPageInstance, SetupPageStore } from './setup/PageSetup';
 import ComponentSetup, {
   SetupComponentInstance,
