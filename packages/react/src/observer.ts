@@ -128,6 +128,13 @@ export default function observer<
       }
     }, [props]);
 
+    // Fetch init data.
+    React.useEffect(() => {
+      const setup = setupManager.get(id);
+      setup.initData.init();
+    }, []);
+
+    // Destroy
     React.useEffect(() => {
       return () => {
         // Remove all listeners.

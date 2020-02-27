@@ -1,4 +1,9 @@
 import { Setup } from '@goldfishjs/composition-api';
+import InitData from './InitData';
+
+export interface IState {
+  isInitLoading: boolean;
+}
 
 export default class ComponentSetup extends Setup {
   private stopList: Function[] = [];
@@ -10,6 +15,8 @@ export default class ComponentSetup extends Setup {
   public setupFnResult: any;
 
   public props: any = undefined;
+
+  public initData = new InitData();
 
   public setStopList(list: Function[]) {
     this.stopList = list;
