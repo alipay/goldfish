@@ -7,6 +7,11 @@ module.exports = {
   customName(name) {
     return {
       observer: `${codeDir}/observer`,
+      useAutorun: `${codeDir}/useAutorun`,
+      useWatch: `${codeDir}/useWatch`,
+      useContextType: `${codeDir}/useContextType`,
+      useProps: `${codeDir}/useProps`,
+      useState: `${codeDir}/useState`,
     }[name];
   },
 };
