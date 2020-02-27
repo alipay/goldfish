@@ -2,6 +2,9 @@ import useGlobalReady from './useGlobalReady';
 import useContextType from './useContextType';
 import ComponentSetup from './ComponentSetup';
 
+/**
+ * Wait for all plugins and local init data being ready.
+ */
 export default function useLocalReady() {
   const globalReady = useGlobalReady();
   const type = useContextType();

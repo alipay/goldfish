@@ -121,16 +121,16 @@ export default function usePlugins(
     if (!pluginClassList) {
       return {
         get bridge() {
-          return global.get(BridgePlugin);
+          return global.getPlugin(BridgePlugin);
         },
         get route() {
-          return global.get(RoutePlugin);
+          return global.getPlugin(RoutePlugin);
         },
         get requester() {
-          return global.get(RequesterPlugin);
+          return global.getPlugin(RequesterPlugin);
         },
         get feedback() {
-          return global.get(FeedbackPlugin);
+          return global.getPlugin(FeedbackPlugin);
         },
       };
     }
@@ -138,7 +138,7 @@ export default function usePlugins(
     return pluginClassList.reduce(
       (prev, pluginClass) => {
         Object.defineProperty(prev, pluginClass.type, {
-          get: () => global.get(pluginClass),
+          get: () => global.getPlugin(pluginClass),
         });
         return prev;
       },

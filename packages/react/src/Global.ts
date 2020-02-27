@@ -10,6 +10,7 @@ import {
   RequesterPlugin,
   PluginClass,
   Plugin,
+  IConfig,
 } from '@goldfishjs/plugins';
 import { reactive } from '@goldfishjs/composition-api';
 
@@ -24,6 +25,7 @@ const defaultPlugins = [
 export interface IInitOptions<D> {
   plugins?: PluginClass[];
   data?: D;
+  config?: IConfig;
 }
 
 export default class Global {
@@ -37,9 +39,18 @@ export default class Global {
     this.data = reactive(options.data || {});
 
     const plugins = options.plugins || defaultPlugins;
-    plugins.forEach((plugin) => {
+    // Ensure the first plugin is ConfigPlugin.
+    const normalizedPlugins = plugins[0] instanceof ConfigPlugin
+      ? plugins
+      : [ConfigPlugin, plugins[0]];
+
+    normalizedPlugins.forEach((plugin) => {
       this.pluginHub.register(plugin);
     });
+
+    const config = options.config || {};
+    this.pluginHub.get(ConfigPlugin).setConfig(config);
+
     await this.pluginHub.init();
   }
 
@@ -51,11 +62,11 @@ export default class Global {
     return this.pluginHub.waitForReady();
   }
 
-  public isReady() {
+  public isPluginsReady() {
     return this.pluginHub.isReady();
   }
 
-  public get<R extends Plugin>(pluginClass: PluginClass<R> | string): R {
+  public getPlugin<R extends Plugin>(pluginClass: PluginClass<R> | string): R {
     return this.pluginHub.get(pluginClass);
   }
 }
