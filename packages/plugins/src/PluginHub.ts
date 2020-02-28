@@ -9,10 +9,18 @@ export default class PluginHub {
   @state
   protected state: 'not_init' | 'init_start' | 'ready' | 'destroyed' = 'not_init';
 
+  /**
+   * Check that if all registered plugins are ready.
+   */
   public isReady() {
     return this.state === 'ready';
   }
 
+  /**
+   * Wait for the registered plugins being initialized.
+   *
+   * @return Promise
+   */
   public waitForReady() {
     return new Promise((resolve) => {
       const stop = watch(
@@ -71,6 +79,11 @@ export default class PluginHub {
     throw new Error(`The plugin ${pluginClass} is not registered.`);
   }
 
+  /**
+   * Initialize the registered plugins.
+   *
+   * @lifecycle
+   */
   public async init() {
     this.state = 'init_start';
     for (const type in this.plugins) {

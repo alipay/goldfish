@@ -5,6 +5,8 @@
       "es2015",
       "dom"
     ],
-    "allowJs": true
+    "allowJs": true,
+    "module": "es2015",
+    "target": "es5"
   }
 }
