@@ -5,6 +5,7 @@
 - [+] **@goldfishjs/react:** support React
   - Add `useFetchInitData`, `useGlobalData`, `useGlobalFetchInitData`, `useGlobalReady`, `useLocalReady`, `usePlugins` and `usePluginsReady`.
 - [+] **@goldfishjs/utils:** add `isEqual`.
+- [+] **@goldfishjs/composition-api:** add `usePageEvents`.
 
 ## 1.0.0
 
