@@ -28,6 +28,7 @@ module.exports = {
       useAutorun: `${codeDir}/useAutorun`,
       usePlugins: `${codeDir}/usePlugins`,
       reactive: `${codeDir}/reactive`,
+      usePageEvents: `${codeDir}/usePageEvents`,
     }[name];
   },
 };

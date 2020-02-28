@@ -21,3 +21,4 @@ export { default as useGlobalData } from './useGlobalData';
 export { default as useWatch } from './useWatch';
 export { default as useAutorun } from './useAutorun';
 export { default as reactive } from './reactive';
+export { default as usePageEvents } from './usePageEvents';
