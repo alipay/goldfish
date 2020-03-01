@@ -19,7 +19,9 @@
     "@goldfishjs/reactive": "^1.0.0",
     "@goldfishjs/utils": "^1.0.0",
     "@goldfishjs/plugins": "^1.0.0",
-    "@goldfishjs/reactive-connect": "^1.0.0"
+    "@goldfishjs/reactive-connect": "^1.0.0",
+    "@goldfishjs/requester": "^1.0.0",
+    "@goldfishjs/route": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",

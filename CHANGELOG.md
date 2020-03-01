@@ -3,7 +3,14 @@
 ### 💡 Main Changes
 
 - [+] **@goldfishjs/react:** support React
-  - Add `useFetchInitData`, `useGlobalData`, `useGlobalFetchInitData`, `useGlobalReady`, `useLocalReady`, `usePlugins` and `usePluginsReady`.
+  - `useBridge()`: encapsulation of underlying interfaces.
+  - `useFeedback()`: encapsulation of Alert, Confirm, Toast, and Prompt.
+  - `useRequester()`: encapsulation of data fetching, and includes fetching status.
+  - `useGlobalConfig()`: get config data from global.
+  - `useGlobalData()`: get global reactive data.
+  - `useGlobalStorage()`: get global non-reactive data.
+  - `useGlobalDestroy()`: add destroy function to the global.
+  - `useGlobalFetchInitData()`: add init data fetching method to the global.
 - [+] **@goldfishjs/utils:** add `isEqual`.
 - [+] **@goldfishjs/composition-api:** add `usePageEvents`.
 

@@ -15,10 +15,13 @@ module.exports = {
       useFetchInitData: `${codeDir}/useFetchInitData`,
       useGlobalData: `${codeDir}/useGlobalData`,
       useGlobalFetchInitData: `${codeDir}/useGlobalFetchInitData`,
-      useGlobalReady: `${codeDir}/useGlobalReady`,
-      useLocalReady: `${codeDir}/useLocalReady`,
-      usePlugins: `${codeDir}/usePlugins`,
-      usePluginsReady: `${codeDir}/usePluginsReady`,
+      useBridge: `${codeDir}/alipayH5/useBridge`,
+      useFeedback: `${codeDir}/alipayH5/useFeedback`,
+      useRequester: `${codeDir}/alipayH5/useRequester`,
+      useGlobalConfig: `${codeDir}/alipayH5/useGlobalConfig`,
+      useGlobalDestroy: `${codeDir}/alipayH5/useGlobalDestroy`,
+      useGlobalStorage: `${codeDir}/alipayH5/useGlobalStorage`,
+      global: `${codeDir}/defaultGlobal`,
     }[name];
   },
 };
