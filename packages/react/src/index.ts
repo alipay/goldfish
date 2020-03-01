@@ -7,7 +7,9 @@ export { default as useState } from './useState';
 export { default as useFetchInitData } from './useFetchInitData';
 export { default as useGlobalData } from './useGlobalData';
 export { default as useGlobalFetchInitData } from './useGlobalFetchInitData';
-export { default as useGlobalReady } from './useGlobalReady';
-export { default as useLocalReady } from './useLocalReady';
-export { default as usePlugins } from './usePlugins';
-export { default as usePluginsReady } from './usePluginsReady';
+export { default as useGlobalConfig } from './useGlobalConfig';
+export { default as useGlobalDestroy } from './useGlobalDestroy';
+export { default as useGlobalStorage } from './useGlobalStorage';
+export { default as global } from './defaultGlobal';
+
+export * from './alipayH5/index';
