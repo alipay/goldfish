@@ -13,8 +13,6 @@ export interface IInitOptions<D> {
 export default class App {
   public initData = new InitData();
 
-  private pluginHub = new PluginHub();
-
   public data: any = undefined;
 
   public config: Record<string, any> = {};
@@ -32,7 +30,6 @@ export default class App {
 
   public destroy() {
     this.destroyList.forEach(s => s());
-    this.pluginHub.destroy();
   }
 }
 
