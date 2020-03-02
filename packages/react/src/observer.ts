@@ -10,51 +10,57 @@ export interface ISetupFunction<R extends Record<string, any>> {
   (): R;
 }
 
-export default function observer<
-  P,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
->(
-  componentFn: T,
-): T;
-export default function observer<
-  P,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
->(
-  defaultProps: P,
-  componentFn: T,
-): T;
-export default function observer<
-  P,
-  SR extends Record<string, any> = Record<string, any>,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
->(
-  componentFn: (
-    setupResult: SR,
-    props: Parameters<T>[0],
-    context?: Parameters<T>[1],
-  ) => ReturnType<T>,
-  setupFn: ISetupFunction<SR>,
-): T;
-export default function observer<
-  P,
-  SR extends Record<string, any> = Record<string, any>,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
->(
-  defaultProps: P,
-  componentFn: (
-    setupResult: SR,
-    props: Parameters<T>[0],
-    context?: Parameters<T>[1],
-  ) => ReturnType<T>,
-  setupFn: ISetupFunction<SR>,
-): T;
+export type ReactLike = Pick<typeof React, 'useState' | 'useMemo' | 'useEffect'>;
 
+export default function observer<
+  P,
+  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
+>(
+  reactLike: ReactLike,
+  componentFn: T,
+): T;
+export default function observer<
+  P,
+  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
+>(
+  reactLike: ReactLike,
+  defaultProps: P,
+  componentFn: T,
+): T;
+export default function observer<
+  P,
+  SR extends Record<string, any> = Record<string, any>,
+  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
+>(
+  reactLike: ReactLike,
+  componentFn: (
+    setupResult: SR,
+    props: Parameters<T>[0],
+    context?: Parameters<T>[1],
+  ) => ReturnType<T>,
+  setupFn: ISetupFunction<SR>,
+): T;
+export default function observer<
+  P,
+  SR extends Record<string, any> = Record<string, any>,
+  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
+>(
+  reactLike: ReactLike,
+  defaultProps: P,
+  componentFn: (
+    setupResult: SR,
+    props: Parameters<T>[0],
+    context?: Parameters<T>[1],
+  ) => ReturnType<T>,
+  setupFn: ISetupFunction<SR>,
+): T;
 
 export default function observer<
   P,
   SR extends Record<string, any>,
   T extends React.FunctionComponent<P>
 >(
+  reactLike: ReactLike,
   passInDefaultProps: P | T | ((
     setupResult: SR,
     props: Parameters<T>[0],
@@ -90,9 +96,9 @@ export default function observer<
 
   const fn = (props: P, context?: any) => {
     // Note: The re-render should always be triggered by `setCounter`.
-    const [counter, setCounter] = React.useState(0);
+    const [counter, setCounter] = reactLike.useState(0);
     // The id is used to identity the component instance.
-    const [id] = React.useState(counter === 0 ? setupManager.genId() : '');
+    const [id] = reactLike.useState(counter === 0 ? setupManager.genId() : '');
 
     // The first time.
     if (counter === 0) {
@@ -107,7 +113,7 @@ export default function observer<
     }
 
     // Sync props.
-    React.useMemo(() => {
+    reactLike.useMemo(() => {
       // If there is no setup function, then the props sync is useless.
       if (!setupFn) {
         return;
@@ -129,13 +135,13 @@ export default function observer<
     }, [props]);
 
     // Fetch init data.
-    React.useEffect(() => {
+    reactLike.useEffect(() => {
       const setup = setupManager.get(id);
       setup.initData.init();
     }, []);
 
     // Destroy
-    React.useEffect(() => {
+    reactLike.useEffect(() => {
       return () => {
         // Remove all listeners.
         const setup = setupManager.get(id);

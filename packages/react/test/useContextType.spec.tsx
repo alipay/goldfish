@@ -8,6 +8,7 @@ import useContextType from '../src/useContextType';
 it('should detect the React context type.', () => {
   let contextType: any = undefined;
   const component = observer(
+    React,
     () => <div></div>,
     () => {
       contextType = useContextType();

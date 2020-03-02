@@ -8,6 +8,7 @@ import useWatch from '../src/useWatch';
 it('should use `watch` to watch the changes.', () => {
   const result: any[] = [];
   const component = observer(
+    React,
     (data) => <div>{data.state.name}</div>,
     () => {
       const state = useState<{ name: string }>({

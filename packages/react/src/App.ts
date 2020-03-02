@@ -10,10 +10,8 @@ export interface IInitOptions<D> {
   config?: IConfig;
 }
 
-export default class Global {
+export default class App {
   public initData = new InitData();
-
-  private pluginHub = new PluginHub();
 
   public data: any = undefined;
 
@@ -32,8 +30,7 @@ export default class Global {
 
   public destroy() {
     this.destroyList.forEach(s => s());
-    this.pluginHub.destroy();
   }
 }
 
-export const global = new Global();
+export const app = new App();

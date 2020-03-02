@@ -15,6 +15,7 @@ it('should receive the props.', () => {
   }
 
   const c1 = observer<IC1Props, IData>(
+    React,
     {
       name: '',
     },
@@ -28,6 +29,7 @@ it('should receive the props.', () => {
   );
 
   const c2 = observer(
+    React,
     () => React.createElement(c1, { name: 'yujiang' }),
   );
 
@@ -47,6 +49,7 @@ it('should detect the props change.', () => {
   }
 
   const c1 = observer<IC1Props, IData>(
+    React,
     {
       name: '',
     },
@@ -60,6 +63,7 @@ it('should detect the props change.', () => {
   );
 
   const c2 = observer(
+    React,
     (data) => React.createElement(c1, { name: data.state.name }),
     () => {
       const state = useState({

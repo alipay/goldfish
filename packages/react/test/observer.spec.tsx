@@ -9,7 +9,7 @@ it('should make the React component reactive.', () => {
     name: 'a',
   });
 
-  const component = observer(() => {
+  const component = observer(React, () => {
     return (<div>{obj.name}</div>);
   });
 
@@ -32,6 +32,7 @@ it('should execute setup function once.', () => {
 
   let counter = 0;
   const component = observer(
+    React,
     () => <div>{obj.name}</div>,
     () => {
       counter += 1;
@@ -54,6 +55,7 @@ it('should pass the setup function result to the render function.', () => {
   });
 
   const component = observer(
+    React,
     (setupResult) => {
       return <div>{obj.name}-{setupResult.age}</div>;
     },

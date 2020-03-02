@@ -1,12 +1,12 @@
 import useContextType from './useContextType';
-import { default as Global, global } from './Global';
+import { default as App, app } from './App';
 
 export default function useGlobalFetchInitData(
   fn: () => Promise<void>,
   isAsync = true,
-  passInGlobal?: Global,
+  passInApp?: App,
 ) {
-  const realGlobal = passInGlobal || global;
+  const realGlobal = passInApp || app;
 
   const type = useContextType();
   if (type === 'react') {

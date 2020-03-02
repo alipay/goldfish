@@ -6,6 +6,7 @@ import useFetchInitData from '../src/useFetchInitData';
 it('should add fetching init data logic.', () => {
   const result: any[] = [];
   const component = observer(
+    React,
     () => <div></div>,
     () => {
       useFetchInitData(
@@ -31,6 +32,6 @@ it('should add fetching init data logic.', () => {
     setTimeout(() => {
       expect(result).toEqual([1]);
       resolve();
-    }, 10);
+    }, 100);
   });
 });
