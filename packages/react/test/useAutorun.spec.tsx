@@ -8,6 +8,7 @@ import useAutorun from '../src/useAutorun';
 it('should use `autorun` to detect the changes.', () => {
   const result: any[] = [];
   const component = observer(
+    React,
     (data) => <div>{data.state.name}</div>,
     () => {
       const state = useState<{ name: string }>({

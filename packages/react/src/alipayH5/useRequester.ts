@@ -1,4 +1,4 @@
-import { default as Global, global } from '../Global';
+import { default as App, app } from '../App';
 import { Requester as BaseRequester, IRequestOptions } from '@goldfishjs/requester';
 import useGlobalConfig from '../useGlobalConfig';
 import { bridge } from './useBridge';
@@ -66,8 +66,8 @@ class Requester extends BaseRequester {
   }
 }
 
-export default function useRequester(passInGlobal?: Global) {
-  const realGlobal = passInGlobal || global;
+export default function useRequester(passInApp?: App) {
+  const realGlobal = passInApp || app;
 
   if (!realGlobal.normalData[KEY]) {
     const config = useGlobalConfig(realGlobal);

@@ -6,6 +6,7 @@ import { act } from 'react-dom/test-utils';
 
 it('should detect the React context type.', () => {
   const component = observer(
+    React,
     (data) => <div>{data.state.name}</div>,
     () => {
       const state = useState<{ name: string }>({

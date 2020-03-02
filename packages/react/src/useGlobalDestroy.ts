@@ -1,6 +1,6 @@
-import { default as Global, global } from './Global';
+import { default as App, app } from './App';
 
-export default function useGlobalDestroy(fn: () => void, passInGlobal?: Global) {
-  const realGlobal = passInGlobal || global;
+export default function useGlobalDestroy(fn: () => void, passInApp?: App) {
+  const realGlobal = passInApp || app;
   realGlobal.destroyList.push(fn);
 }

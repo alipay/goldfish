@@ -1,7 +1,7 @@
-import { default as Global, global } from './Global';
+import { default as App, app } from './App';
 
-export default function useGlobalData<G extends Record<string, any>>(passInGlobal?: Global) {
-  const realGlobal = passInGlobal || global;
+export default function useGlobalData<G extends Record<string, any>>(passInApp?: App) {
+  const realGlobal = passInApp || app;
   return {
     get: <T extends keyof G>(key: T) => {
       return realGlobal.reactiveData.data[key as string];
@@ -11,7 +11,7 @@ export default function useGlobalData<G extends Record<string, any>>(passInGloba
         realGlobal.reactiveData.data[key as string] = value;
       } else {
         realGlobal.reactiveData.data = {
-          ...global.reactiveData.data,
+          ...realGlobal.reactiveData.data,
           [key]: value,
         };
       }
