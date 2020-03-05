@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@goldfishjs/bridge": "^0.0.1",
-    "@goldfishjs/composition-api": "^1.0.0",
+    "@goldfishjs/composition-api": "^1.1.0",
     "@goldfishjs/core": "^0.0.1",
     "@goldfishjs/plugins": "^0.0.1",
     "@goldfishjs/reactive": "^0.0.1",
@@ -17,9 +17,9 @@
     "mini-antui": "^0.4.29"
   },
   "devDependencies": {
-    "@goldfishjs/pre-build": "^1.0.0",
+    "@goldfishjs/pre-build": "^1.1.0",
     "tslint": "^5.20.1",
     "tslint-config-airbnb": "^5.11.2"
   },
-  "version": "1.0.0"
+  "version": "1.1.0"
 }
