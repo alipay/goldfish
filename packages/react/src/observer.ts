@@ -94,7 +94,7 @@ export default function observer<
     setupFn = passInSetupFn;
   }
 
-  const fn = (props: P, context?: any) => {
+  const fn = function (this: any, props: P, context?: any) {
     // Note: The re-render should always be triggered by `setCounter`.
     const [counter, setCounter] = reactLike.useState(0);
     // The id is used to identity the component instance.
@@ -158,8 +158,8 @@ export default function observer<
         const setup = setupManager.get(id);
         setup.removeAllStopList();
         result = setup.setupFnResult
-          ? componentFn(setup.setupFnResult, props, context)
-          : componentFn(props, context);
+          ? componentFn.call(this, setup.setupFnResult, props, context)
+          : componentFn.call(this, props, context);
         // If some data changes, force re-render.
         const list = getCurrent().addChangeListener(
           () => {
