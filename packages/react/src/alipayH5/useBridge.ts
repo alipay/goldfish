@@ -22,14 +22,16 @@ const uniqEventsMap: {
   firePullToRefresh: [],
   h5NetworkChange: [],
 };
-for (const key in uniqEventsMap) {
-  const fns: Function[] | undefined = (uniqEventsMap as any)[key];
-  if (!fns) {
-    continue;
+if (window && window.document) {
+  for (const key in uniqEventsMap) {
+    const fns: Function[] | undefined = (uniqEventsMap as any)[key];
+    if (!fns) {
+      continue;
+    }
+    document.addEventListener(key, function (this: any, event) {
+      fns.forEach((fn) => fn.call(this, event));
+    }, false);
   }
-  document.addEventListener(key, function (this: any, event) {
-    fns.forEach((fn) => fn.call(this, event));
-  }, false);
 }
 
 export const bridge = {
@@ -48,7 +50,7 @@ export const bridge = {
       const fns: Function[] | undefined = uniqEventsMap[name];
       if (fns) {
         uniqEventsMap[name] = fns.filter(f => f !== fn) as any;
-      } else {
+      } else if (window && window.document) {
         document.removeEventListener(name, fn, false);
       }
     };
