@@ -140,14 +140,18 @@ export default function observer<
       setup.initData.init();
     }, []);
 
-    // Destroy
+    // Destroy & Init
     reactLike.useEffect(() => {
+      const setup = setupManager.get(id);
+      setup.mountFns.forEach(fn => fn());
+      setup.mountFns = [];
       return () => {
         // Remove all listeners.
-        const setup = setupManager.get(id);
         setup.removeAllStopList();
         setup.stopAllAutorun();
         setup.stopAllWatch();
+        setup.unmountFns.forEach(fn => fn());
+        setup.unmountFns = [];
       };
     }, []);
 

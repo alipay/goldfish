@@ -18,6 +18,10 @@ export default class ComponentSetup extends Setup {
 
   public initData = new InitData();
 
+  public mountFns: (() => void)[] = [];
+
+  public unmountFns: (() => void)[] = [];
+
   public setStopList(list: Function[]) {
     this.stopList = list;
   }

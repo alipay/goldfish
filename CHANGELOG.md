@@ -4,6 +4,10 @@
 
 - [^] **@goldfishjs/react:** keep `this` of the component function in `observer`.
 
+### 💡 Main Changes
+
+- [+] **@goldfish/react:** add `useMount()` and `useUnmount()`.
+
 ## 1.1.0
 
 ### 💡 Main Changes
