@@ -58,6 +58,7 @@ module.exports = {
         nav: [
           { text: 'Guide', link: '/guide/' },
           { text: 'API', link: '/api/' },
+          { text: 'Composition API', link: '/composition-api/' }
         ],
         sidebar: {
           '/guide/': [
@@ -81,6 +82,17 @@ module.exports = {
                 'stores',
                 'reactivity',
                 'plugins',
+              ],
+            },
+          ],
+          '/composition-api/': [
+            {
+              title: 'Composition API',
+              collapsable: false,
+              children: [
+                '',
+                'setup',
+                'base',
               ],
             },
           ],

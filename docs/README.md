@@ -7,7 +7,7 @@ actionText: Getting Started →
 actionLink: /guide/
 features:
 - title: Easy to Use
-  details: You just need a goldfish dependency then you can develop mini app quickly.
+  details: You just need a Goldfish dependency then you can develop mini app quickly.
 - title: High Quality
   details: Powerful & complete TypeScript Support.
 - title: Composition API
