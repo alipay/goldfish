@@ -57,7 +57,7 @@ import { setupPage, useState } from '@goldfishjs/core';
 Page(
   setupPage(() => {
     const data = useState<{ title: string }>({
-      title: 'hello goldfish',
+      title: 'hello Goldfish',
     });
 
     return {
