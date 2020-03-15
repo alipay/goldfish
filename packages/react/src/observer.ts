@@ -2,15 +2,13 @@ import * as React from 'react';
 import { call, getCurrent, observable } from '@goldfishjs/reactive';
 import { isObject, cloneDeep } from '@goldfishjs/utils';
 import ComponentSetup from './ComponentSetup';
-import ComponentSetupManager from './ComponentSetupManager';
-
-const setupManager = new ComponentSetupManager();
+import { setupManager } from './ComponentSetupManager';
 
 export interface ISetupFunction<R extends Record<string, any>> {
   (): R;
 }
 
-export type ReactLike = Pick<typeof React, 'useState' | 'useMemo' | 'useEffect' | 'useRef'>;
+export type ReactLike = Pick<typeof React, 'useState' | 'useMemo' | 'useEffect' | 'useRef' | 'useCallback'>;
 
 export default function observer<
   P,
@@ -173,7 +171,7 @@ export default function observer<
           },
           false,
         );
-        setup.setStopList(list);
+        setup.addStopList(list);
       },
     );
     return result;

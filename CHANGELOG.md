@@ -6,7 +6,9 @@
 
 ### 💡 Main Changes
 
-- [+] **@goldfish/react:** add `useMount()` and `useUnmount()`.
+- [+] **@goldfish/react:**
+  - add `useMount()` and `useUnmount()`.
+  - add `useSetup()` to support the strange compiler in Taro.
 
 ### 🐞 Bug Fixes
 

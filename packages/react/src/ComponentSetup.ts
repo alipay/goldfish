@@ -22,8 +22,8 @@ export default class ComponentSetup extends Setup {
 
   public unmountFns: (() => void)[] = [];
 
-  public setStopList(list: Function[]) {
-    this.stopList = list;
+  public addStopList(list: Function[]) {
+    this.stopList.push(...list);
   }
 
   public removeAllStopList() {

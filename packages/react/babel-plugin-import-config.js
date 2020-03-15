@@ -21,6 +21,7 @@ module.exports = {
       useGlobalConfig: `${codeDir}/alipayH5/useGlobalConfig`,
       useGlobalDestroy: `${codeDir}/alipayH5/useGlobalDestroy`,
       useGlobalStorage: `${codeDir}/alipayH5/useGlobalStorage`,
+      useSetup: `${codeDir}/alipayH5/useSetup`,
       global: `${codeDir}/defaultGlobal`,
     }[name];
   },
