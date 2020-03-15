@@ -15,7 +15,9 @@ export default function useSetup<SR extends Record<string, any>>(
   const [id] = reactLike.useState(counter === 0 ? setupManager.genId() : '');
 
   // The first time.
-  if (counter === 0) {
+  const isFirstTime = reactLike.useRef<boolean>(true);
+  if (isFirstTime.current) {
+    isFirstTime.current = false;
     const setup = new ComponentSetup();
     setupManager.add(id, setup);
     if (setupFn) {
@@ -53,13 +55,17 @@ export default function useSetup<SR extends Record<string, any>>(
     setup.initData.init();
   }, []);
 
-  // Destroy
+  // Destroy & Init
   reactLike.useEffect(() => {
+    setup.mountFns.forEach(fn => fn());
+    setup.mountFns = [];
     return () => {
       // Remove all listeners.
       setup.removeAllStopList();
       setup.stopAllAutorun();
       setup.stopAllWatch();
+      setup.unmountFns.forEach(fn => fn());
+      setup.unmountFns = [];
     };
   }, []);
 
@@ -81,7 +87,7 @@ export default function useSetup<SR extends Record<string, any>>(
       );
       return result;
     },
-    [],
+    [counter],
   );
 
   type SRFns = Pick<
