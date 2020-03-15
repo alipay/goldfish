@@ -10,7 +10,7 @@ export interface ISetupFunction<R extends Record<string, any>> {
   (): R;
 }
 
-export type ReactLike = Pick<typeof React, 'useState' | 'useMemo' | 'useEffect'>;
+export type ReactLike = Pick<typeof React, 'useState' | 'useMemo' | 'useEffect' | 'useRef'>;
 
 export default function observer<
   P,
@@ -101,7 +101,9 @@ export default function observer<
     const [id] = reactLike.useState(counter === 0 ? setupManager.genId() : '');
 
     // The first time.
-    if (counter === 0) {
+    const isFirstTime = reactLike.useRef<boolean>(true);
+    if (isFirstTime.current) {
+      isFirstTime.current = false;
       const setup = new ComponentSetup();
       setupManager.add(id, setup);
       if (setupFn) {
