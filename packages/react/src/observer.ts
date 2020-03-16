@@ -2,15 +2,13 @@ import * as React from 'react';
 import { call, getCurrent, observable } from '@goldfishjs/reactive';
 import { isObject, cloneDeep } from '@goldfishjs/utils';
 import ComponentSetup from './ComponentSetup';
-import ComponentSetupManager from './ComponentSetupManager';
-
-const setupManager = new ComponentSetupManager();
+import { setupManager } from './ComponentSetupManager';
 
 export interface ISetupFunction<R extends Record<string, any>> {
   (): R;
 }
 
-export type ReactLike = Pick<typeof React, 'useState' | 'useMemo' | 'useEffect'>;
+export type ReactLike = Pick<typeof React, 'useState' | 'useMemo' | 'useEffect' | 'useRef' | 'useCallback'>;
 
 export default function observer<
   P,
@@ -101,7 +99,9 @@ export default function observer<
     const [id] = reactLike.useState(counter === 0 ? setupManager.genId() : '');
 
     // The first time.
-    if (counter === 0) {
+    const isFirstTime = reactLike.useRef<boolean>(true);
+    if (isFirstTime.current) {
+      isFirstTime.current = false;
       const setup = new ComponentSetup();
       setupManager.add(id, setup);
       if (setupFn) {
@@ -140,14 +140,18 @@ export default function observer<
       setup.initData.init();
     }, []);
 
-    // Destroy
+    // Destroy & Init
     reactLike.useEffect(() => {
+      const setup = setupManager.get(id);
+      setup.mountFns.forEach(fn => fn());
+      setup.mountFns = [];
       return () => {
         // Remove all listeners.
-        const setup = setupManager.get(id);
         setup.removeAllStopList();
         setup.stopAllAutorun();
         setup.stopAllWatch();
+        setup.unmountFns.forEach(fn => fn());
+        setup.unmountFns = [];
       };
     }, []);
 
@@ -167,7 +171,7 @@ export default function observer<
           },
           false,
         );
-        setup.setStopList(list);
+        setup.addStopList(list);
       },
     );
     return result;

@@ -12,6 +12,9 @@ export { default as useGlobalFetchInitData } from './useGlobalFetchInitData';
 export { default as useGlobalConfig } from './useGlobalConfig';
 export { default as useGlobalDestroy } from './useGlobalDestroy';
 export { default as useGlobalStorage } from './useGlobalStorage';
+export { default as useSetup } from './useSetup';
+export { default as useMount } from './useMount';
+export { default as useUnmount } from './useUnmount';
 export { default as app } from './defaultApp';
 
 export * from './alipayH5/index';

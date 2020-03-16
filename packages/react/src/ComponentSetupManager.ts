@@ -20,3 +20,5 @@ export default class ComponentSetupManager {
     return `setup-${counter ++}`;
   }
 }
+
+export const setupManager = new ComponentSetupManager();

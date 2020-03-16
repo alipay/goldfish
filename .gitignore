@@ -5,3 +5,4 @@ node_modules
 .tea
 docs/.vuepress/dist/
 packages/.alipay
+yarn-error.log

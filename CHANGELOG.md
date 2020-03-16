@@ -4,6 +4,16 @@
 
 - [^] **@goldfishjs/react:** keep `this` of the component function in `observer`.
 
+### 💡 Main Changes
+
+- [+] **@goldfish/react:**
+  - add `useMount()` and `useUnmount()`.
+  - add `useSetup()` to support the strange compiler in Taro.
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/react:** keep `this` of the component function in `observer`.
+
 ## 1.1.0
 
 ### 💡 Main Changes
