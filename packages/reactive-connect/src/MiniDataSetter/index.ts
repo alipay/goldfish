@@ -6,6 +6,7 @@ import {
 } from '@goldfishjs/reactive';
 import * as keyPath from './keyPath';
 import { Methods as ModifyArrayMethods } from './SpliceTree';
+import { isObject } from '@goldfishjs/utils';
 
 function isModifyArrayMethod(m: string): m is ModifyArrayMethods {
   return ['push', 'splice', 'unshift', 'pop', 'shift'].indexOf(m) !== -1;
@@ -53,14 +54,40 @@ export default class MiniDataSetter {
     keyPath.clear();
   }
 
+  private getValue(obj: any, keyPathList: keyPath.KeyPathList): any {
+    if (keyPathList.length === 0) {
+      return obj;
+    }
+
+    return this.getValue(obj[keyPathList[0]], keyPathList.slice(1));
+  }
+
   public set(
     view: View,
     fullObj: any,
-    keyPathList: (string | number)[],
+    keyPathList: keyPath.KeyPathList,
     newV: any,
     oldV: any,
     options?: ChangeOptions,
   ) {
+    if (options?.type === 'computed') {
+      newV = this.getValue(fullObj, keyPathList);
+    }
+
+    if (!keyPathList.length && isObject(newV)) {
+      for (const k in newV) {
+        this.set(
+          view,
+          fullObj,
+          [k],
+          newV[k],
+          isObject(oldV) ? oldV[k] : undefined,
+          options,
+        );
+      }
+      return;
+    }
+
     this.updaterMap[view.$id] = this.updaterMap[view.$id] || new Updater(fullObj);
     this.viewMap[view.$id] = view;
 

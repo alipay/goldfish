@@ -1,4 +1,12 @@
-## 1.1.1
+## 1.1.3
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/react:**
+  - use keys to update state.
+  - get computed values in the `watchDeep()` callback.
+
+## 1.1.2
 
 ### 🐞 Bug Fixes
 
