@@ -10,5 +10,6 @@ export { default as cloneDeep } from './cloneDeep';
 export { default as isObject } from './isObject';
 export { default as interval } from './interval';
 export { default as isEqual } from './isEqual';
+export { default as deepVisit } from './deepVisit';
 
 export * from './types';

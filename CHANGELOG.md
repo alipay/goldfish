@@ -1,3 +1,10 @@
+## 1.1.4
+
+### 💡 Main Changes
+
+- [+] **@goldfishjs/utils:**
+  - visit the object deeply and handle the circular reference.
+
 ## 1.1.3
 
 ### 🐞 Bug Fixes
