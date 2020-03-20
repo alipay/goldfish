@@ -1,3 +1,15 @@
+## 1.1.4
+
+### 💡 Main Changes
+
+- [+] **@goldfishjs/utils:**
+  - visit the object deeply and handle the circular reference.
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/reactive:**
+  - use `deepVisit()` to handle circular objects.
+
 ## 1.1.3
 
 ### 🐞 Bug Fixes

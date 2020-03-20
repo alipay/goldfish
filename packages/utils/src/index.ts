@@ -10,5 +10,10 @@ export { default as cloneDeep } from './cloneDeep';
 export { default as isObject } from './isObject';
 export { default as interval } from './interval';
 export { default as isEqual } from './isEqual';
+export {
+  default as deepVisit,
+  ICallback as IDeepVisitCallback,
+} from './deepVisit';
+export { default as DeepVisitBreak } from './DeepVisitBreak';
 
 export * from './types';

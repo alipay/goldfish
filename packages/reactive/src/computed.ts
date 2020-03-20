@@ -1,5 +1,6 @@
 import { call, getCurrent, Dep, DepList } from './dep';
 import { isRaw } from './raw';
+import { definePropertySilently } from './observable';
 
 type Getter = () => any;
 type Setter = (v: any) => void;
@@ -74,7 +75,7 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
     let cachedValue: any;
     const dep = new Dep(obj, key);
     let removeListenersGroup: Function[][] = [];
-    Object.defineProperty(obj, key, {
+    definePropertySilently(obj, key, {
       configurable: false,
       enumerable: true,
       get() {
@@ -127,7 +128,7 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
     });
   }
 
-  Object.defineProperty(obj, FLAG_KEY, {
+  definePropertySilently(obj, FLAG_KEY, {
     value: depMap,
     enumerable: false,
     writable: false,
