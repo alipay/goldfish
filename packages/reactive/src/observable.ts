@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { getCurrent, Dep, ChangeOptions } from './dep';
-import { isArray, genId } from './utils';
+import { genId, isArray } from './utils';
 import silentValue, { isSilentValue } from './silentValue';
 import { isRaw } from './raw';
-import { isObject } from '@goldfishjs/utils';
+import { isObject, silent, deepVisit, DeepVisitBreak } from '@goldfishjs/utils';
 
 type ObservableBaseTypes = null | undefined | string | number | boolean;
 type ObservableArrayElement = ObservableBaseTypes | IObservableObject;
@@ -23,9 +23,17 @@ export function isObservable(obj: any) {
     && obj[OBSERVE_KEY] === OBSERVE_FLAG;
 }
 
+export function definePropertySilently(...args: Parameters<typeof Object['defineProperty']>) {
+  silent(
+    () => {
+      Object.defineProperty(...args);
+    },
+  )();
+}
+
 export function markObservable(obj: any) {
   if (isObject(obj) && obj[OBSERVE_KEY] !== OBSERVE_FLAG) {
-    Object.defineProperty(obj, OBSERVE_KEY, {
+    definePropertySilently(obj, OBSERVE_KEY, {
       value: OBSERVE_FLAG,
       configurable: false,
       enumerable: false,
@@ -48,6 +56,7 @@ methods.forEach((methodName) => {
       if (originLength < this.length) {
         for (let i = originLength; i < this.length; i += 1) {
           defineProperty(this, i);
+          isObject(this[i]) && createObserver(this[i]);
         }
       }
 
@@ -67,21 +76,24 @@ methods.forEach((methodName) => {
 function defineNotify(value: any, dep: Dep, notifyId: string) {
   if (isObject(value)) {
     if (!(value as any)[NOTIFY_KEY]) {
-      Object.defineProperty(value, NOTIFY_KEY, {
+      definePropertySilently(value, NOTIFY_KEY, {
         configurable: true,
         enumerable: false,
         writable: false,
         value: {},
       });
     }
+
     const notifyFns = (value as any)[NOTIFY_KEY];
-    const notifyFn = (n: any, o: any, options?: Partial<ChangeOptions>) => {
-      dep.notifyChange(n, o, {
-        type: 'notify',
-        ...(options || {}),
-      });
-    };
-    notifyFns[notifyId] = notifyFn;
+    if (notifyFns) {
+      const notifyFn = (n: any, o: any, options?: Partial<ChangeOptions>) => {
+        dep.notifyChange(n, o, {
+          type: 'notify',
+          ...(options || {}),
+        });
+      };
+      notifyFns[notifyId] = notifyFn;
+    }
   }
 }
 
@@ -120,7 +132,7 @@ function defineProperty(obj: any, key: any) {
   const dep = new Dep(obj, key);
   const notifyId = genId(`notify-${key}-`);
   defineNotify(value, dep, notifyId);
-  Object.defineProperty(obj, key, {
+  definePropertySilently(obj, key, {
     configurable: typeof key === 'number',
     enumerable: true,
     get() {
@@ -149,10 +161,6 @@ function defineProperty(obj: any, key: any) {
       }
     },
   });
-
-  if (isObject(value)) {
-    createObserver(value);
-  }
 }
 
 function createObserver(obj: IObservableObject | ObservableArray) {
@@ -160,21 +168,34 @@ function createObserver(obj: IObservableObject | ObservableArray) {
     return;
   }
 
-  if (isArray(obj)) {
-    for (let i = 0, il = obj.length; i < il; i += 1) {
-      defineProperty(obj, i);
-    }
-  } else {
-    for (const key in obj) {
-      if (!Object.prototype.hasOwnProperty.call(obj, key)) {
-        continue;
+  let visitKeyPathLength = 0;
+  deepVisit(obj, (value, key, po, keyPathList) => {
+    if (visitKeyPathLength !== keyPathList.length) {
+      visitKeyPathLength = keyPathList.length;
+      if (isObservable(po) || isRaw(po)) {
+        return DeepVisitBreak.CHILDREN;
       }
 
-      defineProperty(obj, key);
+      markObservable(po);
     }
-  }
+    defineProperty(po as any, key as any);
 
-  markObservable(obj);
+    // We should mark the empty array or object to be observable in children.
+    if (
+      (isArray(value) && value.length === 0)
+      || (isObject(value) && Object.keys(value).length === 0)
+    ) {
+      markObservable(value);
+    }
+
+    return DeepVisitBreak.NO;
+  });
+
+  // If there is no elements in an object,
+  // we should also change it to an observable object.
+  if (visitKeyPathLength === 0) {
+    markObservable(obj);
+  }
 }
 
 export function set(
@@ -197,12 +218,14 @@ export function set(
 ) {
   if (!isObservable(obj)) {
     obj[name] = value;
+    return;
   }
 
   const silent = options && options.silent || false;
 
   if (!Object.prototype.hasOwnProperty.call(obj, name)) {
     defineProperty(obj, name);
+    isObject(obj[name]) && createObserver(obj[name]);
     obj[name] = silent ? silentValue(value) : value;
     callNotifyFns(obj, obj, obj);
   } else {

@@ -1,7 +1,8 @@
 import isObject from './isObject';
+import DeepVisitBreak from './DeepVisitBreak';
 
-interface ICallback {
-  (value: any, key: string | number, parentObject: any, keyPathList: (string | number)[]): boolean | void;
+export interface ICallback {
+  (value: any, key: string | number, parentObject: any, keyPathList: (string | number)[]): DeepVisitBreak;
 }
 
 function run(
@@ -10,37 +11,61 @@ function run(
   keyPathList: (string | number)[],
   visitedObjList: any[],
 ): ReturnType<ICallback> {
-  const visit = (key: string | number) => {
+  const visit = (key: string | number): DeepVisitBreak => {
     const value = obj[key];
-    if (visitedObjList.indexOf(value) === -1) {
-      const curKeyPathList = [...keyPathList, key];
+    const curKeyPathList = [...keyPathList, key];
+    // If the `value` is an object, we should check the circular.
+    if (isObject(value)) {
+      // Encounter the circular.
+      if (visitedObjList.indexOf(value) !== -1) {
+        // Although it is a circle, we should also visit the circle key.
+        callback(value, key, obj, curKeyPathList);
+        return DeepVisitBreak.CHILDREN;
+      }
       visitedObjList.push(value);
-      const r = callback(value, key, obj, curKeyPathList);
-      if (r === true) {
-        return r;
-      }
-
-      if (run(value, callback, curKeyPathList, visitedObjList) === true) {
-        return true;
-      }
     }
+
+    visitedObjList.push(value);
+    const r = callback(value, key, obj, curKeyPathList);
+    if (r === DeepVisitBreak.ALL) {
+      return DeepVisitBreak.ALL;
+    }
+
+    if (
+      r !== DeepVisitBreak.CHILDREN
+      && run(value, callback, curKeyPathList, visitedObjList) === DeepVisitBreak.ALL
+    ) {
+      return DeepVisitBreak.ALL;
+    }
+
+    return DeepVisitBreak.NO;
   };
 
   if (Array.isArray(obj)) {
     for (let i = 0, il = obj.length; i < il; i += 1) {
-      if (true === visit(i)) {
-        return true;
+      const visitResult = visit(i);
+      if (DeepVisitBreak.ALL === visitResult) {
+        return DeepVisitBreak.ALL;
       }
     }
   } else if (isObject(obj)) {
     for (const key in obj) {
-      if (true === visit(key)) {
-        return true;
+      const visitResult = visit(key);
+      if (DeepVisitBreak.ALL === visitResult) {
+        return DeepVisitBreak.ALL;
       }
     }
   }
+
+  return DeepVisitBreak.NO;
 }
 
+/**
+ * Visit the object deeply, but ignore the root.
+ *
+ * @param obj
+ * @param callback
+ */
 export default function deepVisit(obj: any, callback: ICallback) {
-  run(obj, callback, [], []);
+  run(obj, callback, [], [obj]);
 }
