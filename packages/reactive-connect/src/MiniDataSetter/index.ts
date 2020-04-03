@@ -100,11 +100,12 @@ export default class MiniDataSetter {
         && options.method
         && isModifyArrayMethod(options.method)
       ) {
+        const optionsOldV = options.oldV || [];
         updater.setSpliceObjectValue(
           keyPathString,
           options.method,
           options.args || [],
-          options.oldV || [],
+          optionsOldV,
         );
       } else {
         updater.setSetObjectValue(keyPathString, newV);

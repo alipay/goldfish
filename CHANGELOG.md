@@ -1,3 +1,11 @@
+## 1.1.5
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/reactive-connect:**
+  - use `cloneDeep()` to clone the reactive data that need to set to the view data.
+  - change the way to check the different types.
+
 ## 1.1.4
 
 ### 💡 Main Changes
