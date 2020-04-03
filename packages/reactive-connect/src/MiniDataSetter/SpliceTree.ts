@@ -1,3 +1,5 @@
+import { cloneDeep } from '@goldfishjs/utils';
+
 export type Methods = 'push' | 'splice' | 'unshift' | 'pop' | 'shift';
 
 export default class SpliceTree {
@@ -11,15 +13,28 @@ export default class SpliceTree {
   ) {
     if (method === 'push') {
       this.spliceObjectList.push({
-        [keyPathString]: [oldV.length, 0, ...args],
+        [keyPathString]: [
+          oldV.length,
+          0,
+          ...(args as any[]).map(item => cloneDeep(item)),
+        ],
       });
     } else if (method === 'splice') {
+      const realArgs = args as Parameters<Array<any>['splice']>;
       this.spliceObjectList.push({
-        [keyPathString]: args as Parameters<Array<any>['splice']>,
+        [keyPathString]: [
+          realArgs[0],
+          realArgs[1],
+          ...(realArgs[2] || []).map((item: any) => cloneDeep(item)),
+        ],
       });
     } else if (method === 'unshift') {
       this.spliceObjectList.push({
-        [keyPathString]: [0, 0, ...args],
+        [keyPathString]: [
+          0,
+          0,
+          ...((args || []) as any[]).map((item: any) => cloneDeep(item)),
+        ],
       });
     } else if (method === 'pop') {
       this.spliceObjectList.push({

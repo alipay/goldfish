@@ -1,11 +1,23 @@
 import { generateKeyPathString } from '@goldfishjs/reactive';
 import LimitLeafCounter from './LimitLeafCounter';
-import { isObject } from '@goldfishjs/utils';
+import { isObject, cloneDeep } from '@goldfishjs/utils';
 import * as keyPath from './keyPath';
 
 export type View = tinyapp.IPageInstance<any> | tinyapp.IComponentInstance<any, any>;
 
 type AncestorChildren = Record<string, (Ancestor | Leaf)> | (Ancestor | Leaf)[];
+
+function getType(obj: any) {
+  if (Array.isArray(obj)) {
+    return 'array';
+  }
+
+  if (isObject(obj)) {
+    return 'object';
+  }
+
+  return 'other';
+};
 
 class Ancestor {
   public parent: Ancestor | undefined = undefined;
@@ -96,7 +108,7 @@ export default class SetTree {
       });
     }
 
-    const result: Record<string, any> = isObject(viewData) ? viewData : {};
+    const result: Record<string, any> = isObject(viewData) ? cloneDeep(viewData) : {};
     for (const k in curNode.children) {
       result[k] = this.combine(curNode.children[k], this.getData(viewData, k));
     }
@@ -121,7 +133,7 @@ export default class SetTree {
     availableLeafCount: number,
   ) {
     if (curNode instanceof Leaf) {
-      updateObj[generateKeyPathString(keyPathList)] = curNode.value;
+      updateObj[generateKeyPathString(keyPathList)] = cloneDeep(curNode.value);
       this.limitLeafTotalCount.addLeaf();
     } else {
       const children = curNode.children;
@@ -137,7 +149,7 @@ export default class SetTree {
           if (
             !(child instanceof Leaf)
             && index in obj
-            && !Array.isArray(originObj)
+            && getType(child.children) !== getType(originObj)
           ) {
             throw new Error(`Expect the origin value is an Array, but it is: ${JSON.stringify(originObj)}.`);
           }
@@ -156,19 +168,17 @@ export default class SetTree {
       } else {
         for (const k in children) {
           const originObj = this.getData(obj, k);
+          const child = children[k];
           if (
-            !(children[k] instanceof Leaf)
+            !(child instanceof Leaf)
             && k in obj
-            && (
-              !isObject(originObj)
-              || Array.isArray(originObj)
-            )
+            && getType(child.children) !== getType(originObj)
           ) {
             throw new Error(`Expect the origin value is an Object, but it is: ${JSON.stringify(originObj)}.`);
           }
 
           this.iterate(
-            children[k],
+            child,
             [
               ...keyPathList,
               k,
