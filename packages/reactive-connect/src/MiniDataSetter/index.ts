@@ -5,10 +5,10 @@ import {
   ChangeOptions,
 } from '@goldfishjs/reactive';
 import * as keyPath from './keyPath';
-import { Methods as ModifyArrayMethods } from './SpliceTree';
 import { isObject } from '@goldfishjs/utils';
 
-function isModifyArrayMethod(m: string): m is ModifyArrayMethods {
+type Methods = 'push' | 'splice' | 'unshift' | 'pop' | 'shift';
+function isModifyArrayMethod(m: string): m is Methods {
   return ['push', 'splice', 'unshift', 'pop', 'shift'].indexOf(m) !== -1;
 }
 
@@ -103,8 +103,7 @@ export default class MiniDataSetter {
         const optionsOldV = options.oldV || [];
         updater.setSpliceObjectValue(
           keyPathString,
-          options.method,
-          options.args || [],
+          newV,
           optionsOldV,
         );
       } else {

@@ -1,7 +1,6 @@
 import SetTree from './SetTree';
 import SpliceTree from './SpliceTree';
 import LimitLeafCounter from './LimitLeafCounter';
-import { Methods } from './SpliceTree';
 
 type IterateSetCallback = (obj: Record<string, any>) => void;
 type IterateSpliceCallback = (obj: Array<Record<string, [number, number, ...any[]]>>) => void;
@@ -27,10 +26,9 @@ export default class Updater {
     last.addNode(keyPathString, value);
   }
 
-  public setSpliceObjectValue<M extends Methods>(
+  public setSpliceObjectValue(
     keyPathString: string,
-    method: M,
-    args: Parameters<Array<any>[M]>,
+    newV: any[],
     oldV: any[],
   ) {
     let last = this.list[this.list.length - 1];
@@ -39,7 +37,7 @@ export default class Updater {
       this.list.push(last);
     }
 
-    last.addNode(keyPathString, method, args, oldV);
+    last.addNode(keyPathString, newV, oldV);
   }
 
   public iterate(setCb: IterateSetCallback, spliceCb: IterateSpliceCallback) {

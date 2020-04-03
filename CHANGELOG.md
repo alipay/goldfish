@@ -1,3 +1,10 @@
+## 1.1.6
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/reactive-connect:**
+  - avoid the invoking of setters in array methods.
+
 ## 1.1.5
 
 ### 🐞 Bug Fixes
