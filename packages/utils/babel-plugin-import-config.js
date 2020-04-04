@@ -1,5 +1,10 @@
+const libraryName = require('./package.json').name;
+const codeDir = `${libraryName}/lib`;
+
 module.exports = {
-  libraryName: '@goldfishjs/utils',
+  libraryName,
   camel2DashComponentName: false,
-  libraryDirectory: 'lib',
+  customName(name) {
+    return `${codeDir}/${name}`;
+  },
 };
