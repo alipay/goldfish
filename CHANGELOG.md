@@ -1,14 +1,14 @@
 ## 1.1.7
 
-### 🐞 Bug Fixes
-
-- [+] **@goldfish/reactive-connect:**
-  - clone the value in `addNode` to avoid the `computed value` errors.
-
 ### 💡 Main Changes
 
 - [+] **@goldfish/utils:**
   - use `customName` function for better integrations.
+
+### 🐞 Bug Fixes
+
+- [+] **@goldfish/reactive-connect:**
+  - clone the value in `addNode` to avoid the `computed value` errors.
 
 ## 1.1.6
 
