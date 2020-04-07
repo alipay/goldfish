@@ -168,10 +168,10 @@ function createObserver(obj: IObservableObject | ObservableArray) {
     return;
   }
 
-  let visitKeyPathLength = 0;
+  const visitKeyPathDeepRecords: boolean[] = [];
   deepVisit(obj, (value, key, po, keyPathList) => {
-    if (visitKeyPathLength !== keyPathList.length) {
-      visitKeyPathLength = keyPathList.length;
+    if (!visitKeyPathDeepRecords[keyPathList.length]) {
+      visitKeyPathDeepRecords[keyPathList.length] = true;
       if (isObservable(po) || isRaw(po)) {
         return DeepVisitBreak.CHILDREN;
       }
@@ -193,7 +193,7 @@ function createObserver(obj: IObservableObject | ObservableArray) {
 
   // If there is no elements in an object,
   // we should also change it to an observable object.
-  if (visitKeyPathLength === 0) {
+  if (!visitKeyPathDeepRecords[0]) {
     markObservable(obj);
   }
 }

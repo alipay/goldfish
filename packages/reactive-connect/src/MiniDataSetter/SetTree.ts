@@ -41,12 +41,13 @@ export default class SetTree {
   }
 
   private setValue(obj: any, keyPathList: keyPath.KeyPathList, value: any) {
-    const curObj = obj;
+    let curObj = obj;
     for (let i = 0, il = keyPathList.length; i < il; i += 1) {
       if (i === il - 1) {
         curObj[keyPathList[i]] = value;
       } else {
         curObj[keyPathList[i]] = typeof keyPathList[i + 1] === 'number' ? [] : {};
+        curObj = curObj[keyPathList[i]];
       }
     }
   }

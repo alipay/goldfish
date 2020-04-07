@@ -1,13 +1,22 @@
+## 1.1.8
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/reactive:**
+  - `setValue` properly.
+- [^] **@goldfishjs/reactive-connect**
+  - use an array to record the first visit.
+
 ## 1.1.7
 
 ### 💡 Main Changes
 
-- [+] **@goldfish/utils:**
+- [^] **@goldfishjs/utils:**
   - use `customName` function for better integrations.
 
 ### 🐞 Bug Fixes
 
-- [+] **@goldfish/reactive-connect:**
+- [^] **@goldfishjs/reactive-connect:**
   - clone the value in `addNode` to avoid the `computed value` errors.
 
 ## 1.1.6
@@ -53,7 +62,7 @@
 
 ### 💡 Main Changes
 
-- [+] **@goldfish/react:**
+- [+] **@goldfishjs/react:**
   - add `useMount()` and `useUnmount()`.
   - add `useSetup()` to support the strange compiler in Taro.
 
