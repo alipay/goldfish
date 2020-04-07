@@ -76,14 +76,14 @@ export default class SetTree {
           (curNode.children as any)[keyPath] = node;
           curNode = node;
         } else if (child instanceof Leaf) {
-          this.setValue(child.value, keyPathList.slice(index), value);
+          this.setValue(child.value, keyPathList.slice(index + 1), cloneDeep(value));
         } else {
           curNode = child;
         }
       } else {
         const lastLeafNode: Leaf = new Leaf();
         lastLeafNode.parent = curNode;
-        lastLeafNode.value = value;
+        lastLeafNode.value = cloneDeep(value);
         (curNode.children as any)[keyPath] = lastLeafNode;
       }
     });
@@ -108,7 +108,7 @@ export default class SetTree {
       });
     }
 
-    const result: Record<string, any> = isObject(viewData) ? cloneDeep(viewData) : {};
+    const result: Record<string, any> = isObject(viewData) ? viewData : {};
     for (const k in curNode.children) {
       result[k] = this.combine(curNode.children[k], this.getData(viewData, k));
     }
@@ -133,7 +133,7 @@ export default class SetTree {
     availableLeafCount: number,
   ) {
     if (curNode instanceof Leaf) {
-      updateObj[generateKeyPathString(keyPathList)] = cloneDeep(curNode.value);
+      updateObj[generateKeyPathString(keyPathList)] = curNode.value;
       this.limitLeafTotalCount.addLeaf();
     } else {
       const children = curNode.children;
