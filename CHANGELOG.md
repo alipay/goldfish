@@ -1,3 +1,10 @@
+## 1.1.9
+
+### 💡 Main Changes
+
+- [^] **@goldfishjs/composition-api:**
+  - put the lifecycle methods at the last execution function;
+
 ## 1.1.8
 
 ### 🐞 Bug Fixes

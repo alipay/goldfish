@@ -3,7 +3,7 @@ import AppSetup from './setup/AppSetup';
 import { AppStore, createApp  } from '@goldfishjs/core';
 import { IConfig, PluginClass } from '@goldfishjs/plugins';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
-import { AppInstance, observable } from '@goldfishjs/reactive-connect';
+import { AppInstance, observable, attachLogic } from '@goldfishjs/reactive-connect';
 import appendFn from './appendFn';
 
 export interface ISetupAppOptions {
@@ -15,13 +15,7 @@ export default function setupApp(
   fn: ISetupFunction,
   setupOptions?: ISetupAppOptions,
 ): tinyapp.AppOptions {
-  const options = integrateLifeCycleMethods<'app'>([
-    'onLaunch',
-    'onShow',
-    'onHide',
-    'onError',
-    'onShareAppMessage',
-  ]);
+  let options: tinyapp.AppOptions = {};
 
   type View = AppInstance<any, AppStore> & { $setup?: AppSetup };
 
@@ -62,7 +56,7 @@ export default function setupApp(
     }
   }
 
-  createApp(
+  options = createApp(
     config,
     BizAppStore,
     options,
@@ -78,6 +72,18 @@ export default function setupApp(
       },
     },
   );
+
+  const lifeCycleMethods: ('onLaunch' | 'onShow' | 'onHide' | 'onError' | 'onShareAppMessage')[] = [
+    'onLaunch',
+    'onShow',
+    'onHide',
+    'onError',
+    'onShareAppMessage',
+  ];
+  const lifeCycleMethodsOptions = integrateLifeCycleMethods<'app'>(lifeCycleMethods);
+  lifeCycleMethods.forEach((m) => {
+    attachLogic(options, m, 'after', lifeCycleMethodsOptions[m] as any);
+  });
 
   return options;
 }

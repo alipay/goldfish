@@ -1,6 +1,6 @@
 import { createPage, AppStore, PageStore } from '@goldfishjs/core';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
-import { observable, PageInstance } from '@goldfishjs/reactive-connect';
+import { observable, PageInstance, attachLogic } from '@goldfishjs/reactive-connect';
 import PageSetup from './setup/PageSetup';
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import appendFn from './appendFn';
@@ -53,9 +53,9 @@ export default function setupPage<D, AS extends AppStore>(
     }
   }
 
-  const options = integrateLifeCycleMethods<'page'>(lifeCycleMethods);
+  let options: tinyapp.PageOptions<D> = {};
 
-  return createPage<AS, BizPageStore, D>(
+  options = createPage<AS, BizPageStore, D>(
     BizPageStore,
     options,
     {
@@ -70,4 +70,10 @@ export default function setupPage<D, AS extends AppStore>(
       },
     },
   );
+
+  const lifeCycleMethodsOptions = integrateLifeCycleMethods<'page'>(lifeCycleMethods);
+  lifeCycleMethods.forEach((m) => {
+    attachLogic(options, m, 'after', lifeCycleMethodsOptions[m] as any);
+  });
+  return options;
 }

@@ -1,4 +1,4 @@
-import { observable, IProps, state } from '@goldfishjs/reactive-connect';
+import { observable, IProps, state, attachLogic } from '@goldfishjs/reactive-connect';
 import appendFn from './appendFn';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import ComponentSetup, { SetupComponentInstance } from './setup/ComponentSetup';
@@ -31,9 +31,8 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
       ? passInProps : passInFn
   ) as ISetupFunction;
 
-  const options = {
+  let options: tinyapp.ComponentOptions<P, D, {}> = {
     props,
-    ...integrateLifeCycleMethods<'component'>(lifeCycleMethods),
   };
 
   type View = SetupComponentInstance & { $setup?: ComponentSetup };
@@ -66,7 +65,7 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
     }
   }
 
-  return createComponent<AppStore, BizComponentStore, P, D>(
+  options = createComponent<AppStore, BizComponentStore, P, D>(
     BizComponentStore,
     options,
     {
@@ -81,4 +80,11 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
       },
     },
   );
+
+  const lifeCycleMethodsOptions = integrateLifeCycleMethods<'component'>(lifeCycleMethods);
+  lifeCycleMethods.forEach((m) => {
+    attachLogic(options, m, 'after', lifeCycleMethodsOptions[m] as any);
+  });
+
+  return options;
 }
