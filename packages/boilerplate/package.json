@@ -5,13 +5,13 @@
     "dev": "goldfish-dev"
   },
   "dependencies": {
-    "@goldfishjs/bridge": "^0.0.1",
+    "@goldfishjs/bridge": "^1.1.9",
     "@goldfishjs/composition-api": "^1.1.9",
-    "@goldfishjs/core": "^0.0.1",
-    "@goldfishjs/plugins": "^0.0.1",
-    "@goldfishjs/reactive": "^0.0.1",
-    "@goldfishjs/reactive-connect": "^0.0.1",
-    "@goldfishjs/utils": "^0.0.1",
+    "@goldfishjs/core": "^1.1.9",
+    "@goldfishjs/plugins": "^1.1.9",
+    "@goldfishjs/reactive": "^1.1.9",
+    "@goldfishjs/reactive-connect": "^1.1.9",
+    "@goldfishjs/utils": "^1.1.9",
     "debounce": "^1.2.0",
     "gulp": "^4.0.2",
     "mini-antui": "^0.4.29"
