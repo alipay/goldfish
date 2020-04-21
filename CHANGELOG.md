@@ -1,3 +1,10 @@
+## 1.1.10
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/reactive-connect:**
+  - Reach the leaf of the Tree, break.
+
 ## 1.1.9
 
 ### 💡 Main Changes

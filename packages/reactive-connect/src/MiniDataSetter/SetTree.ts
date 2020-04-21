@@ -60,7 +60,7 @@ export default class SetTree {
 
     let curNode = this.root;
     const len = keyPathList.length;
-    keyPathList.forEach((keyPath, index) => {
+    keyPathList.some((keyPath, index) => {
       if (curNode.children === undefined) {
         if (typeof keyPath === 'number') {
           curNode.children = [];
@@ -78,6 +78,8 @@ export default class SetTree {
           curNode = node;
         } else if (child instanceof Leaf) {
           this.setValue(child.value, keyPathList.slice(index + 1), cloneDeep(value));
+          // Reach the leaf of the Tree, break.
+          return true;
         } else {
           curNode = child;
         }
