@@ -88,9 +88,10 @@ function compileJSStream(files) {
 const tsconfigPath = utils.tsconfigPath;
 const tsconfig = require(tsconfigPath);
 function compileTSStream(files) {
+  const projectDir = path.dirname(tsconfigPath);
   const declarationDir = path.resolve(
-    path.dirname(tsconfigPath),
-    tsconfig.compilerOptions.declarationDir,
+    projectDir,
+    tsconfig.compilerOptions.declarationDir || path.resolve(projectDir, 'types'),
   );
   if (tsconfig.compilerOptions.outDir) {
     utils.warn(`The outDir config in ${tsconfigPath} will not work, and the real outDir is: ${utils.distDir}`);
