@@ -1,0 +1,25 @@
+<view class="form-wrapper">
+  <form class="form" onSubmit="onSubmit">
+    <view class="form-row">
+      <view class="form-row-label">Name:</view>
+      <view class="form-row-content">
+        <input name="name" class="input" placeholder="Input name" />
+      </view>
+    </view>
+    <view class="form-row">
+      <view class="form-row-label">Age:</view>
+      <view class="form-row-content">
+        <slider name="age" value="20" min="0" max="100" show-value/>
+      </view>
+    </view>
+    <view class="form-row form-row-no-border">
+      <view class="form-row-label">Description:</view>
+      <view class="form-row-content">
+        <textarea name="description" placeholder="Input description" />
+      </view>
+    </view>
+    <view class="form-button">
+      <button type="primary" formType="submit">Submit</button>
+    </view>
+  </form>
+</view>

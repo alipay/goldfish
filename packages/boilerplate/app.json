@@ -1,6 +1,9 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/list/index",
+    "pages/form/index",
+    "pages/detail/index",
+    "pages/webview/index"
   ],
   "window": {
     "enableDSL": "YES",
@@ -13,5 +16,30 @@
     "allowsBounceVertical": "YES",
     "enableTabBar": "NO",
     "transparentTitle": "none"
+  },
+  "tabBar": {
+    "textColor": "#dddddd",
+    "selectedColor": "#49a9ee",
+    "backgroundColor": "#ffffff",
+    "items": [
+      {
+        "icon": "common/assets/icon-tab.png",
+        "activeIcon": "common/assets/icon-tab-active.png",
+        "pagePath": "pages/list/index",
+        "name": "Teams"
+      },
+      {
+        "icon": "common/assets/icon-tab.png",
+        "activeIcon": "common/assets/icon-tab-active.png",
+        "pagePath": "pages/form/index",
+        "name": "Record"
+      },
+      {
+        "icon": "common/assets/icon-tab.png",
+        "activeIcon": "common/assets/icon-tab-active.png",
+        "pagePath": "pages/webview/index",
+        "name": "WebView"
+      }
+    ]
   }
 }

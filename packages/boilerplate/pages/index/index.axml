@@ -1,1 +1,0 @@
-<view>Hello world! {{ data.name }} --- {{ data.realName }} --- {{ data.globalName }}</view>

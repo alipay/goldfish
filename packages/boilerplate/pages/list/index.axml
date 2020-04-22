@@ -1,0 +1,41 @@
+<scroll-view
+  class="list-wrapper"
+  scroll-y="{{true}}"
+  onScrollToLower="onScrollToLower"
+>
+  <list a:if="{{!list.isEmpty}}">
+    <view slot="header">
+      Current staff.
+    </view>
+    <block a:for="{{list.list}}">
+      <list-item
+        class="user-list-item"
+        thumb="{{item.avatar}}"
+        data-item="{{item}}"
+        multipleLine="{{true}}"
+        onClick="onItemClick"
+      >
+        <view class="name">
+          {{item.name}}
+        </view>
+        <view class="heart" a:if="{{item.heart}}">
+          <am-icon
+            color="red"
+            type="heart"
+            size="14"
+          />
+        </view>
+        <view class="position">
+          <text class="position-item" a:for="{{item.position}}">{{item}}</text>
+        </view>
+        <view class="description">
+          {{item.description}}
+        </view>
+      </list-item>
+    </block>
+  </list>
+  <view class="empty" a:if="{{list.isEmpty}}">
+    No Data.
+    <view class="empty-content">Please check your network & mock server.</view>
+  </view>
+</scroll-view>
