@@ -1,0 +1,3 @@
+<view>
+  <web-view src="https://www.apple.com/"></web-view>
+</view>

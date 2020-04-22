@@ -1,0 +1,58 @@
+.list-wrapper {
+  height: 100vh;
+}
+
+.user-list-item {
+  position: relative;
+  align-items: flex-start;
+}
+
+.user-list-item .name {
+  color: #454545;
+  font-size: 32rpx;
+  line-height: 40rpx;
+}
+
+.user-list-item .heart {
+  position: absolute;
+  top: 20rpx;
+  right: 32rpx;
+}
+
+.user-list-item .description {
+  color: #999;
+  font-size: 24rpx;
+  line-height: 30rpx;
+}
+
+.user-list-item .position .position-item {
+  background: gray;
+  color: #fff;
+  display: inline-block;
+  font-size: 24rpx;
+  line-height: 26rpx;
+  padding: 2rpx 8rpx;
+  border-radius: 4rpx;
+  margin-right: 8rpx;
+}
+
+.user-list-item .am-list-content {
+  white-space: normal;
+}
+
+.user-list-item .am-list-thumb {
+  margin-top: 30rpx;
+}
+
+.tips-dialog-content {
+  color: #fff;
+}
+
+.empty {
+  margin-top: 200rpx;
+  text-align: center;
+}
+
+.empty-content {
+  color: #999;
+}
