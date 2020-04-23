@@ -1,3 +1,10 @@
+## 1.1.12 [WIP]
+
+### 💡 Main Changes
+
+- [^] **@goldfishjs/react:**
+  - add `useRef`.
+
 ## 1.1.11
 
 ## 1.1.10
@@ -12,7 +19,7 @@
 ### 💡 Main Changes
 
 - [^] **@goldfishjs/composition-api:**
-  - put the lifecycle methods at the last execution function;
+  - put the lifecycle methods at the last execution function.
 
 ## 1.1.8
 

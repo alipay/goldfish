@@ -24,6 +24,7 @@ module.exports = {
       useSetup: `${codeDir}/alipayH5/useSetup`,
       useMount: `${codeDir}/alipayH5/useMount`,
       useUnmount: `${codeDir}/alipayH5/useUnmount`,
+      useRef: `${codeDir}/useRef`,
       global: `${codeDir}/defaultGlobal`,
     }[name];
   },
