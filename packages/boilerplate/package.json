@@ -13,7 +13,6 @@
     "@goldfishjs/reactive-connect": "^1.1.11",
     "@goldfishjs/utils": "^1.1.11",
     "debounce": "^1.2.0",
-    "gulp": "^4.0.2",
     "mini-antui": "^0.4.29"
   },
   "devDependencies": {

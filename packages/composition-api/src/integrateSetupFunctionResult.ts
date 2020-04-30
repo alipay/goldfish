@@ -70,7 +70,16 @@ export default function integrateSetupFunctionResult(
         writable: true,
       });
     } else {
-      compositionState[k] = config[k];
+      Object.defineProperty(compositionState, k, {
+        configurable: true,
+        enumerable: true,
+        get() {
+          return config[k];
+        },
+        set(v: any) {
+          config[k] = v;
+        },
+      });
     }
   }
   // Convert the returned data to reactive one.
