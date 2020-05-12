@@ -8,7 +8,7 @@ export interface IStackItem {
 
 export function parseUrl(url: string) {
   const urlSplit = url.split('?');
-  const query: Query = parse(urlSplit[1] || '');
+  const query = parse(urlSplit[1] || '') as Query;
   const path = urlSplit[0];
   return {
     path,
@@ -125,7 +125,7 @@ export default abstract class StackedRouter extends BaseRouter {
         throw new Error(`do not use multiple fromu: ${JSON.stringify(query)}`);
       }
       stack.push(fromu);
-      return this.parseFromuStack(parse(fromu.split('?')[1]), stack);
+      return this.parseFromuStack(parse(fromu.split('?')[1]) as Query, stack);
     }
 
     return stack;
