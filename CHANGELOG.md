@@ -1,9 +1,11 @@
-## 1.1.12 [WIP]
+## 1.1.12
 
 ### 💡 Main Changes
 
 - [^] **@goldfishjs/react:**
   - add `useRef`.
+- [^] **@goldfishjs/composition-api:**
+  - do not influence the `getter/setter`.
 
 ## 1.1.11
 
