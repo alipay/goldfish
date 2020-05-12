@@ -5,20 +5,20 @@
     "dev": "goldfish-dev"
   },
   "dependencies": {
-    "@goldfishjs/bridge": "^1.1.11",
-    "@goldfishjs/composition-api": "^1.1.11",
-    "@goldfishjs/core": "^1.1.11",
-    "@goldfishjs/plugins": "^1.1.11",
-    "@goldfishjs/reactive": "^1.1.11",
-    "@goldfishjs/reactive-connect": "^1.1.11",
-    "@goldfishjs/utils": "^1.1.11",
+    "@goldfishjs/bridge": "^1.1.12",
+    "@goldfishjs/composition-api": "^1.1.12",
+    "@goldfishjs/core": "^1.1.12",
+    "@goldfishjs/plugins": "^1.1.12",
+    "@goldfishjs/reactive": "^1.1.12",
+    "@goldfishjs/reactive-connect": "^1.1.12",
+    "@goldfishjs/utils": "^1.1.12",
     "debounce": "^1.2.0",
     "mini-antui": "^0.4.29"
   },
   "devDependencies": {
-    "@goldfishjs/pre-build": "^1.1.11",
+    "@goldfishjs/pre-build": "^1.1.12",
     "tslint": "^5.20.1",
     "tslint-config-airbnb": "^5.11.2"
   },
-  "version": "1.1.11"
+  "version": "1.1.12"
 }
