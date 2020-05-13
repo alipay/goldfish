@@ -1,8 +1,15 @@
+## 1.1.13
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/pre-build:**
+  - Do not copy the `tsconfig.json`.
+
 ## 1.1.12
 
 ### 💡 Main Changes
 
-- [^] **@goldfishjs/react:**
+- [+] **@goldfishjs/react:**
   - add `useRef`.
 - [^] **@goldfishjs/composition-api:**
   - do not influence the `getter/setter`.
