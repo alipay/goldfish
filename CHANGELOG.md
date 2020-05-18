@@ -1,3 +1,10 @@
+## 1.1.14
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/react:**
+  - Put the declarations in the `.ts` file for better output.
+
 ## 1.1.13
 
 ### 🐞 Bug Fixes
