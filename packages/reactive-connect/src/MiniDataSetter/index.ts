@@ -88,10 +88,11 @@ export default class MiniDataSetter {
       return;
     }
 
-    this.updaterMap[view.$id] = this.updaterMap[view.$id] || new Updater(fullObj);
-    this.viewMap[view.$id] = view;
+    const viewId = view.$id || view.$viewId;
+    this.updaterMap[viewId] = this.updaterMap[viewId] || new Updater(fullObj);
+    this.viewMap[viewId] = view;
 
-    const updater = this.updaterMap[view.$id];
+    const updater = this.updaterMap[viewId];
 
     try {
       const keyPathString = keyPath.save(keyPathList);

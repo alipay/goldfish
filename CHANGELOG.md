@@ -1,3 +1,10 @@
+## 1.1.15
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/reactive-connect:**
+  - Fallback to `$viewId`.
+
 ## 1.1.14
 
 ### 🐞 Bug Fixes
