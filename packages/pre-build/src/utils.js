@@ -26,7 +26,7 @@ exports.warn = warn;
 
 exports.exec = (cmd, options) => {
   return new Promise((resolve, reject) => {
-    log(`start executing: ${cmd}, cwd: ${options && options.cwd || cwd}`);
+    log(`start executing: ${cmd}, cwd: ${(options && options.cwd) || cwd}`);
 
     let p;
     try {
@@ -43,30 +43,39 @@ exports.exec = (cmd, options) => {
       process.stderr.write(chunk);
     });
 
-    p.on('exit', (code) => {
+    p.on('exit', code => {
       log(`complete executing: ${cmd}, with code: ${code}\n`);
       code === 0 ? resolve() : reject(code);
     });
   });
 };
 
-const miniProjectConfig = require(`${cwd}${path.sep}mini.project.json`);
+const miniProjectConfigFilePath = `${cwd}${path.sep}mini.project.json`;
+const miniProjectConfig = fs.existsSync(miniProjectConfigFilePath)
+  ? require(miniProjectConfigFilePath)
+  : {};
 
 const distDir = path.resolve(
   cwd,
-  process.env.OUT_DIR || lodash.get(miniProjectConfig, 'dist', 'dist'),
+  process.env.OUT_DIR || lodash.get(miniProjectConfig, 'dist', 'dist')
 );
 exports.distDir = distDir;
 
 const baseDir = path.resolve(
   cwd,
-  process.env.BASE_DIR || lodash.get(miniProjectConfig, 'compilerOptions.baseDir', '.'),
+  process.env.BASE_DIR ||
+    lodash.get(miniProjectConfig, 'compilerOptions.baseDir', '.')
 );
 exports.baseDir = baseDir;
 
 const tsconfigPath = path.resolve(
   cwd,
-  process.env.TSCONFIG_PATH || lodash.get(miniProjectConfig, 'compilerOptions.tsconfigPath', './tsconfig.json'),
+  process.env.TSCONFIG_PATH ||
+    lodash.get(
+      miniProjectConfig,
+      'compilerOptions.tsconfigPath',
+      './tsconfig.json'
+    )
 );
 exports.tsconfigPath = tsconfigPath;
 
@@ -77,20 +86,23 @@ if (!fs.existsSync(cacheFilePath)) {
   fs.writeJSONSync(cacheFilePath, {});
 }
 let mtimesJson = fs.readJSONSync(cacheFilePath);
-exports.recordFileUpdateTime = (filePath) => {
+exports.recordFileUpdateTime = filePath => {
   const stats = fs.statSync(filePath);
   const time = stats.mtimeMs;
 
   mtimesJson = {
     ...mtimesJson,
-    [filePath]: time,
+    [filePath]: time
   };
   fs.writeJSONSync(cacheFilePath, mtimesJson);
 };
 
 function getCompiledPath(sourceFilePath, sourceType) {
   const type = sourceType.check(sourceFilePath);
-  const interTargetPath = path.resolve(distDir, '.' + sourceFilePath.replace(cwd, ''));
+  const interTargetPath = path.resolve(
+    distDir,
+    '.' + sourceFilePath.replace(cwd, '')
+  );
 
   if (type === 'ts') {
     return interTargetPath.replace(/\.ts$/, '.js');

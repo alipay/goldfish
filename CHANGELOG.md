@@ -1,3 +1,10 @@
+## 1.1.16
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/pre-build:**
+  - Avoid errors when there is no `mini.project.json`.
+
 ## 1.1.15
 
 ### 🐞 Bug Fixes
