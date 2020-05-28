@@ -88,7 +88,7 @@ export default class MiniDataSetter {
       return;
     }
 
-    const viewId = view.$id || view.$viewId;
+    const viewId = view.$id === undefined ? view.$viewId : view.$id;
     this.updaterMap[viewId] = this.updaterMap[viewId] || new Updater(fullObj);
     this.viewMap[viewId] = view;
 
