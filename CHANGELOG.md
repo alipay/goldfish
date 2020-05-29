@@ -1,20 +1,18 @@
-## 1.1.18
+## 1.1.17
 
 ### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/reactive-connect:**
+
+  - The `$id` may be `0`.
 
 - [^] **@goldfishjs/pre-build:**
 
   - Add `@goldfishjs/react`.
 
 - [^] **@goldfishjs/react:**
+
   - Fix babel import config.
-
-## 1.1.17
-
-### 🐞 Bug Fixes
-
-- [^] **@goldfishjs/reactive-connect:**
-  - The `$id` may be `0`.
 
 ## 1.1.16
 
