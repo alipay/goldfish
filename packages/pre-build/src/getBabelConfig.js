@@ -13,14 +13,20 @@ const importConfigPackages = [
   '@goldfishjs/reactive-connect',
   '@goldfishjs/requester',
   '@goldfishjs/route',
+  '@goldfishjs/react'
 ];
 
 function getPkgImportConfig(pkgName) {
   try {
-    const pkgDir = require.resolve(`${pkgName}/package.json`, {
-      paths: [cwd],
-    }).replace(/package\.json$/, '');
-    const importConfigPath = path.resolve(pkgDir, './babel-plugin-import-config.js');
+    const pkgDir = require
+      .resolve(`${pkgName}/package.json`, {
+        paths: [cwd]
+      })
+      .replace(/package\.json$/, '');
+    const importConfigPath = path.resolve(
+      pkgDir,
+      './babel-plugin-import-config.js'
+    );
     if (fs.existsSync(importConfigPath)) {
       return require(importConfigPath);
     }
@@ -38,26 +44,23 @@ function getBabelConfig(env) {
           modules: env === 'test' ? 'commonjs' : false,
           targets: {
             browsers: ['last 2 versions', 'safari >= 7']
-          },
-        },
+          }
+        }
       ]
     ],
     plugins: [
-      ...importConfigPackages.reduce(
-        (prev, pkgName) => {
-          const config = getPkgImportConfig(pkgName);
-          if (config) {
-            prev.push([require.resolve('babel-plugin-import'), config, pkgName]);
-          }
-          return prev;
-        },
-        [],
-      ),
+      ...importConfigPackages.reduce((prev, pkgName) => {
+        const config = getPkgImportConfig(pkgName);
+        if (config) {
+          prev.push([require.resolve('babel-plugin-import'), config, pkgName]);
+        }
+        return prev;
+      }, []),
       [
         require.resolve('@babel/plugin-transform-for-of'),
         {
-          loose: true,
-        },
+          loose: true
+        }
       ],
       [
         require.resolve('@babel/plugin-transform-runtime'),
@@ -65,16 +68,16 @@ function getBabelConfig(env) {
           corejs: false,
           helpers: true,
           regenerator: true,
-          useESModules: false,
-        },
+          useESModules: false
+        }
       ],
       [
         require.resolve('babel-plugin-root-import'),
         {
-          rootPathPrefix: '/',
-        },
+          rootPathPrefix: '/'
+        }
       ],
-      require.resolve('@babel/plugin-proposal-class-properties'),
+      require.resolve('@babel/plugin-proposal-class-properties')
     ]
   };
 }

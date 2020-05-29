@@ -18,14 +18,14 @@ module.exports = {
       useBridge: `${codeDir}/alipayH5/useBridge`,
       useFeedback: `${codeDir}/alipayH5/useFeedback`,
       useRequester: `${codeDir}/alipayH5/useRequester`,
-      useGlobalConfig: `${codeDir}/alipayH5/useGlobalConfig`,
-      useGlobalDestroy: `${codeDir}/alipayH5/useGlobalDestroy`,
-      useGlobalStorage: `${codeDir}/alipayH5/useGlobalStorage`,
-      useSetup: `${codeDir}/alipayH5/useSetup`,
-      useMount: `${codeDir}/alipayH5/useMount`,
-      useUnmount: `${codeDir}/alipayH5/useUnmount`,
+      useGlobalConfig: `${codeDir}/useGlobalConfig`,
+      useGlobalDestroy: `${codeDir}/useGlobalDestroy`,
+      useGlobalStorage: `${codeDir}/useGlobalStorage`,
+      useSetup: `${codeDir}/useSetup`,
+      useMount: `${codeDir}/useMount`,
+      useUnmount: `${codeDir}/useUnmount`,
       useRef: `${codeDir}/useRef`,
-      global: `${codeDir}/defaultGlobal`,
+      global: `${codeDir}/defaultGlobal`
     }[name];
-  },
+  }
 };

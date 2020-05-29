@@ -1,3 +1,14 @@
+## 1.1.18
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/pre-build:**
+
+  - Add `@goldfishjs/react`.
+
+- [^] **@goldfishjs/react:**
+  - Fix babel import config.
+
 ## 1.1.17
 
 ### 🐞 Bug Fixes
