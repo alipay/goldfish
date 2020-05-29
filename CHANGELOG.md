@@ -1,3 +1,10 @@
+## 1.1.17
+
+### 🐞 Bug Fixes
+
+- [^] **@goldfishjs/reactive-connect:**
+  - The `$id` may be `0`.
+
 ## 1.1.16
 
 ### 🐞 Bug Fixes
