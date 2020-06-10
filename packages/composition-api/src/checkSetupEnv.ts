@@ -11,7 +11,7 @@ export default function checkSetupEnv<
   const type = useContextType();
 
   if (env.indexOf(type as A) + 1 === 0) {
-    throw new Error(`The ${name} can not use in ${type} setup flow.`);
+    throw new Error(`The ${name} can not be used in ${type} setup flow.`);
   }
 
   return type;

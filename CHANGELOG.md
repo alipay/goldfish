@@ -1,3 +1,10 @@
+## 1.1.18 [WIP]
+
+### 💡 Main Changes
+
+- **@goldfishjs/react**
+  - [+] `useMount` & `useUnmount`: Support using them in tiny app.
+
 ## 1.1.17
 
 ### 🐞 Bug Fixes
