@@ -20,13 +20,8 @@ export default function observable(target: any) {
       this[COMPUTED_KEY] = { ...this[COMPUTED_KEY] };
 
       // 将标记好的响应式属性融合到统一的地方。
-      ownKeys.forEach((key) => {
-        if (
-          !(key in this[COMPUTED_KEY])
-          && !(key in this[STATE_KEY])
-          && this[key]
-          && typeof this[key] === 'object'
-        ) {
+      ownKeys.forEach(key => {
+        if (!(key in this[COMPUTED_KEY]) && !(key in this[STATE_KEY]) && this[key] && typeof this[key] === 'object') {
           if (this[key][STATE_KEY] === 'reactive') {
             markState(this, key);
             this[key] = this[key].value;

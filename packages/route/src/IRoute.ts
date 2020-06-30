@@ -5,10 +5,13 @@ export default interface IRoute {
 
   back(n: number, defaultUrl: string): void;
 
-  backTo(url: string, options: {
-    removeStackLength?: number;
-    params?: any;
-  }): void;
+  backTo(
+    url: string,
+    options: {
+      removeStackLength?: number;
+      params?: any;
+    },
+  ): void;
 
   replace(url: string, params?: Query): void;
 

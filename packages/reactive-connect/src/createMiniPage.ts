@@ -4,11 +4,9 @@ import attachLogic from './attachLogic';
 import AppStore from './AppStore';
 import getMiniDataSetter from './getMiniDataSetter';
 
-export type PageInstance<D, S> =
-  tinyapp.IPageInstance<D> & Omit<IViewInstance, 'store'> & { store: S };
+export type PageInstance<D, S> = tinyapp.IPageInstance<D> & Omit<IViewInstance, 'store'> & { store: S };
 
-export type PageOptions<D, S> =
-  ThisType<tinyapp.IPageInstance<D> & { store: S }> & tinyapp.PageOptions<D>;
+export type PageOptions<D, S> = ThisType<tinyapp.IPageInstance<D> & { store: S }> & tinyapp.PageOptions<D>;
 
 export default function createMiniPage<AS extends AppStore, PS extends PageStore<AS>, D = any>(
   storeClass: new () => PS,
@@ -18,14 +16,11 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
     afterCreateStore?: (view: PageInstance<D, PS>, store: PS) => void;
   },
 ): tinyapp.PageOptions<D> {
-  attachLogic<'onUnload', Required<PageOptions<D, PS>>['onUnload']>(
-    pageOptions,
-    'onUnload',
-    'before',
-    function (this: PageInstance<D, PS>) {
-      this.store && (this.store.isSyncDataSafe = false);
-    },
-  );
+  attachLogic<'onUnload', Required<PageOptions<D, PS>>['onUnload']>(pageOptions, 'onUnload', 'before', function(
+    this: PageInstance<D, PS>,
+  ) {
+    this.store && (this.store.isSyncDataSafe = false);
+  });
 
   const beforeCreateStore = options && options.beforeCreateStore;
   const afterCreateStore = options && options.afterCreateStore;
@@ -33,7 +28,7 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
     pageOptions,
     'onLoad',
     'onUnload',
-    function (
+    function(
       this: tinyapp.IPageInstance<D> & {
         setData: tinyapp.SetDataMethod<D>;
         store: PS;
@@ -51,7 +46,7 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
       const miniDataSetter = getMiniDataSetter();
       miniDataSetter.set(this, obj, keyPathList, newV, oldV, options);
     },
-    (instance) => {
+    instance => {
       beforeCreateStore && beforeCreateStore(instance as PageInstance<D, PS>);
       const store = new storeClass();
       afterCreateStore && afterCreateStore(instance as PageInstance<D, PS>, store);

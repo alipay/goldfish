@@ -12,11 +12,7 @@ export type ChangeOptions = {
   oldV?: any[];
 };
 
-type DepListener = (
-  newValue: any,
-  oldValue: any,
-  options: ChangeOptions,
-) => void;
+type DepListener = (newValue: any, oldValue: any, options: ChangeOptions) => void;
 
 function defaultIsChanged(n: any, o: any) {
   return n !== o;
@@ -41,17 +37,13 @@ export class Dep {
     };
   }
 
-  public notifyChange(
-    newValue: any,
-    oldValue: any,
-    options?: Partial<ChangeOptions>,
-  ) {
+  public notifyChange(newValue: any, oldValue: any, options?: Partial<ChangeOptions>) {
     const realOptions = {
-      type: options && options.type || 'normal',
-      isChanged: options && options.isChanged || defaultIsChanged,
+      type: (options && options.type) || 'normal',
+      isChanged: (options && options.isChanged) || defaultIsChanged,
       ...(options || {}),
     };
-    this.listenerList.forEach((listener) => {
+    this.listenerList.forEach(listener => {
       listener(newValue, oldValue, realOptions);
     });
   }
@@ -64,17 +56,10 @@ export class DepList {
     this.list.push(dep);
   }
 
-  public addChangeListener(
-    cb: (n: any, o: any, options: ChangeOptions) => void,
-    shouldBatch = true,
-  ) {
+  public addChangeListener(cb: (n: any, o: any, options: ChangeOptions) => void, shouldBatch = true) {
     const removeListeners: Function[] = [];
     let isDone = false;
-    const checker = (
-      n: any,
-      o: any,
-      options: ChangeOptions,
-    ): void => {
+    const checker = (n: any, o: any, options: ChangeOptions): void => {
       if (options.type !== 'notify' && !options.isChanged(n, o)) {
         return;
       }
@@ -90,7 +75,7 @@ export class DepList {
         Promise.resolve().then(() => cb(n, o, options));
       }
     };
-    this.list.forEach((dep) => {
+    this.list.forEach(dep => {
       removeListeners.push(dep.addListener(checker));
     });
     return [
@@ -127,7 +112,7 @@ export function call(fn: Function, errorCb?: IErrorCallback) {
       errorCb(error);
     } else {
       throw error;
-    };
+    }
   } finally {
     stack.pop();
   }

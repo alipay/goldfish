@@ -17,7 +17,7 @@ export default class ComponentSetupManager {
   }
 
   public genId() {
-    return `setup-${counter ++}`;
+    return `setup-${counter++}`;
   }
 }
 

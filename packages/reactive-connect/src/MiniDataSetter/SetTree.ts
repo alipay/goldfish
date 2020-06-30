@@ -5,7 +5,7 @@ import * as keyPath from './keyPath';
 
 export type View = tinyapp.IPageInstance<any> | tinyapp.IComponentInstance<any, any>;
 
-type AncestorChildren = Record<string, (Ancestor | Leaf)> | (Ancestor | Leaf)[];
+type AncestorChildren = Record<string, Ancestor | Leaf> | (Ancestor | Leaf)[];
 
 function getType(obj: any) {
   if (Array.isArray(obj)) {
@@ -17,7 +17,7 @@ function getType(obj: any) {
   }
 
   return 'other';
-};
+}
 
 class Ancestor {
   public parent: Ancestor | undefined = undefined;
@@ -140,29 +140,20 @@ export default class SetTree {
       this.limitLeafTotalCount.addLeaf();
     } else {
       const children = curNode.children;
-      const len = Array.isArray(children)
-        ? children.length
-        : Object.keys(children || {}).length;
+      const len = Array.isArray(children) ? children.length : Object.keys(children || {}).length;
       if (len > availableLeafCount) {
         updateObj[generateKeyPathString(keyPathList)] = this.combine(curNode, obj);
         this.limitLeafTotalCount.addLeaf();
       } else if (Array.isArray(children)) {
         children.forEach((child, index) => {
           const originObj = this.getData(obj, index);
-          if (
-            !(child instanceof Leaf)
-            && index in obj
-            && getType(child.children) !== getType(originObj)
-          ) {
+          if (!(child instanceof Leaf) && index in obj && getType(child.children) !== getType(originObj)) {
             throw new Error(`Expect the origin value is an Array, but it is: ${JSON.stringify(originObj)}.`);
           }
 
           this.iterate(
             child,
-            [
-              ...keyPathList,
-              index,
-            ],
+            [...keyPathList, index],
             updateObj,
             originObj,
             this.limitLeafTotalCount.getRemainCount() - len,
@@ -172,20 +163,13 @@ export default class SetTree {
         for (const k in children) {
           const originObj = this.getData(obj, k);
           const child = children[k];
-          if (
-            !(child instanceof Leaf)
-            && k in obj
-            && getType(child.children) !== getType(originObj)
-          ) {
+          if (!(child instanceof Leaf) && k in obj && getType(child.children) !== getType(originObj)) {
             throw new Error(`Expect the origin value is an Object, but it is: ${JSON.stringify(originObj)}.`);
           }
 
           this.iterate(
             child,
-            [
-              ...keyPathList,
-              k,
-            ],
+            [...keyPathList, k],
             updateObj,
             originObj,
             this.limitLeafTotalCount.getRemainCount() - len,
@@ -197,13 +181,7 @@ export default class SetTree {
 
   public generate(obj: any) {
     const updateObj: Record<string, any> = {};
-    this.iterate(
-      this.root,
-      [],
-      updateObj,
-      obj,
-      this.limitLeafTotalCount.getRemainCount(),
-    );
+    this.iterate(this.root, [], updateObj, obj, this.limitLeafTotalCount.getRemainCount());
     return updateObj;
   }
 

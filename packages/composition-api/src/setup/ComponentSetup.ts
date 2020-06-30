@@ -8,9 +8,4 @@ export type SetupComponentStore = ComponentStore<any>;
 
 export type SetupComponentInstance = ComponentInstance<any, any, ComponentStore<any>, {}>;
 
-export default class ComponentSetup extends CommonSetup<
-  Methods,
-  SetupComponentStore,
-  SetupComponentInstance
-> {
-}
+export default class ComponentSetup extends CommonSetup<Methods, SetupComponentStore, SetupComponentInstance> {}

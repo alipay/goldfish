@@ -21,13 +21,13 @@ export default class CommonSetup<M, S, V> extends Setup {
     const fetchInitDataMethod = this.fetchInitDataMethod;
     if (fetchInitDataMethod) {
       this.fetchInitDataMethod = isAsync
-        ? async function (this: any) {
-          await Promise.all([fetchInitDataMethod.call(this), fn.call(this)]);
-        }
-        : async function (this: any) {
-          await fetchInitDataMethod.call(this);
-          await fn.call(this);
-        };
+        ? async function(this: any) {
+            await Promise.all([fetchInitDataMethod.call(this), fn.call(this)]);
+          }
+        : async function(this: any) {
+            await fetchInitDataMethod.call(this);
+            await fn.call(this);
+          };
     } else {
       this.fetchInitDataMethod = fn;
     }

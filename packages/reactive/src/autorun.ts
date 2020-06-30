@@ -14,17 +14,14 @@ class Runner {
   }
 
   private autorun(fn: AutorunFunction, errorCb?: IErrorCallback) {
-    call(
-      () => {
-        fn();
-        this.depList = getCurrent();
-        const removeFns = this.depList.addChangeListener(() => {
-          !this.isStopped && this.autorun(fn);
-        });
-        this.removeListenersGroup.push(removeFns);
-      },
-      errorCb,
-    );
+    call(() => {
+      fn();
+      this.depList = getCurrent();
+      const removeFns = this.depList.addChangeListener(() => {
+        !this.isStopped && this.autorun(fn);
+      });
+      this.removeListenersGroup.push(removeFns);
+    }, errorCb);
   }
 
   stop() {
@@ -36,7 +33,7 @@ class Runner {
 
 export default function autorun(fn: AutorunFunction, errorCb?: IErrorCallback) {
   const runner = new Runner(fn, errorCb);
-  const stopFn: (() => void) & { depList?: DepList} = () => runner.stop();
+  const stopFn: (() => void) & { depList?: DepList } = () => runner.stop();
   stopFn.depList = runner.depList;
   return stopFn;
 }

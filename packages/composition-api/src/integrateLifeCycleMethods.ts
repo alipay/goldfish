@@ -27,27 +27,22 @@ type OptionsType = {
  *
  * @param lifeCycleMethods
  */
-export default function integrateLifeCycleMethods<K extends Kind>(
-  lifeCycleMethods: LifeCycleMethodsType[K][],
-) {
-  return lifeCycleMethods.reduce<OptionsType[K]>(
-    (prev, cur: LifeCycleMethodsType[K]) => {
-      (prev as any)[cur] = function (this: any, ...args: any[]) {
-        const setup: SetupType[K] | undefined = this.$setup;
-        if (!setup) {
-          return;
-        }
+export default function integrateLifeCycleMethods<K extends Kind>(lifeCycleMethods: LifeCycleMethodsType[K][]) {
+  return lifeCycleMethods.reduce<OptionsType[K]>((prev, cur: LifeCycleMethodsType[K]) => {
+    (prev as any)[cur] = function(this: any, ...args: any[]) {
+      const setup: SetupType[K] | undefined = this.$setup;
+      if (!setup) {
+        return;
+      }
 
-        const fns: Function[] = (setup.getMethod as any)(cur) || [];
-        let result: any;
-        for (const i in fns) {
-          const fn = fns[i];
-          result = (fn as Function).call(this, ...args);
-        }
-        return result;
-      };
-      return prev;
-    },
-    {},
-  );
+      const fns: Function[] = (setup.getMethod as any)(cur) || [];
+      let result: any;
+      for (const i in fns) {
+        const fn = fns[i];
+        result = (fn as Function).call(this, ...args);
+      }
+      return result;
+    };
+    return prev;
+  }, {});
 }

@@ -31,10 +31,7 @@ function run(
       return DeepVisitBreak.ALL;
     }
 
-    if (
-      r !== DeepVisitBreak.CHILDREN
-      && run(value, callback, curKeyPathList, visitedObjList) === DeepVisitBreak.ALL
-    ) {
+    if (r !== DeepVisitBreak.CHILDREN && run(value, callback, curKeyPathList, visitedObjList) === DeepVisitBreak.ALL) {
       return DeepVisitBreak.ALL;
     }
 

@@ -1,12 +1,7 @@
 // my.xxx type bridge
 export type BridgeMethods = Omit<
   typeof my,
-  | 'call'
-  | 'ap'
-  | 'reportCustomError'
-  | 'reportAnalytics'
-  | 'getRunScene'
-  | 'SDKVersion'
+  'call' | 'ap' | 'reportCustomError' | 'reportAnalytics' | 'getRunScene' | 'SDKVersion'
 >;
 
 // my.ap.xxx type bridge
@@ -29,16 +24,12 @@ export type SpecialMethods = {
 
 export default {
   // my.xxx
-  call: async function call<
-    T extends keyof R,
-    R extends Record<string, any> = BridgeMethods & SpecialMethods,
-    >(
-      api: T,
-      params?: Parameters<R[T]>[0],
+  call: async function call<T extends keyof R, R extends Record<string, any> = BridgeMethods & SpecialMethods>(
+    api: T,
+    params?: Parameters<R[T]>[0],
   ): Promise<PickSuccessResult<Parameters<R[T]>[0]>> {
     return new Promise((resolve, reject) => {
-      if (
-        typeof (my as R extends BridgeMethods ? R : any)[api] === 'function') {
+      if (typeof (my as R extends BridgeMethods ? R : any)[api] === 'function') {
         (my as R extends BridgeMethods ? R : any)[api]({
           ...(params as any),
           success(res: PickSuccessResult<Parameters<R[T]>[0]>) {
@@ -53,11 +44,9 @@ export default {
   // my.call('xxx')
   mycall: async function mycall<R, P = Record<string, any>>(
     api: string,
-    params?: P extends Record<string, any>
-      ? P
-      : Record<string, any> | ((...args: any[]) => void),
+    params?: P extends Record<string, any> ? P : Record<string, any> | ((...args: any[]) => void),
   ): Promise<R> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       my.call(api, params, (result: R) => {
         resolve(result);
       });
@@ -65,19 +54,12 @@ export default {
   },
 
   // my.ap.xxx
-  ap: async function ap<
-    T extends keyof R,
-    R extends Record<string, Fn> = APBridgeMethods
-  >(
+  ap: async function ap<T extends keyof R, R extends Record<string, Fn> = APBridgeMethods>(
     api: T,
     params?: Parameters<R[T]>[0],
   ): Promise<PickSuccessResult<Parameters<R[T]>[0]>> {
     return new Promise((resolve, reject) => {
-      if (
-        typeof (my as R extends APBridgeMethods ? R : any)[api] ===
-        'function' &&
-        params
-      ) {
+      if (typeof (my as R extends APBridgeMethods ? R : any)[api] === 'function' && params) {
         (my as R extends APBridgeMethods ? R : any)[api]({
           ...params,
           success(res: PickSuccessResult<Parameters<R[T]>[0]>) {

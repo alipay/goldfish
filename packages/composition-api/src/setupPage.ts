@@ -22,9 +22,7 @@ const lifeCycleMethods: (keyof tinyapp.IPageOptionsMethods)[] = [
   'onPageScroll',
 ];
 
-export default function setupPage<D, AS extends AppStore>(
-  fn: ISetupFunction,
-) {
+export default function setupPage<D, AS extends AppStore>(fn: ISetupFunction) {
   type View = PageInstance<D, BizPageStore> & { $setup?: PageSetup };
   let view: View;
 
@@ -43,7 +41,7 @@ export default function setupPage<D, AS extends AppStore>(
     public async fetchInitData() {
       await super.fetchInitData();
       const fn = view.$setup!.getFetchInitDataMethod();
-      fn && await fn();
+      fn && (await fn());
     }
 
     public destroy() {
@@ -55,24 +53,20 @@ export default function setupPage<D, AS extends AppStore>(
 
   let options: tinyapp.PageOptions<D> = {};
 
-  options = createPage<AS, BizPageStore, D>(
-    BizPageStore,
-    options,
-    {
-      beforeCreateStore: (v: View) => {
-        const setup = new PageSetup();
-        v.$setup = setup;
-        view = v;
+  options = createPage<AS, BizPageStore, D>(BizPageStore, options, {
+    beforeCreateStore: (v: View) => {
+      const setup = new PageSetup();
+      v.$setup = setup;
+      view = v;
 
-        setup.iterateMethods((fns, name) => {
-          appendFn(v, name, fns);
-        });
-      },
+      setup.iterateMethods((fns, name) => {
+        appendFn(v, name, fns);
+      });
     },
-  );
+  });
 
   const lifeCycleMethodsOptions = integrateLifeCycleMethods<'page'>(lifeCycleMethods);
-  lifeCycleMethods.forEach((m) => {
+  lifeCycleMethods.forEach(m => {
     attachLogic(options, m, 'after', lifeCycleMethodsOptions[m] as any);
   });
   return options;

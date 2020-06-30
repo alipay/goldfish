@@ -20,7 +20,7 @@ export default abstract class BaseRouter {
   public addChangeListener(listener: ChangeListener) {
     this.changeListeners.push(listener);
     return () => {
-      this.changeListeners = this.changeListeners.filter((l) => l !== listener);
+      this.changeListeners = this.changeListeners.filter(l => l !== listener);
     };
   }
 
@@ -108,7 +108,7 @@ export default abstract class BaseRouter {
 
   private invokeChangeListeners() {
     const listeners = this.changeListeners;
-    listeners.forEach((listener) => {
+    listeners.forEach(listener => {
       listener(this.path || '', this.query);
     });
   }

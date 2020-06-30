@@ -4,8 +4,7 @@ import { isObject } from '@goldfishjs/utils';
 import isRaw from './isRaw';
 
 export type Unwatch = () => void;
-export type IWatchCallback<N, O = any> =
-  (newValue: N, oldValue?: O, options?: ChangeOptions) => void;
+export type IWatchCallback<N, O = any> = (newValue: N, oldValue?: O, options?: ChangeOptions) => void;
 export type IWatchExpressionFn<R> = () => R;
 
 export interface IWatchOptions {
@@ -27,11 +26,7 @@ class Watcher<R> {
 
   private removeListeners: Function[] = [];
 
-  constructor(
-    fn: IWatchExpressionFn<R>,
-    cb: IWatchCallback<R>,
-    options: IWatchOptions,
-  ) {
+  constructor(fn: IWatchExpressionFn<R>, cb: IWatchCallback<R>, options: IWatchOptions) {
     this.fn = fn;
     this.cb = cb;
     this.options = options;
@@ -73,44 +68,39 @@ class Watcher<R> {
   private watch() {
     let result: any;
 
-    call(
-      () => {
-        result = this.fn();
-        if (this.options.deep) {
-          this.deepVisit(result);
-        }
-        this.removeListeners.push(
-          ...getCurrent().addChangeListener((n: any, o: any, options: ChangeOptions) => {
-            this.callRemoveListeners();
-            if (this.isStopped) {
-              return;
-            }
+    call(() => {
+      result = this.fn();
+      if (this.options.deep) {
+        this.deepVisit(result);
+      }
+      this.removeListeners.push(
+        ...getCurrent().addChangeListener((n: any, o: any, options: ChangeOptions) => {
+          this.callRemoveListeners();
+          if (this.isStopped) {
+            return;
+          }
 
-            const currentResult = this.watch();
-            if (this.options.deep || options.type === 'notify' || currentResult !== result) {
-              try {
-                this.cb(currentResult, result, options);
-              } catch (e) {
-                this.options.onError && this.options.onError(e);
-              }
+          const currentResult = this.watch();
+          if (this.options.deep || options.type === 'notify' || currentResult !== result) {
+            try {
+              this.cb(currentResult, result, options);
+            } catch (e) {
+              this.options.onError && this.options.onError(e);
             }
-          }),
-        );
-      },
-      this.options.onError,
-    );
+          }
+        }),
+      );
+    }, this.options.onError);
 
     if (this.isFirstTime && this.options.immediate) {
       this.isFirstTime = false;
-      Promise.resolve().then(
-        () => {
+      Promise.resolve()
+        .then(() => {
           this.cb(result);
-        },
-      ).catch(
-        (e) => {
+        })
+        .catch(e => {
           this.options.onError && this.options.onError(e);
-        },
-      );
+        });
     }
 
     return result;

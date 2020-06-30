@@ -5,20 +5,21 @@ import getMiniDataSetter from './getMiniDataSetter';
 
 export const isComponent2 = typeof my !== 'undefined' ? my.canIUse('component2') : false;
 
-export type ComponentInstance<P, D, CS, M> =
-  { store: CS } & tinyapp.IComponentInstance<P, D> & Omit<IViewInstance, 'store'> & M;
+export type ComponentInstance<P, D, CS, M> = { store: CS } & tinyapp.IComponentInstance<P, D> &
+  Omit<IViewInstance, 'store'> &
+  M;
 
-export type ComponentOptions<P, D, CS, M extends tinyapp.IComponentMethods> =
-  ThisType<ComponentInstance<P, D, CS, M>> & tinyapp.ComponentOptions<P, D, M>;
+export type ComponentOptions<P, D, CS, M extends tinyapp.IComponentMethods> = ThisType<ComponentInstance<P, D, CS, M>> &
+  tinyapp.ComponentOptions<P, D, M>;
 
 export default function createTinyappComponent<
   P,
   CS extends ComponentStore<P>,
   D = any,
-  M extends tinyapp.IComponentMethods = tinyapp.IComponentMethods,
+  M extends tinyapp.IComponentMethods = tinyapp.IComponentMethods
 >(
   storeClass: new () => CS,
-  componentOptions: ComponentOptions<P, D, CS, M>  & { onError?: (e: any) => void } = {},
+  componentOptions: ComponentOptions<P, D, CS, M> & { onError?: (e: any) => void } = {},
   options?: {
     beforeCreateStore?: (view: ComponentInstance<P, D, CS, M>) => void;
     afterCreateStore?: (view: ComponentInstance<P, D, CS, M>, store: CS) => void;
@@ -33,7 +34,7 @@ export default function createTinyappComponent<
     componentOptions,
     enterKey,
     leaveKey,
-    function (
+    function(
       this: tinyapp.IComponentInstance<P, D> & {
         setData: tinyapp.SetDataMethod<D>;
         store: CS;
@@ -51,7 +52,7 @@ export default function createTinyappComponent<
       const miniDataSetter = getMiniDataSetter();
       miniDataSetter.set(this, obj, keyPathList, newV, oldV, options);
     },
-    (instance) => {
+    instance => {
       beforeCreateStore && beforeCreateStore(instance as ComponentInstance<P, D, CS, M>);
       const store = new storeClass();
       afterCreateStore && afterCreateStore(instance as ComponentInstance<P, D, CS, M>, store);
@@ -89,7 +90,7 @@ export default function createTinyappComponent<
     componentOptions,
     leaveKey,
     'after',
-    function (this: ComponentInstance<P, D, CS, M>) {
+    function(this: ComponentInstance<P, D, CS, M>) {
       this.store && (this.store.isSyncDataSafe = false);
     },
   );

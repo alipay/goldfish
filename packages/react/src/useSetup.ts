@@ -73,18 +73,13 @@ export default function useSetup<SR extends Record<string, any>>(
   const g = reactLike.useCallback(
     <R>(fn: (data: SR) => R): R => {
       let result: any;
-      call(
-        () => {
-          result = fn(setup.setupFnResult);
-          const list = getCurrent().addChangeListener(
-            () => {
-              setCounter(counter + 1);
-            },
-            false,
-          );
-          setup.addStopList(list);
-        },
-      );
+      call(() => {
+        result = fn(setup.setupFnResult);
+        const list = getCurrent().addChangeListener(() => {
+          setCounter(counter + 1);
+        }, false);
+        setup.addStopList(list);
+      });
       return result;
     },
     [counter],
@@ -98,16 +93,13 @@ export default function useSetup<SR extends Record<string, any>>(
   >;
   const fns = reactLike.useRef<any>(
     counter === 0
-      ? Object.keys(setup.setupFnResult).reduce<any>(
-        (prev, key) => {
+      ? Object.keys(setup.setupFnResult).reduce<any>((prev, key) => {
           const val = setup.setupFnResult[key];
           if (typeof val === 'function') {
             prev[key] = val;
           }
           return prev;
-        },
-        {},
-      )
+        }, {})
       : {},
   );
 

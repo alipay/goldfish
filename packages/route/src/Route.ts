@@ -11,12 +11,10 @@ export default abstract class Route implements IRoute {
   protected removeChangeListener: (() => void) | undefined;
 
   public start() {
-    this.removeChangeListener = this.route.addChangeListener(
-      (path: string, query: Query) => {
-        this.path = path;
-        this.query = query;
-      },
-    );
+    this.removeChangeListener = this.route.addChangeListener((path: string, query: Query) => {
+      this.path = path;
+      this.query = query;
+    });
   }
 
   public destroy() {
@@ -34,10 +32,13 @@ export default abstract class Route implements IRoute {
     this.route.back(n, defaultUrl);
   }
 
-  public backTo(url: string, options: {
-    removeStackLength?: number;
-    params?: any;
-  }) {
+  public backTo(
+    url: string,
+    options: {
+      removeStackLength?: number;
+      params?: any;
+    },
+  ) {
     this.route.backTo(url, options);
   }
 

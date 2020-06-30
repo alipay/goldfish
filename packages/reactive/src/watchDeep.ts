@@ -66,11 +66,7 @@ class Watcher {
 
   private stopFns = new StopFns();
 
-  public constructor(
-    obj: any,
-    callback: IWatchDeepCallback,
-    options?: IWatchDeepOptions,
-  ) {
+  public constructor(obj: any, callback: IWatchDeepCallback, options?: IWatchDeepOptions) {
     this.obj = obj;
     this.callback = callback;
     this.options = options;
@@ -98,22 +94,13 @@ class Watcher {
     call(
       () => {
         obj[key];
-        const stopList = getCurrent().addChangeListener(
-          (newV, oldV, options) => {
-            this.watchObj(newV, nextKeyPathList);
-            this.callback(
-              this.obj,
-              nextKeyPathList,
-              newV,
-              oldV,
-              options,
-            );
-          },
-          false,
-        );
+        const stopList = getCurrent().addChangeListener((newV, oldV, options) => {
+          this.watchObj(newV, nextKeyPathList);
+          this.callback(this.obj, nextKeyPathList, newV, oldV, options);
+        }, false);
         this.stopFns.add(keyPathList, key, () => stopList.forEach(s => s()));
       },
-      (e) => {
+      e => {
         if (this.options?.onError) {
           this.options.onError(e);
         } else {
@@ -136,11 +123,7 @@ class Watcher {
   }
 }
 
-export default function watchDeep(
-  obj: any,
-  callback: IWatchDeepCallback,
-  options?: IWatchDeepOptions,
-) {
+export default function watchDeep(obj: any, callback: IWatchDeepCallback, options?: IWatchDeepOptions) {
   const watcher = new Watcher(obj, callback, options);
   watcher.watch();
   return () => watcher.stop();

@@ -1,6 +1,6 @@
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import AppSetup from './setup/AppSetup';
-import { AppStore, createApp  } from '@goldfishjs/core';
+import { AppStore, createApp } from '@goldfishjs/core';
 import { IConfig, PluginClass } from '@goldfishjs/plugins';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import { AppInstance, observable, attachLogic } from '@goldfishjs/reactive-connect';
@@ -46,7 +46,7 @@ export default function setupApp(
     public async fetchInitData() {
       await super.fetchInitData();
       const fn = view.$setup!.getFetchInitDataMethod();
-      fn && await fn();
+      fn && (await fn());
     }
 
     public destroy() {
@@ -56,22 +56,17 @@ export default function setupApp(
     }
   }
 
-  options = createApp(
-    config,
-    BizAppStore,
-    options,
-    {
-      beforeCreateStore: (v: View) => {
-        const setup = new AppSetup();
-        v.$setup = setup;
-        view = v;
+  options = createApp(config, BizAppStore, options, {
+    beforeCreateStore: (v: View) => {
+      const setup = new AppSetup();
+      v.$setup = setup;
+      view = v;
 
-        setup.iterateMethods((fns, name) => {
-          appendFn(v, name, fns);
-        });
-      },
+      setup.iterateMethods((fns, name) => {
+        appendFn(v, name, fns);
+      });
     },
-  );
+  });
 
   const lifeCycleMethods: ('onLaunch' | 'onShow' | 'onHide' | 'onError' | 'onShareAppMessage')[] = [
     'onLaunch',
@@ -81,7 +76,7 @@ export default function setupApp(
     'onShareAppMessage',
   ];
   const lifeCycleMethodsOptions = integrateLifeCycleMethods<'app'>(lifeCycleMethods);
-  lifeCycleMethods.forEach((m) => {
+  lifeCycleMethods.forEach(m => {
     attachLogic(options, m, 'after', lifeCycleMethodsOptions[m] as any);
   });
 

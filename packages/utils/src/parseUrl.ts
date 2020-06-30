@@ -1,15 +1,6 @@
 const urlParseRE = /^((\w+):\/\/)?((\w+):?(\w+)?@)?([^/?:]+):?(\d+)?(\/?[^?#]+)?(\?[^#]+)?(#.*)?/;
 
-export type Keys =
-  | 'username'
-  | 'password'
-  | 'port'
-  | 'host'
-  | 'pathname'
-  | 'href'
-  | 'search'
-  | 'protocol'
-  | 'hash';
+export type Keys = 'username' | 'password' | 'port' | 'host' | 'pathname' | 'href' | 'search' | 'protocol' | 'hash';
 
 type UrlParseResult = {
   [key in Keys]: string;

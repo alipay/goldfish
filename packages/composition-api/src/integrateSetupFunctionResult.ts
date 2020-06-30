@@ -2,10 +2,7 @@ import { watchDeep } from '@goldfishjs/reactive';
 import { getMiniDataSetter } from '@goldfishjs/reactive-connect';
 import reactive from './reactive';
 import PageSetup, { SetupPageInstance, SetupPageStore } from './setup/PageSetup';
-import ComponentSetup, {
-  SetupComponentInstance,
-  SetupComponentStore,
-} from './setup/ComponentSetup';
+import ComponentSetup, { SetupComponentInstance, SetupComponentStore } from './setup/ComponentSetup';
 import AppSetup, { SetupAppInstance, SetupAppStore } from './setup/AppSetup';
 
 type Kind = 'page' | 'component' | 'app';
@@ -47,12 +44,7 @@ export default function integrateSetupFunctionResult<K extends Kind>(
   viewInstance: ViewType[K],
   store: StoreType[K],
 ): (() => void)[];
-export default function integrateSetupFunctionResult(
-  fn: ISetupFunction,
-  setup: any,
-  viewInstance: any,
-  store: any,
-) {
+export default function integrateSetupFunctionResult(fn: ISetupFunction, setup: any, viewInstance: any, store: any) {
   setup.setStoreInstance(store);
   setup.setViewInstance(viewInstance);
 
@@ -87,19 +79,21 @@ export default function integrateSetupFunctionResult(
   (store as any).$$compositionState = reactiveCompositionState;
 
   const stopList: (() => void)[] = [];
-  stopList.push(watchDeep(
-    reactiveCompositionState,
-    (obj: any, keyPathList, newV, oldV, options) => {
-      if (!(store as any).isSyncDataSafe) {
-        return;
-      }
+  stopList.push(
+    watchDeep(
+      reactiveCompositionState,
+      (obj: any, keyPathList, newV, oldV, options) => {
+        if (!(store as any).isSyncDataSafe) {
+          return;
+        }
 
-      const miniDataSetter = getMiniDataSetter();
-      miniDataSetter.set(viewInstance, obj, keyPathList, newV, oldV, options);
-    },
-    {
-      immediate: true,
-    },
-  ));
+        const miniDataSetter = getMiniDataSetter();
+        miniDataSetter.set(viewInstance, obj, keyPathList, newV, oldV, options);
+      },
+      {
+        immediate: true,
+      },
+    ),
+  );
   return stopList;
 }

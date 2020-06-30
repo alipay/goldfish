@@ -26,11 +26,7 @@ export default class Updater {
     last.addNode(keyPathString, value);
   }
 
-  public setSpliceObjectValue(
-    keyPathString: string,
-    newV: any[],
-    oldV: any[],
-  ) {
+  public setSpliceObjectValue(keyPathString: string, newV: any[], oldV: any[]) {
     let last = this.list[this.list.length - 1];
     if (!last || last instanceof SetTree) {
       last = new SpliceTree();
@@ -41,7 +37,7 @@ export default class Updater {
   }
 
   public iterate(setCb: IterateSetCallback, spliceCb: IterateSpliceCallback) {
-    this.list.forEach((item) => {
+    this.list.forEach(item => {
       if (item instanceof SetTree) {
         setCb(item.generate(this.obj));
       } else {

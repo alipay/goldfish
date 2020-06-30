@@ -78,12 +78,7 @@ declare global {
         responseType?: string;
         responseCharset?: string;
       },
-      ((result: {
-        data: string;
-        status: number;
-        headers: any;
-        error?: 11 | 12 | 13 | 14;
-      }) => void)?,
+      ((result: { data: string; status: number; headers: any; error?: 11 | 12 | 13 | 14 }) => void)?,
     ];
   }
 
@@ -139,17 +134,18 @@ if (window && window.document) {
     if (!fns) {
       continue;
     }
-    document.addEventListener(key, function (this: any, event) {
-      fns.forEach((fn) => fn.call(this, event));
-    }, false);
+    document.addEventListener(
+      key,
+      function(this: any, event) {
+        fns.forEach(fn => fn.call(this, event));
+      },
+      false,
+    );
   }
 }
 
 export const bridge = {
-  addListener<T extends keyof DocumentEventMap>(
-    name: T,
-    fn: (event: DocumentEventMap[T]) => void,
-  ) {
+  addListener<T extends keyof DocumentEventMap>(name: T, fn: (event: DocumentEventMap[T]) => void) {
     const fns: Function[] | undefined = uniqEventsMap[name];
     if (fns) {
       fns.push(fn);

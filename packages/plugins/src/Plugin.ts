@@ -6,7 +6,7 @@ export type PluginClass<P extends Plugin = Plugin> = {
   type: string;
 };
 
-export type GetPlugin = <R extends Plugin>(p: (PluginClass<R>) | string) => R;
+export type GetPlugin = <R extends Plugin>(p: PluginClass<R> | string) => R;
 
 @observable
 export default abstract class Plugin {
@@ -16,10 +16,10 @@ export default abstract class Plugin {
   public isInitCompleted = false;
 
   public async waitForReady() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const stop = watch(
         () => this.isInitCompleted,
-        (v) => {
+        v => {
           if (v) {
             resolve();
             stop();

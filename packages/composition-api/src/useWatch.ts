@@ -16,14 +16,12 @@ export default function useWatch() {
   }
 
   if (type === 'page') {
-    const store =
-      CommonSetup.getCurrent<PageSetup>().getStoreInstance()!;
+    const store = CommonSetup.getCurrent<PageSetup>().getStoreInstance()!;
     return store.watch.bind(store);
   }
 
   if (type === 'component') {
-    const store =
-      CommonSetup.getCurrent<ComponentSetup>().getStoreInstance()!;
+    const store = CommonSetup.getCurrent<ComponentSetup>().getStoreInstance()!;
     return store.watch.bind(store);
   }
 

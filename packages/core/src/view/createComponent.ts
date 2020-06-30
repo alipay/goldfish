@@ -36,7 +36,7 @@ export default function createComponent<
     componentOptions,
     enterKey,
     'after',
-    async function (this: ComponentInstance<P, D, CS, M>) {
+    async function(this: ComponentInstance<P, D, CS, M>) {
       const store = this.store!;
       store.isInitLoading = true;
 
@@ -54,15 +54,11 @@ export default function createComponent<
     },
   );
 
-  return createMiniComponent<P, CS, D, M>(
-    storeClass,
-    componentOptions,
-    {
-      ...options,
-      afterCreateStore: (view, store) => {
-        options && options.afterCreateStore && options.afterCreateStore(view, store);
-        store.appStore = (getApp() as any).store;
-      },
+  return createMiniComponent<P, CS, D, M>(storeClass, componentOptions, {
+    ...options,
+    afterCreateStore: (view, store) => {
+      options && options.afterCreateStore && options.afterCreateStore(view, store);
+      store.appStore = (getApp() as any).store;
     },
-  );
+  });
 }

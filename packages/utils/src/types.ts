@@ -20,23 +20,26 @@ type Many<T> = T | ReadonlyArray<T>;
  * _.omit(object, ['a', 'c']);
  * // => { 'b': '2' }
  */
-export type LodashOmit = <T extends object, K extends keyof T>(object: T | null | undefined, ...paths: Array<Many<K>>) => Omit<T, K>;
+export type LodashOmit = <T extends object, K extends keyof T>(
+  object: T | null | undefined,
+  ...paths: Array<Many<K>>
+) => Omit<T, K>;
 
 /**
-* Creates an object composed of the picked `object` properties.
-*
-* @category Object
-* @param object The source object.
-* @param [props] The property names to pick, specified
-*  individually or in arrays.
-* @returns Returns the new object.
-* @example
-*
-* var object = { 'a': 1, 'b': '2', 'c': 3 };
-*
-* _.pick(object, ['a', 'c']);
-* // => { 'a': 1, 'c': 3 }
-*/
+ * Creates an object composed of the picked `object` properties.
+ *
+ * @category Object
+ * @param object The source object.
+ * @param [props] The property names to pick, specified
+ *  individually or in arrays.
+ * @returns Returns the new object.
+ * @example
+ *
+ * var object = { 'a': 1, 'b': '2', 'c': 3 };
+ *
+ * _.pick(object, ['a', 'c']);
+ * // => { 'a': 1, 'c': 3 }
+ */
 export type LodashPick = <T extends object, U extends keyof T>(object: T, ...props: Array<Many<U>>) => Pick<T, U>;
 
 /**
@@ -50,11 +53,15 @@ export type LodashPick = <T extends object, U extends keyof T>(object: T, ...pro
  */
 type List<T> = ArrayLike<T>;
 type ListIteratorTypeGuard<T, S extends T> = (value: T, index: number, collection: List<T>) => value is S;
-export type LodashFind = <T, S extends T>(collection: List<T> | null | undefined, predicate: ListIteratorTypeGuard<T, S>, fromIndex?: number) => S|undefined;
+export type LodashFind = <T, S extends T>(
+  collection: List<T> | null | undefined,
+  predicate: ListIteratorTypeGuard<T, S>,
+  fromIndex?: number,
+) => S | undefined;
 
 export type PromiseCreator<T = any> = (...args: any[]) => Promise<T>;
 
-export type FunctionType = (...args: any[]) => any
+export type FunctionType = (...args: any[]) => any;
 
 export type WithForceUpdate<T> = T & {
   forceRefresh: T;

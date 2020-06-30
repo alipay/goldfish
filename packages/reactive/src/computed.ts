@@ -26,17 +26,14 @@ function isSetter(x: any): x is Setter {
 }
 
 function isFullComputedValue(x: any): x is FullComputedValue {
-  return x !== null && typeof x === 'object'
-    && (isGetter(x.get) || isSetter(x.set));
-
+  return x !== null && typeof x === 'object' && (isGetter(x.get) || isSetter(x.set));
 }
 
 export function isComputed(obj: any) {
-  return obj
-    && Object.prototype.hasOwnProperty.call(obj, FLAG_KEY);
+  return obj && Object.prototype.hasOwnProperty.call(obj, FLAG_KEY);
 }
 
-export default function computed<T extends IComputedSource>(obj: T): { [K in keyof T]: T[K]; } {
+export default function computed<T extends IComputedSource>(obj: T): { [K in keyof T]: T[K] } {
   if (isComputed(obj) || isRaw(obj)) {
     return obj;
   }
@@ -94,20 +91,17 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
               removeListenersGroup.forEach(group => group.forEach(fn => fn()));
               removeListenersGroup = [];
 
-              const removeFns = depList.addChangeListener(
-                () => {
-                  isDirty = true;
-                  dep.notifyChange(undefined, cachedValue, {
-                    type: 'computed',
-                    isChanged: () => true,
-                  });
-                },
-                false,
-              );
+              const removeFns = depList.addChangeListener(() => {
+                isDirty = true;
+                dep.notifyChange(undefined, cachedValue, {
+                  type: 'computed',
+                  isChanged: () => true,
+                });
+              }, false);
               isDirty = false;
               removeListenersGroup.push(removeFns);
             },
-            (error) => {
+            error => {
               throw error;
             },
           );
