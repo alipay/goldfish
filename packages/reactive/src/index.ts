@@ -1,5 +1,5 @@
 export { default as observable } from './observable';
-export * from './observable';
+export { ObservableArray, IObservableObject, Methods } from './observable';
 
 export { default as autorun } from './autorun';
 export * from './autorun';
@@ -13,7 +13,7 @@ export * from './watch';
 export { default as connect } from './connect';
 export * from './connect';
 
-export { IErrorCallback, DepList } from './dep';
+export { IErrorCallback, DepList, getCurrent } from './dep';
 
 export { default as reactive } from './reactive';
 export * from './reactive';
@@ -23,7 +23,7 @@ export * from './watchDeep';
 
 export { default as generateKeyPathString } from './generateKeyPathString';
 
-export * from './dep';
+export { SourceType, ChangeOptions, Dep } from './dep';
 
 export { default as raw } from './raw';
 

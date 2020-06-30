@@ -15,8 +15,8 @@
     "mini-antui": "^0.4.29"
   },
   "devDependencies": {
-    "eslint-config-airbnb": "^18.0.1",
-    "macaca-datahub": "^2.5.2"
+    "eslint-config-airbnb": "18.0.1",
+    "macaca-datahub": "2.5.2"
   },
   "version": "1.1.17"
 }

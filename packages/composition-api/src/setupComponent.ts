@@ -72,7 +72,7 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
         appendFn(v, name, fns as Function[]);
       });
     },
-  });
+  }) as any;
 
   const lifeCycleMethodsOptions = integrateLifeCycleMethods<'component'>(lifeCycleMethods);
   lifeCycleMethods.forEach(m => {
