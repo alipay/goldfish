@@ -10,6 +10,7 @@
 - **@goldfishjs/requester**
   - [+] Add `cache`.
   - [+] Add `loadingCounter`.
+  - [+] Add `requestingCounter`.
 
 - **@goldfishjs/utils**
   - [+] Add `commonError` wrapper.

@@ -29,8 +29,8 @@
   },
   "dependencies": {
     "@types/jest": "24.0.22",
-    "vuepress": "1.0.0",
-    "@vuepress/plugin-back-to-top": "1.0.0",
-    "@vuepress/plugin-medium-zoom": "1.0.0"
+    "vuepress": "1.5.2",
+    "@vuepress/plugin-back-to-top": "1.4.0",
+    "@vuepress/plugin-medium-zoom": "1.5.2"
   }
 }
