@@ -10,18 +10,18 @@ cache:
 before_install:
   - export TZ='Asia/Shanghai'
 install:
-  # - npm install -g vuepress
+  - npm install -g vuepress
   - npm run reboot
 script:
   - npm run ci
-  # - vuepress build docs
-  # - npm run deploy:boilerplate
-# deploy:
-#   provider: pages
-#   skip-cleanup: true
-#   github-token: $GITHUB_TOKEN
-#   local-dir: ./docs/.vuepress/dist/
-#   target-branch: gh-pages
-#   verbose: true
-#   on:
-#     branch: master
+  - vuepress build docs
+  - npm run deploy:boilerplate
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  local-dir: ./docs/.vuepress/dist/
+  target-branch: gh-pages
+  verbose: true
+  on:
+    branch: master
