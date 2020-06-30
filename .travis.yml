@@ -16,12 +16,12 @@ script:
   - npm run ci
   # - vuepress build docs
   # - npm run deploy:boilerplate
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  local-dir: ./docs/.vuepress/dist/
-  target-branch: gh-pages
-  verbose: true
-  on:
-    branch: master
+# deploy:
+#   provider: pages
+#   skip-cleanup: true
+#   github-token: $GITHUB_TOKEN
+#   local-dir: ./docs/.vuepress/dist/
+#   target-branch: gh-pages
+#   verbose: true
+#   on:
+#     branch: master
