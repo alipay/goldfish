@@ -27,10 +27,7 @@ export default class Requester {
     };
   }
 
-  protected async send<R>(
-    fetchFn: () => Promise<R>,
-    options?: Partial<IRequestOptions>,
-  ): Promise<R> {
+  protected async send<R>(fetchFn: () => Promise<R>, options?: Partial<IRequestOptions>): Promise<R> {
     const realOptions = {
       ...this.defaultOptions,
       ...options,
@@ -56,13 +53,10 @@ export default class Requester {
         this.loadingCounter += 1;
         isIncreased = true;
       } else {
-        timer = setTimeout(
-          () => {
-            this.loadingCounter += 1;
-            isIncreased = true;
-          },
-          delay,
-        );
+        timer = setTimeout(() => {
+          this.loadingCounter += 1;
+          isIncreased = true;
+        }, delay);
       }
 
       return () => {
@@ -90,16 +84,13 @@ export default class Requester {
     data?: IRequestOptions['data'],
     options?: Omit<IRequestOptions, 'url' | 'params'>,
   ) {
-    return this.send(
-      () => {
-        return httpRequest<R>({
-          ...options,
-          url,
-          data,
-        });
-      },
-      options,
-    );
+    return this.send(() => {
+      return httpRequest<R>({
+        ...options,
+        url,
+        data,
+      });
+    }, options);
   }
 
   public destroy() {}
