@@ -1,11 +1,7 @@
 import useContextType from './useContextType';
 import { default as App, app } from './App';
 
-export default function useGlobalFetchInitData(
-  fn: () => Promise<void>,
-  isAsync = true,
-  passInApp?: App,
-) {
+export default function useGlobalFetchInitData(fn: () => Promise<void>, isAsync = true, passInApp?: App) {
   const realGlobal = passInApp || app;
 
   const type = useContextType();

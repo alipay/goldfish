@@ -4,10 +4,7 @@ import PageSetup from './setup/PageSetup';
 import AppSetup from './setup/AppSetup';
 import ComponentSetup from './setup/ComponentSetup';
 
-export default function useFetchInitData(
-  fn: () => Promise<void>,
-  isAsync = true,
-) {
+export default function useFetchInitData(fn: () => Promise<void>, isAsync = true) {
   checkSetupEnv('useFetchInitData', ['page', 'app', 'component']);
 
   const setup = CommonSetup.getCurrent<PageSetup | AppSetup | ComponentSetup>();

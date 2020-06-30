@@ -10,9 +10,7 @@ export default class Batch {
   }
 
   public async set() {
-    const segIndex = this.counter === 0
-      ? this.segTotalList.length
-      : (this.segTotalList.length - 1);
+    const segIndex = this.counter === 0 ? this.segTotalList.length : this.segTotalList.length - 1;
 
     if (!this.segTotalList[segIndex]) {
       this.segTotalList[segIndex] = 0;

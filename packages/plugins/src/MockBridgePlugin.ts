@@ -1,11 +1,5 @@
 import { GetPlugin } from './Plugin';
-import {
-  mockBridge as bridge,
-  BridgeMethods,
-  SpecialMethods,
-  Fn,
-  APBridgeMethods,
-} from '@goldfishjs/bridge';
+import { mockBridge as bridge, BridgeMethods, SpecialMethods, Fn, APBridgeMethods } from '@goldfishjs/bridge';
 import ConfigPlugin, { IConfig } from './ConfigPlugin';
 import BridgePlugin from './BridgePlugin';
 
@@ -20,10 +14,7 @@ export default class MockBridgePlugin extends BridgePlugin {
   public destroy() {}
 
   // my.xxx
-  public async call<
-    T extends keyof R,
-    R extends Record<string, any> = BridgeMethods & SpecialMethods,
-  >(
+  public async call<T extends keyof R, R extends Record<string, any> = BridgeMethods & SpecialMethods>(
     api: T,
     params?: Parameters<R[T]>[0],
   ) {
@@ -33,18 +24,13 @@ export default class MockBridgePlugin extends BridgePlugin {
   // my.call('xxx')
   public async mycall<R, P = Record<string, any>>(
     api: string,
-    params?: P extends Record<string, any>
-      ? P
-      : Record<string, any> | ((...args: any[]) => void),
+    params?: P extends Record<string, any> ? P : Record<string, any> | ((...args: any[]) => void),
   ) {
     return this.host ? bridge.mycall(this.host, api, params) : super.mycall(api, params);
   }
 
   // my.ap.xxx
-  public async ap<
-    T extends keyof R,
-    R extends Record<string, Fn> = APBridgeMethods
-  >(
+  public async ap<T extends keyof R, R extends Record<string, Fn> = APBridgeMethods>(
     api: T,
     params?: Parameters<R[T]>[0],
   ) {

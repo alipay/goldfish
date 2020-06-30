@@ -37,11 +37,7 @@ export default class Setup {
    * @param name
    * @param val
    */
-  protected add(
-    map: Record<string, any>,
-    name: string,
-    val: any,
-  ) {
+  protected add(map: Record<string, any>, name: string, val: any) {
     if (this.state !== 'START') {
       throw new Error(`Wrong setup state while calling 'add' method: ${this.state}.`);
     }

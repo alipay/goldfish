@@ -10,17 +10,11 @@ export interface ISetupFunction<R extends Record<string, any>> {
 
 export type ReactLike = Pick<typeof React, 'useState' | 'useMemo' | 'useEffect' | 'useRef' | 'useCallback'>;
 
-export default function observer<
-  P,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
->(
+export default function observer<P, T extends React.FunctionComponent<P> = React.FunctionComponent<P>>(
   reactLike: ReactLike,
   componentFn: T,
 ): T;
-export default function observer<
-  P,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
->(
+export default function observer<P, T extends React.FunctionComponent<P> = React.FunctionComponent<P>>(
   reactLike: ReactLike,
   defaultProps: P,
   componentFn: T,
@@ -31,11 +25,7 @@ export default function observer<
   T extends React.FunctionComponent<P> = React.FunctionComponent<P>
 >(
   reactLike: ReactLike,
-  componentFn: (
-    setupResult: SR,
-    props: Parameters<T>[0],
-    context?: Parameters<T>[1],
-  ) => ReturnType<T>,
+  componentFn: (setupResult: SR, props: Parameters<T>[0], context?: Parameters<T>[1]) => ReturnType<T>,
   setupFn: ISetupFunction<SR>,
 ): T;
 export default function observer<
@@ -45,30 +35,17 @@ export default function observer<
 >(
   reactLike: ReactLike,
   defaultProps: P,
-  componentFn: (
-    setupResult: SR,
-    props: Parameters<T>[0],
-    context?: Parameters<T>[1],
-  ) => ReturnType<T>,
+  componentFn: (setupResult: SR, props: Parameters<T>[0], context?: Parameters<T>[1]) => ReturnType<T>,
   setupFn: ISetupFunction<SR>,
 ): T;
 
-export default function observer<
-  P,
-  SR extends Record<string, any>,
-  T extends React.FunctionComponent<P>
->(
+export default function observer<P, SR extends Record<string, any>, T extends React.FunctionComponent<P>>(
   reactLike: ReactLike,
-  passInDefaultProps: P | T | ((
-    setupResult: SR,
-    props: Parameters<T>[0],
-    context?: Parameters<T>[1],
-  ) => ReturnType<T>),
-  passInComponentFn?: T | ISetupFunction<SR> | ((
-    setupResult: SR,
-    props: Parameters<T>[0],
-    context?: Parameters<T>[1],
-  ) => ReturnType<T>),
+  passInDefaultProps: P | T | ((setupResult: SR, props: Parameters<T>[0], context?: Parameters<T>[1]) => ReturnType<T>),
+  passInComponentFn?:
+    | T
+    | ISetupFunction<SR>
+    | ((setupResult: SR, props: Parameters<T>[0], context?: Parameters<T>[1]) => ReturnType<T>),
   passInSetupFn?: ISetupFunction<SR>,
 ): T {
   let defaultProps: any = {};
@@ -78,21 +55,15 @@ export default function observer<
     componentFn = passInDefaultProps as Function;
   } else if (!passInSetupFn) {
     defaultProps = typeof passInDefaultProps === 'function' ? {} : passInDefaultProps;
-    componentFn = (
-      typeof passInDefaultProps === 'function'
-        ? passInDefaultProps
-        : passInComponentFn
-    ) as Function;
-    setupFn = typeof passInDefaultProps === 'function'
-      ? passInComponentFn as ISetupFunction<SR>
-      : undefined;
+    componentFn = (typeof passInDefaultProps === 'function' ? passInDefaultProps : passInComponentFn) as Function;
+    setupFn = typeof passInDefaultProps === 'function' ? (passInComponentFn as ISetupFunction<SR>) : undefined;
   } else {
     defaultProps = passInDefaultProps;
     componentFn = passInComponentFn as Function;
     setupFn = passInSetupFn;
   }
 
-  const fn = function (this: any, props: P, context?: any) {
+  const fn = function(this: any, props: P, context?: any) {
     // Note: The re-render should always be triggered by `setCounter`.
     const [counter, setCounter] = reactLike.useState(0);
     // The id is used to identity the component instance.
@@ -124,7 +95,11 @@ export default function observer<
       if (isObject(props)) {
         for (const key in props) {
           if (!(key in setup.props)) {
-            console.warn(`The key: ${key} will not be reactive, because it is not declared in defaultProps: ${JSON.stringify(defaultProps)}`);
+            console.warn(
+              `The key: ${key} will not be reactive, because it is not declared in defaultProps: ${JSON.stringify(
+                defaultProps,
+              )}`,
+            );
           }
 
           if (props[key] !== setup.props[key]) {
@@ -157,23 +132,18 @@ export default function observer<
 
     let result: React.ReactElement | null = null;
     // Record the reactive data dependencies and listen to the change.
-    call(
-      () => {
-        const setup = setupManager.get(id);
-        setup.removeAllStopList();
-        result = setup.setupFnResult
-          ? componentFn.call(this, setup.setupFnResult, props, context)
-          : componentFn.call(this, props, context);
-        // If some data changes, force re-render.
-        const list = getCurrent().addChangeListener(
-          () => {
-            setCounter(counter + 1);
-          },
-          false,
-        );
-        setup.addStopList(list);
-      },
-    );
+    call(() => {
+      const setup = setupManager.get(id);
+      setup.removeAllStopList();
+      result = setup.setupFnResult
+        ? componentFn.call(this, setup.setupFnResult, props, context)
+        : componentFn.call(this, props, context);
+      // If some data changes, force re-render.
+      const list = getCurrent().addChangeListener(() => {
+        setCounter(counter + 1);
+      }, false);
+      setup.addStopList(list);
+    });
     return result;
   };
   return fn as T;

@@ -26,20 +26,13 @@ export default function reactive<T extends ReactiveThis = ReactiveThis>(
   this.store.init && this.store.init();
 
   const watchKeys = (data: Record<string, any>) => {
-    const stop = watchDeep(
-      data,
-      setData,
-      {
-        onError,
-        immediate: true,
-      },
-    );
+    const stop = watchDeep(data, setData, {
+      onError,
+      immediate: true,
+    });
     return [stop];
   };
 
-  const stopWatchList: (() => void)[] = [
-    ...watchKeys(this.store.getState()),
-    ...watchKeys(this.store.getComputed()),
-  ];
+  const stopWatchList: (() => void)[] = [...watchKeys(this.store.getState()), ...watchKeys(this.store.getComputed())];
   return stopWatchList;
 }

@@ -31,8 +31,9 @@ export default class Route extends Plugin {
     }));
 
     // When pages stack updated, cachePages need updated page
-    const newPages = newPageStack.map((newPage: Pick<IPage, 'path'>) =>
-      this.pages.find((page: IPage) => page.path === newPage.path) || newPage);
+    const newPages = newPageStack.map(
+      (newPage: Pick<IPage, 'path'>) => this.pages.find((page: IPage) => page.path === newPage.path) || newPage,
+    );
 
     this.pages = [...newPages];
   }
@@ -87,7 +88,7 @@ export default class Route extends Plugin {
     this.popWindow(pages.length - targetIndex - 1);
   }
 
-  public pushWindow(...args: Parameters<(typeof route)['pushWindow']>) {
+  public pushWindow(...args: Parameters<typeof route['pushWindow']>) {
     return route.pushWindow(...args);
   }
 }

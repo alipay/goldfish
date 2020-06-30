@@ -1,9 +1,11 @@
 {
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/eslint-recommended"
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:prettier/recommended",
+    "prettier"
   ],
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "parser": "@typescript-eslint/parser",
   "rules": {
     "@typescript-eslint/explicit-function-return-type": 0,

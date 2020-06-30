@@ -25,11 +25,8 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
   passInProps: P | ISetupFunction,
   passInFn?: ISetupFunction,
 ) {
-  const props: P = typeof passInProps === 'object' ? passInProps : {} as P;
-  const fn = (
-    typeof passInProps === 'function'
-      ? passInProps : passInFn
-  ) as ISetupFunction;
+  const props: P = typeof passInProps === 'object' ? passInProps : ({} as P);
+  const fn = (typeof passInProps === 'function' ? passInProps : passInFn) as ISetupFunction;
 
   let options: tinyapp.ComponentOptions<P, D, {}> = {
     props,
@@ -65,24 +62,20 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
     }
   }
 
-  options = createComponent<AppStore, BizComponentStore, P, D>(
-    BizComponentStore,
-    options,
-    {
-      beforeCreateStore: (v: View) => {
-        const setup = new ComponentSetup();
-        v.$setup = setup;
-        view = v;
+  options = createComponent<AppStore, BizComponentStore, P, D>(BizComponentStore, options, {
+    beforeCreateStore: (v: View) => {
+      const setup = new ComponentSetup();
+      v.$setup = setup;
+      view = v;
 
-        setup.iterateMethods((fns, name) => {
-          appendFn(v, name, fns as Function[]);
-        });
-      },
+      setup.iterateMethods((fns, name) => {
+        appendFn(v, name, fns as Function[]);
+      });
     },
-  );
+  }) as any;
 
   const lifeCycleMethodsOptions = integrateLifeCycleMethods<'component'>(lifeCycleMethods);
-  lifeCycleMethods.forEach((m) => {
+  lifeCycleMethods.forEach(m => {
     attachLogic(options, m, 'after', lifeCycleMethodsOptions[m] as any);
   });
 

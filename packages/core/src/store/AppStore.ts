@@ -97,7 +97,7 @@ export default class AppStore extends BaseAppStore {
     this.pluginHub.get(ConfigPlugin).setConfig(this.config);
 
     // Initialize all plugins.
-    this.pluginHub.init().catch((e) => {
+    this.pluginHub.init().catch(e => {
       // The Alipay does not catch the exception in Promise,
       // so print the error here for debug.
       console.error(e);
@@ -126,10 +126,10 @@ export default class AppStore extends BaseAppStore {
    * Wait for the init data finish loading.
    */
   public waitForInitDataReady() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const stop = this.watch(
         () => this.isInitLoading,
-        (newVal) => {
+        newVal => {
           if (!newVal) {
             resolve();
             stop();
@@ -234,7 +234,7 @@ export default class AppStore extends BaseAppStore {
 
     this.startWatchFeedbackQueue({
       showToast: (item): Promise<void> => {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
           bridge.call('showToast', item);
           if (item.isBlock || item.duration) {
             if (item.duration) {
@@ -249,8 +249,8 @@ export default class AppStore extends BaseAppStore {
           }
         });
       },
-      alert: (item) => {
-        return new Promise((resolve) => {
+      alert: item => {
+        return new Promise(resolve => {
           if (item.isBlock) {
             bridge.call('alert', {
               ...item,
@@ -267,21 +267,17 @@ export default class AppStore extends BaseAppStore {
           }
         });
       },
-      confirm: (item) => {
-        return new Promise((resolve) => {
+      confirm: item => {
+        return new Promise(resolve => {
           bridge.call('confirm', {
             ...item,
             confirmButtonText: item.okButtonText,
-            complete: (result) => {
+            complete: result => {
               if (item.isBlock) {
                 resolve();
               }
               if (item.complete) {
-                item.complete(
-                  result.confirm
-                    ? { ok: true, cancel: false }
-                    : { ok: false, cancel: true },
-                );
+                item.complete(result.confirm ? { ok: true, cancel: false } : { ok: false, cancel: true });
               }
             },
           });
@@ -290,24 +286,25 @@ export default class AppStore extends BaseAppStore {
           }
         });
       },
-      prompt: (item) => {
-        return new Promise((resolve) => {
+      prompt: item => {
+        return new Promise(resolve => {
           bridge.call('prompt', {
             ...item,
             message: item.content || 'prompt',
-            success: (result) => {
-              item.complete && item.complete(
-                result.ok
-                  ? {
-                    ok: true,
-                    cancel: false,
-                    inputValue: result.inputValue,
-                  }
-                  : {
-                    ok: false,
-                    cancel: true,
-                  },
-              );
+            success: result => {
+              item.complete &&
+                item.complete(
+                  result.ok
+                    ? {
+                        ok: true,
+                        cancel: false,
+                        inputValue: result.inputValue,
+                      }
+                    : {
+                        ok: false,
+                        cancel: true,
+                      },
+                );
             },
             fail: () => {
               item.complete && item.complete({ ok: false, cancel: false });

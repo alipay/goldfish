@@ -18,13 +18,9 @@ export default function connect<E extends string, L extends string>(
   const onError = options.onError;
 
   const prevEnterFunction = target[enterKey];
-  target[enterKey] = function (this: IViewInstance, ...args: any[]) {
+  target[enterKey] = function(this: IViewInstance, ...args: any[]) {
     this.store = createStore(this);
-    this.stopWatchList = reactive.call(
-      this as { store: IStore },
-      setData.bind(this),
-      onError,
-    );
+    this.stopWatchList = reactive.call(this as { store: IStore }, setData.bind(this), onError);
 
     if (prevEnterFunction) {
       try {
@@ -36,7 +32,7 @@ export default function connect<E extends string, L extends string>(
   };
 
   const prevLeaveFunction = target[leaveKey];
-  target[leaveKey] = function (this: IViewInstance, ...args: any[]) {
+  target[leaveKey] = function(this: IViewInstance, ...args: any[]) {
     if (this.stopWatchList) {
       this.stopWatchList.forEach((stop: () => void) => stop());
     }

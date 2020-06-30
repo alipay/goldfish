@@ -10,5 +10,4 @@ export default class PageSetup extends CommonSetup<
   Required<tinyapp.IPageOptionsMethods>,
   SetupPageStore,
   SetupPageInstance
-> {
-}
+> {}

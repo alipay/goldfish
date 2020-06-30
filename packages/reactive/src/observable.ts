@@ -18,17 +18,13 @@ const OBSERVE_KEY = '__reactive-ob__';
 const NOTIFY_KEY = '__notify';
 
 export function isObservable(obj: any) {
-  return obj
-    && Object.prototype.hasOwnProperty.call(obj, OBSERVE_KEY)
-    && obj[OBSERVE_KEY] === OBSERVE_FLAG;
+  return obj && Object.prototype.hasOwnProperty.call(obj, OBSERVE_KEY) && obj[OBSERVE_KEY] === OBSERVE_FLAG;
 }
 
 export function definePropertySilently(...args: Parameters<typeof Object['defineProperty']>) {
-  silent(
-    () => {
-      Object.defineProperty(...args);
-    },
-  )();
+  silent(() => {
+    Object.defineProperty(...args);
+  })();
 }
 
 export function markObservable(obj: any) {
@@ -45,9 +41,9 @@ export function markObservable(obj: any) {
 // 改写 Array 相关方法
 export type Methods = 'push' | 'splice' | 'unshift' | 'pop' | 'sort' | 'reverse' | 'shift';
 const methods: Methods[] = ['push', 'splice', 'unshift', 'pop', 'sort', 'reverse', 'shift'];
-methods.forEach((methodName) => {
+methods.forEach(methodName => {
   const oldMethod = Array.prototype[methodName] as Function;
-  Array.prototype[methodName] = function (this: any[], ...args: any[]) {
+  Array.prototype[methodName] = function(this: any[], ...args: any[]) {
     const originLength = this.length;
     const oldV = this.slice(0);
     const result = oldMethod.apply(this, args);
@@ -181,10 +177,7 @@ function createObserver(obj: IObservableObject | ObservableArray) {
     defineProperty(po as any, key as any);
 
     // We should mark the empty array or object to be observable in children.
-    if (
-      (isArray(value) && value.length === 0)
-      || (isObject(value) && Object.keys(value).length === 0)
-    ) {
+    if ((isArray(value) && value.length === 0) || (isObject(value) && Object.keys(value).length === 0)) {
       markObservable(value);
     }
 
@@ -198,30 +191,15 @@ function createObserver(obj: IObservableObject | ObservableArray) {
   }
 }
 
-export function set(
-  obj: ObservableArray,
-  name: number,
-  value: any,
-  options?: { silent?: boolean },
-): void;
-export function set(
-  obj: IObservableObject,
-  name: string,
-  value: any,
-  options?: { silent?: boolean },
-): void;
-export function set(
-  obj: any,
-  name: any,
-  value: any,
-  options?: { silent?: boolean },
-) {
+export function set(obj: ObservableArray, name: number, value: any, options?: { silent?: boolean }): void;
+export function set(obj: IObservableObject, name: string, value: any, options?: { silent?: boolean }): void;
+export function set(obj: any, name: any, value: any, options?: { silent?: boolean }) {
   if (!isObservable(obj)) {
     obj[name] = value;
     return;
   }
 
-  const silent = options && options.silent || false;
+  const silent = (options && options.silent) || false;
 
   if (!Object.prototype.hasOwnProperty.call(obj, name)) {
     defineProperty(obj, name);

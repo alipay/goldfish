@@ -5,6 +5,14 @@
 - **@goldfishjs/react**
   - [+] `useMount` & `useUnmount`: Support using them in tiny app.
 
+- [+] Add prettier.
+
+- **@goldfishjs/requester**
+  - [+] Add `cache`.
+
+- **@goldfishjs/utils**
+  - [+] Add `commonError` wrapper.
+
 ## 1.1.17
 
 ### 🐞 Bug Fixes

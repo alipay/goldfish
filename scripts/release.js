@@ -1,6 +1,6 @@
 const { runCommand, runScript, lerna } = require('./utils');
 
-runCommand('rm -rf node_modules && npm i --no-package-lock --registry=https://registry.npm.taobao.org');
+runCommand('rm -rf node_modules && npm i --no-package-lock');
 runCommand('lerna clean --yes');
 runCommand('lerna bootstrap --loglevel=verbose');
 

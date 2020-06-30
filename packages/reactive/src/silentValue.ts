@@ -16,17 +16,17 @@ export default function silentValue(...args: any[]) {
     return isSilentValue(args[0])
       ? args[0]
       : {
-        [SILENT_KEY]: SILENT_FLAG,
-        value: args[0],
-      };
+          [SILENT_KEY]: SILENT_FLAG,
+          value: args[0],
+        };
   }
 
-  return args.map((v) => {
+  return args.map(v => {
     return isSilentValue(v)
       ? v
       : {
-        [SILENT_KEY]: SILENT_FLAG,
-        value: v,
-      };
+          [SILENT_KEY]: SILENT_FLAG,
+          value: v,
+        };
   });
 }

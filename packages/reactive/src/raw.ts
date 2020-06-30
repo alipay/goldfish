@@ -5,9 +5,7 @@ const RAW_FLAG = {};
 const RAW_KEY = '__raw-ob__';
 
 export function isRaw(obj: any) {
-  return obj
-    && Object.prototype.hasOwnProperty.call(obj, RAW_KEY)
-    && obj[RAW_KEY] === RAW_FLAG;
+  return obj && Object.prototype.hasOwnProperty.call(obj, RAW_KEY) && obj[RAW_KEY] === RAW_FLAG;
 }
 
 function clone(obj: any) {

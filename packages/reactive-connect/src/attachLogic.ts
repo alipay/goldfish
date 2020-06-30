@@ -1,14 +1,11 @@
-export default function attachLogic<
-  K extends string,
-  F extends (...args: any[]) => any,
->(
+export default function attachLogic<K extends string, F extends (...args: any[]) => any>(
   options: { [N in K]?: F },
   key: K,
   position: 'before' | 'after',
   fn: F,
 ) {
   const oldFn = options[key];
-  options[key] = function (this: any, ...args: any[]): any {
+  options[key] = function(this: any, ...args: any[]): any {
     if (position === 'before') {
       fn.call(this, ...args);
     }

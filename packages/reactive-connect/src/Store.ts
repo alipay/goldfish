@@ -18,25 +18,19 @@ export type UnAutorun = (() => void) & {
   depList?: DepList | undefined;
 };
 
-function accessStoreProperties(
-  keys: string[],
-  store: Store,
-) {
-  return keys.reduce<Record<string, any>>(
-    (prev, key) => {
-      Object.defineProperty(prev, key, {
-        get: () => {
-          return (store as any)[key];
-        },
-        set: (v: any) => {
-          (store as any)[key] = v;
-        },
-        enumerable: true,
-      });
-      return prev;
-    },
-    {},
-  );
+function accessStoreProperties(keys: string[], store: Store) {
+  return keys.reduce<Record<string, any>>((prev, key) => {
+    Object.defineProperty(prev, key, {
+      get: () => {
+        return (store as any)[key];
+      },
+      set: (v: any) => {
+        (store as any)[key] = v;
+      },
+      enumerable: true,
+    });
+    return prev;
+  }, {});
 }
 
 @observable
@@ -48,20 +42,13 @@ export default abstract class Store implements IStore {
 
   public stopAutorunList: (() => void)[] = [];
 
-  public autorun(
-    fn: AutorunFunction,
-    errorCb?: IErrorCallback,
-  ): UnAutorun {
+  public autorun(fn: AutorunFunction, errorCb?: IErrorCallback): UnAutorun {
     const stop = baseAutorun(fn, errorCb);
     this.stopAutorunList.push(stop);
     return stop;
   }
 
-  public watch<R>(
-    fn: IWatchExpressionFn<R>,
-    cb: IWatchCallback<R>,
-    options?: IWatchOptions,
-  ) {
+  public watch<R>(fn: IWatchExpressionFn<R>, cb: IWatchCallback<R>, options?: IWatchOptions) {
     const stop = baseWatch(fn, cb, options);
     this.stopWatchList.push(stop);
     return stop;

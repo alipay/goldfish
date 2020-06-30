@@ -22,10 +22,10 @@ export default class PluginHub {
    * @return Promise
    */
   public waitForReady() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const stop = watch(
         () => this.isReady(),
-        (newVal) => {
+        newVal => {
           if (newVal) {
             resolve();
             stop();

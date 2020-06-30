@@ -4,5 +4,4 @@ import AppStore from './AppStore';
 /**
  * State management for Page.
  */
-export default class PageStore<GS extends AppStore = AppStore> extends BasePageStore<GS> {
-}
+export default class PageStore<GS extends AppStore = AppStore> extends BasePageStore<GS> {}

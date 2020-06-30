@@ -1,9 +1,7 @@
 import Batch from './Batch';
 import { View } from './SetTree';
 import Updater from './Updater';
-import {
-  ChangeOptions,
-} from '@goldfishjs/reactive';
+import { ChangeOptions } from '@goldfishjs/reactive';
 import * as keyPath from './keyPath';
 import { isObject } from '@goldfishjs/utils';
 
@@ -20,9 +18,7 @@ export default class MiniDataSetter {
   private updaterMap: Record<string, Updater> = {};
 
   private getBatchUpdates(view: View) {
-    return view.$batchedUpdates ?
-      view.$batchedUpdates.bind(view) :
-      view.$page.$batchedUpdates.bind(view.$page);
+    return view.$batchedUpdates ? view.$batchedUpdates.bind(view) : view.$page.$batchedUpdates.bind(view.$page);
   }
 
   private flush() {
@@ -76,14 +72,7 @@ export default class MiniDataSetter {
 
     if (!keyPathList.length && isObject(newV)) {
       for (const k in newV) {
-        this.set(
-          view,
-          fullObj,
-          [k],
-          newV[k],
-          isObject(oldV) ? oldV[k] : undefined,
-          options,
-        );
+        this.set(view, fullObj, [k], newV[k], isObject(oldV) ? oldV[k] : undefined, options);
       }
       return;
     }
@@ -96,27 +85,16 @@ export default class MiniDataSetter {
 
     try {
       const keyPathString = keyPath.save(keyPathList);
-      if (
-        options?.isArray
-        && options.method
-        && isModifyArrayMethod(options.method)
-      ) {
+      if (options?.isArray && options.method && isModifyArrayMethod(options.method)) {
         const optionsOldV = options.oldV || [];
-        updater.setSpliceObjectValue(
-          keyPathString,
-          newV,
-          optionsOldV,
-        );
+        updater.setSpliceObjectValue(keyPathString, newV, optionsOldV);
       } else {
         updater.setSetObjectValue(keyPathString, newV);
       }
     } catch (e) {
       const rootKeyPathList = keyPathList.slice(0, 1);
       const rootKeyPathString = keyPath.save(rootKeyPathList);
-      updater.setSetObjectValue(
-        rootKeyPathString,
-        fullObj[rootKeyPathString],
-      );
+      updater.setSetObjectValue(rootKeyPathString, fullObj[rootKeyPathString]);
       console.warn(e);
     }
 

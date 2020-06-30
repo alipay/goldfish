@@ -1,27 +1,16 @@
 import { cloneDeep } from '@goldfishjs/utils';
 
 export default class SpliceTree {
-  private spliceObjectList: (Record<string, Parameters<Array<any>['splice']>>)[] = [];
+  private spliceObjectList: Record<string, Parameters<Array<any>['splice']>>[] = [];
 
-  public addNode(
-    keyPathString: string,
-    newV: any[],
-    oldV: any[],
-  ) {
+  public addNode(keyPathString: string, newV: any[], oldV: any[]) {
     if (newV.length > oldV.length) {
       this.spliceObjectList.push({
-        [keyPathString]: [
-          oldV.length,
-          0,
-          ...newV.slice(oldV.length, newV.length).map(item => cloneDeep(item)),
-        ],
+        [keyPathString]: [oldV.length, 0, ...newV.slice(oldV.length, newV.length).map(item => cloneDeep(item))],
       });
     } else if (newV.length < oldV.length) {
       this.spliceObjectList.push({
-        [keyPathString]: [
-          newV.length,
-          oldV.length - newV.length,
-        ],
+        [keyPathString]: [newV.length, oldV.length - newV.length],
       });
     }
   }

@@ -18,37 +18,31 @@ export default function createPage<AS extends AppStore, PS extends PageStore<AS>
     afterCreateStore?: (view: PageInstance<D, PS>, store: PS) => void;
   },
 ) {
-  attachLogic<'onLoad', Required<PageOptions<D, PS>>['onLoad']>(
-    pageOptions,
-    'onLoad',
-    'after',
-    async function (this: PageInstance<D, PS>, query) {
-      const store = this.store!;
-      store.isInitLoading = true;
+  attachLogic<'onLoad', Required<PageOptions<D, PS>>['onLoad']>(pageOptions, 'onLoad', 'after', async function(
+    this: PageInstance<D, PS>,
+    query,
+  ) {
+    const store = this.store!;
+    store.isInitLoading = true;
 
-      await silent.async(async () => {
-        store.appStore.updatePages({ query });
-        await store.appStore.waitForReady();
-      })();
+    await silent.async(async () => {
+      store.appStore.updatePages({ query });
+      await store.appStore.waitForReady();
+    })();
 
-      try {
-        await store.fetchInitData();
-      } catch (e) {
-        throw e;
-      } finally {
-        store.isInitLoading = false;
-      }
+    try {
+      await store.fetchInitData();
+    } catch (e) {
+      throw e;
+    } finally {
+      store.isInitLoading = false;
+    }
+  });
+  return createMiniPage<AS, PS, D>(storeClass, pageOptions, {
+    ...options,
+    afterCreateStore: (view, store) => {
+      options && options.afterCreateStore && options.afterCreateStore(view, store);
+      store.appStore = (getApp() as any).store;
     },
-  );
-  return createMiniPage<AS, PS, D>(
-    storeClass,
-    pageOptions,
-    {
-      ...options,
-      afterCreateStore: (view, store) => {
-        options && options.afterCreateStore && options.afterCreateStore(view, store);
-        store.appStore = (getApp() as any).store;
-      },
-    },
-  );
+  });
 }
