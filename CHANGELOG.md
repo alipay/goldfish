@@ -11,6 +11,7 @@
   - [+] Add `cache`.
   - [+] Add `loadingCounter`.
   - [+] Add `requestingCounter`.
+  - [+] Add `serial`.
 
 - **@goldfishjs/utils**
   - [+] Add `commonError` wrapper.
