@@ -5,27 +5,30 @@ export interface ISerialFunction<R> {
 }
 
 export interface ISerialOptions {
-  dropNextWhenExecuting?: boolean;
+  usePreviousResult?: boolean;
 }
 
 export default function serial<R>(fn: ISerialFunction<R>, options?: ISerialOptions): ISerialFunction<R> {
   const promiseList: (Promise<R> | R)[] = [];
   return async () => {
-    if (options?.dropNextWhenExecuting && promiseList.length) {
-      return Promise.reject(new Error('The previous request is not completed.'));
+    if (options?.usePreviousResult && promiseList.length) {
+      return promiseList[promiseList.length - 1];
     }
 
-    await silent.async(() => Promise.all(promiseList.slice(0)))();
-    promiseList.splice(0, promiseList.length);
+    await silent.async(() => Promise.all(promiseList))();
 
     const promise = (() => {
       try {
-        return fn();
+        return Promise.resolve(fn());
       } catch (e) {
         throw e;
       }
     })();
     promiseList.push(promise);
+
+    const remove = () => promiseList.filter(p => p !== promise);
+    promise.then(remove, remove);
+
     return promise;
   };
 }
