@@ -25,7 +25,7 @@ export default function loadingCounter<R>(
   const counter = observable({ value: 0 });
   const counterFn = () => {
     let isIncreased = false;
-    let timer: number;
+    let timer: ReturnType<typeof setTimeout>;
     if (delay <= 0) {
       counter.value += 1;
       isIncreased = true;

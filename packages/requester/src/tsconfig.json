@@ -14,7 +14,6 @@
     "target": "es6",
     "outDir": "../lib",
     "declaration": true,
-    "declarationDir": "../types",
-    "types": ["mini-types"]
+    "declarationDir": "../types"
   }
 }
