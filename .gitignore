@@ -7,3 +7,4 @@ docs/.vuepress/dist/
 packages/.alipay
 yarn-error.log
 package-lock.json
+coverage
