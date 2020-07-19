@@ -5,7 +5,9 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean && gulp ts",
-    "clean": "rm -rf lib && rm -rf types"
+    "clean": "rm -rf lib && rm -rf types",
+    "test": "jest --coverage",
+    "dev": "jest --watch"
   },
   "repository": {
     "type": "git",

@@ -48,7 +48,7 @@ export default class Requester {
     this.counter += 1;
     const cancel = (() => {
       let isIncreased = false;
-      let timer: number;
+      let timer: ReturnType<typeof setTimeout>;
       if (delay < 0) {
         this.loadingCounter += 1;
         isIncreased = true;
