@@ -1,7 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-
-import lodash from '../lodash.custom';
-import { LodashCloneDeep } from './types';
-
-export default lodash.cloneDeep as LodashCloneDeep;
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./lodash.d.ts" />
+import cloneDeep from './modularize/cloneDeep';
+export default cloneDeep;

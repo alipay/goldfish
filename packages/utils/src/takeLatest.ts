@@ -1,4 +1,4 @@
-import { PromiseCreator } from './types';
+export type PromiseCreator<T = any> = (...args: any[]) => Promise<T>;
 
 /**
  * Discard the previous return values, only keep the last return values

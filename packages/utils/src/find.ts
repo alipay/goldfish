@@ -1,7 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-
-import lodash from '../lodash.custom';
-import { LodashFind } from './types';
-
-export default lodash.find as LodashFind;
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./lodash.d.ts" />
+import find from './modularize/find';
+export default find;

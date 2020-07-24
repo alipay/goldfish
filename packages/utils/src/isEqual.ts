@@ -1,7 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-
-import lodash from '../lodash.custom';
-import { LodashIsEqual } from './types';
-
-export default lodash.isEqual as LodashIsEqual;
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./lodash.d.ts" />
+import isEqual from './modularize/isEqual';
+export default isEqual;

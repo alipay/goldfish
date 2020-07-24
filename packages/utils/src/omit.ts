@@ -1,7 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-
-import lodash from '../lodash.custom';
-import { LodashOmit } from './types';
-
-export default lodash.omit as LodashOmit;
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./lodash.d.ts" />
+import omit from './modularize/omit';
+export default omit;

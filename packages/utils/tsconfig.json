@@ -15,7 +15,9 @@
     "outDir": "./lib",
     "declaration": true,
     "declarationDir": "./types",
-    "help": true
+    "help": true,
+    "allowJs": true,
+    "types": ["@types/lodash"]
   },
   "include": ["src/**/*"]
 }

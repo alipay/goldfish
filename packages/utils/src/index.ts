@@ -13,5 +13,3 @@ export { default as isEqual } from './isEqual';
 export { default as deepVisit, ICallback as IDeepVisitCallback } from './deepVisit';
 export { default as DeepVisitBreak } from './DeepVisitBreak';
 export { default as commonError } from './commonError';
-
-export * from './types';

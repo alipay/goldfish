@@ -1,4 +1,6 @@
-import { FunctionType, PromiseCreator } from './types';
+export type PromiseCreator<T = any> = (...args: any[]) => Promise<T>;
+
+export type FunctionType = (...args: any[]) => any;
 
 /* eslint-disable no-console */
 /**

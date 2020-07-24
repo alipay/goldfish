@@ -1,5 +1,3 @@
-const { jsWithTs: tsjPreset } = require('ts-jest/presets');
-
 // jest.config.js
 module.exports = {
   // [...]
