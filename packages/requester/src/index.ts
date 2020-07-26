@@ -1,3 +1,4 @@
+/// <reference types="mini-types" />
 export { default as Requester } from './Requester';
 export * from './Requester';
 

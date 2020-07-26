@@ -3,13 +3,12 @@
   "version": "1.1.18",
   "description": "goldfish-plugins",
   "main": "lib/index.js",
+  "files": [
+    "lib",
+    "babel-plugin-import-config.js"
+  ],
   "scripts": {
-    "test": "jest --coverage --passWithNoTests",
-    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
-    "dev": "jest --debug --watch",
-    "build": "rm -rf ./types && rm -rf ./lib && gulp ts",
-    "ci": "npm run test",
-    "release": "npm run test && npm run build && npm publish"
+    "build": "rm -rf ./lib && ../../node_modules/.bin/gulp ts"
   },
   "keywords": [],
   "author": "yibuyisheng@163.com",
@@ -23,20 +22,5 @@
     "@goldfishjs/utils": "^1.1.18",
     "mini-types": "^0.1.0"
   },
-  "devDependencies": {
-    "@babel/core": "7.7.0",
-    "@babel/plugin-transform-classes": "7.7.0",
-    "@babel/plugin-transform-runtime": "7.6.2",
-    "@babel/preset-env": "7.7.1",
-    "@types/jest": "24.0.23",
-    "babel-plugin-import": "1.12.2",
-    "gulp": "4.0.2",
-    "gulp-babel": "8.0.0",
-    "gulp-typescript": "5.0.1",
-    "jest": "24.9.0",
-    "merge2": "1.3.0",
-    "ts-jest": "23.10.2"
-  },
-  "types": "./types/index.d.ts",
   "sideEffects": false
 }

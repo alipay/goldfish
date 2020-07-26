@@ -11,8 +11,12 @@ describe('connect', () => {
         name: '',
       };
 
-      render () {
-        return (<div>{ this.state.name }</div>);
+      context: any;
+
+      refs = {};
+
+      render() {
+        return <div>{this.state.name}</div>;
       }
     }
 
@@ -22,7 +26,7 @@ describe('connect', () => {
       MyComponent.prototype,
       'componentDidMount',
       'componentWillUnmount',
-      function (this: React.Component, ...args: any[]) {
+      function(this: React.Component, ...args: any[]) {
         if (!args[1].length) {
           this.setState(args[2]);
         } else {
@@ -57,8 +61,12 @@ describe('connect', () => {
         name: '',
       };
 
-      render () {
-        return (<div>{ this.state.name }</div>);
+      context: any;
+
+      refs = {};
+
+      render() {
+        return <div>{this.state.name}</div>;
       }
     }
 
@@ -75,7 +83,7 @@ describe('connect', () => {
       MyComponent.prototype,
       'componentDidMount',
       'componentWillUnmount',
-      function (this: React.Component, data: Record<string, any>) {
+      function(this: React.Component, data: Record<string, any>) {
         this.setState(data);
       },
       () => {
@@ -101,7 +109,7 @@ describe('connect', () => {
     });
   });
 
-  it('should pass in the instance in `createStore`.', (done) => {
+  it('should pass in the instance in `createStore`.', done => {
     const instance = {
       enter: () => {},
       leave: () => {},
@@ -111,7 +119,7 @@ describe('connect', () => {
       'enter',
       'leave',
       () => {},
-      (arg) => {
+      arg => {
         expect(arg).toBe(instance);
         done();
         return {

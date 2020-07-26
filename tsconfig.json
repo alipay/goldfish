@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "declarationMap": false,
+    "diagnostics": true,
+    "help": true,
+    "lib": ["dom", "es2015"],
+    "locale": "zh-CN",
+    "strict": true,
+    "traceResolution": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "outDir": "./lib",
+    "declaration": true
+  }
+}

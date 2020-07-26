@@ -4,10 +4,8 @@
   "description": "goldfish-requester",
   "main": "lib/index.js",
   "scripts": {
-    "build": "npm run clean && gulp ts",
-    "clean": "rm -rf lib && rm -rf types",
-    "test": "jest --coverage",
-    "dev": "jest --watch"
+    "build": "npm run clean && ../../node_modules/.bin/gulp ts",
+    "clean": "rm -rf lib"
   },
   "repository": {
     "type": "git",
@@ -15,15 +13,13 @@
   },
   "keywords": [
     "request",
-    "tiny",
+    "mini",
     "app"
   ],
   "files": [
     "lib",
-    "types",
-    "es"
+    "babel-plugin-import-config.js"
   ],
-  "typings": "",
   "author": "likun7981 <likun7891@gmail.com>",
   "license": "ISC",
   "dependencies": {
@@ -31,20 +27,5 @@
     "@goldfishjs/reactive-connect": "^1.1.18",
     "@goldfishjs/utils": "^1.1.18",
     "mini-types": "^0.1.0"
-  },
-  "devDependencies": {
-    "@babel/core": "7.7.0",
-    "@babel/plugin-transform-classes": "7.7.0",
-    "@babel/plugin-transform-runtime": "7.6.2",
-    "@babel/preset-env": "7.7.1",
-    "@types/jest": "24.0.23",
-    "babel-plugin-import": "1.12.2",
-    "gulp": "4.0.2",
-    "gulp-babel": "8.0.0",
-    "gulp-typescript": "5.0.1",
-    "jest": "24.9.0",
-    "merge2": "1.3.0",
-    "ts-jest": "23.10.2"
-  },
-  "types": "./types/index.d.ts"
+  }
 }

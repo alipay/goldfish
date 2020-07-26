@@ -1,17 +1,6 @@
 import parseUrl, { Keys } from '../src/parseUrl';
 
-
-const keys: Array<Keys> = [
-  'username',
-  'password',
-  'port',
-  'host',
-  'pathname',
-  'href',
-  'search',
-  'protocol',
-  'hash',
-];
+const keys: Array<Keys> = ['username', 'password', 'port', 'host', 'pathname', 'href', 'search', 'protocol', 'hash'];
 
 describe('Test parseUrl', () => {
   it('fullUrl https://abc:xyz@example.com:8080/123/asdasd?a=1&c=123#b=2', () => {
@@ -28,7 +17,7 @@ describe('Test parseUrl', () => {
       protocol: 'https',
       search: '?a=1&c=123',
     };
-    keys.forEach((key) => {
+    keys.forEach(key => {
       expect(parseResult[key]).toBe(resultsMap[key] || '');
     });
   });
@@ -40,7 +29,7 @@ describe('Test parseUrl', () => {
       host: 'example.com',
       protocol: 'https',
     };
-    keys.forEach((key) => {
+    keys.forEach(key => {
       expect(parseResult[key]).toBe(resultsMap[key] || '');
     });
   });
@@ -53,7 +42,7 @@ describe('Test parseUrl', () => {
       protocol: 'https',
       port: '8080',
     };
-    keys.forEach((key) => {
+    keys.forEach(key => {
       expect(parseResult[key]).toBe(resultsMap[key] || '');
     });
   });
@@ -67,7 +56,7 @@ describe('Test parseUrl', () => {
       port: '8080',
       pathname: '/123/123',
     };
-    keys.forEach((key) => {
+    keys.forEach(key => {
       expect(parseResult[key]).toBe(resultsMap[key] || '');
     });
   });
@@ -82,7 +71,7 @@ describe('Test parseUrl', () => {
       pathname: '/123/123',
       search: '?a=1',
     };
-    keys.forEach((key) => {
+    keys.forEach(key => {
       expect(parseResult[key]).toBe(resultsMap[key] || '');
     });
   });
@@ -98,7 +87,7 @@ describe('Test parseUrl', () => {
       search: '?a=1',
       hash: '#b=1',
     };
-    keys.forEach((key) => {
+    keys.forEach(key => {
       expect(parseResult[key]).toBe(resultsMap[key] || '');
     });
   });

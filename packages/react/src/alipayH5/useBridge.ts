@@ -1,5 +1,4 @@
 declare global {
-  /* eslint-disable @typescript-eslint/interface-name-prefix */
   interface IBridgeParamsMap {
     addNotifyListener: [
       {

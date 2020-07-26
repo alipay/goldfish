@@ -10,7 +10,7 @@ it('should make the React component reactive.', () => {
   });
 
   const component = observer(React, () => {
-    return (<div>{obj.name}</div>);
+    return <div>{obj.name}</div>;
   });
 
   const container = document.createElement('div');
@@ -56,8 +56,12 @@ it('should pass the setup function result to the render function.', () => {
 
   const component = observer(
     React,
-    (setupResult) => {
-      return <div>{obj.name}-{setupResult.age}</div>;
+    setupResult => {
+      return (
+        <div>
+          {obj.name}-{setupResult.age}
+        </div>
+      );
     },
     () => {
       return { age: 1 };

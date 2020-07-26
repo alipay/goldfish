@@ -4,10 +4,8 @@
   "description": "goldfish-utils",
   "main": "lib/index.js",
   "scripts": {
-    "build": "npm run clean && tsc -b ./tsconfig.json",
-    "clean": "rm -rf lib && rm -rf types",
-    "test": "jest --coverage",
-    "dev": "jest --watch"
+    "build": "npm run clean && ../../node_modules/.bin/gulp ts",
+    "clean": "rm -rf lib"
   },
   "publishConfig": {
     "access": "public"
@@ -18,27 +16,17 @@
   },
   "keywords": [
     "request",
-    "tiny",
+    "mini",
     "app"
   ],
   "files": [
     "lib",
-    "types",
-    "lodash.custom.js",
     "babel-plugin-import-config.js"
   ],
-  "typings": "./types/index.d.ts",
   "author": "likun7981 <likun7891@gmail.com>",
   "license": "ISC",
-  "devDependencies": {
-    "@types/jest": "24.0.22",
-    "jest": "24.9.0",
-    "sinon": "7.5.0",
-    "ts-jest": "24.1.0"
-  },
   "dependencies": {
-    "@types/lodash": "^4.14.149",
-    "lodash.omit": "^4.5.0",
-    "lodash.pick": "^4.4.0"
+    "@types/lodash-es": "^4.17.3",
+    "lodash-es": "^4.17.15"
   }
 }

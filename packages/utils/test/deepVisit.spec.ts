@@ -6,14 +6,14 @@ it('should visit all properties.', () => {
     name: 'zhangsan',
     arr: [
       {
-        address: 'aaa'
+        address: 'aaa',
       },
       {
         address: {
-          city: 'chengdu'
-        }
-      }
-    ]
+          city: 'chengdu',
+        },
+      },
+    ],
   };
 
   const result: any[] = [];
@@ -21,15 +21,7 @@ it('should visit all properties.', () => {
     result.push(keyPathList.join('.'));
     return DeepVisitBreak.NO;
   });
-  expect(result).toEqual([
-    'name',
-    'arr',
-    'arr.0',
-    'arr.0.address',
-    'arr.1',
-    'arr.1.address',
-    'arr.1.address.city'
-  ]);
+  expect(result).toEqual(['name', 'arr', 'arr.0', 'arr.0.address', 'arr.1', 'arr.1.address', 'arr.1.address.city']);
 });
 
 it('should handle the circle.', () => {

@@ -12,12 +12,10 @@ describe('autorun', () => {
 
     let result: number;
     let counter = 0;
-    autorun(
-      () => {
-        result = obj.a;
-        counter += 1;
-      },
-    );
+    autorun(() => {
+      result = obj.a;
+      counter += 1;
+    });
     obj.a = 2;
     return Promise.resolve().then(() => {
       expect(result).toBe(2);
@@ -43,16 +41,19 @@ describe('autorun', () => {
       result.push(computedObj.name);
     });
 
-    return Promise.resolve().then(() => {
-      expect(result).toEqual(['diandao.zl']);
-    }).then(() => {
-      obj.name = 'yibuyisheng';
-      return new Promise((resolve) => {
-        setTimeout(resolve);
+    return Promise.resolve()
+      .then(() => {
+        expect(result).toEqual(['diandao.zl']);
+      })
+      .then(() => {
+        obj.name = 'yibuyisheng';
+        return new Promise(resolve => {
+          setTimeout(resolve);
+        });
+      })
+      .then(() => {
+        expect(result).toEqual(['diandao.zl', 'yibuyisheng.zl']);
       });
-    }).then(() => {
-      expect(result).toEqual(['diandao.zl', 'yibuyisheng.zl']);
-    });
   });
 
   it('should not trigger autorun function when the value is not changed.', () => {
@@ -62,12 +63,10 @@ describe('autorun', () => {
     observable(obj);
 
     let counter = 0;
-    autorun(
-      () => {
-        obj.a;
-        counter += 1;
-      },
-    );
+    autorun(() => {
+      obj.a;
+      counter += 1;
+    });
     obj.a = 1;
     return Promise.resolve().then(() => {
       expect(counter).toBe(1);
@@ -81,19 +80,15 @@ describe('autorun', () => {
     observable(obj);
 
     let counter = 0;
-    autorun(
-      () => {
-        obj.a;
-        counter += 1;
-      },
-    );
+    autorun(() => {
+      obj.a;
+      counter += 1;
+    });
 
-    autorun(
-      () => {
-        obj.a;
-        counter += 1;
-      },
-    );
+    autorun(() => {
+      obj.a;
+      counter += 1;
+    });
 
     expect(counter).toBe(2);
 
@@ -112,12 +107,10 @@ describe('autorun', () => {
 
     let counter: number = 0;
     let result: number = 0;
-    autorun(
-      () => {
-        result = obj.a + obj.b;
-        counter += 1;
-      },
-    );
+    autorun(() => {
+      result = obj.a + obj.b;
+      counter += 1;
+    });
     expect(counter).toBe(1);
     expect(result).toBe(3);
 
@@ -136,12 +129,10 @@ describe('autorun', () => {
     observable(obj);
 
     let counter = 0;
-    const stop = autorun(
-      () => {
-        obj.a;
-        counter += 1;
-      },
-    );
+    const stop = autorun(() => {
+      obj.a;
+      counter += 1;
+    });
     expect(counter).toBe(1);
     stop();
     obj.a = 2;
@@ -161,12 +152,10 @@ describe('autorun', () => {
     observable(obj);
 
     let counter = 0;
-    const stop = autorun(
-      () => {
-        obj.a.b.c;
-        counter += 1;
-      },
-    );
+    const stop = autorun(() => {
+      obj.a.b.c;
+      counter += 1;
+    });
     expect(counter).toBe(1);
     expect(stop.depList).not.toBe(undefined);
 
@@ -191,17 +180,15 @@ describe('autorun', () => {
         obj.a;
         throw error;
       },
-      (e) => {
+      e => {
         catchedError = e;
       },
     );
-    return new Promise((resolve) => {
-      setTimeout(
-        () => {
-          expect(catchedError).toBe(error);
-          resolve();
-        },
-      );
+    return new Promise(resolve => {
+      setTimeout(() => {
+        expect(catchedError).toBe(error);
+        resolve();
+      });
     });
   });
 });

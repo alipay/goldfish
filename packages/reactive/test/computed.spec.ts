@@ -58,16 +58,18 @@ describe('computed', () => {
     expect(counter).toBe(1);
 
     backObj.name = 'yibuyisheng';
-    return Promise.resolve().then(() => {
-      expect(obj.name).toBe('yibuyisheng.zl');
-      expect(counter).toBe(2);
+    return Promise.resolve()
+      .then(() => {
+        expect(obj.name).toBe('yibuyisheng.zl');
+        expect(counter).toBe(2);
 
-      backObj.name = 'yibuyisheng2009';
-      return Promise.resolve();
-    }).then(() => {
-      expect(obj.name).toBe('yibuyisheng2009.zl');
-      expect(counter).toBe(3);
-    });
+        backObj.name = 'yibuyisheng2009';
+        return Promise.resolve();
+      })
+      .then(() => {
+        expect(obj.name).toBe('yibuyisheng2009.zl');
+        expect(counter).toBe(3);
+      });
   });
 
   it('should synchronize with the back computed values.', () => {

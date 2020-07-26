@@ -1,7 +1,7 @@
 import Batch from '../../src/MiniDataSetter/Batch';
 
 function timeout() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve);
   });
 }
@@ -23,26 +23,20 @@ it('should wait for all promise being trigged.', () => {
     result.push(2);
     batch.set();
 
-    Promise.resolve().then(
-      () => {
-        result.push(3);
+    Promise.resolve().then(() => {
+      result.push(3);
+      batch.set();
+
+      Promise.resolve().then(() => {
+        result.push(4);
         batch.set();
 
-        Promise.resolve().then(
-          () => {
-            result.push(4);
-            batch.set();
-
-            Promise.resolve().then(
-              () => {
-                result.push(5);
-                batch.set();
-              },
-            );
-          },
-        );
-      },
-    );
+        Promise.resolve().then(() => {
+          result.push(5);
+          batch.set();
+        });
+      });
+    });
   });
 });
 
@@ -69,12 +63,10 @@ it('should trigger twice when using timeout.', () => {
       batch.set();
     });
 
-    setTimeout(
-      () => {
-        result.push(3);
-        batch.set();
-      },
-    );
+    setTimeout(() => {
+      result.push(3);
+      batch.set();
+    });
   });
 });
 

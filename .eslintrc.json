@@ -8,15 +8,19 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": 0,
-    "@typescript-eslint/no-explicit-any": 0,
-    "@typescript-eslint/interface-name-prefix": ["error", {
-      "prefixWithI": "always"
-    }],
-    "@typescript-eslint/no-empty-function": 0,
-    "semi": ["error", "always", {
-      "omitLastInOneLineBlock": true
-    }]
+    "@typescript-eslint/no-empty-function": 1,
+    "@typescript-eslint/ban-types": 1,
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "custom": {
+          "regex": "^I[A-Z]",
+          "match": true
+        }
+      }
+    ]
   },
   "globals": {
     "my": true

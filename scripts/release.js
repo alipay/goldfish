@@ -12,9 +12,7 @@ packages.forEach((pkg) => {
     return;
   }
 
-  runScript('lint', pkg.location);
-  runScript('build', pkg.location);
-  runScript('test', pkg.location);
+  runCommand(`eslint --ext .ts,.tsx,.js --no-error-on-unmatched-pattern ${pkg.location}/src`);
 });
 
 runCommand('lerna version --allow-branch master --loglevel=verbose --force-publish');

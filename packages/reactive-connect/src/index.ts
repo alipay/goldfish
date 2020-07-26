@@ -1,3 +1,4 @@
+/// <reference types="mini-types" />
 export * from './decorators/index';
 
 export { default as AppStore } from './AppStore';

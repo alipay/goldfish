@@ -1,10 +1,4 @@
-import {
-  default as observable,
-  isObservable,
-  IObservableObject,
-  ObservableArray,
-  set,
-} from '../src/observable';
+import { default as observable, isObservable, IObservableObject, ObservableArray, set } from '../src/observable';
 import watch from '../src/watch';
 
 it('should convert a normal object to be observable.', () => {
