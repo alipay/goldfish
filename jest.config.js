@@ -2,7 +2,9 @@ const path = require('path');
 const fs = require('fs-extra');
 const utils = require('./scripts/utils');
 
-const projects = utils.lerna
+const targetPackage = process.env.TARGET_PACKAGE;
+
+const projects = targetPackage ? [`<rootDir>/packages/${targetPackage}`] : utils.lerna
   .list()
   .filter(pkg => {
     const testDir = path.resolve(pkg.location, 'test');
