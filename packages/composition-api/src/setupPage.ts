@@ -35,7 +35,24 @@ const pageEventMethods: (keyof tinyapp.IPageEvents)[] = [
   'beforeTabItemTap',
 ];
 
-export default function setupPage<D, AS extends AppStore>(fn: ISetupFunction) {
+export default function setupPage<D, AS extends AppStore>(fn: ISetupFunction): tinyapp.PageOptions<D>;
+export default function setupPage<D, AS extends AppStore>(
+  dftData: Partial<D>,
+  fn: ISetupFunction,
+): tinyapp.PageOptions<D>;
+export default function setupPage<D, AS extends AppStore>(
+  arg1: Partial<D> | ISetupFunction,
+  arg2?: ISetupFunction,
+): tinyapp.PageOptions<D> {
+  let dftData: D | undefined = undefined;
+  let fn: ISetupFunction | undefined = undefined;
+  if (typeof arg2 === 'function') {
+    dftData = arg1 as D;
+    fn = arg2 as ISetupFunction;
+  } else {
+    fn = arg1 as ISetupFunction;
+  }
+
   type View = PageInstance<D, BizPageStore> & { $setup?: PageSetup };
   let view: View;
 
@@ -47,7 +64,7 @@ export default function setupPage<D, AS extends AppStore>(fn: ISetupFunction) {
       super();
       const setup = view.$setup!;
       setup.wrap(() => {
-        this.stopWatchDeepList = integrateSetupFunctionResult<'page'>(fn, setup, view, this);
+        this.stopWatchDeepList = integrateSetupFunctionResult<'page'>(fn!, setup, view, this);
       });
     }
 
@@ -65,6 +82,9 @@ export default function setupPage<D, AS extends AppStore>(fn: ISetupFunction) {
   }
 
   let options: tinyapp.PageOptions<D> = {};
+  if (dftData) {
+    options.data = dftData as D;
+  }
 
   options = createPage<AS, BizPageStore, D>(BizPageStore, options, {
     beforeCreateStore: (v: View) => {

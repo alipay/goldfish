@@ -14,23 +14,45 @@ const lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[] =
   'didUnmount',
 ];
 
-export default function setupComponent<P extends IProps, D = any>(
+export default function setupComponent<P extends IProps, D = Record<string, any>>(
   passInFn: ISetupFunction,
 ): tinyapp.ComponentOptions<P, D, {}>;
-export default function setupComponent<P, D = any>(
-  passInProps: Partial<P>,
+export default function setupComponent<P, D = Record<string, any>>(
+  passInProps: P,
+  passInFn: ISetupFunction,
+): tinyapp.ComponentOptions<P, D, {}>;
+export default function setupComponent<P, D = Record<string, any>>(
+  passInProps: P,
+  dftData: Partial<D>,
   passInFn: ISetupFunction,
 ): tinyapp.ComponentOptions<P, D, {}>;
 export default function setupComponent<P extends Record<string, any>, D = any>(
-  passInProps: P | ISetupFunction,
-  passInFn?: ISetupFunction,
-) {
-  const props: P = typeof passInProps === 'object' ? passInProps : ({} as P);
-  const fn = (typeof passInProps === 'function' ? passInProps : passInFn) as ISetupFunction;
+  arg1: P | ISetupFunction,
+  arg2?: Partial<D> | ISetupFunction,
+  arg3?: ISetupFunction,
+): tinyapp.ComponentOptions<P, D, {}> {
+  let props: P | undefined = undefined;
+  let dftData: D | undefined = undefined;
+  let fn: ISetupFunction | undefined = undefined;
 
-  let options: tinyapp.ComponentOptions<P, D, {}> = {
-    props,
-  };
+  if (typeof arg3 === 'function') {
+    props = arg1 as P;
+    dftData = arg2 as D;
+    fn = arg3 as ISetupFunction;
+  } else if (typeof arg2 === 'function') {
+    props = arg1 as P;
+    fn = arg2 as ISetupFunction;
+  } else if (typeof arg1 === 'function') {
+    fn = arg1 as ISetupFunction;
+  }
+
+  let options: tinyapp.ComponentOptions<P, D, {}> = {};
+  if (props) {
+    options.props = props;
+  }
+  if (dftData) {
+    options.data = dftData;
+  }
 
   type View = SetupComponentInstance & { $setup?: ComponentSetup };
   let view: View;
@@ -38,7 +60,7 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
   @observable
   class BizComponentStore extends ComponentStore<any, AppStore> {
     @state
-    props = cloneDeep(props);
+    props = (cloneDeep(props) || {}) as P;
 
     private stopWatchDeepList: (() => void)[] = [];
 
@@ -51,7 +73,7 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
 
       const setup = view.$setup!;
       setup.wrap(() => {
-        this.stopWatchDeepList = integrateSetupFunctionResult<'component'>(fn, setup, view, this);
+        this.stopWatchDeepList = integrateSetupFunctionResult<'component'>(fn!, setup, view, this);
       });
     }
 

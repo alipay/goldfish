@@ -7,6 +7,8 @@
 
 - **@goldfishjs/composition-api**
   - [+] Integrate page events.
+  - [+] Support default data for page.
+  - [+] Support default data for component.
 
 ## 1.1.19
 
