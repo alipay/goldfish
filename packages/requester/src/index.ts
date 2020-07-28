@@ -7,6 +7,8 @@ export * from './MockRequester';
 
 export { default as cache } from '@goldfishjs/utils';
 
-export { default as loadingCounter } from './loadingCounter';
+export { default as loadingCounter, ILoadingCounterOptions, ILoadingCounterFunction } from './loadingCounter';
 
-export { default as requestingCounter } from './requestingCounter';
+export { default as requestingCounter, IRequestingCounterFunction } from './requestingCounter';
+
+export { default as serial, ISerialOptions, ISerialFunction } from './serial';

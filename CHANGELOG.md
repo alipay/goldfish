@@ -1,3 +1,10 @@
+## 1.1.20 [WIP]
+
+### 💡 Main Changes
+
+- **@goldfishjs/requester**
+  - [+] Export more things.
+
 ## 1.1.19
 
 ## 1.1.18
