@@ -5,6 +5,9 @@
 - **@goldfishjs/requester**
   - [+] Export more things.
 
+- **@goldfishjs/composition-api**
+  - [+] Integrate page events.
+
 ## 1.1.19
 
 ## 1.1.18

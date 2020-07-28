@@ -4,6 +4,7 @@ import { observable, PageInstance, attachLogic } from '@goldfishjs/reactive-conn
 import PageSetup from './setup/PageSetup';
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import appendFn from './appendFn';
+import integratePageEventMethods from './integratePageEventMethods';
 
 const lifeCycleMethods: (keyof tinyapp.IPageOptionsMethods)[] = [
   'onPullDownRefresh',
@@ -20,6 +21,18 @@ const lifeCycleMethods: (keyof tinyapp.IPageOptionsMethods)[] = [
   'onReachBottom',
   'onShareAppMessage',
   'onPageScroll',
+];
+
+const pageEventMethods: (keyof tinyapp.IPageEvents)[] = [
+  'onBack',
+  'onKeyboardHeight',
+  'onOptionMenuClick',
+  'onPopMenuClick',
+  'onPullIntercept',
+  'onPullDownRefresh',
+  'onTitleClick',
+  'onTabItemTap',
+  'beforeTabItemTap',
 ];
 
 export default function setupPage<D, AS extends AppStore>(fn: ISetupFunction) {
@@ -68,6 +81,12 @@ export default function setupPage<D, AS extends AppStore>(fn: ISetupFunction) {
   const lifeCycleMethodsOptions = integrateLifeCycleMethods<'page'>(lifeCycleMethods);
   lifeCycleMethods.forEach(m => {
     attachLogic(options, m, 'after', lifeCycleMethodsOptions[m] as any);
+  });
+
+  const pageEventMethodsOptions = integratePageEventMethods(pageEventMethods);
+  pageEventMethods.forEach(m => {
+    options.events = options.events || {};
+    attachLogic(options.events, m, 'after', pageEventMethodsOptions[m] as any);
   });
   return options;
 }
