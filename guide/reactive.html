@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Use State Management | Goldfish</title>
+    <meta name="generator" content="VuePress 1.5.2">
+    <link rel="icon" href="https://gw-office.alipayobjects.com/basement_prod/dc20c631-5c76-4c71-880a-155ec0b108de.png">
+    <meta name="description" content="A development framework for Alipay mini programs.">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="preload" href="/goldfish/assets/css/0.styles.691b082b.css" as="style"><link rel="preload" href="/goldfish/assets/js/app.cf8e0eb9.js" as="script"><link rel="preload" href="/goldfish/assets/js/3.fc8a39f4.js" as="script"><link rel="preload" href="/goldfish/assets/js/21.b541db0c.js" as="script"><link rel="prefetch" href="/goldfish/assets/js/10.e6611fa2.js"><link rel="prefetch" href="/goldfish/assets/js/11.c2f7e37f.js"><link rel="prefetch" href="/goldfish/assets/js/12.a56773be.js"><link rel="prefetch" href="/goldfish/assets/js/13.fa62a085.js"><link rel="prefetch" href="/goldfish/assets/js/14.acf87c8d.js"><link rel="prefetch" href="/goldfish/assets/js/15.77f0d2d7.js"><link rel="prefetch" href="/goldfish/assets/js/16.8eb17ce3.js"><link rel="prefetch" href="/goldfish/assets/js/17.445eafb7.js"><link rel="prefetch" href="/goldfish/assets/js/18.f58dc7cc.js"><link rel="prefetch" href="/goldfish/assets/js/19.d8200b99.js"><link rel="prefetch" href="/goldfish/assets/js/20.013ae797.js"><link rel="prefetch" href="/goldfish/assets/js/4.9a77ecd0.js"><link rel="prefetch" href="/goldfish/assets/js/5.8d50fef9.js"><link rel="prefetch" href="/goldfish/assets/js/6.252f66a8.js"><link rel="prefetch" href="/goldfish/assets/js/7.903446e0.js"><link rel="prefetch" href="/goldfish/assets/js/8.ebaba3f6.js"><link rel="prefetch" href="/goldfish/assets/js/9.482e20ea.js"><link rel="prefetch" href="/goldfish/assets/js/vendors~docsearch.1a2f082c.js">
+    <link rel="stylesheet" href="/goldfish/assets/css/0.styles.691b082b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/goldfish/" class="home-link router-link-active"><!----> <span class="site-name">Goldfish</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/goldfish/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="/goldfish/api/" class="nav-link">
+  API
+</a></div><div class="nav-item"><a href="/goldfish/composition-api/" class="nav-link">
+  Composition API
+</a></div> <a href="https://github.com/alipay/goldfish" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/goldfish/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="/goldfish/api/" class="nav-link">
+  API
+</a></div><div class="nav-item"><a href="/goldfish/composition-api/" class="nav-link">
+  Composition API
+</a></div> <a href="https://github.com/alipay/goldfish" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Guide</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/goldfish/guide/getting-start.html" class="sidebar-link">Quick Start</a></li><li><a href="/goldfish/guide/reactive.html" aria-current="page" class="active sidebar-link">Use State Management</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/goldfish/guide/reactive.html#alipay-mini-program-state-management" class="sidebar-link">Alipay mini program State Management</a></li><li class="sidebar-sub-header"><a href="/goldfish/guide/reactive.html#goldfish-reactive-state-management" class="sidebar-link">Goldfish reactive State Management</a></li><li class="sidebar-sub-header"><a href="/goldfish/guide/reactive.html#caution-reactive-link-broken" class="sidebar-link">Caution! Reactive Link Broken</a></li></ul></li><li><a href="/goldfish/guide/dive-in-reactive.html" class="sidebar-link">Go Deeper into the Reactivity System</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="use-state-management"><a href="#use-state-management" class="header-anchor">#</a> Use State Management</h1> <h2 id="alipay-mini-program-state-management"><a href="#alipay-mini-program-state-management" class="header-anchor">#</a> Alipay mini program State Management</h2> <p>The original framework of Alipay mini program provides the Page/Component level data state management (<a href="https://docs.alipay.com/mini/framework/page-detail#pageprototypesetdatadata-object-callback-function" target="_blank" rel="noopener noreferrer">this.setData()<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>), but that is not available for Page or Component across scenarios. The general solution is to put data into globalData to solve the data sharing problem across pages.</p> <p>It can be seen that basic mechanism is available for state management in the original Alipay mini program, which does not suffice the state management in complicated projects.</p> <h2 id="goldfish-reactive-state-management"><a href="#goldfish-reactive-state-management" class="header-anchor">#</a> Goldfish reactive State Management</h2> <p>On basis of the related great ideas in the community, Goldfish deposits a set of mini program friendly reactive state management framework, which enables the user to flexibly and efficiently handle the state data.</p> <p>In Goldfish, state data is reactive, where the <a href="https://vuejs.org/v2/guide/reactivity.html" target="_blank" rel="noopener noreferrer">reactive<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> data are generated with useValue(), useState(), and useComputed(). Meanwhile, the state logic module is extracted, assembled and reused on basis of function type Composition API.</p> <h3 id="component-state-management"><a href="#component-state-management" class="header-anchor">#</a> Component State Management</h3> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> setupComponent<span class="token punctuation">,</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@goldfishjs/core'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IProps</span> <span class="token punctuation">{</span>
+  name<span class="token operator">:</span> string<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IState</span> <span class="token punctuation">{</span>
+  hasVisible<span class="token operator">:</span> boolean<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">Component</span><span class="token punctuation">(</span>
+  setupComponent<span class="token operator">&lt;</span>IProps<span class="token operator">&gt;</span><span class="token punctuation">(</span>
+    <span class="token punctuation">{</span>
+      <span class="token comment">// Initial default props</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> data <span class="token operator">=</span> useState<span class="token operator">&lt;</span>IState<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        hasVisible<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        data<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><p>Direct reference is possible in the Component:</p> <div class="language-xml line-numbers-mode"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>{{data.hasVisible}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h3 id="page-state-management"><a href="#page-state-management" class="header-anchor">#</a> Page State Management</h3> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> setupPage<span class="token punctuation">,</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@goldfishjs/core'</span><span class="token punctuation">;</span>
+
+<span class="token function">Page</span><span class="token punctuation">(</span>
+  <span class="token function">setupPage</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> data <span class="token operator">=</span> useState<span class="token operator">&lt;</span><span class="token punctuation">{</span> title<span class="token operator">:</span> string <span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      title<span class="token operator">:</span> <span class="token string">'hello Goldfish'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      data<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>Direct reference is possible in the Page:</p> <div class="language-xml line-numbers-mode"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>{{data.title}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h3 id="global-state-management"><a href="#global-state-management" class="header-anchor">#</a> Global State Management</h3> <h4 id="new-store"><a href="#new-store" class="header-anchor">#</a> New Store</h4> <p>Create a new corresponding store data file in the store folder under the root directory for unified management:</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">// store/OrderInfo.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> observable<span class="token punctuation">,</span> state<span class="token punctuation">,</span> computed <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@goldfishjs/core'</span><span class="token punctuation">;</span>
+
+@observable
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">OrderInfo</span> <span class="token punctuation">{</span>
+  @state
+  <span class="token keyword">public</span> money<span class="token operator">?</span><span class="token operator">:</span> number <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+
+  @computed
+  <span class="token keyword">public</span> <span class="token function">formatMoney</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">¥</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>money<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h4 id="register-in-app-js"><a href="#register-in-app-js" class="header-anchor">#</a> Register in app.js</h4> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> setupApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@goldfishjs/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> OrderInfo <span class="token keyword">from</span> <span class="token string">'./store/OrderInfo'</span><span class="token punctuation">;</span>
+
+<span class="token function">App</span><span class="token punctuation">(</span>
+  <span class="token function">setupApp</span><span class="token punctuation">(</span>config<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> data <span class="token operator">=</span> useState<span class="token operator">&lt;</span>IState<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      orderInfo<span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">OrderInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> data<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h4 id="use-in-any-page-or-component"><a href="#use-in-any-page-or-component" class="header-anchor">#</a> Use in any Page or Component</h4> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> useGlobalData <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@goldfishjs/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> OrderInfo <span class="token keyword">from</span> <span class="token string">'./store/OrderInfo'</span><span class="token punctuation">;</span>
+
+<span class="token function">Page</span><span class="token punctuation">(</span>
+  <span class="token function">setupPage</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Same for the use in components</span>
+    <span class="token keyword">const</span> globalData <span class="token operator">=</span> <span class="token function">useGlobalData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      money<span class="token operator">:</span> globalData<span class="token punctuation">.</span>orderInfo<span class="token punctuation">.</span>money<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>Direct reference is possible in the Page and Component:</p> <div class="language-xml line-numbers-mode"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>{{data.title}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h3 id="change-data"><a href="#change-data" class="header-anchor">#</a> Change Data</h3> <p>To change data in the reactive system is even more simple -- just modify data directly and then all places with the data used are updated synchronously:</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token operator">...</span>
+
+data<span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token string">'new title'</span><span class="token punctuation">;</span>
+
+<span class="token operator">...</span>
+
+globalData<span class="token punctuation">.</span>orderInfo<span class="token punctuation">.</span>money <span class="token operator">=</span> <span class="token number">200</span><span class="token punctuation">;</span>
+
+<span class="token operator">...</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="use-computed-watch"><a href="#use-computed-watch" class="header-anchor">#</a> Use computed &amp; watch</h3> <p>In more cases when your attributes need calculation or listen, the <code>computed</code> and <code>watch</code> can be used. For more concepts, see <a href="https://vuejs.org/v2/guide/computed.html#ad" target="_blank" rel="noopener noreferrer">Vue Computed Properties and Watchers<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>:</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token function">Page</span><span class="token punctuation">(</span>
+  <span class="token function">setupPage</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> computed <span class="token operator">=</span> <span class="token function">useComputed</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token keyword">get</span> <span class="token function">shopTags</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> data<span class="token punctuation">.</span>source<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=&gt;</span> item<span class="token punctuation">.</span>tag<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      computed<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><div class="language-xml line-numbers-mode"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>{{computed.shopTags}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> watch <span class="token operator">=</span> <span class="token function">useWatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">watch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> computed<span class="token punctuation">.</span>shopTags<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">newVal<span class="token punctuation">,</span> oldVal</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment">// when computed.shopTags changed, do something</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h2 id="caution-reactive-link-broken"><a href="#caution-reactive-link-broken" class="header-anchor">#</a> Caution! Reactive Link Broken</h2> <p>While you are enjoying the convenience with reactive data, you may have to understand the reactive link broken problem. When a data is changed, the view is not updated. The link broken is simply because the top level object is overriden or a snapshot is returned.</p> <p>The nature of reactive is to overwrite the <code>getter</code> and <code>setter</code> methods of the object. If the overwritten objects are not replaced with snapshot or the returned contents become snapshot, it is impossible to listen to the data change.</p> <p>Common counterexample:</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  a<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> data2 <span class="token operator">=</span> <span class="token punctuation">{</span>
+  a<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Overwrite data directly</span>
+data <span class="token operator">=</span> data2<span class="token punctuation">;</span>
+
+<span class="token keyword">return</span> <span class="token punctuation">{</span>
+  data<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>Correct example:</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  a<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// All operations are processed on top level</span>
+data<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+
+<span class="token keyword">return</span> <span class="token punctuation">{</span>
+  data<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>Common counterexample 2:</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  a<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">return</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Only snapshot is returned</span>
+  a<span class="token operator">:</span> data<span class="token punctuation">.</span>a<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>Correct example 2:</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  a<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">return</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Return top-level object uniformly</span>
+  data<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>A more complex sample:</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  a<span class="token operator">:</span> <span class="token punctuation">{</span>
+    b<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> c <span class="token operator">=</span> <span class="token punctuation">{</span>
+  x<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// reactive link broken</span>
+data<span class="token punctuation">.</span>a<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c <span class="token operator">=</span> c<span class="token punctuation">;</span>
+
+<span class="token comment">// This will be updated</span>
+data<span class="token punctuation">.</span>a<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+
+<span class="token keyword">return</span> <span class="token punctuation">{</span>
+  data<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>For the object processing, use <code>assign</code>:</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  a<span class="token operator">:</span> <span class="token punctuation">{</span>
+    b<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> c <span class="token operator">=</span> <span class="token punctuation">{</span>
+  x<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// For the attribute not added to object, it is required to add again before it can be gotten via the “setter” attribute</span>
+data<span class="token punctuation">.</span>a<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token operator">...</span>data<span class="token punctuation">.</span>a<span class="token punctuation">.</span>b<span class="token punctuation">,</span>
+  c<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Can be updated correctly</span>
+data<span class="token punctuation">.</span>a<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+
+<span class="token keyword">return</span> <span class="token punctuation">{</span>
+  data<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/alipay/goldfish/edit/master/docs/guide/reactive.md" target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/goldfish/guide/getting-start.html" class="prev">
+        Quick Start
+      </a></span> <span class="next"><a href="/goldfish/guide/dive-in-reactive.html">
+        Go Deeper into the Reactivity System
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/goldfish/assets/js/app.cf8e0eb9.js" defer></script><script src="/goldfish/assets/js/3.fc8a39f4.js" defer></script><script src="/goldfish/assets/js/21.b541db0c.js" defer></script>
+  </body>
+</html>

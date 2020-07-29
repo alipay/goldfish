@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="manifest" href="manifest.json" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover"/>
+  <link rel="stylesheet" href="https://appx/af-appx.min.css" />
+  <style>
+    body {
+      background: transparent;
+    }
+    .a-cp-wrapper {
+      width: 100%;
+      height: 100vh;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+    }
+    .a-cp-loading-indicator {
+      display: inline-block;
+    }
+    .a-cp-loading-item {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      position: relative;
+      -webkit-transform: scale(0);
+      transform: scale(0);
+      opacity: 0;
+      -webkit-animation: ACPAULoadingScaleColorBoth 0.766s cubic-bezier(0.42, 0, 0.58, 1) infinite alternate;
+      animation: ACPAULoadingScaleColorBoth 0.766s cubic-bezier(0.42, 0, 0.58, 1) infinite alternate;
+    }
+    .a-cp-loading-item:before {
+      content: ' ';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -6.38px;
+      margin-top: -9.56px;
+      width: 12.75px;
+      height: 19.13px;
+      -webkit-transform: skew(-0.46rad) scale(0.5);
+      transform: skew(-.46rad) scale(.5);
+      -webkit-transform-origin: center center;
+      transform-origin: center center;
+      border-radius: 1px 2px 2px 3px;
+      background-color: #108ee9;
+    }
+
+    .a-cp-loading-item:nth-child(1) {
+      -webkit-animation-delay: -2.2s;
+      animation-delay: -2.2s
+    }
+    .a-cp-loading-item:nth-child(2) {
+      -webkit-animation-delay: -1.966s;
+      animation-delay: -1.966s
+    }
+    .a-cp-loading-item:nth-child(3) {
+      -webkit-animation-delay: -1.666s;
+      animation-delay: -1.666s
+    }
+    @keyframes ACPAULoadingScaleColorBoth {
+      0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        opacity: 0
+      }
+
+      35% {
+        -webkit-transform: scale(.12);
+        transform: scale(.12);
+        opacity: .001
+      }
+
+      100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="__react-content">
+  <div class="a-cp-wrapper">
+    <div class="a-cp-loading-indicator" aria-hidden="true">
+      <div class="a-cp-loading-item"></div>
+      <div class="a-cp-loading-item"></div>
+      <div class="a-cp-loading-item"></div>
+    </div>
+  </div>
+</div>
+<script>
+  var userAgent = navigator.userAgent;
+  var androidMatch = userAgent.match(/\bAndroid (\d+)/);
+  var isAndroid = !!androidMatch;
+  var androidVersion = parseInt(androidMatch && androidMatch[1]) || 0;
+  var isUC = / UCBrowser\//.test(userAgent);
+
+  var _systemVersion = userAgent.match(/AlipayClient\/(\d+\.\d+\.\d+)/);
+  var systemVersion = (_systemVersion && _systemVersion[1] || '10.1.5').split('.');
+  var scriptTag = '';
+  var crossoriginTag = '';
+
+  if ((!isAndroid || (isUC || androidVersion >= 5)) && (
+    +systemVersion[0] > 10
+    || (+systemVersion[0] == 10 && +systemVersion[1] > 1)
+    || (+systemVersion[0] == 10 && +systemVersion[1] == 1 && +systemVersion[2] >= 8))
+  ) {
+    scriptTag = '#nebula-addcors';
+    crossoriginTag = ' crossorigin';
+  }
+  if (!window.Promise) {
+    document.writeln('<script src="https://appx/es6-promise.min.js' + scriptTag + '"' + crossoriginTag +'><' + '/' + 'script>');
+  }
+  if (!window.Set || !window.Map) {
+    document.writeln('<script src="https://gw.alipayobjects.com/os/rmsportal/hxolnkRHpppUOYwPNpsv.js' + scriptTag + '"' + crossoriginTag +'><' + '/' + 'script>');
+  }
+</script>
+<script>
+  if(self.ES6Promise) {
+    self.ES6Promise.polyfill();
+  }
+</script>
+<script>
+  document.writeln('<script src="https://appx/af-appx.min.js' + scriptTag + '"' + crossoriginTag +'>' + '<' + '/' + 'script>');
+</script>
+<script src="index.js"></script>
+<script>
+  (function () {
+    function onReady(callback) {
+      document.addEventListener('AlipayJSBridgeReady', function () {
+        callback({
+          bridge: window.AlipayJSBridge
+        });
+      });
+    }
+
+    window.bootstrapApp({
+      worker:'index.worker.js?version=1dc14505699978dd191c280cad58548e',
+      onReady: onReady
+    });
+  })();
+</script>
+</body>
+</html>

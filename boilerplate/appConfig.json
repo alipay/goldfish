@@ -1,0 +1,73 @@
+{
+  "window": {
+    "enableDSL": "YES",
+    "enableJSC": "YES",
+    "enableKeepAlive": "NO",
+    "enableWK": "YES",
+    "nboffline": "sync",
+    "tinyPubRes": "YES",
+    "showDomain": "NO",
+    "allowsBounceVertical": "YES",
+    "enableTabBar": "NO",
+    "transparentTitle": "none"
+  },
+  "pages": [
+    "pages/list/index",
+    "pages/form/index",
+    "pages/detail/index",
+    "pages/webview/index"
+  ],
+  "launchParams": {
+    "pages/list/index": {
+      "enableDSL": "YES",
+      "enableJSC": "YES",
+      "enableKeepAlive": "NO",
+      "enableWK": "YES",
+      "nboffline": "sync",
+      "tinyPubRes": "YES",
+      "showDomain": "NO",
+      "allowsBounceVertical": "YES",
+      "enableTabBar": "NO",
+      "transparentTitle": "none",
+      "defaultTitle": "Teams"
+    },
+    "pages/form/index": {
+      "enableDSL": "YES",
+      "enableJSC": "YES",
+      "enableKeepAlive": "NO",
+      "enableWK": "YES",
+      "nboffline": "sync",
+      "tinyPubRes": "YES",
+      "showDomain": "NO",
+      "allowsBounceVertical": "YES",
+      "enableTabBar": "NO",
+      "transparentTitle": "none",
+      "defaultTitle": "Staff Record"
+    },
+    "pages/detail/index": {
+      "enableDSL": "YES",
+      "enableJSC": "YES",
+      "enableKeepAlive": "NO",
+      "enableWK": "YES",
+      "nboffline": "sync",
+      "tinyPubRes": "YES",
+      "showDomain": "NO",
+      "allowsBounceVertical": "YES",
+      "enableTabBar": "NO",
+      "transparentTitle": "none"
+    },
+    "pages/webview/index": {
+      "enableDSL": "YES",
+      "enableJSC": "YES",
+      "enableKeepAlive": "NO",
+      "enableWK": "YES",
+      "nboffline": "sync",
+      "tinyPubRes": "YES",
+      "showDomain": "NO",
+      "allowsBounceVertical": "YES",
+      "enableTabBar": "NO",
+      "transparentTitle": "none"
+    }
+  },
+  "prerenderPage": "index.html"
+}
