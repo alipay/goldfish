@@ -5,7 +5,7 @@ export * from './Requester';
 export { default as MockRequester } from './MockRequester';
 export * from './MockRequester';
 
-export { default as cache } from '@goldfishjs/utils';
+export { cache } from '@goldfishjs/utils';
 
 export { default as loadingCounter, ILoadingCounterOptions, ILoadingCounterFunction } from './loadingCounter';
 

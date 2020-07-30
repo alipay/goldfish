@@ -10,6 +10,11 @@
   - [+] Support default data for page.
   - [+] Support default data for component.
 
+### 🐞 Bug Fixes
+
+- **@goldfishjs/react**
+  - [^] Fix the `cache` export.
+
 ## 1.1.19
 
 ## 1.1.18
