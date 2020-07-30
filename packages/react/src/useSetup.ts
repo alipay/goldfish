@@ -105,6 +105,7 @@ export default function useSetup<SR extends Record<string, any>>(
 
   return {
     g,
+    connect: g,
     ...(fns.current as SRFns),
   };
 }

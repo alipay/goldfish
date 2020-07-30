@@ -1,4 +1,4 @@
-## 1.1.20 [WIP]
+## 1.1.20
 
 ### 💡 Main Changes
 
@@ -9,6 +9,9 @@
   - [+] Integrate page events.
   - [+] Support default data for page.
   - [+] Support default data for component.
+
+- **@goldfishjs/react**
+  - [+] Add alias for `g`.
 
 ### 🐞 Bug Fixes
 
