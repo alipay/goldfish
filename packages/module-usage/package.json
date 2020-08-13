@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/module-usage",
-  "version": "1.1.21",
+  "version": "1.1.22",
   "description": "goldfish-utils",
   "scripts": {
     "postinstall": "node src/index.js"
@@ -24,6 +24,7 @@
   "author": "likun7981 <likun7891@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@alife/goldfish-module-usage": "^1.0.1",
     "@types/lodash-es": "^4.17.3",
     "lodash-es": "^4.17.15"
   }
