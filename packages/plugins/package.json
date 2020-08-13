@@ -20,7 +20,8 @@
     "@goldfishjs/requester": "^1.1.21",
     "@goldfishjs/route": "^1.1.21",
     "@goldfishjs/utils": "^1.1.21",
-    "mini-types": "^0.1.3"
+    "mini-types": "^0.1.3",
+    "@goldfishjs/module-usage": "^1.1.21"
   },
   "sideEffects": false
 }

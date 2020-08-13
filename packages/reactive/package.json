@@ -14,7 +14,8 @@
   "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
-    "@goldfishjs/utils": "^1.1.21"
+    "@goldfishjs/utils": "^1.1.21",
+    "@goldfishjs/module-usage": "^1.1.21"
   },
   "devDependencies": {
     "@types/lodash": "4.14.117",

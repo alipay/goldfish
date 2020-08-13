@@ -27,6 +27,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/lodash-es": "^4.17.3",
-    "lodash-es": "^4.17.15"
+    "lodash-es": "^4.17.15",
+    "@goldfishjs/module-usage": "^1.1.21"
   }
 }
