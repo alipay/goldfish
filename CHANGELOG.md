@@ -1,3 +1,10 @@
+## 1.1.23
+
+### 🐞 Bug Fixes
+
+- **@goldfishjs/requester**
+  - [^] Config the publish files.
+
 ## 1.1.22
 
 ### 💡 Main Changes

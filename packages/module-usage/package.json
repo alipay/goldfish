@@ -18,10 +18,9 @@
     "app"
   ],
   "files": [
-    "lib",
-    "babel-plugin-import-config.js"
+    "src"
   ],
-  "author": "likun7981 <likun7891@gmail.com>",
+  "author": "yibuyisheng@163.com",
   "license": "ISC",
   "dependencies": {
     "@types/lodash-es": "^4.17.3",
