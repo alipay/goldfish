@@ -1,3 +1,9 @@
+## 1.1.23
+
+### 💡 Main Changes
+
+-[^] ES5.
+
 ## 1.1.22
 
 ### 💡 Main Changes

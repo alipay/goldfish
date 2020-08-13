@@ -18,7 +18,7 @@ function compileTsStream(files, imports) {
         '@babel/preset-env',
         {
           targets: {
-            browsers: ['since 2015'],
+            browsers: ['last 2 versions', 'safari >= 7'],
           },
           modules: false,
         },
