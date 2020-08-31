@@ -18,4 +18,6 @@ export { default as useUnmount } from './useUnmount';
 export { default as useRef } from './useRef';
 export { default as app } from './defaultApp';
 
+export { default as App } from './App';
+
 export * from './alipayH5/index';

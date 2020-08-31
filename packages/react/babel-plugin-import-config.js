@@ -25,7 +25,8 @@ module.exports = {
       useMount: `${codeDir}/useMount`,
       useUnmount: `${codeDir}/useUnmount`,
       useRef: `${codeDir}/useRef`,
-      global: `${codeDir}/defaultGlobal`
+      app: `${codeDir}/defaultApp`,
+      App: `${codeDir}/App`
     }[name];
   }
 };

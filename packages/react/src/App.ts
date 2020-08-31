@@ -20,12 +20,12 @@ export default class App {
 
   public destroyList: (() => void)[] = [];
 
-  public init<D extends Record<string, any>>(options: IInitOptions<D> = {}) {
+  public init<D extends Record<string, any>>(options: IInitOptions<D> = {}): void {
     this.data = reactive(options.data || {});
     this.config = options.config || {};
   }
 
-  public destroy() {
+  public destroy(): void {
     this.destroyList.forEach(s => s());
   }
 }
