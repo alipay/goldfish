@@ -1,3 +1,4 @@
 node_modules
 *.js
 **/types/**/*.d.ts
+packages/utils/src/lodash

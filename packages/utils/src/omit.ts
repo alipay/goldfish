@@ -1,2 +1,2 @@
-import omit from 'lodash-es/omit';
+import omit from './lodash/omit';
 export default omit;

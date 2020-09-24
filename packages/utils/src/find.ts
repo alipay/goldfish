@@ -1,2 +1,2 @@
-import find from 'lodash-es/find';
+import find from './lodash/find';
 export default find;

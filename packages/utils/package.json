@@ -4,8 +4,10 @@
   "description": "goldfish-utils",
   "main": "lib/index.js",
   "scripts": {
-    "build": "npm run clean && ../../node_modules/.bin/gulp ts",
-    "clean": "rm -rf lib"
+    "build": "npm run clean && ../../node_modules/.bin/gulp copy && ../../node_modules/.bin/gulp ts",
+    "clean": "rm -rf lib",
+    "lodash": "lodash include='cloneDeep,find,isEqual,omit,pick,debounce' exports='es' modularize -o './src/lodash'",
+    "postinstall": "npm run lodash"
   },
   "publishConfig": {
     "access": "public"
@@ -27,7 +29,10 @@
   "license": "ISC",
   "dependencies": {
     "@goldfishjs/module-usage": "^1.1.23",
-    "@types/lodash-es": "^4.17.3",
-    "lodash-es": "^4.17.15"
+    "@types/lodash": "^4.14.161",
+    "@types/lodash-es": "^4.17.3"
+  },
+  "devDependencies": {
+    "lodash-cli": "^4.17.5"
   }
 }
