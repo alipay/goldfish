@@ -30,9 +30,7 @@
   "dependencies": {
     "@goldfishjs/module-usage": "^1.2.0",
     "@types/lodash": "^4.14.161",
-    "@types/lodash-es": "^4.17.3"
-  },
-  "devDependencies": {
+    "@types/lodash-es": "^4.17.3",
     "lodash-cli": "^4.17.5"
   }
 }
