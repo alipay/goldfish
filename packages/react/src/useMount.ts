@@ -2,7 +2,7 @@ import ComponentSetup from './ComponentSetup';
 import useContextType from './useContextType';
 import { useComponentLifeCycle, usePageLifeCycle } from '@goldfishjs/composition-api';
 
-export default function useMount(fn: () => void) {
+export default function useMount(fn: () => void): void {
   const contextType = useContextType();
   if (contextType === 'react') {
     const setup = ComponentSetup.getCurrent<ComponentSetup>();
