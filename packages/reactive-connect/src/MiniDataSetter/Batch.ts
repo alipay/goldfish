@@ -9,7 +9,7 @@ export default class Batch {
     this.cb = cb;
   }
 
-  public async set() {
+  public async set(): Promise<void> {
     const segIndex = this.counter === 0 ? this.segTotalList.length : this.segTotalList.length - 1;
 
     if (!this.segTotalList[segIndex]) {

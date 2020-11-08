@@ -1,6 +1,7 @@
 import { ReactLike, ISetupFunction } from './observer';
 import { call, getCurrent, observable } from '@goldfishjs/reactive';
 import { isObject, cloneDeep } from '@goldfishjs/utils';
+import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
 import { setupManager } from './ComponentSetupManager';
 import ComponentSetup from './ComponentSetup';
 
@@ -69,6 +70,14 @@ export default function useSetup<SR extends Record<string, any>>(
     };
   }, []);
 
+  // Use Batch to batch update.
+  const rawUpdater = () => setCounter(counter + 1);
+  const updater = reactLike.useRef(rawUpdater);
+  reactLike.useEffect(() => {
+    updater.current = rawUpdater;
+  }, [counter]);
+  const batch = reactLike.useRef<Batch>(new Batch(() => updater.current()));
+
   setup.removeAllStopList();
   const g = reactLike.useCallback(
     <R>(fn: (data: SR) => R): R => {
@@ -76,7 +85,7 @@ export default function useSetup<SR extends Record<string, any>>(
       call(() => {
         result = fn(setup.setupFnResult);
         const list = getCurrent().addChangeListener(() => {
-          setCounter(counter + 1);
+          batch.current.set();
         }, false);
         setup.addStopList(list);
       });
