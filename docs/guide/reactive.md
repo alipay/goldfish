@@ -184,7 +184,7 @@ watch(() => computed.shopTags, (newVal, oldVal) => {
 
 ## Caution! Reactive Link Broken
 
-While you are enjoying the convenience with reactive data, you may have to understand the reactive link broken problem. When a data is changed, the view is not updated. The link broken is simply because the top level object is overriden or a snapshot is returned.
+While you are enjoying the convenience with reactive data, you may have to understand the reactive link broken problem. When a data is changed, the view is not updated. The link broken is simply because the top level object is overridden or a snapshot is returned.
 
 The nature of reactive is to overwrite the `getter` and `setter` methods of the object. If the overwritten objects are not replaced with snapshot or the returned contents become snapshot, it is impossible to listen to the data change.
 
