@@ -2,6 +2,7 @@ const reactiveImportConfig = require('@goldfishjs/reactive/babel-plugin-import-c
 const coreImportConfig = require('@goldfishjs/core/babel-plugin-import-config');
 const reactiveConnectImportConfig = require('@goldfishjs/reactive-connect/babel-plugin-import-config');
 const pluginsImportConfig = require('@goldfishjs/plugins/babel-plugin-import-config');
+const utilsImportConfig = require('@goldfishjs/utils/babel-plugin-import-config');
 const gulpfileBase = require('../../scripts/gulpfile.base');
 
 gulpfileBase([
@@ -24,5 +25,10 @@ gulpfileBase([
     'import',
     pluginsImportConfig,
     'plugins',
+  ],
+  [
+    'import',
+    utilsImportConfig,
+    'utils',
   ],
 ]);

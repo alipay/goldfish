@@ -31,6 +31,7 @@
     "@goldfishjs/module-usage": "^1.2.1",
     "@types/lodash": "^4.14.161",
     "@types/lodash-es": "^4.17.3",
-    "lodash-cli": "^4.17.5"
+    "lodash-cli": "^4.17.5",
+    "lodash-es": "^4.17.15"
   }
 }
