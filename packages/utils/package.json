@@ -7,7 +7,7 @@
     "build": "npm run clean && ../../node_modules/.bin/gulp copy && ../../node_modules/.bin/gulp ts",
     "clean": "rm -rf lib",
     "lodash": "lodash include='cloneDeep,find,isEqual,omit,pick,debounce' exports='es' modularize -o './src/lodash'",
-    "postinstall": "npm run lodash"
+    "prepublishOnly": "npm run lodash"
   },
   "publishConfig": {
     "access": "public"
