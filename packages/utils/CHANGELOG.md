@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v1.3.0...v1.3.1) (2020-11-25)
+
+
+### Bug Fixes
+
+* prepublishOnly ([4e5c9a7](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/commit/4e5c9a76e1cf0a43d25d1a385fcaef977310e82d))
+
+
+
+
+
 # [1.3.0](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v1.2.1...v1.3.0) (2020-11-24)
 
 

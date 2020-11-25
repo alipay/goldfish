@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/module-usage",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "module-usage",
   "scripts": {
     "postinstall": "node src/index.js"
