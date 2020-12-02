@@ -33,5 +33,9 @@
     "@types/lodash-es": "^4.17.3",
     "lodash-cli": "^4.17.5",
     "lodash-es": "^4.17.15"
+  },
+  "devDependencies": {
+    "gulp-if": "^3.0.0",
+    "gulp-replace": "^1.0.0"
   }
 }
