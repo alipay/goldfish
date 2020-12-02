@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/alipay/goldfish/compare/v1.3.1...v1.3.2) (2020-12-02)
+
+
+### Bug Fixes
+
+* support miniprogram ([346d50e](https://github.com/alipay/goldfish/commit/346d50e596db3128a32cbffd47e70e3ae8bec8ee))
+
+
+### Features
+
+* add publish script. ([255a216](https://github.com/alipay/goldfish/commit/255a216397285fcf22228e5ed4969d03f002a3b3))
+
+
+
+
+
 ## [1.3.1](https://github.com/alipay/goldfish/compare/v1.3.0...v1.3.1) (2020-11-25)
 
 
