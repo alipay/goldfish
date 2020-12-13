@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/alipay/goldfish/compare/v1.3.2...v1.3.3) (2020-12-13)
+
+
+### Bug Fixes
+
+* handle the nested computed values. ([a7bf493](https://github.com/alipay/goldfish/commit/a7bf4935eeecc0d1f86b3ef177b7dca2f51e2b75))
+
+
+
+
+
 ## [1.3.2](https://github.com/alipay/goldfish/compare/v1.3.1...v1.3.2) (2020-12-02)
 
 
