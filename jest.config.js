@@ -15,10 +15,6 @@ const projects = targetPackage
       .map(pkg => pkg.location);
 
 module.exports = {
-  // projects,
-  projects: [
-    'packages/utils',
-    'packages/react',
-  ],
+  projects,
   testEnvironment: './CustomTestEnvironment.js',
 };
