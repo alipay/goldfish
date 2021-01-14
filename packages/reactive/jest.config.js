@@ -1,1 +1,2 @@
-module.exports = require('../../jest.config.base');
+const lodash = require('lodash');
+module.exports = lodash.cloneDeep(require('../../jest.config.base'));
