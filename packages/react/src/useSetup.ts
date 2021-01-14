@@ -1,14 +1,15 @@
-import { ReactLike, ISetupFunction } from './observer';
 import { call, getCurrent, observable } from '@goldfishjs/reactive';
 import { isObject, cloneDeep } from '@goldfishjs/utils';
 import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
+import { act } from 'react-dom/test-utils';
+import { ReactLike, ISetupFunction } from './observer';
 import { setupManager } from './ComponentSetupManager';
 import ComponentSetup from './ComponentSetup';
 
 export default function useSetup<SR extends Record<string, any>>(
   reactLike: ReactLike,
   setupFn: ISetupFunction<SR>,
-  props?: any,
+  props?: Record<string, any>,
 ) {
   // Note: The re-render should always be triggered by `setCounter`.
   const [counter, setCounter] = reactLike.useState(0);
@@ -71,12 +72,15 @@ export default function useSetup<SR extends Record<string, any>>(
   }, []);
 
   // Use Batch to batch update.
-  const rawUpdater = () => setCounter(counter + 1);
-  const updater = reactLike.useRef(rawUpdater);
-  reactLike.useEffect(() => {
-    updater.current = rawUpdater;
-  }, [counter]);
-  const batch = reactLike.useRef<Batch>(new Batch(() => updater.current()));
+  const updater = reactLike.useRef<(() => void) | null>(null);
+  updater.current = () => {
+    if (process.env.NODE_ENV === 'test') {
+      act(() => setCounter(counter + 1));
+    } else {
+      setCounter(counter + 1);
+    }
+  };
+  const batch = reactLike.useRef<Batch>(new Batch(() => updater.current && updater.current()));
 
   setup.removeAllStopList();
   const g = reactLike.useCallback(
@@ -97,7 +101,7 @@ export default function useSetup<SR extends Record<string, any>>(
   type SRFns = Pick<
     SR,
     {
-      [P in keyof SR]: SR[P] extends Function ? P : never;
+      [P in keyof SR]: SR[P] extends (...args: any) => any ? P : never;
     }[keyof SR]
   >;
   const fns = reactLike.useRef<any>(

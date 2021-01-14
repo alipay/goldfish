@@ -4,7 +4,7 @@
   "description": "goldfish-react",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -rf ./lib && ../../node_modules/.bin/gulp ts"
+    "build": "rm -rf ./lib && ../../node_modules/.bin/cross-env NODE_ENV=production ../../node_modules/.bin/gulp ts"
   },
   "files": [
     "lib",

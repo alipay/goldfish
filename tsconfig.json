@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "declarationMap": false,
     "diagnostics": true,
     "help": true,

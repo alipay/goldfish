@@ -7,34 +7,18 @@ const compositionAPIImportConfig = require('@goldfishjs/composition-api/babel-pl
 const gulpfileBase = require('../../scripts/gulpfile.base');
 
 gulpfileBase([
+  ['import', reactiveImportConfig, 'reactive'],
+  ['import', utilsImportConfig, 'utils'],
+  ['import', requesterImportConfig, 'requester'],
+  ['import', pluginsImportConfig, 'plugins'],
+  ['import', reactiveConnectImportConfig, 'reactive-connect'],
+  ['import', compositionAPIImportConfig, 'composition-api'],
+  'transform-node-env-inline',
+  'minify-dead-code-elimination',
   [
-    'import',
-    reactiveImportConfig,
-    'reactive',
-  ],
-  [
-    'import',
-    utilsImportConfig,
-    'utils',
-  ],
-  [
-    'import',
-    requesterImportConfig,
-    'requester',
-  ],
-  [
-    'import',
-    pluginsImportConfig,
-    'plugins',
-  ],
-  [
-    'import',
-    reactiveConnectImportConfig,
-    'reactive-connect',
-  ],
-  [
-    'import',
-    compositionAPIImportConfig,
-    'composition-api',
+    'transform-remove-imports',
+    {
+      test: 'react-dom\\/test-utils$',
+    },
   ],
 ]);

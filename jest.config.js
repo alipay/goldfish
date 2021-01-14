@@ -4,14 +4,21 @@ const utils = require('./scripts/utils');
 
 const targetPackage = process.env.TARGET_PACKAGE;
 
-const projects = targetPackage ? [`<rootDir>/packages/${targetPackage}`] : utils.lerna
-  .list()
-  .filter(pkg => {
-    const testDir = path.resolve(pkg.location, 'test');
-    return fs.pathExistsSync(testDir) && fs.readdirSync(testDir).length;
-  })
-  .map(pkg => pkg.location);
+const projects = targetPackage
+  ? [`<rootDir>/packages/${targetPackage}`]
+  : utils.lerna
+      .list()
+      .filter(pkg => {
+        const testDir = path.resolve(pkg.location, 'test');
+        return fs.pathExistsSync(testDir) && fs.readdirSync(testDir).length;
+      })
+      .map(pkg => pkg.location);
+
 module.exports = {
-  projects,
+  // projects,
+  projects: [
+    'packages/utils',
+    'packages/react',
+  ],
   testEnvironment: './CustomTestEnvironment.js',
 };
