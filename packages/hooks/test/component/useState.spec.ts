@@ -10,7 +10,7 @@ it('should initialize state.', () => {
   });
 
   const setData = jest.fn();
-  options.onInit?.call({
+  options.didMount?.call({
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);
@@ -31,7 +31,7 @@ it('should rerun the `render` function after state changed.', done => {
   });
 
   const setData = jest.fn();
-  options.onInit?.call({
+  options.didMount?.call({
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);
@@ -54,7 +54,7 @@ it('should initialize multiple states.', () => {
   });
 
   const setData = jest.fn();
-  options.onInit?.call({
+  options.didMount?.call({
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);
@@ -78,7 +78,7 @@ it('should batch the states changing.', done => {
   });
 
   const setData = jest.fn();
-  options.onInit?.call({
+  options.didMount?.call({
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);

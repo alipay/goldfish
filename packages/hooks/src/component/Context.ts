@@ -40,6 +40,7 @@ export default class Context {
     push(this);
     try {
       const result = fn();
+      // TODO: 性能优化
       this.view.setData(result.data);
     } catch (e) {
       throw e;
@@ -69,5 +70,13 @@ export default class Context {
     const result: [V, (v: V) => void] = [item.value, item.setter];
     this.index += 1;
     return result;
+  }
+
+  destroy() {
+    if (this.state !== 'ready') {
+      throw new Error(`Wrong state: ${this.state}. Expected: ready`);
+    }
+
+    this.arr = [];
   }
 }
