@@ -31,7 +31,7 @@ export default class Context {
     this.batch = new Batch(onChange);
   }
 
-  public wrap(fn: ICreateComponentFunction) {
+  public wrap(fn: () => ReturnType<ICreateComponentFunction<any>>) {
     if (this.state !== 'ready') {
       throw new Error(`Wrong state: ${this.state}. Expected: ready`);
     }
