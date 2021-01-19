@@ -1,5 +1,5 @@
 import ICreateComponentFunction from './ICreateComponentFunction';
-import Context from './Context';
+import Context from './StateContext';
 
 export const isComponent2 = typeof my !== 'undefined' ? my.canIUse('component2') : false;
 
@@ -17,7 +17,7 @@ export default function createComponent<P>(fn: ICreateComponentFunction<P>): tin
     this.$$context = context;
 
     if (!isComponent2) {
-      context.wrap(fn);
+      context.wrap(() => fn(this.props));
     }
 
     if (oldInitMethod) {

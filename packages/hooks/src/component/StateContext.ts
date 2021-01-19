@@ -1,23 +1,22 @@
 import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
+import Context from '../common/Context';
 import ICreateComponentFunction from './ICreateComponentFunction';
 
-const contextStack: Context[] = [];
+const stateContextStack: StateContext[] = [];
 
-function push(context: Context) {
-  contextStack.push(context);
+function push(context: StateContext) {
+  stateContextStack.push(context);
 }
 
 function pop() {
-  contextStack.pop();
+  stateContextStack.pop();
 }
 
 export function getCurrent() {
-  return contextStack[contextStack.length - 1];
+  return stateContextStack[stateContextStack.length - 1];
 }
 
-export default class Context {
-  private state: 'ready' | 'executing' = 'ready';
-
+export default class StateContext extends Context {
   private index = 0;
 
   private arr: Array<{ value: any; setter: (v: any) => void }> = [];
@@ -27,26 +26,22 @@ export default class Context {
   private batch: Batch;
 
   public constructor(view: { setData: tinyapp.SetDataMethod<any> }, onChange: () => void) {
+    super();
     this.view = view;
     this.batch = new Batch(onChange);
   }
 
   public wrap(fn: () => ReturnType<ICreateComponentFunction<any>>) {
-    if (this.state !== 'ready') {
-      throw new Error(`Wrong state: ${this.state}. Expected: ready`);
-    }
-    this.state = 'executing';
     this.index = 0;
     push(this);
     try {
-      const result = fn();
+      const result = super.wrapExecutor(fn);
       // TODO: 性能优化
       this.view.setData(result.data);
     } catch (e) {
       throw e;
     } finally {
       pop();
-      this.state = 'ready';
     }
   }
 

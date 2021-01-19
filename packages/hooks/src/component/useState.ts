@@ -1,4 +1,4 @@
-import { getCurrent } from './Context';
+import { getCurrent } from './StateContext';
 
 export default function useState<V>(initialValue?: V) {
   const context = getCurrent();
