@@ -32,17 +32,19 @@ export default class StateContext extends Context {
   }
 
   public wrap(fn: () => ReturnType<ICreateComponentFunction<any>>) {
-    this.index = 0;
-    push(this);
-    try {
-      const result = super.wrapExecutor(fn);
-      // TODO: 性能优化
-      this.view.setData(result.data);
-    } catch (e) {
-      throw e;
-    } finally {
-      pop();
-    }
+    return () => {
+      this.index = 0;
+      push(this);
+      try {
+        const result = super.wrapExecutor(fn);
+        // TODO: 性能优化
+        this.view.setData(result.data);
+      } catch (e) {
+        throw e;
+      } finally {
+        pop();
+      }
+    };
   }
 
   public add<V>(value: V): [V, (v: V) => void] {
