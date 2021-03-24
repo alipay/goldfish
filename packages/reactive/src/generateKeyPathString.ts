@@ -5,8 +5,10 @@ export default function generateKeyPathString(keyPathList: (string | number)[]) 
     }
 
     if (/[.\[\]]/.test(cur)) {
-      throw new Error(`There is special characters in the key: ${cur}, and the full key path array is: ${keyPathList}`);
+      const property = cur.replace(/"/, '\\"');
+      return prev ? `${prev}["${property}"]` : `["${property}"]`;
     }
+
     return prev ? `${prev}.${cur}` : cur;
   }, '');
 }
