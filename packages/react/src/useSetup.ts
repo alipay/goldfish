@@ -58,6 +58,7 @@ export default function useSetup<SR extends Record<string, any>>(
   }, []);
 
   // Destroy & Init
+  const isDestroyedRef = reactLike.useRef<boolean>(false);
   reactLike.useEffect(() => {
     setup.mountFns.forEach(fn => fn());
     setup.mountFns = [];
@@ -68,6 +69,7 @@ export default function useSetup<SR extends Record<string, any>>(
       setup.stopAllWatch();
       setup.unmountFns.forEach(fn => fn());
       setup.unmountFns = [];
+      isDestroyedRef.current = true;
     };
   }, []);
 
@@ -77,7 +79,10 @@ export default function useSetup<SR extends Record<string, any>>(
     if (process.env.NODE_ENV === 'test') {
       act(() => setCounter(counter + 1));
     } else {
-      setCounter(counter + 1);
+      // Only update when the component is not destroyed.
+      if (!isDestroyedRef.current) {
+        setCounter(counter + 1);
+      }
     }
   };
   const batch = reactLike.useRef<Batch>(new Batch(() => updater.current && updater.current()));
