@@ -25,7 +25,6 @@ function run(
       visitedObjList.push(value);
     }
 
-    visitedObjList.push(value);
     const r = callback(value, key, obj, curKeyPathList);
     if (r === DeepVisitBreak.ALL) {
       return DeepVisitBreak.ALL;
