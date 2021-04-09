@@ -29,7 +29,7 @@ type OptionsType = {
  */
 export default function integrateLifeCycleMethods<K extends Kind>(lifeCycleMethods: LifeCycleMethodsType[K][]) {
   return lifeCycleMethods.reduce<OptionsType[K]>((prev, cur: LifeCycleMethodsType[K]) => {
-    (prev as any)[cur] = function(this: any, ...args: any[]) {
+    (prev as any)[cur] = function (this: any, ...args: any[]) {
       const setup: SetupType[K] | undefined = this.$setup;
       if (!setup) {
         return;

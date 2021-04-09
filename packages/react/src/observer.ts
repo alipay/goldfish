@@ -63,7 +63,7 @@ export default function observer<P, SR extends Record<string, any>, T extends Re
     setupFn = passInSetupFn;
   }
 
-  const fn = function(this: any, props: P, context?: any) {
+  const fn = function (this: any, props: P, context?: any) {
     // Note: The re-render should always be triggered by `setCounter`.
     const [counter, setCounter] = reactLike.useState(0);
     // The id is used to identity the component instance.

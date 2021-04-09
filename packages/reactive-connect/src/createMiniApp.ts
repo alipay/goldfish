@@ -17,14 +17,17 @@ export default function createMiniApp<G, S extends AppStore>(
   const beforeCreateStore = options && options.beforeCreateStore;
   const afterCreateStore = options && options.afterCreateStore;
 
-  attachLogic<'onLaunch', Required<AppOptions<G, S>>['onLaunch']>(appOptions, 'onLaunch', 'before', function(
-    this: AppInstance<G, S>,
-  ) {
-    beforeCreateStore && beforeCreateStore(this);
-    this.store = new storeClass();
-    afterCreateStore && afterCreateStore(this, this.store);
-    this.store.init();
-  });
+  attachLogic<'onLaunch', Required<AppOptions<G, S>>['onLaunch']>(
+    appOptions,
+    'onLaunch',
+    'before',
+    function (this: AppInstance<G, S>) {
+      beforeCreateStore && beforeCreateStore(this);
+      this.store = new storeClass();
+      afterCreateStore && afterCreateStore(this, this.store);
+      this.store.init();
+    },
+  );
 
   return appOptions;
 }

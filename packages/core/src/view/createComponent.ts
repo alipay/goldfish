@@ -36,7 +36,7 @@ export default function createComponent<
     componentOptions,
     enterKey,
     'after',
-    async function(this: ComponentInstance<P, D, CS, M>) {
+    async function (this: ComponentInstance<P, D, CS, M>) {
       const store = this.store!;
       store.isInitLoading = true;
 

@@ -34,7 +34,7 @@ export default function createTinyappComponent<
     componentOptions,
     enterKey,
     leaveKey,
-    function(
+    function (
       this: tinyapp.IComponentInstance<P, D> & {
         setData: tinyapp.SetDataMethod<D>;
         store: CS;
@@ -90,7 +90,7 @@ export default function createTinyappComponent<
     componentOptions,
     leaveKey,
     'after',
-    function(this: ComponentInstance<P, D, CS, M>) {
+    function (this: ComponentInstance<P, D, CS, M>) {
       this.store && (this.store.isSyncDataSafe = false);
     },
   );

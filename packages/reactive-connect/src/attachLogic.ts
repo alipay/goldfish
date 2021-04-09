@@ -5,7 +5,7 @@ export default function attachLogic<K extends string, F extends (...args: any[])
   fn: F,
 ) {
   const oldFn = options[key];
-  options[key] = function(this: any, ...args: any[]): any {
+  options[key] = function (this: any, ...args: any[]): any {
     if (position === 'before') {
       fn.call(this, ...args);
     }
