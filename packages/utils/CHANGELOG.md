@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v1.3.3...v1.4.0) (2021-04-09)
+
+
+### Bug Fixes
+
+* do not push the value. ([db24e9e](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/commit/db24e9ec27a48982087d38b310c67bb89571cf77))
+* ensure the pure jest configuration objects. ([c7078ee](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/commit/c7078ee8cc34be025c60c3a5d7271f46ed5314de))
+
+
+
+
+
 ## [1.3.3](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v1.3.2...v1.3.3) (2020-12-13)
 
 **Note:** Version bump only for package @goldfishjs/utils
