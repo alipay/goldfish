@@ -37,7 +37,7 @@ export default class StateContext extends Context {
       push(this);
       try {
         const result = super.wrapExecutor(fn);
-        // TODO: 性能优化
+        // TODO: performance optimization
         this.view.setData(result.data);
       } catch (e) {
         throw e;
