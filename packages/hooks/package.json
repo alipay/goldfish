@@ -11,7 +11,7 @@
   ],
   "keywords": [],
   "author": "yibuyisheng@163.com",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@types/react": "16.9.22",
     "react": "16.12.0",

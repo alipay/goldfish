@@ -21,7 +21,7 @@
     "babel-plugin-import-config.js"
   ],
   "author": "likun7981 <likun7891@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@goldfishjs/module-usage": "^1.3.3",
     "@goldfishjs/reactive": "^1.3.3",
