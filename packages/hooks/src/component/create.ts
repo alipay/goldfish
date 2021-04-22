@@ -1,6 +1,8 @@
 import EffectContext from './EffectContext';
 import ICreateComponentFunction from './ICreateComponentFunction';
 import StateContext from './StateContext';
+import CallbackContext from './CallbackContext';
+import MemoContext from './MemoContext';
 
 export const isComponent2 = typeof my !== 'undefined' ? !!my?.canIUse('component2') : false;
 
@@ -10,11 +12,15 @@ export default function createComponent<P>(fn: ICreateComponentFunction<P>): tin
   type ComponentInstance = tinyapp.IComponentInstance<any, any> & {
     $$stateContext?: StateContext;
     $$effectContext?: EffectContext;
+    $$callbackContext?: CallbackContext;
+    $$memoContext?: MemoContext;
   };
 
   const executeFn = function (this: ComponentInstance, fn: () => ReturnType<ICreateComponentFunction<any>>) {
     let wrappedFn = this.$$stateContext?.wrap(fn) || fn;
     wrappedFn = this.$$effectContext?.wrap(wrappedFn) || wrappedFn;
+    wrappedFn = this.$$callbackContext?.wrap(wrappedFn) || wrappedFn;
+    wrappedFn = this.$$memoContext?.wrap(wrappedFn) || wrappedFn;
     wrappedFn();
   };
 
@@ -28,6 +34,12 @@ export default function createComponent<P>(fn: ICreateComponentFunction<P>): tin
       executeFn.call(this, () => fn(this.props));
     });
     this.$$stateContext = stateContext;
+
+    const callbackContext = new CallbackContext();
+    this.$$callbackContext = callbackContext;
+
+    const memoContext = new MemoContext();
+    this.$$memoContext = memoContext;
 
     if (!isComponent2) {
       executeFn.call(this, () => fn(this.props));
@@ -51,6 +63,7 @@ export default function createComponent<P>(fn: ICreateComponentFunction<P>): tin
   options.didUnmount = function (this: ComponentInstance) {
     this.$$stateContext?.destroy();
     this.$$effectContext?.destroy();
+    this.$$callbackContext?.destroy();
 
     if (oldUnmount) {
       oldUnmount.call(this);

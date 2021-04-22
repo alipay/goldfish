@@ -1,22 +1,15 @@
 import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
 import Context from '../common/Context';
+import createContextStack from '../common/createContextStack';
 import ICreateComponentFunction from './ICreateComponentFunction';
 
-const stateContextStack: StateContext[] = [];
-
-function push(context: StateContext) {
-  stateContextStack.push(context);
-}
-
-function pop() {
-  stateContextStack.pop();
-}
-
-export function getCurrent() {
-  return stateContextStack[stateContextStack.length - 1];
-}
+const { push, pop, getCurrent } = createContextStack<StateContext>();
 
 export default class StateContext extends Context {
+  public static get current() {
+    return getCurrent();
+  }
+
   private index = 0;
 
   private arr: Array<{ value: any; setter: (v: any) => void }> = [];

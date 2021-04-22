@@ -1,20 +1,14 @@
 import Context from '../common/Context';
+import createContextStack from '../common/createContextStack';
+import isDependencyListEqual from '../common/isDependecyListEqual';
 
-const effectContextStack: EffectContext[] = [];
-
-function push(context: EffectContext) {
-  effectContextStack.push(context);
-}
-
-function pop() {
-  effectContextStack.pop();
-}
-
-export function getCurrent() {
-  return effectContextStack[effectContextStack.length - 1];
-}
+const { push, pop, getCurrent } = createContextStack<EffectContext>();
 
 export default class EffectContext extends Context {
+  public static get current() {
+    return getCurrent();
+  }
+
   private arr: Array<{
     effect: React.EffectCallback;
     deps: React.DependencyList;
@@ -38,20 +32,6 @@ export default class EffectContext extends Context {
     };
   }
 
-  private isEqual(oldDeps: React.DependencyList, newDeps: React.DependencyList) {
-    if (oldDeps.length !== newDeps.length) {
-      return false;
-    }
-
-    for (let i = 0, il = oldDeps.length; i < il; i += 1) {
-      if (oldDeps[i] !== newDeps[i]) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   public add(effect: React.EffectCallback, deps: React.DependencyList = []) {
     if (this.state !== 'executing') {
       throw new Error(`Wrong state: ${this.state}. Expected: executing`);
@@ -66,7 +46,7 @@ export default class EffectContext extends Context {
     };
     this.arr[this.index] = newItem;
 
-    if (!oldItem || (oldItem.deps.length === 0 && deps.length === 0) || !this.isEqual(oldItem.deps, deps)) {
+    if (!oldItem || (oldItem.deps.length === 0 && deps.length === 0) || !isDependencyListEqual(oldItem.deps, deps)) {
       newItem.isChanged = true;
       newItem.effect = effect;
     }
