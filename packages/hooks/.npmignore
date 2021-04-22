@@ -1,0 +1,12 @@
+node_modules
+test
+coverage
+.babelrc
+.editorconfig
+.gitignore
+.npmignore
+tsconfig.commonjs.json
+tsconfig.es.json
+tsconfig.test.json
+tslint.json
+package-lock.json
