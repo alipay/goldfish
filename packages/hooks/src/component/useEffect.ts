@@ -1,6 +1,6 @@
-import { getCurrent } from './EffectContext';
+import EffectContext from './EffectContext';
 
 export default function useEffect(effect: React.EffectCallback, deps?: React.DependencyList) {
-  const context = getCurrent();
+  const context = EffectContext.current;
   context.add(effect, deps);
 }

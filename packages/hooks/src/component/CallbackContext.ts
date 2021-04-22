@@ -1,26 +1,20 @@
 import Context from '../common/Context';
+import createContextStack from '../common/createContextStack';
 import isDependencyListEqual from '../common/isDependecyListEqual';
 
-const callbackContextStack: CallbackContext[] = [];
-
-function push(context: CallbackContext) {
-  callbackContextStack.push(context);
-}
-
-function pop() {
-  callbackContextStack.pop();
-}
-
-export function getCurrent() {
-  return callbackContextStack[callbackContextStack.length - 1];
-}
+const { push, pop, getCurrent } = createContextStack<CallbackContext>();
 
 export interface ICallbackFunction {
   (...args: any[]): any;
 }
 
 export default class CallbackContext extends Context {
+  public static get current() {
+    return getCurrent();
+  }
+
   private callback: ICallbackFunction | null = null;
+
   private deps: React.DependencyList | null = null;
 
   public wrap(fn: () => void) {

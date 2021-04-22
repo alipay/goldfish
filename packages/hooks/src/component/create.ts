@@ -2,6 +2,7 @@ import EffectContext from './EffectContext';
 import ICreateComponentFunction from './ICreateComponentFunction';
 import StateContext from './StateContext';
 import CallbackContext from './CallbackContext';
+import MemoContext from './MemoContext';
 
 export const isComponent2 = typeof my !== 'undefined' ? !!my?.canIUse('component2') : false;
 
@@ -12,12 +13,14 @@ export default function createComponent<P>(fn: ICreateComponentFunction<P>): tin
     $$stateContext?: StateContext;
     $$effectContext?: EffectContext;
     $$callbackContext?: CallbackContext;
+    $$memoContext?: MemoContext;
   };
 
   const executeFn = function (this: ComponentInstance, fn: () => ReturnType<ICreateComponentFunction<any>>) {
     let wrappedFn = this.$$stateContext?.wrap(fn) || fn;
     wrappedFn = this.$$effectContext?.wrap(wrappedFn) || wrappedFn;
     wrappedFn = this.$$callbackContext?.wrap(wrappedFn) || wrappedFn;
+    wrappedFn = this.$$memoContext?.wrap(wrappedFn) || wrappedFn;
     wrappedFn();
   };
 
@@ -34,6 +37,9 @@ export default function createComponent<P>(fn: ICreateComponentFunction<P>): tin
 
     const callbackContext = new CallbackContext();
     this.$$callbackContext = callbackContext;
+
+    const memoContext = new MemoContext();
+    this.$$memoContext = memoContext;
 
     if (!isComponent2) {
       executeFn.call(this, () => fn(this.props));

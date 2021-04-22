@@ -1,21 +1,14 @@
 import Context from '../common/Context';
+import createContextStack from '../common/createContextStack';
 import isDependencyListEqual from '../common/isDependecyListEqual';
 
-const effectContextStack: EffectContext[] = [];
-
-function push(context: EffectContext) {
-  effectContextStack.push(context);
-}
-
-function pop() {
-  effectContextStack.pop();
-}
-
-export function getCurrent() {
-  return effectContextStack[effectContextStack.length - 1];
-}
+const { push, pop, getCurrent } = createContextStack<EffectContext>();
 
 export default class EffectContext extends Context {
+  public static get current() {
+    return getCurrent();
+  }
+
   private arr: Array<{
     effect: React.EffectCallback;
     deps: React.DependencyList;
