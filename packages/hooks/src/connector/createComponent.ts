@@ -1,8 +1,8 @@
-import EffectContext from './EffectContext';
+import EffectContext from '../context/EffectContext';
 import ICreateComponentFunction from './ICreateComponentFunction';
-import StateContext from './StateContext';
-import CallbackContext from './CallbackContext';
-import MemoContext from './MemoContext';
+import StateContext from '../context/StateContext';
+import CallbackContext from '../context/CallbackContext';
+import MemoContext from '../context/MemoContext';
 
 export const isComponent2 = typeof my !== 'undefined' ? !!my?.canIUse('component2') : false;
 

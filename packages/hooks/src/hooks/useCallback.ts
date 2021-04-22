@@ -1,4 +1,4 @@
-import CallbackContext from './CallbackContext';
+import CallbackContext from '../context/CallbackContext';
 
 export default function useCallback<T extends (...args: any[]) => any>(callback: T, deps?: React.DependencyList): T {
   const context = CallbackContext.current;

@@ -1,4 +1,4 @@
-import Context from '../common/Context';
+import Context from './Context';
 import createContextStack from '../common/createContextStack';
 import isDependencyListEqual from '../common/isDependecyListEqual';
 

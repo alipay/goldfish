@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import useMemo from '../../src/component/useMemo';
-import useState from '../../src/component/useState';
-import createComponent from '../../src/component/create';
+import useMemo from '../../src/hooks/useMemo';
+import useState from '../../src/hooks/useState';
+import createComponent from '../../src/connector/createComponent';
 
 it('should cache the value.', done => {
   let v: any;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import useEffect from '../../src/component/useEffect';
-import useState from '../../src/component/useState';
-import createComponent from '../../src/component/create';
+import useEffect from '../../src/hooks/useEffect';
+import useState from '../../src/hooks/useState';
+import createComponent from '../../src/connector/createComponent';
 
 it('should run the effect function after mount.', done => {
   const fn = jest.fn();
