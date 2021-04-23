@@ -1,6 +1,6 @@
 import create, { ICreateFunction, IHostInstance } from './create';
 
-export const isComponent2 = typeof my !== 'undefined' ? !!my?.canIUse('component2') : false;
+export const isComponent2 = typeof my !== 'undefined' && !!my?.canIUse('component2');
 
 export default function createComponent<P>(fn: ICreateFunction<P>): tinyapp.ComponentOptions {
   const options: tinyapp.ComponentOptions = {};
