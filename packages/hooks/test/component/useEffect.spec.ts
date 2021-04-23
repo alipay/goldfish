@@ -37,7 +37,11 @@ it('should run the multiple effect functions after mount.', done => {
 it('should call the clear function after the next mount.', done => {
   const fn = jest.fn();
   const options = createComponent(() => {
+    const [flag, setFlag] = useState(true);
     useEffect(() => {
+      if (flag) {
+        setFlag(false);
+      }
       return fn;
     });
     return {
@@ -46,12 +50,13 @@ it('should call the clear function after the next mount.', done => {
   });
 
   const componentInstance = {
-    setData: () => {},
+    setData: (_: any, cb: () => void) => cb(),
   };
   options.didMount?.call(componentInstance);
-  options.didUpdate?.call(componentInstance, {}, {});
-  expect(fn.mock.calls.length).toBe(1);
-  done();
+  setTimeout(() => {
+    expect(fn.mock.calls.length).toBe(1);
+    done();
+  });
 });
 
 it('should rerun the effect after the dependencies being changed.', done => {
@@ -72,14 +77,13 @@ it('should rerun the effect after the dependencies being changed.', done => {
   });
 
   const componentInstance = {
-    setData: () => {},
+    setData: (_: any, cb: () => void) => cb(),
   };
   options.didMount?.call(componentInstance);
   expect(fn.mock.calls.length).toBe(1);
   setTimeout(() => {
-    options.didUpdate?.call(componentInstance, {}, {});
     expect(fn.mock.calls.length).toBe(2);
-    expect(fn.mock.calls).toEqual([[true], [false]]);
+    expect(fn.mock.calls).toMatchObject([[true], [false]]);
     done();
   }, 10);
 });

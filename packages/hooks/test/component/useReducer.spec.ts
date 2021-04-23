@@ -1,5 +1,5 @@
-import createComponent from '../../src/component/create';
-import useReducer from '../../src/component/useReducer';
+import createComponent from '../../src/connector/createComponent';
+import useReducer from '../../src/hooks/useReducer';
 
 it('should support the basic ability.', done => {
   const options = createComponent(() => {
@@ -29,10 +29,10 @@ it('should support the basic ability.', done => {
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);
-  expect(setData.mock.calls[0]).toEqual([{ count: 1 }]);
+  expect(setData.mock.calls[0][0]).toEqual({ count: 1 });
   setTimeout(() => {
     expect(setData.mock.calls.length).toBe(2);
-    expect(setData.mock.calls[1]).toEqual([{ count: 2 }]);
+    expect(setData.mock.calls[1][0]).toEqual({ count: 2 });
     done();
   }, 201);
 });
@@ -61,5 +61,5 @@ it('should initialize the state with the third function.', () => {
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);
-  expect(setData.mock.calls[0]).toEqual([{ count: 2 }]);
+  expect(setData.mock.calls[0][0]).toEqual({ count: 2 });
 });

@@ -1,5 +1,5 @@
-import createComponent from '../../src/component/create';
-import useState from '../../src/component/useState';
+import createComponent from '../../src/connector/createComponent';
+import useState from '../../src/hooks/useState';
 
 it('should initialize state.', () => {
   const options = createComponent(() => {
@@ -14,7 +14,7 @@ it('should initialize state.', () => {
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);
-  expect(setData.mock.calls[0]).toEqual([{ v: undefined }]);
+  expect(setData.mock.calls[0][0]).toEqual({ v: undefined });
 });
 
 it('should rerun the `render` function after state changed.', done => {
@@ -35,11 +35,11 @@ it('should rerun the `render` function after state changed.', done => {
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);
-  expect(setData.mock.calls[0]).toEqual([{ v: undefined }]);
+  expect(setData.mock.calls[0][0]).toEqual({ v: undefined });
 
   setTimeout(() => {
     expect(setData.mock.calls.length).toBe(2);
-    expect(setData.mock.calls[1]).toEqual([{ v: 1 }]);
+    expect(setData.mock.calls[1][0]).toEqual({ v: 1 });
     done();
   }, 4);
 });
@@ -58,7 +58,7 @@ it('should initialize multiple states.', () => {
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);
-  expect(setData.mock.calls[0]).toEqual([{ v: undefined, v1: undefined }]);
+  expect(setData.mock.calls[0][0]).toEqual({ v: undefined, v1: undefined });
 });
 
 it('should batch the states changing.', done => {
@@ -82,11 +82,11 @@ it('should batch the states changing.', done => {
     setData,
   });
   expect(setData.mock.calls.length).toBe(1);
-  expect(setData.mock.calls[0]).toEqual([{ v: undefined, v1: undefined }]);
+  expect(setData.mock.calls[0][0]).toEqual({ v: undefined, v1: undefined });
 
   setTimeout(() => {
     expect(setData.mock.calls.length).toBe(2);
-    expect(setData.mock.calls[1]).toEqual([{ v: 1, v1: 2 }]);
+    expect(setData.mock.calls[1][0]).toEqual({ v: 1, v1: 2 });
     done();
   }, 4);
 });

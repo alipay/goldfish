@@ -1,7 +1,7 @@
 import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
 import Context from './Context';
 import createContextStack from '../common/createContextStack';
-import ICreateComponentFunction from '../connector/ICreateComponentFunction';
+import { ICreateFunction } from '../connector/create';
 
 const { push, pop, getCurrent } = createContextStack<StateContext>();
 
@@ -18,20 +18,23 @@ export default class StateContext extends Context {
 
   private batch: Batch;
 
-  public constructor(view: { setData: tinyapp.SetDataMethod<any> }, onChange: () => void) {
+  private onUpdated: () => void;
+
+  public constructor(view: { setData: tinyapp.SetDataMethod<any> }, onChange: () => void, onUpdated: () => void) {
     super();
     this.view = view;
     this.batch = new Batch(onChange);
+    this.onUpdated = onUpdated;
   }
 
-  public wrap(fn: () => ReturnType<ICreateComponentFunction<any>>) {
+  public wrap(fn: () => ReturnType<ICreateFunction<any>>) {
     return () => {
       this.index = 0;
       push(this);
       try {
         const result = super.wrapExecutor(fn);
         // TODO: performance optimization
-        this.view.setData(result.data);
+        this.view.setData(result.data, () => Promise.resolve().then(this.onUpdated));
       } catch (e) {
         throw e;
       } finally {
