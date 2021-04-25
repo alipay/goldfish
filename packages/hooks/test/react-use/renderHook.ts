@@ -4,11 +4,13 @@ import createComponent from '../../src/connector/createComponent';
 export default function renderHook(fn: ICreateFunction<any>) {
   const options = createComponent<any>(fn);
   const result: any = {
-    result: null,
+    result: {
+      current: null,
+    },
   };
   options.didMount?.call({
     setData(r: any, cb: () => void) {
-      result.result = r;
+      result.result.current = r;
       cb();
     },
   });

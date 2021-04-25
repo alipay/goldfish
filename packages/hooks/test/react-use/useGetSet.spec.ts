@@ -13,16 +13,16 @@ beforeEach(() => {
 });
 
 it('should init getter and setter', () => {
-  const result = setUp('foo');
-  const [get, set] = result.result;
+  const { result } = setUp('foo');
+  const [get, set] = result.current;
 
   expect(get).toBeInstanceOf(Function);
   expect(set).toBeInstanceOf(Function);
 });
 
 it('should get current value', () => {
-  const result = setUp('foo');
-  const [get] = result.result;
+  const { result } = setUp('foo');
+  const [get] = result.current;
 
   const currentValue = get();
 
@@ -30,8 +30,8 @@ it('should get current value', () => {
 });
 
 it('should set new value', () => {
-  const result = setUp('foo');
-  const [get, set] = result.result;
+  const { result } = setUp('foo');
+  const [get, set] = result.current;
 
   set('bar');
 
@@ -50,8 +50,8 @@ it('should get and set expected values when used in nested functions', () => {
     }, 1000);
   });
 
-  const result = setUp(0);
-  const [get, set] = result.result;
+  const { result } = setUp(0);
+  const [get, set] = result.current;
 
   // simulate 3 clicks
   onClick();

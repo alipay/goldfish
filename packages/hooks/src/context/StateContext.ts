@@ -52,6 +52,9 @@ export default class StateContext extends Context {
     const item = this.arr[this.index] || {
       value,
       setter: (v: V) => {
+        if (this.state === 'executing') {
+          throw new Error(`Do not set state in the render.`);
+        }
         const isChanged = item.value !== v;
         item.value = v;
         if (isChanged) {
