@@ -1,49 +1,35 @@
-import Context from './Context';
 import createContextStack from '../common/createContextStack';
 import isDependencyListEqual from '../common/isDependecyListEqual';
+import CacheContext from './CacheContext';
 
 const { push, pop, getCurrent } = createContextStack<MemoContext>();
 
-export default class MemoContext extends Context {
-  public static get current() {
-    return getCurrent();
+export { getCurrent };
+
+export default class MemoContext extends CacheContext<() => any> {
+  public constructor() {
+    super(push, pop);
   }
 
-  private value: any = null;
-
-  private deps: React.DependencyList | null = null;
-
-  public wrap(fn: () => void) {
-    return () => {
-      push(this);
-      try {
-        super.wrapExecutor(fn);
-      } catch (e) {
-        throw e;
-      } finally {
-        pop();
-      }
-    };
-  }
-
-  public set(callback: () => any, deps: React.DependencyList = []) {
+  public add(memoFn: () => any, deps: React.DependencyList = []) {
     if (this.state !== 'executing') {
       throw new Error(`Wrong state: ${this.state}. Expected: executing`);
     }
 
-    // The first time.
-    if (!this.deps) {
-      this.deps = deps;
-      this.value = callback();
-    } else if (!isDependencyListEqual(this.deps, deps)) {
-      this.value = callback();
-      this.deps = deps;
-    }
-    return this.value;
-  }
+    const currentIndex = this.index;
+    const oldItem = this.arr[currentIndex];
+    const newItem = {
+      value: oldItem?.value,
+      deps,
+    };
+    this.arr[currentIndex] = newItem;
 
-  public destroy() {
-    this.value = null;
-    this.deps = null;
+    if (!oldItem || !isDependencyListEqual(oldItem.deps, deps)) {
+      newItem.value = memoFn();
+    }
+
+    this.index++;
+
+    return newItem.value;
   }
 }

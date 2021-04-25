@@ -24,10 +24,10 @@ export interface IHostInstance<P> {
 
 export default function create<P>(fn: ICreateFunction<P>) {
   const executeFn = function (this: IHostInstance<P>, fn: () => ReturnType<ICreateFunction<any>>) {
-    let wrappedFn = this.$$stateContext?.wrap(fn) || fn;
+    let wrappedFn = this.$$memoContext?.wrap(fn) || fn;
     wrappedFn = this.$$effectContext?.wrap(wrappedFn) || wrappedFn;
     wrappedFn = this.$$callbackContext?.wrap(wrappedFn) || wrappedFn;
-    wrappedFn = this.$$memoContext?.wrap(wrappedFn) || wrappedFn;
+    wrappedFn = this.$$stateContext?.wrap(wrappedFn) || wrappedFn;
     wrappedFn();
   };
 
