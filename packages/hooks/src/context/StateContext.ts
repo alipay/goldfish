@@ -44,7 +44,7 @@ export default class StateContext extends Context {
     };
   }
 
-  public add<V>(value: V): [V, (v: V) => void] {
+  public add<V>(value: V | ((prevState: V) => V)): [V, (v: V) => void] {
     if (this.state !== 'executing') {
       throw new Error(`Wrong state: ${this.state}. Expected: executing`);
     }
@@ -55,8 +55,9 @@ export default class StateContext extends Context {
         if (this.state === 'executing') {
           throw new Error(`Do not set state in the render.`);
         }
-        const isChanged = item.value !== v;
-        item.value = v;
+        const realV = typeof v === 'function' ? v(item.value) : v;
+        const isChanged = item.value !== realV;
+        item.value = realV;
         if (isChanged) {
           this.batch.set();
         }
