@@ -2,10 +2,7 @@ import useGetSet from 'react-use/esm/useGetSet';
 import renderHook from './renderHook';
 
 const setUp = (initialValue: any) => {
-  return renderHook(() => {
-    const data = useGetSet(initialValue);
-    return { data };
-  });
+  return renderHook(() => useGetSet(initialValue));
 };
 
 beforeEach(() => {

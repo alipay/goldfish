@@ -5,10 +5,7 @@ import act from './act';
 const originalConsoleError = console.error;
 let mockConsoleError: () => void;
 
-const setUp = (initialState: any) =>
-  renderHook(() => {
-    return { data: useGetSetState(initialState) };
-  });
+const setUp = (initialState: any) => renderHook(() => useGetSetState(initialState));
 
 beforeEach(() => {
   mockConsoleError = jest.fn();

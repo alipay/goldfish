@@ -39,7 +39,7 @@ export default function createComponent<P>(fn: ICreateFunction<P>): tinyapp.Comp
   const syncPropsMethod = isComponent2 ? 'deriveDataFromProps' : 'didUpdate';
   const oldSyncPropsMethod = options[syncPropsMethod];
   options[syncPropsMethod] = function (this: ComponentInstance, nextProps: any) {
-    hooksOptions.syncProps.call(this, nextProps);
+    hooksOptions.syncProps.call(this, isComponent2 ? nextProps : this.props);
 
     if (oldSyncPropsMethod) {
       (oldSyncPropsMethod as any).call(this, nextProps);

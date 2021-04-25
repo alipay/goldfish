@@ -1,13 +1,7 @@
 import useDefault from 'react-use/esm/useDefault';
 import renderHook from './renderHook';
 
-const setUp = (defaultValue: any, initialValue: any) =>
-  renderHook(() => {
-    const data = useDefault(defaultValue, initialValue);
-    return {
-      data,
-    };
-  });
+const setUp = (defaultValue: any, initialValue: any) => renderHook(() => useDefault(defaultValue, initialValue));
 
 function timeout() {
   return new Promise(resolve => {

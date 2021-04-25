@@ -65,7 +65,7 @@ export default function create<P>(fn: ICreateFunction<P>) {
       this.$$memoContext?.destroy();
     },
     syncProps(this: IHostInstance<P>, nextProps?: P) {
-      executeFn.call(this, () => fn(nextProps === undefined ? this.props : nextProps));
+      executeFn.call(this, () => fn(nextProps));
     },
   };
   return options;
