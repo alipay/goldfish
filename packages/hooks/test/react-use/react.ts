@@ -5,4 +5,5 @@ import useMemo from '../../src/hooks/useMemo';
 import useReducer from '../../src/hooks/useReducer';
 import useRef from '../../src/hooks/useRef';
 
-export { useState, useCallback, useEffect, useMemo, useReducer, useRef };
+const useLayoutEffect = useEffect;
+export { useState, useCallback, useEffect, useMemo, useReducer, useRef, useLayoutEffect };

@@ -1,13 +1,8 @@
 import useDefault from 'react-use/esm/useDefault';
 import renderHook from './renderHook';
+import timeout from './timeout';
 
 const setUp = (defaultValue: any, initialValue: any) => renderHook(() => useDefault(defaultValue, initialValue));
-
-function timeout() {
-  return new Promise(resolve => {
-    setTimeout(resolve);
-  });
-}
 
 describe.each`
   valueType    | defaultValue | initialValue            | anotherValue
