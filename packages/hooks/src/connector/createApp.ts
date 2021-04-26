@@ -1,4 +1,5 @@
 import create, { ICreateFunction, IHostInstance } from './create';
+import isFunction from '../common/isFunction';
 
 export default function createApp(fn: ICreateFunction<any>): tinyapp.AppOptions {
   const options: tinyapp.AppOptions = {};
@@ -16,14 +17,14 @@ export default function createApp(fn: ICreateFunction<any>): tinyapp.AppOptions 
 
     hooksOptions.init.call(this);
 
-    if (oldOnLaunch) {
+    if (isFunction(oldOnLaunch)) {
       oldOnLaunch.call(this, options);
     }
   };
 
   const oldOnShow = options.onShow;
   options.onShow = function (this: AppInstance, options) {
-    if (oldOnShow) {
+    if (isFunction(oldOnShow)) {
       oldOnShow.call(this, options);
     }
 

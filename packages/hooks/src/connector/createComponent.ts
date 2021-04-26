@@ -1,4 +1,5 @@
 import create, { ICreateFunction, IHostInstance } from './create';
+import isFunction from '../common/isFunction';
 
 export const isComponent2 = typeof my !== 'undefined' && !!my?.canIUse('component2');
 
@@ -13,14 +14,14 @@ export default function createComponent<P>(fn: ICreateFunction<P>): tinyapp.Comp
   options[initMethod] = function (this: ComponentInstance) {
     hooksOptions.init.call(this);
 
-    if (oldInitMethod) {
+    if (isFunction(oldInitMethod)) {
       oldInitMethod.call(this);
     }
   };
 
   const oldDidMount = options.didMount;
   options.didMount = function (this: ComponentInstance) {
-    if (oldDidMount) {
+    if (isFunction(oldDidMount)) {
       oldDidMount.call(this);
     }
 
@@ -31,7 +32,7 @@ export default function createComponent<P>(fn: ICreateFunction<P>): tinyapp.Comp
   options.didUnmount = function (this: ComponentInstance) {
     hooksOptions.unmounted.call(this);
 
-    if (oldUnmount) {
+    if (isFunction(oldUnmount)) {
       oldUnmount.call(this);
     }
   };
@@ -41,7 +42,7 @@ export default function createComponent<P>(fn: ICreateFunction<P>): tinyapp.Comp
   options[syncPropsMethod] = function (this: ComponentInstance, nextProps: any) {
     hooksOptions.syncProps.call(this, isComponent2 ? nextProps : this.props);
 
-    if (oldSyncPropsMethod) {
+    if (isFunction(oldSyncPropsMethod)) {
       (oldSyncPropsMethod as any).call(this, nextProps);
     }
   };

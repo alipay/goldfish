@@ -1,4 +1,5 @@
 import create, { ICreateFunction, IHostInstance } from './create';
+import isFunction from '../common/isFunction';
 
 export default function createComponent(fn: ICreateFunction<undefined>): tinyapp.PageOptions {
   const options: tinyapp.PageOptions = {};
@@ -10,14 +11,14 @@ export default function createComponent(fn: ICreateFunction<undefined>): tinyapp
   options.onLoad = function (this: PageInstance, query) {
     hooksOptions.init.call(this);
 
-    if (oldOnLoad) {
+    if (isFunction(oldOnLoad)) {
       oldOnLoad.call(this, query);
     }
   };
 
   const oldOnReady = options.onReady;
   options.onReady = function (this: PageInstance) {
-    if (oldOnReady) {
+    if (isFunction(oldOnReady)) {
       oldOnReady.call(this);
     }
 
@@ -28,7 +29,7 @@ export default function createComponent(fn: ICreateFunction<undefined>): tinyapp
   options.onUnload = function (this: PageInstance) {
     hooksOptions.unmounted.call(this);
 
-    if (oldOnUnload) {
+    if (isFunction(oldOnUnload)) {
       oldOnUnload.call(this);
     }
   };
