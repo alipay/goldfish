@@ -49,13 +49,17 @@ export default class StateContext extends Context {
       throw new Error(`Wrong state: ${this.state}. Expected: executing`);
     }
 
+    const getRealV = (v: any, previousV?: any): any => {
+      return typeof v === 'function' ? v(previousV) : v;
+    };
+
     const item = this.arr[this.index] || {
-      value,
+      value: getRealV(value),
       setter: (v: V) => {
         if (this.state === 'executing') {
           throw new Error(`Do not set state in the render.`);
         }
-        const realV = typeof v === 'function' ? v(item.value) : v;
+        const realV = getRealV(v, item.value);
         const isChanged = item.value !== realV;
         item.value = realV;
         if (isChanged) {
