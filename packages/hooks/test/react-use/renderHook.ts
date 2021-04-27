@@ -6,10 +6,14 @@ export interface IRenderHookOptions<S extends Record<string, any>> {
 
 export interface IResult {
   result: {
+    all: any[];
     current: any;
   };
   rerender: (props?: any) => void;
   unmount: () => void;
+  waitFor: any;
+  waitForValueToChange: any;
+  waitForNextUpdate: any;
 }
 
 export default function renderHook<S>(fn: (props?: S) => any, opts?: IRenderHookOptions<S>): IResult {
@@ -25,6 +29,7 @@ export default function renderHook<S>(fn: (props?: S) => any, opts?: IRenderHook
   };
   const result = {
     result: {
+      all: [],
       current: {},
     },
     rerender: (props?: any) => {
@@ -35,6 +40,9 @@ export default function renderHook<S>(fn: (props?: S) => any, opts?: IRenderHook
     unmount: () => {
       options.didUnmount?.call(instance);
     },
+    waitFor: () => {},
+    waitForValueToChange: () => {},
+    waitForNextUpdate: () => {},
   };
   options.didMount?.call(instance);
   return result;
