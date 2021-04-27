@@ -2,6 +2,7 @@ import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
 import Context from './Context';
 import createContextStack from '../common/createContextStack';
 import { ICreateFunction } from '../connector/create';
+import isFunction from '../common/isFunction';
 
 const { push, pop, getCurrent } = createContextStack<StateContext>();
 
@@ -50,7 +51,7 @@ export default class StateContext extends Context {
     }
 
     const getRealV = (v: any, previousV?: any): any => {
-      return typeof v === 'function' ? v(previousV) : v;
+      return isFunction(v) ? v(previousV) : v;
     };
 
     const item = this.arr[this.index] || {
