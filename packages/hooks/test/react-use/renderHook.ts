@@ -8,6 +8,7 @@ export interface IResult {
   result: {
     all: any[];
     current: any;
+    error?: any;
   };
   rerender: (props?: any) => void;
   unmount: () => void;
@@ -24,17 +25,25 @@ export default function renderHook<S>(fn: (props?: S) => any, opts?: IRenderHook
     props: opts?.initialProps,
     setData(r: any, cb: () => void) {
       result.result.current = r;
+      result.result.all.push(r);
       cb();
     },
   };
-  const result = {
+  const result: IResult = {
     result: {
       all: [],
       current: {},
+      error: {},
     },
     rerender: (props?: any) => {
       instance.props = props;
-      options.didUpdate?.call(instance, {}, {});
+
+      try {
+        options.didUpdate?.call(instance, {}, {});
+      } catch (e) {
+        result.result.error = e;
+      }
+
       (instance as any).$$effectContext.executeEffect();
     },
     unmount: () => {
@@ -44,6 +53,10 @@ export default function renderHook<S>(fn: (props?: S) => any, opts?: IRenderHook
     waitForValueToChange: () => {},
     waitForNextUpdate: () => {},
   };
-  options.didMount?.call(instance);
+  try {
+    options.didMount?.call(instance);
+  } catch (e) {
+    result.result.error = e;
+  }
   return result;
 }
