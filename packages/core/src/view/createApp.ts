@@ -19,39 +19,41 @@ export default function createApp<G, S extends AppStore>(
     afterCreateStore?: (view: AppInstance<G, S>, store: S) => void;
   },
 ) {
-  attachLogic<'onLaunch', Required<AppOptions<G, S>>['onLaunch']>(appOptions, 'onLaunch', 'after', async function(
-    this: AppInstance<G, S>,
-    options: tinyapp.IAppLaunchOptions,
-  ) {
-    const store = this.store!;
-    store.isInitLoading = true;
-    store.updatePages(options);
+  attachLogic<'onLaunch', Required<AppOptions<G, S>>['onLaunch']>(
+    appOptions,
+    'onLaunch',
+    'after',
+    async function (this: AppInstance<G, S>, options: tinyapp.IAppLaunchOptions) {
+      const store = this.store!;
+      store.isInitLoading = true;
+      store.updatePages(options);
 
-    // Call onError when there is uncaught error in Promise.
-    const app = getApp();
-    store.watch(
-      () => store.globalErrorInPromise,
-      error => {
-        const onError = (app as any).onError;
-        if (error && onError) {
-          onError(error);
-        }
-      },
-      {
-        immediate: true,
-      },
-    );
+      // Call onError when there is uncaught error in Promise.
+      const app = getApp();
+      store.watch(
+        () => store.globalErrorInPromise,
+        error => {
+          const onError = (app as any).onError;
+          if (error && onError) {
+            onError(error);
+          }
+        },
+        {
+          immediate: true,
+        },
+      );
 
-    await store.waitForReady();
-    store.initFeedback();
-    try {
-      await store.fetchInitData();
-    } catch (e) {
-      throw e;
-    } finally {
-      store.isInitLoading = false;
-    }
-  });
+      await store.waitForReady();
+      store.initFeedback();
+      try {
+        await store.fetchInitData();
+      } catch (e) {
+        throw e;
+      } finally {
+        store.isInitLoading = false;
+      }
+    },
+  );
 
   return createMiniApp<G, S>(storeClass, appOptions, {
     ...options,

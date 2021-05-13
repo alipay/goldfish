@@ -16,11 +16,14 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
     afterCreateStore?: (view: PageInstance<D, PS>, store: PS) => void;
   },
 ): tinyapp.PageOptions<D> {
-  attachLogic<'onUnload', Required<PageOptions<D, PS>>['onUnload']>(pageOptions, 'onUnload', 'before', function(
-    this: PageInstance<D, PS>,
-  ) {
-    this.store && (this.store.isSyncDataSafe = false);
-  });
+  attachLogic<'onUnload', Required<PageOptions<D, PS>>['onUnload']>(
+    pageOptions,
+    'onUnload',
+    'before',
+    function (this: PageInstance<D, PS>) {
+      this.store && (this.store.isSyncDataSafe = false);
+    },
+  );
 
   const beforeCreateStore = options && options.beforeCreateStore;
   const afterCreateStore = options && options.afterCreateStore;
@@ -28,7 +31,7 @@ export default function createMiniPage<AS extends AppStore, PS extends PageStore
     pageOptions,
     'onLoad',
     'onUnload',
-    function(
+    function (
       this: tinyapp.IPageInstance<D> & {
         setData: tinyapp.SetDataMethod<D>;
         store: PS;

@@ -2,7 +2,7 @@ import PageSetup from './setup/PageSetup';
 
 export default function integratePageEventMethods(pageMethods: (keyof tinyapp.IPageEvents)[]): tinyapp.IPageEvents {
   return pageMethods.reduce((prev, cur: keyof tinyapp.IPageEvents) => {
-    (prev as any)[cur] = function(this: any, ...args: any[]) {
+    (prev as any)[cur] = function (this: any, ...args: any[]) {
       const setup: PageSetup | undefined = this.$setup;
       if (!setup) {
         return;

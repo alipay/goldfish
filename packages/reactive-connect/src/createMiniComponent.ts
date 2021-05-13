@@ -16,7 +16,7 @@ export default function createTinyappComponent<
   P,
   CS extends ComponentStore<P>,
   D = any,
-  M extends tinyapp.IComponentMethods = tinyapp.IComponentMethods
+  M extends tinyapp.IComponentMethods = tinyapp.IComponentMethods,
 >(
   storeClass: new () => CS,
   componentOptions: ComponentOptions<P, D, CS, M> & { onError?: (e: any) => void } = {},

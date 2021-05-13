@@ -6,7 +6,7 @@ export default function checkSetupEnv<
   A extends SetupEnv,
   B extends Exclude<SetupEnv, A>,
   C extends Exclude<SetupEnv, A | B>,
-  D extends Exclude<SetupEnv, A | B | C>
+  D extends Exclude<SetupEnv, A | B | C>,
 >(name: string, env: [A] | [A, B] | [A, B, C] | [A, B, C, D]) {
   const type = useContextType();
 

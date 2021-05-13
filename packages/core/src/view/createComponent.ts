@@ -22,7 +22,7 @@ export default function createComponent<
   CS extends ComponentStore<P, AS>,
   P extends IProps = {},
   D = any,
-  M extends tinyapp.IComponentMethods = {}
+  M extends tinyapp.IComponentMethods = {},
 >(
   storeClass: new () => CS,
   componentOptions: ComponentOptions<P, D, CS, M> = {},
@@ -36,7 +36,7 @@ export default function createComponent<
     componentOptions,
     enterKey,
     'after',
-    async function(this: ComponentInstance<P, D, CS, M>) {
+    async function (this: ComponentInstance<P, D, CS, M>) {
       const store = this.store!;
       store.isInitLoading = true;
 

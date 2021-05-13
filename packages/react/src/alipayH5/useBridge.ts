@@ -135,7 +135,7 @@ if (window && window.document) {
     }
     document.addEventListener(
       key,
-      function(this: any, event) {
+      function (this: any, event) {
         fns.forEach(fn => fn.call(this, event));
       },
       false,

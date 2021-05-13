@@ -20,7 +20,7 @@ export default function usePlugins<
   A extends PluginClass,
   B extends PluginClass,
   C extends PluginClass,
-  D extends PluginClass
+  D extends PluginClass,
 >(
   list: [A, B, C, D],
 ): Record<A['type'], InstanceType<A>> &
@@ -32,7 +32,7 @@ export default function usePlugins<
   B extends PluginClass,
   C extends PluginClass,
   D extends PluginClass,
-  E extends PluginClass
+  E extends PluginClass,
 >(
   list: [A, B, C, D, E],
 ): Record<A['type'], InstanceType<A>> &
@@ -46,7 +46,7 @@ export default function usePlugins<
   C extends PluginClass,
   D extends PluginClass,
   E extends PluginClass,
-  F extends PluginClass
+  F extends PluginClass,
 >(
   list: [A, B, C, D, E, F],
 ): Record<A['type'], InstanceType<A>> &
@@ -62,7 +62,7 @@ export default function usePlugins<
   D extends PluginClass,
   E extends PluginClass,
   F extends PluginClass,
-  G extends PluginClass
+  G extends PluginClass,
 >(
   list: [A, B, C, D, E, F, G],
 ): Record<A['type'], InstanceType<A>> &
@@ -80,7 +80,7 @@ export default function usePlugins<
   E extends PluginClass,
   F extends PluginClass,
   G extends PluginClass,
-  H extends PluginClass
+  H extends PluginClass,
 >(
   list: [A, B, C, D, E, F, G, H],
 ): Record<A['type'], InstanceType<A>> &

@@ -22,7 +22,7 @@ export default function observer<P, T extends React.FunctionComponent<P> = React
 export default function observer<
   P,
   SR extends Record<string, any> = Record<string, any>,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
+  T extends React.FunctionComponent<P> = React.FunctionComponent<P>,
 >(
   reactLike: ReactLike,
   componentFn: (setupResult: SR, props: Parameters<T>[0], context?: Parameters<T>[1]) => ReturnType<T>,
@@ -31,7 +31,7 @@ export default function observer<
 export default function observer<
   P,
   SR extends Record<string, any> = Record<string, any>,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
+  T extends React.FunctionComponent<P> = React.FunctionComponent<P>,
 >(
   reactLike: ReactLike,
   defaultProps: P,
@@ -63,7 +63,7 @@ export default function observer<P, SR extends Record<string, any>, T extends Re
     setupFn = passInSetupFn;
   }
 
-  const fn = function(this: any, props: P, context?: any) {
+  const fn = function (this: any, props: P, context?: any) {
     // Note: The re-render should always be triggered by `setCounter`.
     const [counter, setCounter] = reactLike.useState(0);
     // The id is used to identity the component instance.
