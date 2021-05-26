@@ -1,4 +1,4 @@
-import Context from './Context';
+import Context from '../context/Context';
 
 export default function createContextStack<C extends Context>() {
   const contextStack: C[] = [];

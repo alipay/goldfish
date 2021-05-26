@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import useCallback from '../../src/component/useCallback';
-import useState from '../../src/component/useState';
-import createComponent from '../../src/component/create';
+import useCallback from '../../src/hooks/useCallback';
+import useState from '../../src/hooks/useState';
+import createComponent from '../../src/connector/createComponent';
 
 it('should cache the function.', done => {
   const fns: ((...args: any[]) => any)[] = [];

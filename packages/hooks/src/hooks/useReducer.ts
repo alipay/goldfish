@@ -1,5 +1,6 @@
 import React from 'react';
 import useState from './useState';
+import useRef from './useRef';
 
 export default function useReducer<R extends React.ReducerWithoutAction<any>, I>(
   reducer: R,
@@ -34,9 +35,13 @@ export default function useReducer(reducer: any, initialArg: any, init?: any): a
     initialState = initialArg;
   }
   const [state, setState] = useState(initialState);
-  const dispatch = (action: any) => {
-    const newState = reducer(state, action);
+  const stateRef = useRef();
+  stateRef.current = state;
+
+  const dispatch = function (this: typeof stateRef, action: any) {
+    const newState = reducer(this.current, action);
     setState(newState);
-  };
+  }.bind(stateRef);
+
   return [state, dispatch];
 }

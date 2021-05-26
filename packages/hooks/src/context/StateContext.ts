@@ -1,7 +1,8 @@
 import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
-import Context from '../common/Context';
+import Context from './Context';
 import createContextStack from '../common/createContextStack';
-import ICreateComponentFunction from './ICreateComponentFunction';
+import { ICreateFunction } from '../connector/create';
+import isFunction from '../common/isFunction';
 
 const { push, pop, getCurrent } = createContextStack<StateContext>();
 
@@ -18,20 +19,24 @@ export default class StateContext extends Context {
 
   private batch: Batch;
 
-  public constructor(view: { setData: tinyapp.SetDataMethod<any> }, onChange: () => void) {
+  private onUpdated: () => void;
+
+  public constructor(view: { setData: tinyapp.SetDataMethod<any> }, onChange: () => void, onUpdated: () => void) {
     super();
     this.view = view;
     this.batch = new Batch(onChange);
+    this.onUpdated = onUpdated;
   }
 
-  public wrap(fn: () => ReturnType<ICreateComponentFunction<any>>) {
+  public wrap(fn: () => ReturnType<ICreateFunction<any>>) {
     return () => {
       this.index = 0;
       push(this);
       try {
         const result = super.wrapExecutor(fn);
         // TODO: performance optimization
-        this.view.setData(result.data);
+        this.view.setData(result.data, () => Promise.resolve().then(this.onUpdated));
+        return result;
       } catch (e) {
         throw e;
       } finally {
@@ -40,16 +45,24 @@ export default class StateContext extends Context {
     };
   }
 
-  public add<V>(value: V): [V, (v: V) => void] {
+  public add<V>(value: V | ((prevState: V) => V)): [V, (v: V) => void] {
     if (this.state !== 'executing') {
       throw new Error(`Wrong state: ${this.state}. Expected: executing`);
     }
 
+    const getRealV = (v: any, previousV?: any): any => {
+      return isFunction(v) ? v(previousV) : v;
+    };
+
     const item = this.arr[this.index] || {
-      value,
+      value: getRealV(value),
       setter: (v: V) => {
-        const isChanged = item.value !== v;
-        item.value = v;
+        if (this.state === 'executing') {
+          throw new Error(`Do not set state in the render.`);
+        }
+        const realV = getRealV(v, item.value);
+        const isChanged = item.value !== realV;
+        item.value = realV;
         if (isChanged) {
           this.batch.set();
         }

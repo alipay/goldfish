@@ -3,7 +3,7 @@ export default function isDependencyListEqual(oldDeps: React.DependencyList, new
     return false;
   }
 
-  for (let i = 0, il = oldDeps.length; i < il; i += 1) {
+  for (let i = 0, il = oldDeps.length; i < il; i++) {
     if (oldDeps[i] !== newDeps[i]) {
       return false;
     }
