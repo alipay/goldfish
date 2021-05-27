@@ -17,7 +17,7 @@ export { default as useMount } from './useMount';
 export { default as useUnmount } from './useUnmount';
 export { default as useRef } from './useRef';
 export { default as app } from './defaultApp';
-
 export { default as App } from './App';
+export { default as useReactiveData } from './useReactiveData';
 
 export * from './alipayH5/index';
