@@ -26,7 +26,8 @@ module.exports = {
       useUnmount: `${codeDir}/useUnmount`,
       useRef: `${codeDir}/useRef`,
       app: `${codeDir}/defaultApp`,
-      App: `${codeDir}/App`
+      App: `${codeDir}/App`,
+      useReactiveData: `${codeDir}/useReactiveData`
     }[name];
   }
 };
