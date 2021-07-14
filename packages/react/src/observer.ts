@@ -22,7 +22,7 @@ export default function observer<P, T extends React.FunctionComponent<P> = React
 export default function observer<
   P,
   SR extends Record<string, any> = Record<string, any>,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
+  T extends React.FunctionComponent<P> = React.FunctionComponent<P>,
 >(
   reactLike: ReactLike,
   componentFn: (setupResult: SR, props: Parameters<T>[0], context?: Parameters<T>[1]) => ReturnType<T>,
@@ -31,7 +31,7 @@ export default function observer<
 export default function observer<
   P,
   SR extends Record<string, any> = Record<string, any>,
-  T extends React.FunctionComponent<P> = React.FunctionComponent<P>
+  T extends React.FunctionComponent<P> = React.FunctionComponent<P>,
 >(
   reactLike: ReactLike,
   defaultProps: P,
