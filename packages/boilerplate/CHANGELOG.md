@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/alipay/goldfish/compare/v1.3.3...v1.4.0) (2021-07-14)
+
+**Note:** Version bump only for package goldfish-boilerplate
+
+
+
+
+
 ## [1.3.3](https://github.com/alipay/goldfish/compare/v1.3.2...v1.3.3) (2020-12-13)
 
 **Note:** Version bump only for package goldfish-boilerplate

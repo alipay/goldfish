@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/alipay/goldfish/compare/v1.3.3...v1.4.0) (2021-07-14)
+
+
+### Bug Fixes
+
+* do not push the value. ([db24e9e](https://github.com/alipay/goldfish/commit/db24e9ec27a48982087d38b310c67bb89571cf77))
+* do not update data on an unmounted component. ([9ef5ad4](https://github.com/alipay/goldfish/commit/9ef5ad4f8bfdedd2ebbf3343bcd656687ecd9835))
+* ensure the pure jest configuration objects. ([c7078ee](https://github.com/alipay/goldfish/commit/c7078ee8cc34be025c60c3a5d7271f46ed5314de))
+* lint errors ([73780bd](https://github.com/alipay/goldfish/commit/73780bdea217efaed5ef3629dccd061428e3ee66))
+* lint errors ([0cba0d9](https://github.com/alipay/goldfish/commit/0cba0d9c2c5da2eca2492799b8a2dd17dc3964a1))
+* lint errors ([3dda314](https://github.com/alipay/goldfish/commit/3dda314b6a0cb81b5dc0f7dddf32fef944d17ec6))
+* the key path string bug. ([d38afce](https://github.com/alipay/goldfish/commit/d38afcea5db4618ffb988c83ad2f0d5c217034f6))
+* version conflicts ([2a0380e](https://github.com/alipay/goldfish/commit/2a0380e86fb978fa2985c1fa48679e3e4ea963aa))
+
+
+### Features
+
+* export useReactiveData ([9bb193d](https://github.com/alipay/goldfish/commit/9bb193d3ee59815f3c32e0408752604d45eb5c69))
+* jest ([bf94e65](https://github.com/alipay/goldfish/commit/bf94e657d32f506097a653a3bace05f05fff68a5))
+* provide the useReactive data to detect the reactive data changings in React render function. ([7f2910e](https://github.com/alipay/goldfish/commit/7f2910ebecf7c48bc739902efbb8d27d57bb1618))
+* recovery ([df23591](https://github.com/alipay/goldfish/commit/df2359175420a30e9c8eb32f7c56240fda16a9c7))
+
+
+
+
+
 ## [1.3.3](https://github.com/alipay/goldfish/compare/v1.3.2...v1.3.3) (2020-12-13)
 
 
