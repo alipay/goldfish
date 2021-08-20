@@ -1,5 +1,5 @@
-import Plugin, { GetPlugin } from './Plugin';
 import { Requester, IRequestOptions } from '@goldfishjs/requester';
+import Plugin, { GetPlugin } from './Plugin';
 import ConfigPlugin from './ConfigPlugin';
 
 export default class RequesterPlugin extends Plugin {

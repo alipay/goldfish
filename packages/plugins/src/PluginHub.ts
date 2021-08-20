@@ -21,7 +21,7 @@ export default class PluginHub {
    *
    * @return Promise
    */
-  public waitForReady() {
+  public waitForReady(): Promise<void> {
     return new Promise(resolve => {
       const stop = watch(
         () => this.isReady(),

@@ -2,13 +2,8 @@
   "packages": [
     "packages/*"
   ],
+  "npmClient": "yarn",
   "command": {
-    "bootstrap": {
-      "npmClientArgs": [
-        "--no-package-lock",
-        "--force"
-      ]
-    },
     "publish": {
       "conventionalCommits": true
     }

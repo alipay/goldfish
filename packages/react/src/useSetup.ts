@@ -1,7 +1,7 @@
+import { act } from 'react-dom/test-utils';
 import { call, getCurrent, observable } from '@goldfishjs/reactive';
 import { isObject, cloneDeep } from '@goldfishjs/utils';
 import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
-import { act } from 'react-dom/test-utils';
 import { ReactLike, ISetupFunction } from './observer';
 import { setupManager } from './ComponentSetupManager';
 import ComponentSetup from './ComponentSetup';

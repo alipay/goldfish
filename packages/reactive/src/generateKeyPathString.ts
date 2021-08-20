@@ -4,7 +4,7 @@ export default function generateKeyPathString(keyPathList: (string | number)[]) 
       return prev ? `${prev}[${cur}]` : `[${cur}]`;
     }
 
-    if (/[.\[\]]/.test(cur)) {
+    if (/[.[\]]/.test(cur)) {
       const property = cur.replace(/"/, '\\"');
       return prev ? `${prev}["${property}"]` : `["${property}"]`;
     }

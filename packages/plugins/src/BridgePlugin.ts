@@ -1,5 +1,5 @@
-import Plugin, { GetPlugin } from './Plugin';
 import { bridge, BridgeMethods, SpecialMethods, Fn, APBridgeMethods } from '@goldfishjs/bridge';
+import Plugin, { GetPlugin } from './Plugin';
 
 export default class BridgePlugin extends Plugin {
   public static type = 'bridge';

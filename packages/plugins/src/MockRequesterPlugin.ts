@@ -1,5 +1,5 @@
-import { GetPlugin } from './Plugin';
 import { MockRequester } from '@goldfishjs/requester';
+import { GetPlugin } from './Plugin';
 import ConfigPlugin from './ConfigPlugin';
 import RequesterPlugin from './RequesterPlugin';
 

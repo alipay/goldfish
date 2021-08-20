@@ -1,6 +1,6 @@
-import CommonSetup from './CommonSetup';
 import { ComponentStore } from '@goldfishjs/core';
 import { ComponentInstance } from '@goldfishjs/reactive-connect';
+import CommonSetup from './CommonSetup';
 
 type Methods = tinyapp.IComponentLifeCycleMethods<any, any>;
 

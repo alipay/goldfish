@@ -184,7 +184,7 @@ describe('autorun', () => {
         catchedError = e;
       },
     );
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       setTimeout(() => {
         expect(catchedError).toBe(error);
         resolve();

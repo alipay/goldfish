@@ -28,7 +28,7 @@ it('should add fetching init data logic.', () => {
   const container = document.createElement('div');
   ReactDOM.render(React.createElement(component), container);
 
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     setTimeout(() => {
       expect(result).toEqual([1]);
       resolve();

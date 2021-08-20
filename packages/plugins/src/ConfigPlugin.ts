@@ -1,5 +1,5 @@
-import Plugin from './Plugin';
 import { IDatahubConfig, IRequestOptions } from '@goldfishjs/requester';
+import Plugin from './Plugin';
 
 export interface IConfig {
   bridgeMockServerHost?: string;

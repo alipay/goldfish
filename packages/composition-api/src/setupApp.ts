@@ -1,9 +1,9 @@
-import integrateLifeCycleMethods from './integrateLifeCycleMethods';
-import AppSetup from './setup/AppSetup';
 import { AppStore, createApp } from '@goldfishjs/core';
 import { IConfig, PluginClass } from '@goldfishjs/plugins';
-import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import { AppInstance, observable, attachLogic } from '@goldfishjs/reactive-connect';
+import integrateLifeCycleMethods from './integrateLifeCycleMethods';
+import AppSetup from './setup/AppSetup';
+import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import appendFn from './appendFn';
 
 export interface ISetupAppOptions {

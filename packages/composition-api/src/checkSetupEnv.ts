@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import useContextType from './useContextType';
 
 export type SetupEnv = 'page' | 'component' | 'app';

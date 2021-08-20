@@ -1,7 +1,7 @@
 import { useWatch as baseUseWatch } from '@goldfishjs/composition-api';
+import { watch, IWatchExpressionFn, IWatchCallback, IWatchOptions } from '@goldfishjs/reactive';
 import useContextType from './useContextType';
 import ComponentSetup from './ComponentSetup';
-import { watch, IWatchExpressionFn, IWatchCallback, IWatchOptions } from '@goldfishjs/reactive';
 
 export default function useWatch() {
   const type = useContextType();

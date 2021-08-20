@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { FeedbackPlugin } from '@goldfishjs/plugins';
 import { default as App, app } from '../App';
 import useGlobalDestroy from '../useGlobalDestroy';

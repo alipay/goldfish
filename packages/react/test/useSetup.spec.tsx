@@ -33,7 +33,9 @@ it('should connect the data.', async () => {
         },
       };
     });
-    return connect(d => <div onClick={d.onClick}>{d.state.counter}</div>);
+    return connect(d => {
+      return <div onClick={d.onClick}>{d.state.counter}</div>;
+    });
   }
 
   act(() => {
@@ -44,7 +46,7 @@ it('should connect the data.', async () => {
 
   container?.children[0].dispatchEvent(new MouseEvent('click', { bubbles: true }));
   await new Promise(resolve => setTimeout(resolve));
-  expect(container && container.innerHTML).toBe('<div>2</div>');
+  expect(container && container.innerHTML).toBe('<div>3</div>');
 });
 
 it('should render the changed data.', async () => {

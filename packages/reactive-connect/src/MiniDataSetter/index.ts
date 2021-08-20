@@ -1,9 +1,9 @@
+import { ChangeOptions } from '@goldfishjs/reactive';
+import { isObject } from '@goldfishjs/utils';
 import Batch from './Batch';
 import { View } from './SetTree';
 import Updater from './Updater';
-import { ChangeOptions } from '@goldfishjs/reactive';
 import * as keyPath from './keyPath';
-import { isObject } from '@goldfishjs/utils';
 
 type Methods = 'push' | 'splice' | 'unshift' | 'pop' | 'shift';
 function isModifyArrayMethod(m: string): m is Methods {

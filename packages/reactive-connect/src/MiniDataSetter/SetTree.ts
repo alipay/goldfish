@@ -1,6 +1,6 @@
 import { generateKeyPathString } from '@goldfishjs/reactive';
-import LimitLeafCounter from './LimitLeafCounter';
 import { isObject, cloneDeep } from '@goldfishjs/utils';
+import LimitLeafCounter from './LimitLeafCounter';
 import * as keyPath from './keyPath';
 
 export type View = tinyapp.IPageInstance<any> | tinyapp.IComponentInstance<any, any>;
@@ -89,6 +89,7 @@ export default class SetTree {
         lastLeafNode.value = cloneDeep(value);
         (curNode.children as any)[keyPath] = lastLeafNode;
       }
+      return false;
     });
   }
 

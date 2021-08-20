@@ -1,6 +1,6 @@
-import InitData from './InitData';
 import { IConfig } from '@goldfishjs/plugins';
 import { reactive } from '@goldfishjs/composition-api';
+import InitData from './InitData';
 
 export interface IInitOptions<D> {
   data?: D;

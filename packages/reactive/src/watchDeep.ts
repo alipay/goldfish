@@ -1,9 +1,8 @@
-import { IWatchOptions } from './watch';
-import { ChangeOptions, getCurrent } from './dep';
 import { isObject } from '@goldfishjs/utils';
+import { IWatchOptions } from './watch';
+import { ChangeOptions, getCurrent, call } from './dep';
 import isRaw from './isRaw';
 import generateKeyPathString from './generateKeyPathString';
-import { call } from './dep';
 
 export interface IWatchDeepCallback {
   (obj: any, keyPathList: (string | number)[], newV: any, oldV: any, options?: ChangeOptions): void;
@@ -93,7 +92,9 @@ class Watcher {
     const nextKeyPathList = [...keyPathList, key];
     call(
       () => {
+        /* eslint-disable @typescript-eslint/no-unused-expressions */
         obj[key];
+        /* eslint-enable @typescript-eslint/no-unused-expressions */
         const stopList = getCurrent().addChangeListener((newV, oldV, options) => {
           this.watchObj(newV, nextKeyPathList);
           this.callback(this.obj, nextKeyPathList, newV, oldV, options);

@@ -1,7 +1,7 @@
 import { route } from '@goldfishjs/route';
+import { observable, state } from '@goldfishjs/reactive-connect';
 import Plugin, { GetPlugin } from './Plugin';
 import BridgePlugin from './BridgePlugin';
-import { observable, state } from '@goldfishjs/reactive-connect';
 
 interface IPage {
   path: string;

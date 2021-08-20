@@ -1,7 +1,7 @@
 import { createMiniPage, PageOptions, PageInstance, attachLogic } from '@goldfishjs/reactive-connect';
+import { silent } from '@goldfishjs/utils';
 import AppStore from '../store/AppStore';
 import PageStore from '../store/PageStore';
-import { silent } from '@goldfishjs/utils';
 
 /**
  * Connect PageStore with Page.

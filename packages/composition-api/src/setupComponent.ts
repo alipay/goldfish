@@ -1,10 +1,10 @@
 import { observable, IProps, state, attachLogic } from '@goldfishjs/reactive-connect';
+import { AppStore, createComponent, ComponentStore } from '@goldfishjs/core';
+import { cloneDeep } from '@goldfishjs/utils';
 import appendFn from './appendFn';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import ComponentSetup, { SetupComponentInstance } from './setup/ComponentSetup';
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
-import { AppStore, createComponent, ComponentStore } from '@goldfishjs/core';
-import { cloneDeep } from '@goldfishjs/utils';
 
 const lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[] = [
   'onInit',

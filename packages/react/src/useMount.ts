@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useComponentLifeCycle, usePageLifeCycle } from '@goldfishjs/composition-api';
 import ComponentSetup from './ComponentSetup';
 import useContextType from './useContextType';
-import { useComponentLifeCycle, usePageLifeCycle } from '@goldfishjs/composition-api';
 
 export default function useMount(fn: () => void): void {
   const contextType = useContextType();

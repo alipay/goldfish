@@ -1,5 +1,5 @@
-import { isArray } from './utils';
 import { isObject } from '@goldfishjs/utils';
+import { isArray } from './utils';
 
 const RAW_FLAG = {};
 const RAW_KEY = '__raw-ob__';

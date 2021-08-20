@@ -1,6 +1,6 @@
+import { isObject } from '@goldfishjs/utils';
 import { call, getCurrent, IErrorCallback, ChangeOptions } from './dep';
 import { isArray } from './utils';
-import { isObject } from '@goldfishjs/utils';
 import isRaw from './isRaw';
 
 export type Unwatch = () => void;

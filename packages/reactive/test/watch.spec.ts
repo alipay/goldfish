@@ -226,7 +226,7 @@ describe('watch', () => {
       students: [],
     };
     observable(obj);
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       const stop = watch(
         () => obj.students,
         () => {

@@ -1,5 +1,6 @@
-import { default as App, app } from '../App';
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Requester as BaseRequester, IRequestOptions } from '@goldfishjs/requester';
+import { default as App, app } from '../App';
 import useGlobalConfig from '../useGlobalConfig';
 import { bridge } from './useBridge';
 import useGlobalDestroy from '../useGlobalDestroy';

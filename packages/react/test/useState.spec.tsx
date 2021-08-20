@@ -26,7 +26,7 @@ it('should detect the React context type.', () => {
 
   expect(container.innerHTML).toBe('<div>yujiang</div>');
 
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     setTimeout(() => {
       expect(container.innerHTML).toBe('<div>diandao</div>');
       resolve();

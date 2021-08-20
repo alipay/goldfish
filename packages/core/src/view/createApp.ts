@@ -1,6 +1,6 @@
 import { createMiniApp, AppOptions, AppInstance, attachLogic } from '@goldfishjs/reactive-connect';
-import AppStore from '../store/AppStore';
 import { IConfig } from '@goldfishjs/plugins';
+import AppStore from '../store/AppStore';
 
 /**
  * Connect the AppStore with the App.

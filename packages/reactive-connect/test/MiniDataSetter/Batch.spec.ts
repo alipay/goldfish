@@ -7,7 +7,7 @@ function timeout() {
 }
 
 it('should wait for all promise being trigged.', () => {
-  return new Promise(resolve => {
+  return new Promise<void>(resolve => {
     const result: number[] = [];
     let counter = 0;
     const batch = new Batch(() => {
@@ -41,7 +41,7 @@ it('should wait for all promise being trigged.', () => {
 });
 
 it('should trigger twice when using timeout.', () => {
-  return new Promise(resolve => {
+  return new Promise<void>(resolve => {
     const result: number[] = [];
     let counter = 0;
     const batch = new Batch(() => {

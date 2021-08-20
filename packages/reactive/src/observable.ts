@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import { isObject, silent, deepVisit, DeepVisitBreak } from '@goldfishjs/utils';
 import { getCurrent, Dep, ChangeOptions } from './dep';
 import { genId, isArray } from './utils';
 import silentValue, { isSilentValue } from './silentValue';
 import { isRaw } from './raw';
-import { isObject, silent, deepVisit, DeepVisitBreak } from '@goldfishjs/utils';
 
 type ObservableBaseTypes = null | undefined | string | number | boolean;
 type ObservableArrayElement = ObservableBaseTypes | IObservableObject;
@@ -43,6 +43,7 @@ export type Methods = 'push' | 'splice' | 'unshift' | 'pop' | 'sort' | 'reverse'
 const methods: Methods[] = ['push', 'splice', 'unshift', 'pop', 'sort', 'reverse', 'shift'];
 methods.forEach(methodName => {
   const oldMethod = Array.prototype[methodName] as Function;
+  /* eslint-disable no-extend-native */
   Array.prototype[methodName] = function (this: any[], ...args: any[]) {
     const originLength = this.length;
     const oldV = this.slice(0);
@@ -67,6 +68,7 @@ methods.forEach(methodName => {
 
     return result;
   };
+  /* eslint-enable no-extend-native */
 });
 
 function defineNotify(value: any, dep: Dep, notifyId: string) {

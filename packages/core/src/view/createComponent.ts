@@ -6,9 +6,9 @@ import {
   IProps,
   isComponent2,
 } from '@goldfishjs/reactive-connect';
+import { silent } from '@goldfishjs/utils';
 import AppStore from '../store/AppStore';
 import ComponentStore from '../store/ComponentStore';
-import { silent } from '@goldfishjs/utils';
 
 /**
  * Connect ComponentStore with Component.

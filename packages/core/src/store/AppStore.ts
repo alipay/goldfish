@@ -97,7 +97,7 @@ export default class AppStore extends BaseAppStore {
     this.pluginHub.get(ConfigPlugin).setConfig(this.config);
 
     // Initialize all plugins.
-    this.pluginHub.init().catch(e => {
+    this.pluginHub.init().catch((e: any) => {
       // The Alipay does not catch the exception in Promise,
       // so print the error here for debug.
       console.error(e);
@@ -125,7 +125,7 @@ export default class AppStore extends BaseAppStore {
   /**
    * Wait for the init data finish loading.
    */
-  public waitForInitDataReady() {
+  public waitForInitDataReady(): Promise<void> {
     return new Promise(resolve => {
       const stop = this.watch(
         () => this.isInitLoading,

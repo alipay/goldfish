@@ -1,6 +1,5 @@
-import { IHttpRequestOptions } from './httpRequest';
 import { observable, state } from '@goldfishjs/reactive-connect';
-import httpRequest from './httpRequest';
+import httpRequest, { IHttpRequestOptions } from './httpRequest';
 
 export interface IRequestOptions extends IHttpRequestOptions {
   showLoading?: boolean;

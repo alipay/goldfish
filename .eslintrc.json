@@ -1,28 +1,38 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "react-hooks", "prettier"],
   "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
+    "eslint-config-react-app",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
     "plugin:prettier/recommended",
     "prettier"
   ],
-  "plugins": ["@typescript-eslint", "prettier"],
-  "parser": "@typescript-eslint/parser",
-  "rules": {
-    "@typescript-eslint/no-explicit-any": 0,
-    "@typescript-eslint/explicit-module-boundary-types": 0,
-    "@typescript-eslint/no-empty-function": 1,
-    "@typescript-eslint/ban-types": 1,
-    "@typescript-eslint/naming-convention": [
-      "warn",
-      {
-        "selector": "interface",
-        "format": ["PascalCase"],
-        "custom": {
-          "regex": "^I[A-Z]",
-          "match": true
-        }
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        // 根据项目情况调整文件路径和后缀
+        "map": [["@", "./"]],
+        "extensions": [".ts", ".tsx", ".d.ts", ".js", ".jsx"]
       }
-    ]
+    }
+  },
+  "rules": {
+    "jsdoc/require-param-description": "off",
+    "jsdoc/require-returns-type": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "prefer-arrow-callback": "error",
+    "import/default": "off",
+    "import/order": [
+      "error",
+      {
+        // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/order.md
+        "groups": ["builtin", "external", "internal", ["parent", "sibling", "index"]],
+        "newlines-between": "never"
+      }
+    ],
+    "prettier/prettier": "error"
   },
   "globals": {
     "my": true

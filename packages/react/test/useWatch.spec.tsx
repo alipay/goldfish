@@ -37,7 +37,7 @@ it('should use `watch` to watch the changes.', () => {
   const container = document.createElement('div');
   ReactDOM.render(React.createElement(component), container);
 
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     setTimeout(() => {
       expect(result).toEqual(['yujiang', 'diandao']);
       resolve();

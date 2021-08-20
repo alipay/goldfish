@@ -1,6 +1,6 @@
 import { AppStore } from '@goldfishjs/core';
-import checkSetupEnv from './checkSetupEnv';
 import { Plugin, RoutePlugin, FeedbackPlugin, BridgePlugin, RequesterPlugin, PluginClass } from '@goldfishjs/plugins';
+import checkSetupEnv from './checkSetupEnv';
 import getAppStore from './getAppStore';
 
 export default function usePlugins(): {

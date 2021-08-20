@@ -81,7 +81,7 @@ it('should detect the props change.', () => {
   const container = document.createElement('div');
   ReactDOM.render(React.createElement(c2), container);
 
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     expect(container.innerHTML).toBe('<div>{"name":"yujiang"}</div>');
     setTimeout(() => {
       expect(container.innerHTML).toBe('<div>{"name":"diandao"}</div>');

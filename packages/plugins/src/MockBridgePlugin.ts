@@ -1,5 +1,5 @@
-import { GetPlugin } from './Plugin';
 import { mockBridge as bridge, BridgeMethods, SpecialMethods, Fn, APBridgeMethods } from '@goldfishjs/bridge';
+import { GetPlugin } from './Plugin';
 import ConfigPlugin, { IConfig } from './ConfigPlugin';
 import BridgePlugin from './BridgePlugin';
 

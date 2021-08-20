@@ -1,7 +1,7 @@
 import { useAutorun as baseUseAutorun } from '@goldfishjs/composition-api';
+import { autorun } from '@goldfishjs/reactive';
 import useContextType from './useContextType';
 import ComponentSetup from './ComponentSetup';
-import { autorun } from '@goldfishjs/reactive';
 
 export default function useAutorun() {
   const type = useContextType();

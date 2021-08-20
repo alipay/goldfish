@@ -15,7 +15,7 @@ export default abstract class Plugin {
   @state
   public isInitCompleted = false;
 
-  public async waitForReady() {
+  public async waitForReady(): Promise<void> {
     return new Promise(resolve => {
       const stop = watch(
         () => this.isInitCompleted,
@@ -32,6 +32,6 @@ export default abstract class Plugin {
     });
   }
 
-  public abstract async init(getPlugin: GetPlugin): Promise<void>;
+  public abstract init(getPlugin: GetPlugin): Promise<void>;
   public abstract destroy(): void;
 }
