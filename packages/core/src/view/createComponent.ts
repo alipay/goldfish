@@ -22,7 +22,7 @@ export default function createComponent<
   CS extends ComponentStore<P, AS>,
   P extends IProps = {},
   D = any,
-  M extends tinyapp.IComponentMethods = {}
+  M extends tinyapp.IComponentMethods = {},
 >(
   storeClass: new () => CS,
   componentOptions: ComponentOptions<P, D, CS, M> = {},

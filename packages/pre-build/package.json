@@ -4,7 +4,7 @@
   "description": "goldfish-pre-build",
   "scripts": {},
   "author": "yibuyisheng@163.com",
-  "license": "ISC",
+  "license": "MIT",
   "bin": {
     "goldfish-compile": "bin/goldfish-compile.js",
     "goldfish-dev": "bin/goldfish-dev.js",
