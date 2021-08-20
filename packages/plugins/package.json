@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "author": "yibuyisheng@163.com",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@goldfishjs/bridge": "^1.4.0",
     "@goldfishjs/module-usage": "^1.4.0",
