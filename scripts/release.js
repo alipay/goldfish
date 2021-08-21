@@ -23,5 +23,5 @@ packages.forEach((pkg) => {
   if (pkg.private) {
     return;
   }
-  runCommand(`cd ${pkg.location} && yarn publish`);
+  runCommand(`cd ${pkg.location} && yarn publish --registry https://registry.npmjs.org`);
 });
