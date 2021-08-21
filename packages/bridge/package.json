@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/bridge",
-  "version": "1.4.0",
+  "version": "1.5.0-alpha.0",
   "description": "goldfish-bridge",
   "main": "lib/index.js",
   "files": [
