@@ -26,5 +26,6 @@
     "react-use": "^17.2.3",
     "rxjs": "^6.6.7"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "registry": "https://registry.npmjs.org/"
 }

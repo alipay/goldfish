@@ -34,5 +34,6 @@
     "merge2": "^1.3.0",
     "micromatch": "^4.0.2",
     "postcss-px-to-viewport": "^1.1.1"
-  }
+  },
+  "registry": "https://registry.npmjs.org/"
 }

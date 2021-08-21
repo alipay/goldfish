@@ -33,5 +33,6 @@
   "peerDependencies": {
     "@types/react": "^16.9.22"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "registry": "https://registry.npmjs.org/"
 }

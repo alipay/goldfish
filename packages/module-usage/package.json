@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/module-usage",
-  "version": "1.4.0",
+  "version": "1.5.0-alpha.0",
   "description": "module-usage",
   "scripts": {
     "postinstall": "node src/index.js"
@@ -12,5 +12,6 @@
     "src"
   ],
   "author": "yibuyisheng@163.com",
-  "license": "MIT"
+  "license": "MIT",
+  "registry": "https://registry.npmjs.org/"
 }
