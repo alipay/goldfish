@@ -1,8 +1,7 @@
 const { runCommand, runScript, lerna } = require('./utils');
 
-runCommand('rm -rf node_modules && npm i --no-package-lock');
-runCommand('lerna clean --yes');
-runCommand('lerna bootstrap --loglevel=verbose');
+runCommand('rm -rf node_modules && rm -rf packages/*/node_modules');
+runCommand('yarn install');
 
 const packages = lerna.list();
 
@@ -24,5 +23,5 @@ packages.forEach((pkg) => {
   if (pkg.private) {
     return;
   }
-  runCommand(`cd ${pkg.location} && npm publish`);
+  runCommand(`cd ${pkg.location} && yarn publish`);
 });
