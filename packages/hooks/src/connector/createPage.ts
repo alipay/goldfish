@@ -4,7 +4,7 @@ import { OptionsEventName } from '../context/PageEventContext';
 
 export default function createComponent(fn: ICreateFunction<undefined>): tinyapp.PageOptions {
   const options: tinyapp.PageOptions = {};
-  const hooksOptions = create(fn);
+  const hooksOptions = create(fn, 'page');
 
   type PageInstance = IHostInstance<undefined> &
     tinyapp.IPageInstance<any> &

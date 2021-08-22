@@ -5,7 +5,7 @@ export const isComponent2 = typeof my !== 'undefined' && !!my?.canIUse('componen
 
 export default function createComponent<P>(fn: ICreateFunction<P>): tinyapp.ComponentOptions {
   const options: tinyapp.ComponentOptions = {};
-  const hooksOptions = create<P>(fn);
+  const hooksOptions = create<P>(fn, 'component');
 
   type ComponentInstance = IHostInstance<P> & tinyapp.IComponentInstance<P, any>;
 

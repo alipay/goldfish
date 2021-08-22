@@ -3,7 +3,7 @@ import isFunction from '../common/isFunction';
 
 export default function createApp(fn: ICreateFunction<any>): tinyapp.AppOptions {
   const options: tinyapp.AppOptions = {};
-  const hooksOptions = create(fn);
+  const hooksOptions = create(fn, 'app');
 
   type AppInstance = IHostInstance<undefined> &
     tinyapp.IAppInstance<any> &
