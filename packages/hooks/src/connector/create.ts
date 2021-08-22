@@ -13,6 +13,7 @@ export interface IOptions {
 export interface ICreateFunction<P> {
   (props?: P): {
     data: Record<string, any>;
+    [k: string]: any;
   };
 }
 

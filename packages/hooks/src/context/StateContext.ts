@@ -36,6 +36,11 @@ export default class StateContext extends Context {
         const result = super.wrapExecutor(fn);
         // TODO: performance optimization
         this.view.setData(result.data, () => Promise.resolve().then(this.onUpdated));
+        for (let key in result) {
+          if (result[key] instanceof Function) {
+            (this.view as any)[key] = result[key];
+          }
+        }
         return result;
       } catch (e) {
         throw e;
