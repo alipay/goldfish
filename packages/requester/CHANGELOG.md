@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-alpha.1](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v1.5.0-alpha.0...v1.5.0-alpha.1) (2021-08-22)
+
+
+### Features
+
+* publish ([7328746](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/commit/73287464fe843b72bb561ffb296f2dd04e3b7e1f))
+
+
+
+
+
 # [1.4.0](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v1.3.3...v1.4.0) (2021-07-14)
 
 

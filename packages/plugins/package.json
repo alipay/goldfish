@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/plugins",
-  "version": "1.5.0-alpha.0",
+  "version": "1.5.0-alpha.1",
   "description": "goldfish-plugins",
   "main": "lib/index.js",
   "files": [
