@@ -2,7 +2,7 @@ import { default as App, app } from '../common/App';
 import useState from './useState';
 
 export default function useGlobalData<G extends Record<string, any>>(passInApp?: App) {
-  // 用于触发组件更新
+  // use `counter` to trigger the re-render.
   const [counter, setCounter] = useState(0);
 
   const realGlobal = passInApp || app;
