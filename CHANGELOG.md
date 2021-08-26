@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-alpha.3](https://github.com/alipay/goldfish/compare/v1.5.0-alpha.2...v1.5.0-alpha.3) (2021-08-26)
+
+
+### Features
+
+* export useGlobalData ([efa7b9f](https://github.com/alipay/goldfish/commit/efa7b9f7c998672dc4b872c691b3838386a4e876))
+
+
+
+
+
 # [1.5.0-alpha.2](https://github.com/alipay/goldfish/compare/v1.5.0-alpha.1...v1.5.0-alpha.2) (2021-08-26)
 
 
