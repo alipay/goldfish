@@ -7,7 +7,8 @@
     "build": "rm -rf ./lib && ../../node_modules/.bin/gulp ts"
   },
   "files": [
-    "lib"
+    "lib",
+    "babel-plugin-import-config.js"
   ],
   "keywords": [],
   "author": "yibuyisheng@163.com",
