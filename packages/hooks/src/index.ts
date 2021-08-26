@@ -10,5 +10,7 @@ export { default as useReducer } from './hooks/useReducer';
 export { default as useRef } from './hooks/useRef';
 export { default as useState } from './hooks/useState';
 
+export { default as useGlobalData } from './hooks/useGlobalData';
+
 export { default as useAppEvent } from './hooks/useAppEvent';
 export { default as usePageEvent } from './hooks/usePageEvent';

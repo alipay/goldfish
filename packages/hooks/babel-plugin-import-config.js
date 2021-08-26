@@ -18,6 +18,7 @@ module.exports = {
       useState: `${codeDir}/hooks/useState`,
       useAppEvent: `${codeDir}/hooks/useAppEvent`,
       usePageEvent: `${codeDir}/hooks/usePageEvent`,
+      useGlobalData: `${codeDir}/hooks/useGlobalData`,
     }[name];
   }
 };
