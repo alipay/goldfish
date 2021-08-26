@@ -2,7 +2,7 @@ import create, { ICreateFunction, IHostInstance } from './create';
 import isFunction from '../common/isFunction';
 import { OptionsEventName } from '../context/PageEventContext';
 
-export default function createComponent(fn: ICreateFunction<undefined>): tinyapp.PageOptions {
+export default function createPage(fn: ICreateFunction<undefined>): tinyapp.PageOptions {
   const options: tinyapp.PageOptions = {};
   const hooksOptions = create(fn, 'page');
 
