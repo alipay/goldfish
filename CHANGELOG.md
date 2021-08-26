@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0-alpha.4](https://github.com/alipay/goldfish/compare/v1.5.0-alpha.3...v1.5.0-alpha.4) (2021-08-26)
+
+
+### Features
+
+* publish babel config ([d6cb3a8](https://github.com/alipay/goldfish/commit/d6cb3a89d5842f43a765f86345e02774f67ef21f))
+
+
+
+
+
 # [1.5.0-alpha.3](https://github.com/alipay/goldfish/compare/v1.5.0-alpha.2...v1.5.0-alpha.3) (2021-08-26)
 
 
