@@ -1,6 +1,6 @@
 import Context from './Context';
 import createContextStack from '../common/createContextStack';
-import { ICreateFunction } from '../connector/create';
+import { CreateFunction } from '../connector/create';
 
 export type Push = ReturnType<typeof createContextStack>['push'];
 export type Pop = ReturnType<typeof createContextStack>['pop'];
@@ -23,7 +23,7 @@ export default class CacheContext<V> extends Context {
     this.pop = pop;
   }
 
-  public wrap(fn: () => ReturnType<ICreateFunction<any>>) {
+  public wrap(fn: () => ReturnType<CreateFunction>) {
     return () => {
       this.index = 0;
       this.push(this);

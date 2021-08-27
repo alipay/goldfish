@@ -1,7 +1,7 @@
 import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
 import Context from './Context';
 import createContextStack from '../common/createContextStack';
-import { ICreateFunction } from '../connector/create';
+import { CreateFunction } from '../connector/create';
 import isFunction from '../common/isFunction';
 
 const { push, pop, getCurrent } = createContextStack<StateContext>();
@@ -28,7 +28,7 @@ export default class StateContext extends Context {
     this.onUpdated = onUpdated;
   }
 
-  public wrap(fn: () => ReturnType<ICreateFunction<any>>) {
+  public wrap(fn: () => ReturnType<CreateFunction>) {
     return () => {
       this.index = 0;
       push(this);

@@ -1,6 +1,6 @@
 import createContextStack from '../common/createContextStack';
 import Context from './Context';
-import { IHostInstance, ICreateFunction } from '../connector/create';
+import { IHostInstance, CreateFunction } from '../connector/create';
 
 const { push, pop, getCurrent } = createContextStack<InstanceContext>();
 
@@ -29,7 +29,7 @@ export default class InstanceContext extends Context {
     return this.containerType;
   }
 
-  public wrap(fn: () => ReturnType<ICreateFunction<any>>) {
+  public wrap(fn: () => ReturnType<CreateFunction>) {
     return () => {
       push(this);
       try {

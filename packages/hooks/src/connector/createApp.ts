@@ -1,7 +1,7 @@
-import create, { ICreateFunction, IHostInstance } from './create';
+import create, { CreateFunction, IHostInstance } from './create';
 import isFunction from '../common/isFunction';
 
-export default function createApp(fn: ICreateFunction<any>): tinyapp.AppOptions {
+export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp.AppOptions {
   const options: tinyapp.AppOptions = {};
   const hooksOptions = create(fn, 'app');
 
