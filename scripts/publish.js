@@ -1,4 +1,4 @@
-const { runCommand } = require('./utils');
+const { runCommand, lerna } = require('./utils');
 
 const packages = lerna.list();
 
@@ -7,5 +7,5 @@ packages.forEach((pkg) => {
   if (pkg.private) {
     return;
   }
-  runCommand(`cd ${pkg.location} && yarn publish --non-interactive`);
+  runCommand(`cd ${pkg.location} && yarn publish --non-interactive --registry https://registry.npmjs.org`);
 });
