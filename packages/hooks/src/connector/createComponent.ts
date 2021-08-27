@@ -1,9 +1,9 @@
-import create, { ICreateFunction, IHostInstance } from './create';
+import create, { CreateFunction, IHostInstance } from './create';
 import isFunction from '../common/isFunction';
 
 export const isComponent2 = typeof my !== 'undefined' && !!my?.canIUse('component2');
 
-export default function createComponent<P>(fn: ICreateFunction<P>): tinyapp.ComponentOptions {
+export default function createComponent<P>(fn: (props: P) => ReturnType<CreateFunction>): tinyapp.ComponentOptions {
   const options: tinyapp.ComponentOptions = {};
   const hooksOptions = create<P>(fn, 'component');
 

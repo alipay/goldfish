@@ -1,7 +1,7 @@
 import Context from './Context';
 import createContextStack from '../common/createContextStack';
 import isDependencyListEqual from '../common/isDependecyListEqual';
-import { ICreateFunction } from '../connector/create';
+import { CreateFunction } from '../connector/create';
 
 const { push, pop, getCurrent } = createContextStack<EffectContext>();
 
@@ -19,7 +19,7 @@ export default class EffectContext extends Context {
 
   private index = 0;
 
-  public wrap(fn: () => ReturnType<ICreateFunction<any>>) {
+  public wrap(fn: () => ReturnType<CreateFunction>) {
     return () => {
       this.index = 0;
       push(this);

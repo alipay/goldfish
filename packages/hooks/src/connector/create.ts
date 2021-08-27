@@ -10,12 +10,7 @@ export interface IOptions {
   init: () => void;
 }
 
-export interface ICreateFunction<P> {
-  (props?: P): {
-    data: Record<string, any>;
-    [k: string]: any;
-  };
-}
+export type CreateFunction = (props?: any) => { data: Record<string, any>; [k: string]: any };
 
 export interface IHostInstance<P> {
   $$stateContext?: StateContext;
@@ -29,8 +24,8 @@ export interface IHostInstance<P> {
   setData: tinyapp.SetDataMethod<any>;
 }
 
-export default function create<P>(fn: ICreateFunction<P>, type?: ContainerType) {
-  const executeFn = function (this: IHostInstance<P>, fn: () => ReturnType<ICreateFunction<any>>) {
+export default function create<P>(fn: CreateFunction, type?: ContainerType) {
+  const executeFn = function (this: IHostInstance<P>, fn: () => ReturnType<CreateFunction>) {
     let wrappedFn = this.$$memoContext?.wrap(fn) || fn;
     wrappedFn = this.$$effectContext?.wrap(wrappedFn) || wrappedFn;
     wrappedFn = this.$$callbackContext?.wrap(wrappedFn) || wrappedFn;
