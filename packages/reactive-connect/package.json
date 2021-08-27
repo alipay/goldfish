@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/reactive-connect",
-  "version": "1.5.0-alpha.1",
+  "version": "1.5.0",
   "description": "goldfish-reactive-connect",
   "main": "lib/index.js",
   "files": [

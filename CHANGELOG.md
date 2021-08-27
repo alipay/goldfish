@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/alipay/goldfish/compare/v1.5.0-alpha.4...v1.5.0) (2021-08-27)
+
+
+### Bug Fixes
+
+* the type of createComponent props ([0b4408c](https://github.com/alipay/goldfish/commit/0b4408c3857ef4bd1dfb81898a7b1e13f0975b28))
+
+
+### Features
+
+* avoid version bump. ([5dbcf96](https://github.com/alipay/goldfish/commit/5dbcf96c2f65678c3e0b66c3bd0f92ac3520e9d1))
+* change versions ([0eb2441](https://github.com/alipay/goldfish/commit/0eb2441751174cc2266d123f804b959bbfb108ed))
+* component -> page ([d4dcbe6](https://github.com/alipay/goldfish/commit/d4dcbe6fb797c1225751c52ef87c0bd09611fb9d))
+
+
+
+
+
 # [1.5.0-alpha.4](https://github.com/alipay/goldfish/compare/v1.5.0-alpha.3...v1.5.0-alpha.4) (2021-08-26)
 
 
