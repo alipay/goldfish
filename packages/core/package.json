@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/core",
-  "version": "1.5.0-alpha.1",
+  "version": "1.5.0",
   "description": "goldfish",
   "main": "lib/index.js",
   "files": [
