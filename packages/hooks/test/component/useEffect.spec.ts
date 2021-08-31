@@ -43,7 +43,7 @@ it('should call the clear function after the next mount.', done => {
         setFlag(false);
       }
       return fn;
-    });
+    }, []);
     return {
       data: {},
     };
@@ -53,6 +53,7 @@ it('should call the clear function after the next mount.', done => {
     setData: (_: any, cb: () => void) => cb(),
   };
   options.didMount?.call(componentInstance);
+  options.didUnmount?.call(componentInstance);
   setTimeout(() => {
     expect(fn.mock.calls.length).toBe(1);
     done();

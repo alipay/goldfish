@@ -11,7 +11,7 @@ export default class MemoContext extends CacheContext<() => any> {
     super(push, pop);
   }
 
-  public add(memoFn: () => any, deps: React.DependencyList = []) {
+  public add(memoFn: () => any, deps?: React.DependencyList) {
     if (this.state !== 'executing') {
       throw new Error(`Wrong state: ${this.state}. Expected: executing`);
     }
@@ -24,7 +24,7 @@ export default class MemoContext extends CacheContext<() => any> {
     };
     this.arr[currentIndex] = newItem;
 
-    if (!oldItem || !isDependencyListEqual(oldItem.deps, deps)) {
+    if (!isDependencyListEqual(oldItem?.deps, deps)) {
       newItem.value = memoFn();
     }
 

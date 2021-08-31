@@ -15,7 +15,7 @@ export default class CallbackContext extends CacheContext<ICallbackFunction> {
     super(push, pop);
   }
 
-  public add(value: ICallbackFunction, deps: React.DependencyList = []) {
+  public add(value: ICallbackFunction, deps?: React.DependencyList) {
     if (this.state !== 'executing') {
       throw new Error(`Wrong state: ${this.state}. Expected: executing`);
     }
@@ -27,7 +27,7 @@ export default class CallbackContext extends CacheContext<ICallbackFunction> {
     };
     this.arr[this.index] = newItem;
 
-    if (!oldItem || !isDependencyListEqual(oldItem.deps, deps)) {
+    if (!isDependencyListEqual(oldItem?.deps, deps)) {
       newItem.value = value;
     }
 

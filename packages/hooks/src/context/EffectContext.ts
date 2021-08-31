@@ -12,7 +12,7 @@ export default class EffectContext extends Context {
 
   private arr: Array<{
     effect: React.EffectCallback;
-    deps: React.DependencyList;
+    deps?: React.DependencyList;
     isChanged: boolean;
     destroyFn?: ReturnType<React.EffectCallback>;
   }> = [];
@@ -33,7 +33,7 @@ export default class EffectContext extends Context {
     };
   }
 
-  public add(effect: React.EffectCallback, deps: React.DependencyList = []) {
+  public add(effect: React.EffectCallback, deps?: React.DependencyList) {
     if (this.state !== 'executing') {
       throw new Error(`Wrong state: ${this.state}. Expected: executing`);
     }
@@ -47,7 +47,7 @@ export default class EffectContext extends Context {
     };
     this.arr[this.index] = newItem;
 
-    if (!oldItem || (oldItem.deps.length === 0 && deps.length === 0) || !isDependencyListEqual(oldItem.deps, deps)) {
+    if (!isDependencyListEqual(oldItem?.deps, deps)) {
       newItem.isChanged = true;
       newItem.effect = effect;
     }
