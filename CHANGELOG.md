@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/alipay/goldfish/compare/v1.5.0-alpha.4...v1.6.0) (2021-08-31)
+
+
+### Bug Fixes
+
+* hooks dependecy bug. ([5fd8e4f](https://github.com/alipay/goldfish/commit/5fd8e4f65af61c8b310ee8d4f3893d2bc24c286f))
+* the type of createComponent props ([0b4408c](https://github.com/alipay/goldfish/commit/0b4408c3857ef4bd1dfb81898a7b1e13f0975b28))
+
+
+### Features
+
+* add publish registry ([895d66d](https://github.com/alipay/goldfish/commit/895d66d946173079c7c93f4e6b4a94963d388b23))
+* avoid version bump. ([5dbcf96](https://github.com/alipay/goldfish/commit/5dbcf96c2f65678c3e0b66c3bd0f92ac3520e9d1))
+* change versions ([0eb2441](https://github.com/alipay/goldfish/commit/0eb2441751174cc2266d123f804b959bbfb108ed))
+* component -> page ([d4dcbe6](https://github.com/alipay/goldfish/commit/d4dcbe6fb797c1225751c52ef87c0bd09611fb9d))
+* use babel runtime package ([10cf731](https://github.com/alipay/goldfish/commit/10cf731cbcc5d0f113ec72fcbe90b0e9e9ace875))
+
+
+
+
+
 # [1.5.0](https://github.com/alipay/goldfish/compare/v1.5.0-alpha.4...v1.5.0) (2021-08-27)
 
 
