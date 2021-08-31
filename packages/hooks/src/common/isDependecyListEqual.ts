@@ -1,4 +1,11 @@
-export default function isDependencyListEqual(oldDeps: React.DependencyList, newDeps: React.DependencyList) {
+export default function isDependencyListEqual(
+  oldDeps: React.DependencyList | undefined,
+  newDeps: React.DependencyList | undefined,
+) {
+  if (!oldDeps || !newDeps) {
+    return false;
+  }
+
   if (oldDeps.length !== newDeps.length) {
     return false;
   }

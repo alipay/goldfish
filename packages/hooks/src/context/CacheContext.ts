@@ -8,7 +8,7 @@ export type Pop = ReturnType<typeof createContextStack>['pop'];
 export default class CacheContext<V> extends Context {
   protected arr: Array<{
     value: V;
-    deps: React.DependencyList;
+    deps?: React.DependencyList;
   }> = [];
 
   protected index = 0;

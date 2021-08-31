@@ -13,7 +13,7 @@ it('should cache the function.', done => {
       }
     });
 
-    fns.push(useCallback(() => {}));
+    fns.push(useCallback(() => {}, []));
     return {
       data: {},
     };
