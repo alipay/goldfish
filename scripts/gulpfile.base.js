@@ -31,7 +31,7 @@ function compileTsStream(files, imports) {
         '@babel/plugin-transform-runtime',
         {
           corejs: false,
-          helpers: false,
+          helpers: true,
           regenerator: true,
           useESModules: false,
         },
