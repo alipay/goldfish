@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v1.6.0...v1.6.1) (2021-09-09)
+
+
+### Bug Fixes
+
+* Do not call the function when the time is set to -1. ([8c0399e](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/commit/8c0399e2c86468763186834664614a9770b92499))
+
+
+
+
+
 # [1.6.0](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v1.5.0-alpha.4...v1.6.0) (2021-08-31)
 
 **Note:** Version bump only for package @goldfishjs/utils
