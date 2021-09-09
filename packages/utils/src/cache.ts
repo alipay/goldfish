@@ -47,7 +47,6 @@ class Cache<R> {
     // No cache.
     if (this.options?.time === -1) {
       await this.waitPrevious();
-      this.loadingPromise = this.call();
       return this.loadingPromise;
     }
 
