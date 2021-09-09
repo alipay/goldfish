@@ -61,3 +61,25 @@ it('should rerun when timeout.', async () => {
   await Promise.all([cacheFn(), cacheFn()]);
   expect(mockFn.mock.calls.length).toBe(2);
 });
+
+it('should cache the result in memory permanently.', async () => {
+  let counter = 0;
+  const mockFn = jest.fn(() => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(counter++);
+      }, 200);
+    });
+  });
+  const cacheFn = cache(mockFn, {
+    time: -1,
+  });
+
+  let result = await cacheFn();
+  expect(mockFn.mock.calls.length).toBe(1);
+  expect(result).toBe(0);
+
+  result = await cacheFn();
+  expect(mockFn.mock.calls.length).toBe(1);
+  expect(result).toBe(0);
+});
