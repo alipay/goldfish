@@ -15,7 +15,7 @@ describe.each`
     const { result } = setUp(defaultValue, initialValue);
     const [value, setValue] = result.current;
 
-    expect(value).toBe(initialValue);
+    expect(value).toEqual(initialValue);
     expect(setValue).toBeInstanceOf(Function);
   });
 
@@ -26,7 +26,7 @@ describe.each`
     setValue(anotherValue);
 
     setTimeout(() => {
-      expect(result.current[0]).toBe(anotherValue);
+      expect(result.current[0]).toEqual(anotherValue);
       done();
     });
   });
@@ -38,7 +38,7 @@ describe.each`
     setValue(null);
 
     setTimeout(() => {
-      expect(result.current[0]).toBe(defaultValue);
+      expect(result.current[0]).toEqual(defaultValue);
       done();
     });
   });
@@ -50,7 +50,7 @@ describe.each`
     setValue(undefined);
 
     setTimeout(() => {
-      expect(result.current[0]).toBe(defaultValue);
+      expect(result.current[0]).toEqual(defaultValue);
       done();
     });
   });
@@ -61,14 +61,14 @@ describe.each`
 
     setValue(undefined);
     await timeout();
-    expect(result.current[0]).toBe(defaultValue);
+    expect(result.current[0]).toEqual(defaultValue);
 
     setValue(null);
     await timeout();
-    expect(result.current[0]).toBe(defaultValue);
+    expect(result.current[0]).toEqual(defaultValue);
 
     setValue(anotherValue);
     await timeout();
-    expect(result.current[0]).toBe(anotherValue);
+    expect(result.current[0]).toEqual(anotherValue);
   });
 });

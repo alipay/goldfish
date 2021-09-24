@@ -1,33 +1,35 @@
-import createComponent from '../../src/connector/createComponent';
+import createComponentForMini from '../../src/connector/createComponent';
 import useReducer from '../../src/hooks/useReducer';
+import { createComponent } from '../utils';
 
 it('should support the basic ability.', done => {
-  const options = createComponent(() => {
-    const [state, dispatch] = useReducer(
-      (state: { count: number }, action: { type: string }) => {
-        if (action.type === 'increment') {
-          return {
-            count: state.count + 1,
-          };
-        }
-        return state;
-      },
-      { count: 1 },
-    );
-
-    setTimeout(() => {
-      dispatch({ type: 'increment' });
-    }, 200);
-
-    return {
-      data: state,
-    };
-  });
-
   const setData = jest.fn();
-  options.didMount?.call({
-    setData,
-  });
+  const handler = createComponent(
+    () => {
+      const [state, dispatch] = useReducer(
+        (state: { count: number }, action: { type: string }) => {
+          if (action.type === 'increment') {
+            return {
+              count: state.count + 1,
+            };
+          }
+          return state;
+        },
+        { count: 1 },
+      );
+
+      setTimeout(() => {
+        dispatch({ type: 'increment' });
+      }, 200);
+
+      return {
+        data: state,
+      };
+    },
+    { setData },
+  );
+
+  handler.mount();
   expect(setData.mock.calls.length).toBe(1);
   expect(setData.mock.calls[0][0]).toEqual({ count: 1 });
   setTimeout(() => {
@@ -38,7 +40,7 @@ it('should support the basic ability.', done => {
 });
 
 it('should initialize the state with the third function.', () => {
-  const options = createComponent(() => {
+  const options = createComponentForMini(() => {
     const [state] = useReducer(
       (state: { count: number }) => {
         return state;

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import useEffect from '../../src/hooks/useEffect';
 import useState from '../../src/hooks/useState';
-import createComponent from '../../src/connector/createComponent';
+import createComponentForMini from '../../src/connector/createComponent';
+import { createComponent } from '../utils';
 
 it('should run the effect function after mount.', done => {
   const fn = jest.fn();
-  const options = createComponent(() => {
+  const options = createComponentForMini(() => {
     useEffect(fn);
     return {
       data: {},
@@ -20,7 +21,7 @@ it('should run the effect function after mount.', done => {
 it('should run the multiple effect functions after mount.', done => {
   const fn1 = jest.fn();
   const fn2 = jest.fn();
-  const options = createComponent(() => {
+  const options = createComponentForMini(() => {
     useEffect(fn1);
     useEffect(fn2);
     return {
@@ -36,7 +37,7 @@ it('should run the multiple effect functions after mount.', done => {
 
 it('should call the clear function after the next mount.', done => {
   const fn = jest.fn();
-  const options = createComponent(() => {
+  const options = createComponentForMini(() => {
     const [flag, setFlag] = useState(true);
     useEffect(() => {
       if (flag) {
@@ -62,25 +63,27 @@ it('should call the clear function after the next mount.', done => {
 
 it('should rerun the effect after the dependencies being changed.', done => {
   const fn = jest.fn();
-  const options = createComponent(() => {
-    const [v, setV] = useState(true);
-    useEffect(() => {
-      fn(v);
-    }, [v]);
+  const handler = createComponent(
+    () => {
+      const [v, setV] = useState(true);
+      useEffect(() => {
+        fn(v);
+      }, [v]);
 
-    setTimeout(() => {
-      setV(false);
-    });
+      setTimeout(() => {
+        setV(false);
+      });
 
-    return {
-      data: {},
-    };
-  });
+      return {
+        data: {},
+      };
+    },
+    {
+      setData: (_: any, cb?: () => void) => cb && cb(),
+    },
+  );
 
-  const componentInstance = {
-    setData: (_: any, cb: () => void) => cb(),
-  };
-  options.didMount?.call(componentInstance);
+  handler.mount();
   expect(fn.mock.calls.length).toBe(1);
   setTimeout(() => {
     expect(fn.mock.calls.length).toBe(2);
@@ -91,7 +94,7 @@ it('should rerun the effect after the dependencies being changed.', done => {
 
 it('should not rerun the effect while the dependencies not being changed.', done => {
   const fn = jest.fn();
-  const options = createComponent(() => {
+  const options = createComponentForMini(() => {
     const [v, setV] = useState(true);
     useEffect(() => {
       fn(v);
