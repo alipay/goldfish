@@ -5,6 +5,7 @@ import MemoContext from '../context/MemoContext';
 import AppEventContext from '../context/AppEventContext';
 import PageEventContext from '../context/PageEventContext';
 import InstanceContext, { ContainerType } from '../context/InstanceContext';
+import View from '../common/View';
 
 export interface IOptions {
   init: () => void;
@@ -12,7 +13,7 @@ export interface IOptions {
 
 export type CreateFunction = (props?: any) => { data: Record<string, any>; [k: string]: any };
 
-export interface IHostInstance<P> {
+export interface IHostInstance<P> extends View {
   $$stateContext?: StateContext;
   $$effectContext?: EffectContext;
   $$callbackContext?: CallbackContext;
@@ -21,7 +22,6 @@ export interface IHostInstance<P> {
   $$appEventContext?: AppEventContext;
   $$pageEventContext?: PageEventContext;
   props?: P;
-  setData: tinyapp.SetDataMethod<any>;
 }
 
 export default function create<P>(fn: CreateFunction, type?: ContainerType) {
@@ -38,6 +38,7 @@ export default function create<P>(fn: CreateFunction, type?: ContainerType) {
 
   const options = {
     init(this: IHostInstance<P>) {
+      this.$$isSyncDataSafe = true;
       const instanceContext = new InstanceContext();
       instanceContext.set(this);
       instanceContext.setContainerType(type);
@@ -81,6 +82,7 @@ export default function create<P>(fn: CreateFunction, type?: ContainerType) {
       this.$$appEventContext?.destroy();
       this.$$pageEventContext?.destroy();
       this.$$memoContext?.destroy();
+      this.$$isSyncDataSafe = false;
     },
     syncProps(this: IHostInstance<P>, nextProps?: P) {
       executeFn.call(this, () => fn(nextProps));

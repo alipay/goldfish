@@ -1,5 +1,6 @@
-import renderHook from './renderHook';
 import usePreviousDistinct, { Predicate } from 'react-use/esm/usePreviousDistinct';
+import renderHook from './renderHook';
+import timeout from './timeout';
 
 describe('usePreviousDistinct', () => {
   it('should be defined', () => {
@@ -26,7 +27,7 @@ describe('usePreviousDistinct', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should update previous value only after render with different value', () => {
+  it('should update previous value only after render with different value', async () => {
     const hook = getHook();
 
     expect(hook.result.current).toBeUndefined();
@@ -44,10 +45,11 @@ describe('usePreviousDistinct', () => {
     expect(hook.result.current).toBe(1);
 
     hook.rerender({ val: 3 });
+    await timeout();
     expect(hook.result.current).toBe(2);
   });
 
-  it('should work fine with `undefined` values', () => {
+  it('should work fine with `undefined` values', async () => {
     const hook = renderHook(props => usePreviousDistinct(props?.value), {
       initialProps: { value: undefined as undefined | number },
     });
@@ -61,6 +63,7 @@ describe('usePreviousDistinct', () => {
     expect(hook.result.current).toBe(1);
 
     hook.rerender({ value: 2 });
+    await timeout();
     expect(hook.result.current).toBeUndefined();
   });
 
@@ -80,6 +83,6 @@ describe('usePreviousDistinct', () => {
 
     hook.rerender({ val: obj3, cmp: predicate });
 
-    expect(hook.result.current).toBe(obj1);
+    expect(hook.result.current).toEqual(obj1);
   });
 });

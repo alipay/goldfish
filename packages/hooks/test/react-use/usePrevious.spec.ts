@@ -1,5 +1,6 @@
 import usePrevious from 'react-use/esm/usePrevious';
 import renderHook from './renderHook';
+import timeout from './timeout';
 
 const setUp = () => renderHook(props => usePrevious(props?.state), { initialProps: { state: 0 } });
 
@@ -9,7 +10,7 @@ it('should return undefined on initial render', () => {
   expect(result.current).toBeUndefined();
 });
 
-it('should always return previous state after each update', () => {
+it('should always return previous state after each update', async () => {
   const { result, rerender } = setUp();
 
   rerender({ state: 2 });
@@ -19,5 +20,6 @@ it('should always return previous state after each update', () => {
   expect(result.current).toBe(2);
 
   rerender({ state: 6 });
+  await timeout();
   expect(result.current).toBe(4);
 });

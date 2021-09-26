@@ -87,6 +87,7 @@ describe('useStateWithHistory', () => {
     expect(hook.result.current[0][2].history).toEqual([1, 2, 3, 4, 5]);
 
     hook.rerender({ state: 5, capacity: 4, history: [1, 2, 3, 4, 5] });
+    await timeout();
 
     expect(hook.result.current[0][2].capacity).toBe(5);
     expect(hook.result.current[0][2].history).toEqual([1, 2, 3, 4, 5]);
@@ -101,6 +102,8 @@ describe('useStateWithHistory', () => {
     expect(hook.result.current[0][2].history).toEqual([3, 4, 5, 111]);
 
     hook.rerender({ state: 5, capacity: 3, history: [1, 2, 3, 4, 5] });
+    await timeout();
+
     expect(hook.result.current[0][2].capacity).toBe(4);
     expect(hook.result.current[0][2].history).toEqual([3, 4, 5, 111]);
 
