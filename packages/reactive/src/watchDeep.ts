@@ -30,10 +30,39 @@ class StopFns {
     this.fns[keyPathString][curKey] = fn;
   }
 
+  /**
+   * Remove current layer and all the children's listeners.
+   *
+   * @param keyPathList
+   */
   public remove(keyPathList: KeyPathList) {
     const keyPathString = generateKeyPathString(keyPathList);
     for (const kps in this.fns) {
       if (kps.indexOf(keyPathString) === 0) {
+        for (const k in this.fns[kps]) {
+          this.fns[kps][k]();
+        }
+        this.fns[kps] = {};
+      }
+    }
+  }
+
+  public removeChildren(keyPathList: KeyPathList) {
+    const keyPathString = generateKeyPathString(keyPathList);
+    for (const kps in this.fns) {
+      if (kps !== keyPathString && kps.indexOf(keyPathString) === 0) {
+        for (const k in this.fns[kps]) {
+          this.fns[kps][k]();
+        }
+        this.fns[kps] = {};
+      }
+    }
+  }
+
+  public removeSingleLayer(keyPathList: KeyPathList) {
+    const keyPathString = generateKeyPathString(keyPathList);
+    for (const kps in this.fns) {
+      if (kps === keyPathString) {
         for (const k in this.fns[kps]) {
           this.fns[kps][k]();
         }
@@ -71,24 +100,80 @@ class Watcher {
     this.options = options;
   }
 
-  private watchObj(obj: any, keyPathList: KeyPathList) {
+  private watchObj(obj: any, keyPathList: KeyPathList, options?: ChangeOptions) {
     if (isRaw(obj)) {
       return;
     }
 
-    this.stopFns.remove(keyPathList);
     if (Array.isArray(obj)) {
-      obj.forEach((_, index) => {
-        this.watchSingleKey(obj, index, keyPathList);
-      });
+      // Optimization for arrays.
+      if (options?.isArray) {
+        const method = options.method!;
+        const oldV = options.oldV!;
+        const args = options.args!;
+
+        if (method === 'sort' || method === 'reverse') {
+          for (let i = 0, il = obj.length; i < il; i++) {
+            this.stopFns.removeChildren([...keyPathList, i]);
+            this.watchSingleKey(obj, i, keyPathList);
+          }
+        } else {
+          const start = {
+            push: oldV.length,
+            splice: args[0],
+            unshift: 0,
+            pop: oldV.length - 1,
+            shift: 0,
+          }[method];
+          const deletedCount = {
+            push: 0,
+            splice: args[1],
+            unshift: 0,
+            pop: 1,
+            shift: 1,
+          }[method];
+          const values = {
+            push: args,
+            splice: args.slice(2),
+            unshift: args,
+            pop: [],
+            shift: [],
+          }[method];
+
+          if (deletedCount === values.length) {
+            for (let i = start, il = deletedCount; i < il; i++) {
+              this.stopFns.removeChildren([...keyPathList, i]);
+              this.watchSingleKey(obj, i, keyPathList);
+            }
+          } else {
+            for (let i = start, il = oldV.length; i < il; i++) {
+              this.stopFns.removeChildren([...keyPathList, i]);
+              this.watchObj(obj[i], [...keyPathList, i]);
+            }
+            for (let i = oldV.length, il = obj.length; i < il; i++) {
+              this.watchSingleKey(obj, i, keyPathList);
+            }
+            for (let i = obj.length, il = oldV.length; i < il; i++) {
+              this.stopFns.removeSingleLayer([...keyPathList, i]);
+              this.stopFns.removeChildren([...keyPathList, i]);
+            }
+          }
+        }
+      } else {
+        this.stopFns.remove(keyPathList);
+        obj.forEach((_, index) => {
+          this.watchSingleKey(obj, index, keyPathList);
+        });
+      }
     } else if (isObject(obj)) {
+      this.stopFns.remove(keyPathList);
       for (const key in obj) {
         this.watchSingleKey(obj, key, keyPathList);
       }
     }
   }
 
-  private watchSingleKey(obj: any, key: string | number, keyPathList: KeyPathList) {
+  private watchCurrentKeyOnly(obj: any, key: string | number, keyPathList: KeyPathList) {
     const nextKeyPathList = [...keyPathList, key];
     call(
       () => {
@@ -96,7 +181,7 @@ class Watcher {
         obj[key];
         /* eslint-enable @typescript-eslint/no-unused-expressions */
         const stopList = getCurrent().addChangeListener((newV, oldV, options) => {
-          this.watchObj(newV, nextKeyPathList);
+          this.watchObj(newV, nextKeyPathList, options);
           this.callback(this.obj, nextKeyPathList, newV, oldV, options);
         }, false);
         this.stopFns.add(keyPathList, key, () => stopList.forEach(s => s()));
@@ -109,6 +194,11 @@ class Watcher {
         }
       },
     );
+    return nextKeyPathList;
+  }
+
+  private watchSingleKey(obj: any, key: string | number, keyPathList: KeyPathList) {
+    const nextKeyPathList = this.watchCurrentKeyOnly(obj, key, keyPathList);
     this.watchObj(obj[key], nextKeyPathList);
   }
 
