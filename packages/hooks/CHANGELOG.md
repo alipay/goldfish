@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/alipay/goldfish/compare/v1.6.1...v1.7.0) (2021-09-27)
+
+
+### Features
+
+* data transfer optimization for the mini-program. ([d3017ba](https://github.com/alipay/goldfish/commit/d3017ba8549040ff90f9b9fea1e4e7e71f97f278))
+
+
+
+
+
 ## [1.6.1](https://github.com/alipay/goldfish/compare/v1.6.0...v1.6.1) (2021-09-09)
 
 **Note:** Version bump only for package @goldfishjs/hooks

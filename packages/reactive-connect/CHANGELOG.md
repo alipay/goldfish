@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/alipay/goldfish/compare/v1.6.1...v1.7.0) (2021-09-27)
+
+
+### Bug Fixes
+
+* avoid the calling of `set` in the `cb` function synchronously. ([22b6cdf](https://github.com/alipay/goldfish/commit/22b6cdf411b229c49b009f06656b62389c973693))
+
+
+### Features
+
+* handle the sparse array. ([9b16fe5](https://github.com/alipay/goldfish/commit/9b16fe5e6fbe0efdb86a60a5e472500b6bcf182c))
+
+
+
+
+
 ## [1.6.1](https://github.com/alipay/goldfish/compare/v1.6.0...v1.6.1) (2021-09-09)
 
 **Note:** Version bump only for package @goldfishjs/reactive-connect

@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/alipay/goldfish/compare/v1.6.1...v1.7.0) (2021-09-27)
+
+
+### Bug Fixes
+
+* avoid the calling of `set` in the `cb` function synchronously. ([22b6cdf](https://github.com/alipay/goldfish/commit/22b6cdf411b229c49b009f06656b62389c973693))
+
+
+### Features
+
+* data transfer optimization for the mini-program. ([d3017ba](https://github.com/alipay/goldfish/commit/d3017ba8549040ff90f9b9fea1e4e7e71f97f278))
+* handle the sparse array. ([9b16fe5](https://github.com/alipay/goldfish/commit/9b16fe5e6fbe0efdb86a60a5e472500b6bcf182c))
+* optimize the listeners updating. ([1c6d03f](https://github.com/alipay/goldfish/commit/1c6d03ff65fc277ecaa15a318c318cf3d17dfdb4))
+
+
+
+
+
 ## [1.6.1](https://github.com/alipay/goldfish/compare/v1.6.0...v1.6.1) (2021-09-09)
 
 
