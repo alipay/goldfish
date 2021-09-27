@@ -141,7 +141,9 @@ export default class SetTree {
       this.limitLeafTotalCount.addLeaf();
     } else {
       const children = curNode.children;
-      const len = Array.isArray(children) ? children.length : Object.keys(children || {}).length;
+      // If the `children` is an array. we also use `Object.keys` to get the length of the array.
+      // Because we should handle the sparse array.
+      const len = Object.keys(children || {}).length;
       if (len > availableLeafCount) {
         updateObj[generateKeyPathString(keyPathList)] = this.combine(curNode, obj);
         this.limitLeafTotalCount.addLeaf();
