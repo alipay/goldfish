@@ -12,6 +12,8 @@ export default class ComponentSetup extends Setup {
 
   private stopWatchList: (() => void)[] = [];
 
+  public viewInstance?: tinyapp.IPageInstance<any>;
+
   public setupFnResult: any;
 
   public props: any = undefined;

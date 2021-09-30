@@ -12,16 +12,18 @@ export default function createPage(fn: () => ReturnType<CreateFunction>): tinyap
 
   const oldOnLoad = options.onLoad;
   options.onLoad = function (this: PageInstance, query) {
+    this.$$query = query;
+
     hooksOptions.init.call(this);
 
     if (this.$$pageEventContext?.hasEventCallback('onShareAppMessage')) {
       const oldOnShareAppMessage = this.onShareAppMessage;
       this.onShareAppMessage = function (this: PageInstance, options) {
-        if (isFunction(oldOnShareAppMessage)) {
-          oldOnShareAppMessage.call(this, options);
-        }
-
-        return this.$$pageEventContext?.call('onShareAppMessage', this, options);
+        const previousResult = isFunction(oldOnShareAppMessage) ? oldOnShareAppMessage.call(this, options) : {};
+        return {
+          ...previousResult,
+          ...this.$$pageEventContext?.call('onShareAppMessage', this, options),
+        };
       };
     }
 

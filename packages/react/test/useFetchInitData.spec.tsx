@@ -9,18 +9,14 @@ it('should add fetching init data logic.', () => {
     React,
     () => <div></div>,
     () => {
-      useFetchInitData(
-        () => {
-          return new Promise((resolve) => {
-            setTimeout(
-              () => {
-                result.push(1);
-                resolve();
-              },
-            );
+      useFetchInitData(() => {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            result.push(1);
+            resolve();
           });
-        },
-      );
+        });
+      });
       return {};
     },
   );
@@ -28,7 +24,7 @@ it('should add fetching init data logic.', () => {
   const container = document.createElement('div');
   ReactDOM.render(React.createElement(component), container);
 
-  return new Promise<void>((resolve) => {
+  return new Promise<void>(resolve => {
     setTimeout(() => {
       expect(result).toEqual([1]);
       resolve();

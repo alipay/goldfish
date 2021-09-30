@@ -1,10 +1,8 @@
-import { IConfig } from '@goldfishjs/plugins';
 import { reactive } from '@goldfishjs/composition-api';
 import InitData from './InitData';
 
 export interface IInitOptions<D> {
   data?: D;
-  config?: IConfig;
 }
 
 export default class App {
@@ -22,7 +20,6 @@ export default class App {
 
   public init<D extends Record<string, any>>(options: IInitOptions<D> = {}): void {
     this.data = reactive(options.data || {});
-    this.config = options.config || {};
   }
 
   public destroy(): void {

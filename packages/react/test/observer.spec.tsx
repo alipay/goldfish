@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import observer from '../src/observer';
-import { observable } from '@goldfishjs/reactive';
 import { act } from 'react-dom/test-utils';
+import { observable } from '@goldfishjs/reactive';
+import observer from '../src/observer';
 
 it('should make the React component reactive.', () => {
   const obj = observable({

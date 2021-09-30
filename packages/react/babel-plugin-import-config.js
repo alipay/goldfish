@@ -15,9 +15,6 @@ module.exports = {
       useFetchInitData: `${codeDir}/useFetchInitData`,
       useGlobalData: `${codeDir}/useGlobalData`,
       useGlobalFetchInitData: `${codeDir}/useGlobalFetchInitData`,
-      useBridge: `${codeDir}/alipayH5/useBridge`,
-      useFeedback: `${codeDir}/alipayH5/useFeedback`,
-      useRequester: `${codeDir}/alipayH5/useRequester`,
       useGlobalConfig: `${codeDir}/useGlobalConfig`,
       useGlobalDestroy: `${codeDir}/useGlobalDestroy`,
       useGlobalStorage: `${codeDir}/useGlobalStorage`,
@@ -27,7 +24,9 @@ module.exports = {
       useRef: `${codeDir}/useRef`,
       app: `${codeDir}/defaultApp`,
       App: `${codeDir}/App`,
-      useReactiveData: `${codeDir}/useReactiveData`
+      useReactiveData: `${codeDir}/useReactiveData`,
+      useFeedback: `${codeDir}/useFeedback`,
+      usePageQuery: `${codeDir}/usePageQuery`,
     }[name];
   }
 };

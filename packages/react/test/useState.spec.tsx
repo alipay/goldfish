@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { act } from 'react-dom/test-utils';
 import observer from '../src/observer';
 import useState from '../src/useState';
-import { act } from 'react-dom/test-utils';
 
 it('should detect the React context type.', () => {
   const component = observer(
     React,
-    (data) => <div>{data.state.name}</div>,
+    data => <div>{data.state.name}</div>,
     () => {
       const state = useState<{ name: string }>({
         name: 'yujiang',
@@ -26,7 +26,7 @@ it('should detect the React context type.', () => {
 
   expect(container.innerHTML).toBe('<div>yujiang</div>');
 
-  return new Promise<void>((resolve) => {
+  return new Promise<void>(resolve => {
     setTimeout(() => {
       expect(container.innerHTML).toBe('<div>diandao</div>');
       resolve();
