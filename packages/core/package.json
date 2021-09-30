@@ -15,7 +15,6 @@
   "license": "MIT",
   "dependencies": {
     "@goldfishjs/module-usage": "^1.7.0",
-    "@goldfishjs/plugins": "^1.7.0",
     "@goldfishjs/reactive-connect": "^1.7.0",
     "@goldfishjs/utils": "^1.7.0",
     "mini-types": "^0.1.3"

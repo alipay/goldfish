@@ -1,6 +1,9 @@
 import checkSetupEnv from './checkSetupEnv';
 import getAppStore from './getAppStore';
 
+/**
+ * @deprecated use `useGlobalData` in `@goldfishjs/react` instead.
+ */
 export default function useGlobalData<G extends Record<string, any>>() {
   checkSetupEnv('useGlobalData', ['app', 'page', 'component']);
 

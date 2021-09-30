@@ -16,7 +16,6 @@
   "dependencies": {
     "@goldfishjs/core": "^1.7.0",
     "@goldfishjs/module-usage": "^1.7.0",
-    "@goldfishjs/plugins": "^1.7.0",
     "@goldfishjs/reactive": "^1.7.0",
     "@goldfishjs/reactive-connect": "^1.7.0",
     "@goldfishjs/utils": "^1.7.0",
