@@ -22,6 +22,7 @@ export interface IHostInstance<P> extends View {
   $$appEventContext?: AppEventContext;
   $$pageEventContext?: PageEventContext;
   props?: P;
+  $$query?: Record<string, any>;
 }
 
 export default function create<P>(fn: CreateFunction, type?: ContainerType) {

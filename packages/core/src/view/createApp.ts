@@ -1,17 +1,14 @@
 import { createMiniApp, AppOptions, AppInstance, attachLogic } from '@goldfishjs/reactive-connect';
-import { IConfig } from '@goldfishjs/plugins';
 import AppStore from '../store/AppStore';
 
 /**
  * Connect the AppStore with the App.
  *
- * @param config The configuration for the whole App.
  * @param storeClass The AppStore.
  * @param appOptions The options to configure the App.
  * @param options?
  */
 export default function createApp<G, S extends AppStore>(
-  config: IConfig,
   storeClass: new () => S,
   appOptions: AppOptions<G, S> = {},
   options?: {
@@ -26,7 +23,6 @@ export default function createApp<G, S extends AppStore>(
     async function (this: AppInstance<G, S>, options: tinyapp.IAppLaunchOptions) {
       const store = this.store!;
       store.isInitLoading = true;
-      store.updatePages(options);
 
       // Call onError when there is uncaught error in Promise.
       const app = getApp();
@@ -43,8 +39,7 @@ export default function createApp<G, S extends AppStore>(
         },
       );
 
-      await store.waitForReady();
-      store.initFeedback();
+      await store.waitForInitDataReady();
       try {
         await store.fetchInitData();
       } catch (e) {
@@ -58,8 +53,6 @@ export default function createApp<G, S extends AppStore>(
   return createMiniApp<G, S>(storeClass, appOptions, {
     ...options,
     afterCreateStore: (view, store) => {
-      store.setConfig(config);
-
       if (options && options.afterCreateStore) {
         options.afterCreateStore(view, store);
       }

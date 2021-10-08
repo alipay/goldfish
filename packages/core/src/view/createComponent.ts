@@ -40,9 +40,7 @@ export default function createComponent<
       const store = this.store!;
       store.isInitLoading = true;
 
-      await silent.async(async () => {
-        await store.appStore.waitForReady();
-      })();
+      await silent.async(() => store.appStore.waitForInitDataReady())();
 
       try {
         await store.fetchInitData();

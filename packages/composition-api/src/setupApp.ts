@@ -1,23 +1,14 @@
 import { AppStore, createApp } from '@goldfishjs/core';
-import { IConfig, PluginClass } from '@goldfishjs/plugins';
 import { AppInstance, observable, attachLogic } from '@goldfishjs/reactive-connect';
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import AppSetup from './setup/AppSetup';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import appendFn from './appendFn';
 
-export interface ISetupAppOptions {
-  plugins?: PluginClass[];
-}
-
-export default function setupApp(
-  config: IConfig,
-  fn: ISetupFunction,
-  setupOptions?: ISetupAppOptions,
-): tinyapp.AppOptions {
+export default function setupApp(fn: ISetupFunction): tinyapp.AppOptions {
   let options: tinyapp.AppOptions = {};
 
-  type View = AppInstance<any, AppStore> & { $setup?: AppSetup };
+  type View = AppInstance<any, AppStore> & { $setup?: AppSetup; $launchOptions?: tinyapp.IAppLaunchOptions };
 
   let view: View;
 
@@ -36,13 +27,6 @@ export default function setupApp(
       });
     }
 
-    public getPlugins() {
-      if (!setupOptions || !setupOptions.plugins) {
-        return super.getPlugins();
-      }
-      return setupOptions.plugins;
-    }
-
     public async fetchInitData() {
       await super.fetchInitData();
       const fn = view.$setup!.getFetchInitDataMethod();
@@ -56,11 +40,13 @@ export default function setupApp(
     }
   }
 
-  options = createApp(config, BizAppStore, options, {
+  options = createApp(BizAppStore, options, {
     beforeCreateStore: (v: View) => {
       const setup = new AppSetup();
       v.$setup = setup;
       view = v;
+
+      setup.launchOptions = v.$launchOptions;
 
       setup.iterateMethods((fns, name) => {
         appendFn(v, name, fns);
@@ -68,12 +54,15 @@ export default function setupApp(
     },
   });
 
-  const lifeCycleMethods: ('onLaunch' | 'onShow' | 'onHide' | 'onError' | 'onShareAppMessage')[] = [
+  attachLogic(options, 'onLaunch', 'before', function (this: View, options: tinyapp.IAppLaunchOptions) {
+    this.$launchOptions = options;
+  });
+
+  const lifeCycleMethods: ('onLaunch' | 'onShow' | 'onHide' | 'onError')[] = [
     'onLaunch',
     'onShow',
     'onHide',
     'onError',
-    'onShareAppMessage',
   ];
   const lifeCycleMethodsOptions = integrateLifeCycleMethods<'app'>(lifeCycleMethods);
   lifeCycleMethods.forEach(m => {

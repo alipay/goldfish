@@ -19,7 +19,6 @@ const lifeCycleMethods: (keyof tinyapp.IPageOptionsMethods)[] = [
   'onHide',
   'onUnload',
   'onReachBottom',
-  'onShareAppMessage',
   'onPageScroll',
 ];
 
@@ -92,10 +91,16 @@ export default function setupPage<D, AS extends AppStore>(
       v.$setup = setup;
       view = v;
 
+      setup.query = view.$query;
+
       setup.iterateMethods((fns, name) => {
         appendFn(v, name, fns);
       });
     },
+  });
+
+  attachLogic(options, 'onLoad', 'before', function (this: View, query: tinyapp.Query) {
+    this.$query = query;
   });
 
   const lifeCycleMethodsOptions = integrateLifeCycleMethods<'page'>(lifeCycleMethods);

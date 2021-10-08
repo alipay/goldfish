@@ -19,5 +19,5 @@ export { default as useRef } from './useRef';
 export { default as app } from './defaultApp';
 export { default as App } from './App';
 export { default as useReactiveData } from './useReactiveData';
-
-export * from './alipayH5/index';
+export { default as useFeedback } from './useFeedback';
+export { default as usePageQuery } from './usePageQuery';

@@ -7,7 +7,7 @@ import { setupManager } from './ComponentSetupManager';
 import ComponentSetup from './ComponentSetup';
 
 export default function useSetup<SR extends Record<string, any>>(
-  reactLike: ReactLike,
+  reactLike: ReactLike & { usePageInstance?: () => tinyapp.IPageInstance<any> },
   setupFn: ISetupFunction<SR>,
   props?: Record<string, any>,
 ) {
@@ -16,11 +16,14 @@ export default function useSetup<SR extends Record<string, any>>(
   // The id is used to identity the component instance.
   const [id] = reactLike.useState(counter === 0 ? setupManager.genId() : '');
 
+  const pageInstance = reactLike.usePageInstance?.();
+
   // The first time.
   const isFirstTime = reactLike.useRef<boolean>(true);
   if (isFirstTime.current) {
     isFirstTime.current = false;
     const setup = new ComponentSetup();
+    setup.viewInstance = pageInstance;
     setupManager.add(id, setup);
     if (setupFn) {
       // Put the props initialization here,

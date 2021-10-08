@@ -4,10 +4,10 @@ export default function useGlobalStorage<G extends Record<string, any>>(passInAp
   const realGlobal = passInApp || app;
   return {
     get<T extends keyof G>(key: T): G[T] | undefined {
-      return realGlobal.normalData.data[key];
+      return (realGlobal.normalData as any)[key];
     },
     set<T extends keyof G>(key: T, value: G[T]) {
-      realGlobal.normalData.data[key] = value;
+      (realGlobal.normalData as any)[key] = value;
     },
   };
 }

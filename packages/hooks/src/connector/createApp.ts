@@ -22,11 +22,11 @@ export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp
     if (this.$$appEventContext?.hasEventCallback('onShareAppMessage')) {
       const oldOnShareAppMessage = this.onShareAppMessage;
       this.onShareAppMessage = function (this: AppInstance, options) {
-        if (isFunction(oldOnShareAppMessage)) {
-          oldOnShareAppMessage.call(this, options);
-        }
-
-        return this.$$appEventContext?.call('onShareAppMessage', this, options);
+        const previousResult = isFunction(oldOnShareAppMessage) ? oldOnShareAppMessage.call(this, options) : {};
+        return {
+          ...previousResult,
+          ...this.$$appEventContext?.call('onShareAppMessage', this, options),
+        };
       };
     }
 
