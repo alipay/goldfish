@@ -19,6 +19,7 @@ module.exports = {
       useAppEvent: `${codeDir}/hooks/useAppEvent`,
       usePageEvent: `${codeDir}/hooks/usePageEvent`,
       useGlobalData: `${codeDir}/hooks/useGlobalData`,
+      usePageQuery: `${codeDir}/hooks/usePageQuery`,
     }[name];
   }
 };

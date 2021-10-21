@@ -14,3 +14,4 @@ export { default as useGlobalData } from './hooks/useGlobalData';
 
 export { default as useAppEvent } from './hooks/useAppEvent';
 export { default as usePageEvent } from './hooks/usePageEvent';
+export { default as usePageQuery } from './hooks/usePageQuery';
