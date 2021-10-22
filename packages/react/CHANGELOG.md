@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/alipay/goldfish/compare/v1.7.0...v1.8.0) (2021-10-22)
+
+
+### Features
+
+* add `useFeedback` and `usePageQuery` ([bf57ccc](https://github.com/alipay/goldfish/commit/bf57ccc7df75475f1bbbd0800ee42ffa4c759276))
+
+
+
+
+
 # [1.7.0](https://github.com/alipay/goldfish/compare/v1.6.1...v1.7.0) (2021-09-27)
 
 **Note:** Version bump only for package @goldfishjs/react
