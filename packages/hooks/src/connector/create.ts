@@ -85,7 +85,10 @@ export default function create<P>(fn: CreateFunction, type?: ContainerType) {
       this.$$memoContext?.destroy();
       this.$$isSyncDataSafe = false;
     },
-    syncProps(this: IHostInstance<P>, nextProps?: P) {
+    executeEffect(this: IHostInstance<P>) {
+      this.$$effectContext?.executeEffect();
+    },
+    syncProps(this: IHostInstance<P> & { $$oldProps?: Record<string, any> }, nextProps?: P) {
       executeFn.call(this, () => fn(nextProps));
     },
   };

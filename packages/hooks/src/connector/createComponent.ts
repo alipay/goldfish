@@ -47,5 +47,16 @@ export default function createComponent<P>(fn: (props: P) => ReturnType<CreateFu
     }
   };
 
+  const oldDidUpdateMethod = options.didUpdate;
+  options.didUpdate = function (this: ComponentInstance, prevProps: Partial<{}>, prevData: Partial<{}>) {
+    if (prevProps !== this.props) {
+      hooksOptions.executeEffect.call(this);
+    }
+
+    if (isFunction(oldDidUpdateMethod)) {
+      oldDidUpdateMethod.call(this, prevProps, prevData);
+    }
+  };
+
   return options;
 }
