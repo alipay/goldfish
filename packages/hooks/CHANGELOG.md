@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/alipay/goldfish/compare/v1.9.0...v1.9.1) (2021-11-05)
+
+
+### Bug Fixes
+
+* setData order ([a2f3a21](https://github.com/alipay/goldfish/commit/a2f3a217019ab7b0cfec8e2a07a88fcb001484b0))
+
+
+
+
+
 # [1.9.0](https://github.com/alipay/goldfish/compare/v1.8.0...v1.9.0) (2021-11-01)
 
 
