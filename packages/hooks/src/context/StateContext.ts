@@ -26,6 +26,7 @@ class DataSetter {
   }
 
   private flush() {
+    const delayUpdateFns: Array<() => void> = [];
     for (const id in this.viewMap) {
       const operations = this.operationsMap[id];
       const view = this.viewMap[id];
@@ -35,39 +36,43 @@ class DataSetter {
         continue;
       }
 
-      const isSyncDataSafe = view.$$isSyncDataSafe === false ? false : true;
-      if (!isSyncDataSafe) {
-        continue;
-      }
+      delayUpdateFns.push(() => {
+        const isSyncDataSafe = view.$$isSyncDataSafe === false ? false : true;
+        if (!isSyncDataSafe) {
+          return;
+        }
 
-      this.getBatchUpdates(view)(() => {
-        operations.forEach(operation => {
-          if (operation.type === 'set') {
-            promiseList.push(
-              new Promise<void>(resolve => {
-                view.setData(operation.value, resolve);
-              }),
-            );
-          } else {
-            promiseList.push(
-              new Promise<void>(resolve => {
-                view.$spliceData(
-                  {
-                    [operation.keyPathString]: [operation.start, operation.deleteCount, ...operation.values],
-                  },
-                  resolve,
-                );
-              }),
-            );
-          }
+        this.getBatchUpdates(view)(() => {
+          operations.forEach(operation => {
+            if (operation.type === 'set') {
+              promiseList.push(
+                new Promise<void>(resolve => {
+                  view.setData(operation.value, resolve);
+                }),
+              );
+            } else {
+              promiseList.push(
+                new Promise<void>(resolve => {
+                  view.$spliceData(
+                    {
+                      [operation.keyPathString]: [operation.start, operation.deleteCount, ...operation.values],
+                    },
+                    resolve,
+                  );
+                }),
+              );
+            }
+          });
         });
-      });
-      Promise.all(promiseList).then(() => {
-        this.invokeUpdatedListeners(id);
+        Promise.all(promiseList).then(() => {
+          this.invokeUpdatedListeners(id);
+        });
       });
     }
     this.viewMap = {};
     this.operationsMap = {};
+
+    delayUpdateFns.forEach(fn => fn());
   }
 
   private getViewId(view: View) {
