@@ -24,7 +24,7 @@ export default function usePageQuery() {
       return componentSetup?.viewInstance?.query;
     }
 
-    return qs.parse(window.location.search.replace(/^?/, ''));
+    return qs.parse(window.location.search.replace(/^\?/, ''));
   }
 
   throw new Error(`The useQuery can not be used in ${contextType} setup flow.`);
