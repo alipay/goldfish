@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/hooks",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "goldfish-hooks",
   "main": "lib/index.js",
   "scripts": {
@@ -14,8 +14,8 @@
   "author": "yibuyisheng@163.com",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/reactive": "^1.9.1",
-    "@goldfishjs/reactive-connect": "^1.9.1",
+    "@goldfishjs/reactive": "^1.9.2",
+    "@goldfishjs/reactive-connect": "^1.9.2",
     "mini-types": "^0.1.5"
   },
   "devDependencies": {

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.2](https://github.com/alipay/goldfish/compare/v1.9.1...v1.9.2) (2021-12-28)
+
+
+### Bug Fixes
+
+* fix the regexp. ([508389d](https://github.com/alipay/goldfish/commit/508389d82d18dee3e66efcf69c6d641c82344f30))
+
+
+
+
+
 ## [1.9.1](https://github.com/alipay/goldfish/compare/v1.9.0...v1.9.1) (2021-11-05)
 
 **Note:** Version bump only for package @goldfishjs/react
