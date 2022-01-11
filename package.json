@@ -32,6 +32,7 @@
     "babel-plugin-minify-dead-code-elimination": "^0.5.1",
     "babel-plugin-transform-node-env-inline": "^0.4.3",
     "babel-plugin-transform-remove-imports": "^1.5.2",
+    "codecov": "^3.8.3",
     "cross-env": "^7.0.2",
     "eslint": "7.5.0",
     "eslint-config-prettier": "6.11.0",
