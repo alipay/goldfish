@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "ci": "yarn run build && yarn run lint && yarn run test",
+    "ci": "yarn run build && yarn run lint && yarn run test && coveralls-lerna",
     "release": "node scripts/release.js",
     "lint": "node scripts/lint.js",
     "build": "node scripts/build.js",
@@ -32,6 +32,7 @@
     "babel-plugin-minify-dead-code-elimination": "^0.5.1",
     "babel-plugin-transform-node-env-inline": "^0.4.3",
     "babel-plugin-transform-remove-imports": "^1.5.2",
+    "coveralls-lerna": "^0.0.5",
     "cross-env": "^7.0.2",
     "eslint": "7.5.0",
     "eslint-config-prettier": "6.11.0",

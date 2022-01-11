@@ -1,5 +1,7 @@
 # Goldfish (WIP)
 
+<a href="https://coveralls.io/github/alipay/goldfish"><img src="https://coveralls.io/repos/github/alipay/goldfish/badge.svg" /></a>
+
 <img width="40" src="https://gw.alipayobjects.com/mdn/rms_2ed70a/afts/img/A*IpQYQY99EhsAAAAAAAAAAABkARQnAQ" />
 
 Goldfish is an enterprise level Alipay mini program development framework and can also be called the best practice of Alipay mini program development solution.
