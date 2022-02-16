@@ -1,6 +1,7 @@
 import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
 import cloneDeep from '@goldfishjs/utils/lib/cloneDeep';
 import silent from '@goldfishjs/utils/lib/silent';
+import getViewId from '@goldfishjs/reactive-connect/lib/MiniDataSetter/getViewId';
 import diff, { Operation } from '../common/diff';
 import Context from './Context';
 import createContextStack from '../common/createContextStack';
@@ -75,12 +76,8 @@ class DataSetter {
     delayUpdateFns.forEach(fn => fn());
   }
 
-  private getViewId(view: View) {
-    return (view.$id === undefined ? view.$viewId : view.$id) as string;
-  }
-
   public addUpdatedListener(view: View, cb: () => void) {
-    const viewId = this.getViewId(view);
+    const viewId = getViewId(view);
     this.updatedListeners[viewId] = this.updatedListeners[viewId] || [];
     this.updatedListeners[viewId].push(cb);
     return () => {
@@ -94,7 +91,7 @@ class DataSetter {
   }
 
   public set(view: View, data: any) {
-    const viewId = this.getViewId(view);
+    const viewId = getViewId(view);
     if (!this.previousDataMap[viewId]) {
       view.setData(data, () => Promise.resolve().then(() => this.invokeUpdatedListeners(viewId)));
       this.previousDataMap[viewId] = cloneDeep(data);
@@ -118,7 +115,7 @@ class DataSetter {
   }
 
   public clearByView(view: View) {
-    const viewId = this.getViewId(view);
+    const viewId = getViewId(view);
     this.viewMap[viewId] = null;
     this.operationsMap[viewId] = [];
     this.updatedListeners[viewId] = [];

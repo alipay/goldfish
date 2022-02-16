@@ -1,16 +1,15 @@
 import { ChangeOptions } from '@goldfishjs/reactive';
-import { isObject, uniqueId } from '@goldfishjs/utils';
+import { isObject } from '@goldfishjs/utils';
 import Batch from './Batch';
 import { View } from './SetTree';
 import Updater from './Updater';
 import * as keyPath from './keyPath';
+import getViewId from './getViewId';
 
 type Methods = 'push' | 'splice' | 'unshift' | 'pop' | 'shift';
 function isModifyArrayMethod(m: string): m is Methods {
   return ['push', 'splice', 'unshift', 'pop', 'shift'].indexOf(m) !== -1;
 }
-
-const VIEW_ID_KEY = '$$goldfish-view-id';
 
 export default class MiniDataSetter {
   private count = new Batch(() => this.flush());
@@ -79,7 +78,7 @@ export default class MiniDataSetter {
       return;
     }
 
-    const viewId = view[VIEW_ID_KEY] === undefined ? uniqueId() : view[VIEW_ID_KEY];
+    const viewId = getViewId(view);
     this.updaterMap[viewId] = this.updaterMap[viewId] || new Updater(fullObj);
     this.viewMap[viewId] = view;
 
