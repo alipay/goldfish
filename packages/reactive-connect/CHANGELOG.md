@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.3](https://github.com/alipay/goldfish/compare/v1.9.2...v1.9.3) (2022-02-16)
+
+
+### Bug Fixes
+
+* generate the view id. ([56af62f](https://github.com/alipay/goldfish/commit/56af62f8b2ef526f9ea4bb92aee0175fbf102015))
+
+
+
+
+
 ## [1.9.2](https://github.com/alipay/goldfish/compare/v1.9.1...v1.9.2) (2021-12-28)
 
 **Note:** Version bump only for package @goldfishjs/reactive-connect

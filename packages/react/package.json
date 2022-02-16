@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/react",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "description": "goldfish-react",
   "main": "lib/index.js",
   "scripts": {
@@ -14,13 +14,13 @@
   "author": "yibuyisheng@163.com",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/composition-api": "^1.9.2",
-    "@goldfishjs/module-usage": "^1.9.2",
-    "@goldfishjs/plugins": "^1.9.2",
-    "@goldfishjs/reactive": "^1.9.2",
-    "@goldfishjs/reactive-connect": "^1.9.2",
-    "@goldfishjs/requester": "^1.9.2",
-    "@goldfishjs/utils": "^1.9.2"
+    "@goldfishjs/composition-api": "^1.9.3",
+    "@goldfishjs/module-usage": "^1.9.3",
+    "@goldfishjs/plugins": "^1.9.3",
+    "@goldfishjs/reactive": "^1.9.3",
+    "@goldfishjs/reactive-connect": "^1.9.3",
+    "@goldfishjs/requester": "^1.9.3",
+    "@goldfishjs/utils": "^1.9.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.117",
