@@ -11,6 +11,7 @@ export { default as isObject } from './isObject';
 export { default as interval } from './interval';
 export { default as isEqual } from './isEqual';
 export { default as debounce } from './debounce';
+export { default as uniqueId } from './uniqueId';
 export { default as deepVisit, ICallback as IDeepVisitCallback } from './deepVisit';
 export { default as DeepVisitBreak } from './DeepVisitBreak';
 export { default as commonError } from './commonError';
