@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.4](https://github.com/alipay/goldfish/compare/v1.9.3...v1.9.4) (2022-02-16)
+
+
+### Bug Fixes
+
+* bind the view id. ([4decf0b](https://github.com/alipay/goldfish/commit/4decf0b381679f1a13e51d768d7ce146103e0246))
+
+
+
+
+
 ## [1.9.3](https://github.com/alipay/goldfish/compare/v1.9.2...v1.9.3) (2022-02-16)
 
 **Note:** Version bump only for package @goldfishjs/hooks
