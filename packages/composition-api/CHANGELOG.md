@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.5](https://github.com/alipay/goldfish/compare/v1.9.4...v1.9.5) (2022-02-18)
+
+
+### Bug Fixes
+
+* make the default props reactive. ([edc7f16](https://github.com/alipay/goldfish/commit/edc7f160cab2b5ae90715add1e7da5a01ac61684))
+
+
+
+
+
 ## [1.9.4](https://github.com/alipay/goldfish/compare/v1.9.3...v1.9.4) (2022-02-16)
 
 **Note:** Version bump only for package @goldfishjs/composition-api
