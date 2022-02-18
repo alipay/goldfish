@@ -1,6 +1,7 @@
-import { observable, IProps, state, attachLogic } from '@goldfishjs/reactive-connect';
+import { IProps, attachLogic } from '@goldfishjs/reactive-connect';
 import { AppStore, createComponent, ComponentStore } from '@goldfishjs/core';
 import { cloneDeep } from '@goldfishjs/utils';
+import observable from '@goldfishjs/reactive/lib/observable';
 import appendFn from './appendFn';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import ComponentSetup, { SetupComponentInstance } from './setup/ComponentSetup';
@@ -57,10 +58,8 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
   type View = SetupComponentInstance & { $setup?: ComponentSetup };
   let view: View;
 
-  @observable
   class BizComponentStore extends ComponentStore<any, AppStore> {
-    @state
-    props = (cloneDeep(props) || {}) as P;
+    props = observable(cloneDeep(props) || {}) as P;
 
     private stopWatchDeepList: (() => void)[] = [];
 
