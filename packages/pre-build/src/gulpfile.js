@@ -13,6 +13,7 @@ const micromatch = require('micromatch');
 const gulpFilter = require('gulp-filter');
 const merge = require('merge2');
 const path = require('path');
+const plumber = require('gulp-plumber');
 
 const cwd = process.cwd();
 const excludeDistDir = `${utils.distDir.replace(cwd + '/', '')}/**`;
@@ -29,8 +30,8 @@ const sourceFiles = {
     `!${excludeDistDir}`,
     '!mini.project.json',
     '!package.json',
-    '!tsconfig.json'
-  ]
+    '!tsconfig.json',
+  ],
 };
 
 const sourceType = {
@@ -51,21 +52,24 @@ const sourceType = {
     }
 
     return this.typeMap[path];
-  }
+  },
 };
 
 function commonStream(files, cb) {
   const compiledFiles = [];
   let stream = cb(
-    gulp.src(files, { base: baseDir }).pipe(
-      gulpFilter(file => {
-        const result = utils.shouldCompileFile(file.path, sourceType);
-        if (result) {
-          compiledFiles.push(file.path);
-        }
-        return result;
-      })
-    )
+    gulp
+      .src(files, { base: baseDir })
+      .pipe(plumber(utils.error))
+      .pipe(
+        gulpFilter(file => {
+          const result = utils.shouldCompileFile(file.path, sourceType);
+          if (result) {
+            compiledFiles.push(file.path);
+          }
+          return result;
+        }),
+      ),
   );
 
   stream = stream.pipe(gulp.dest(utils.distDir));
@@ -79,9 +83,9 @@ function commonStream(files, cb) {
 function compileJSStream(files) {
   return commonStream(files, stream => {
     return stream.pipe(
-      replace('./assets/', function() {
+      replace('./assets/', function () {
         return `/${this.file.relative.replace(this.file.basename, '')}assets/`;
-      })
+      }),
     );
   });
 }
@@ -92,23 +96,18 @@ function compileTSStream(files) {
   const projectDir = path.dirname(tsconfigPath);
   const declarationDir = path.resolve(
     projectDir,
-    tsconfig.compilerOptions.declarationDir || path.resolve(projectDir, 'types')
+    tsconfig.compilerOptions.declarationDir || path.resolve(projectDir, 'types'),
   );
   if (tsconfig.compilerOptions.outDir) {
-    utils.warn(
-      `The outDir config in ${tsconfigPath} will not work, and the real outDir is: ${utils.distDir}`
-    );
+    utils.warn(`The outDir config in ${tsconfigPath} will not work, and the real outDir is: ${utils.distDir}`);
   }
 
   return commonStream(files, stream => {
     const s = stream.pipe(ts.createProject(tsconfigPath)());
     if (tsconfig.compilerOptions.declaration) {
-      return merge([
-        s.dts.pipe(gulp.dest(declarationDir)),
-        s.js.pipe(babel(getBabelConfig(process.env.NODE_ENV)))
-      ]);
+      return merge([s.dts.pipe(gulp.dest(declarationDir)), s.js.pipe(babel(getBabelConfig()))]);
     }
-    return s.js.pipe(babel(getBabelConfig(process.env.NODE_ENV)));
+    return s.js.pipe(babel(getBabelConfig()));
   });
 }
 
@@ -118,8 +117,8 @@ function compileLessStream(files) {
       .pipe(
         less({
           javascriptEnabled: true,
-          plugins: [new NpmImportPlugin({ prefix: '~' })]
-        })
+          plugins: [new NpmImportPlugin({ prefix: '~' })],
+        }),
       )
       .pipe(
         postcss(file => {
@@ -127,16 +126,16 @@ function compileLessStream(files) {
             plugins: [
               require('autoprefixer')({}),
               require('postcss-px-to-viewport')({
-                viewportWidth: /mini-antui/.test(file.relative) ? 750 / 2 : 750
-              })
-            ]
+                viewportWidth: /mini-antui/.test(file.relative) ? 750 / 2 : 750,
+              }),
+            ],
           };
-        })
+        }),
       )
       .pipe(
         rename({
-          extname: '.acss'
-        })
+          extname: '.acss',
+        }),
       );
   });
 }
@@ -175,8 +174,8 @@ gulp.task(
     },
     function copy() {
       return copyStream(sourceFiles.copy);
-    }
-  )
+    },
+  ),
 );
 
 function getCustomBlobs() {
@@ -194,7 +193,7 @@ function getCustomBlobs() {
 
 function createDevWatcherTask(globs) {
   const watcher = gulp.watch(globs, {
-    ignoreInitial: false
+    ignoreInitial: false,
   });
   watcher.on('change', sourceUpdateHandler);
   watcher.on('add', sourceUpdateHandler);
@@ -228,12 +227,7 @@ function createDevWatcherTask(globs) {
       utils.error('Compile file failed:', path, e);
     });
     stream.once('end', () => {
-      utils.log(
-        'Compile file successfully and cost ' +
-          (Date.now() - startTime) +
-          'ms:',
-        path
-      );
+      utils.log('Compile file successfully and cost ' + (Date.now() - startTime) + 'ms:', path);
     });
   }
 }
@@ -242,18 +236,13 @@ gulp.task(
   'dev',
   gulp.parallel(
     function sourceCode() {
-      return createDevWatcherTask([
-        './**/*',
-        '!node_modules/**',
-        '!coverage/**',
-        `!${excludeDistDir}`
-      ]);
+      return createDevWatcherTask(['./**/*', '!node_modules/**', '!coverage/**', `!${excludeDistDir}`]);
     },
     function customBlobs() {
       const blobs = getCustomBlobs() || [];
       return createDevWatcherTask(blobs);
-    }
-  )
+    },
+  ),
 );
 
 // Compiler for npm package projects.
@@ -271,6 +260,6 @@ gulp.task(
     },
     function copy() {
       return copyStream(['src/**/*.@(json|axml|png|svg)']);
-    }
-  )
+    },
+  ),
 );

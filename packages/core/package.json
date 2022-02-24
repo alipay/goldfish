@@ -13,7 +13,7 @@
     "hooks"
   ],
   "scripts": {
-    "build": "rm -rf ./lib && ../../node_modules/.bin/gulp ts && mv ./lib/* ./"
+    "build": "sh build.sh"
   },
   "keywords": [],
   "author": "yibuyisheng@icloud.com",
