@@ -3,7 +3,7 @@
   "version": "1.9.5",
   "description": "goldfish-pre-build",
   "scripts": {},
-  "author": "yibuyisheng@163.com",
+  "author": "yibuyisheng@icloud.com",
   "license": "MIT",
   "bin": {
     "goldfish-compile": "bin/goldfish-compile.js",

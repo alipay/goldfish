@@ -11,7 +11,7 @@
     "build": "rm -rf ./lib && ../../node_modules/.bin/gulp ts"
   },
   "keywords": [],
-  "author": "yibuyisheng@163.com",
+  "author": "yibuyisheng@icloud.com",
   "license": "MIT",
   "dependencies": {
     "@goldfishjs/module-usage": "^1.9.5",
