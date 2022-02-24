@@ -1,4 +1,8 @@
 node_modules
 coverage
-lib
-types
+index.js
+index.d.ts
+utils.js
+utils.d.ts
+hooks
+!src/hooks
