@@ -1,6 +1,6 @@
-import { PageStore } from '@goldfishjs/core';
 import { PageInstance } from '@goldfishjs/reactive-connect';
 import CommonSetup from './CommonSetup';
+import PageStore from '../connector/store/PageStore';
 
 export type SetupPageStore = PageStore;
 

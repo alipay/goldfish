@@ -1,6 +1,6 @@
-import { AppStore } from '@goldfishjs/core';
 import { AppInstance } from '@goldfishjs/reactive-connect';
 import CommonSetup from './CommonSetup';
+import AppStore from '../connector/store/AppStore';
 
 export type SetupAppStore = AppStore;
 

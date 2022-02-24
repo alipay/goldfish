@@ -1,4 +1,4 @@
-import { AppStore } from '@goldfishjs/core';
+import AppStore from './connector/store/AppStore';
 
 export default function getAppStore(): AppStore {
   return (getApp() as any).store;

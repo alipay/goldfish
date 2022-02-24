@@ -1,7 +1,9 @@
 import { IProps, attachLogic } from '@goldfishjs/reactive-connect';
-import { AppStore, createComponent, ComponentStore } from '@goldfishjs/core';
 import { cloneDeep } from '@goldfishjs/utils';
 import observable from '@goldfishjs/reactive/lib/observable';
+import AppStore from './connector/store/AppStore';
+import createComponent from './connector/view/createComponent';
+import ComponentStore from './connector/store/ComponentStore';
 import appendFn from './appendFn';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
 import ComponentSetup, { SetupComponentInstance } from './setup/ComponentSetup';

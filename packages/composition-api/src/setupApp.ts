@@ -1,5 +1,6 @@
-import { AppStore, createApp } from '@goldfishjs/core';
 import { AppInstance, observable, attachLogic } from '@goldfishjs/reactive-connect';
+import AppStore from './connector/store/AppStore';
+import createApp from './connector/view/createApp';
 import integrateLifeCycleMethods from './integrateLifeCycleMethods';
 import AppSetup from './setup/AppSetup';
 import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';

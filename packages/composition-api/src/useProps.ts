@@ -1,5 +1,5 @@
-import { ComponentStore } from '@goldfishjs/core';
 import { IProps } from '@goldfishjs/reactive-connect';
+import ComponentStore from './connector/store/ComponentStore';
 import checkSetupEnv from './checkSetupEnv';
 import ComponentSetup from './setup/ComponentSetup';
 
