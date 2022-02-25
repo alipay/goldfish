@@ -10,10 +10,14 @@
     "index.d.ts",
     "utils.js",
     "utils.d.ts",
-    "hooks"
+    "hooks",
+    "bin"
   ],
   "scripts": {
     "build": "sh build.sh"
+  },
+  "bin": {
+    "goldfish": "bin/goldfish.js"
   },
   "keywords": [],
   "author": "yibuyisheng@icloud.com",
@@ -25,6 +29,7 @@
     "@goldfishjs/composition-api": "^2.0.0",
     "@goldfishjs/hooks": "^2.0.0",
     "@goldfishjs/react": "^2.0.0",
+    "@goldfishjs/pre-build": "^2.0.0",
     "@types/react": "^16.9.53",
     "concurrently": "^6.2.0",
     "query-string": "^7.0.1",

@@ -1,6 +1,7 @@
 {
   "name": "@goldfishjs/pre-build",
   "version": "2.0.0",
+  "main": "./src/index.js",
   "description": "goldfish-pre-build",
   "scripts": {},
   "author": "yibuyisheng@icloud.com",
@@ -34,7 +35,8 @@
     "lodash": "^4.17.15",
     "merge2": "^1.3.0",
     "micromatch": "^4.0.2",
-    "postcss-px-to-viewport": "^1.1.1"
+    "postcss-px-to-viewport": "^1.1.1",
+    "yargs": "^15.4.1"
   },
   "registry": "https://registry.npmjs.org/"
 }
