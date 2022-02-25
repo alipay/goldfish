@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/requester",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "goldfish-requester",
   "main": "lib/index.js",
   "scripts": {
@@ -23,10 +23,10 @@
   "author": "likun7981 <likun7891@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/module-usage": "^2.2.0",
-    "@goldfishjs/reactive": "^2.2.0",
-    "@goldfishjs/reactive-connect": "^2.2.0",
-    "@goldfishjs/utils": "^2.2.0",
+    "@goldfishjs/module-usage": "^2.2.1",
+    "@goldfishjs/reactive": "^2.2.1",
+    "@goldfishjs/reactive-connect": "^2.2.1",
+    "@goldfishjs/utils": "^2.2.1",
     "mini-types": "^0.1.3"
   },
   "registry": "https://registry.npmjs.org/"
