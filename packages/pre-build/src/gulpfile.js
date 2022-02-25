@@ -69,7 +69,7 @@ function commonStream(files, cb) {
           if (result) {
             compiledFiles.push(file.path);
           } else {
-            utils.log(`${file.path} is not modified, so it will not be compiled.`);
+            utils.log(`The file is not modified, so it will not be compiled: ${file.path}`);
           }
           return result;
         }),
@@ -231,7 +231,7 @@ function createDevWatcherTask(globs) {
       utils.error('Compile file failed:', path, e);
     });
     stream.once('end', () => {
-      utils.log('Compile file successfully and cost ' + (Date.now() - startTime) + 'ms:', path);
+      utils.log('Compile file completed and cost ' + (Date.now() - startTime) + 'ms:', path);
     });
   }
 }
