@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/alipay/goldfish/compare/v1.9.5...v2.1.0) (2022-02-25)
+
+
+### Features
+
+* allow all branch. ([751a1c7](https://github.com/alipay/goldfish/commit/751a1c7ecdbe5b24c911643390a502f9c85f402c))
+* build ([38b2cb8](https://github.com/alipay/goldfish/commit/38b2cb82bbeb0f586944fda0e30e0a84377b1d67))
+* export the APIs by core. ([a826316](https://github.com/alipay/goldfish/commit/a826316272e62ec15ca06520399dcde2acf026c2))
+* goldfish command ([e7c593b](https://github.com/alipay/goldfish/commit/e7c593bb158a8777e44217048301cfa1f58542a5))
+* optimize the utils. ([a92fb03](https://github.com/alipay/goldfish/commit/a92fb03873ba9ced781eb8a272867f9ed734f777))
+* update email. ([fea7d4e](https://github.com/alipay/goldfish/commit/fea7d4e434b81333da94b6b4d3811689c6bd0877))
+* upgrade version. ([8c017ba](https://github.com/alipay/goldfish/commit/8c017ba77a4cc6b75e47f3d76d4da538e25ca7c4))
+
+
+
+
+
 ## [1.9.5](https://github.com/alipay/goldfish/compare/v1.9.4...v1.9.5) (2022-02-18)
 
 
