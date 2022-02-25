@@ -1,9 +1,13 @@
 const yargs = require('yargs');
 const compileCommand = require('./commands/compile');
+const devCommand = require('./commands/dev');
+const npmCommand = require('./commands/npm');
 
-yargs.scriptName('fishmate').usage('Usage: $0 <command> [options]');
+yargs.scriptName('goldfish').usage('Usage: $0 <command> [options]');
 [
   compileCommand,
+  devCommand,
+  npmCommand,
 ].forEach(c => {
   yargs.command(c.name, c.description, c.builder, c.handler);
 });
