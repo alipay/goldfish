@@ -35,6 +35,9 @@
     "mini-types": "^0.1.3",
     "query-string": "^7.0.1"
   },
+  "devDependencies": {
+    "babel-types": "^6.26.0"
+  },
   "sideEffects": false,
   "registry": "https://registry.npmjs.org/"
 }
