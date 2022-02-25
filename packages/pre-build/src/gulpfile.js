@@ -68,6 +68,8 @@ function commonStream(files, cb) {
           const result = utils.shouldCompileFile(file.path, sourceType);
           if (result) {
             compiledFiles.push(file.path);
+          } else {
+            utils.log(`${file.path} is not modified, so it will not be compiled.`);
           }
           return result;
         }),

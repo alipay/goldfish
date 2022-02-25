@@ -112,7 +112,7 @@ function getCompiledPath(sourceFilePath, sourceType) {
   const type = sourceType.check(relativeSourcePath.replace(/^.\//, ''));
   const interTargetPath = path.resolve(
     distDir,
-    exports.isMinifishProject ? relativeSourcePath.replace(new RegExp(`^\\.\\/src\\/`), '') : relativeSourcePath,
+    sourceFilePath.replace(exports.baseDir + path.sep, ''),
   );
 
   if (type === 'ts') {
