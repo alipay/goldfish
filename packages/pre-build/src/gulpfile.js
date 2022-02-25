@@ -20,12 +20,13 @@ const excludeDistDir = `${utils.distDir.replace(cwd + '/', '')}/**`;
 
 const baseDir = utils.baseDir;
 
+const souceBaseDir = path.relative(cwd, baseDir);
 const sourceFiles = {
-  ts: ['**/*.ts', '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
-  less: ['**/*.@(less|acss)', '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
-  js: ['**/*.js', '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
+  ts: [`${souceBaseDir}/**/*.ts`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
+  less: [`${souceBaseDir}/**/*.@(less|acss)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
+  js: [`${souceBaseDir}/**/*.@(js|sjs)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
   copy: [
-    '**/*.@(json|axml|png|svg)',
+    `${souceBaseDir}/**/*.@(json|axml|png|svg)`,
     '!node_modules/**',
     '!scripts/**',
     `!${excludeDistDir}`,

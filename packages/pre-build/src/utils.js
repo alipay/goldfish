@@ -5,6 +5,7 @@ const path = require('path');
 const lodash = require('lodash');
 
 const cwd = process.cwd();
+module.exports.cwd = cwd;
 
 function log(...args) {
   console.log(chalk.bold.green('[LOG]'), ...args);

@@ -59,14 +59,12 @@ function findFiles(dir) {
 }
 
 /**
- * 获取 babel 配置
+ * Create the babel configurations.
  *
- * @param {string} rootDir 项目根目录
- * @param {object} options
- * @param {string} options.isH5 H5 环境
+ * @param {string} rootDir The root directory of the project.
  * @returns
  */
-module.exports = (rootDir = process.cwd(), options = {}) => {
+module.exports = (rootDir = process.cwd()) => {
   const babelConfig = {
     presets: [
       [
@@ -92,12 +90,17 @@ module.exports = (rootDir = process.cwd(), options = {}) => {
       [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
       require.resolve('@babel/plugin-proposal-class-properties'),
       '@babel/plugin-proposal-optional-chaining',
+      [
+        'babel-plugin-module-resolver',
+        {
+          root: [utils.baseDir],
+          alias: {
+            '@': `.${path.sep}${path.relative(utils.cwd, utils.baseDir)}`,
+          },
+        },
+      ],
     ],
   };
-
-  if (options.isH5) {
-    babelConfig.plugins.push(require.resolve('./babelPluginRemixWebMin.js'));
-  }
 
   const files = findFiles(rootDir);
   babelPkgDirs = {};
