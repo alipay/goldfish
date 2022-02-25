@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/reactive",
-  "version": "1.9.5",
+  "version": "2.0.0",
   "description": "Reactive.",
   "main": "lib/index.js",
   "scripts": {
@@ -14,8 +14,8 @@
   "author": "yibuyisheng@icloud.com",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/module-usage": "^1.9.5",
-    "@goldfishjs/utils": "^1.9.5"
+    "@goldfishjs/module-usage": "^2.0.0",
+    "@goldfishjs/utils": "^2.0.0"
   },
   "devDependencies": {
     "@types/lodash": "4.14.117",

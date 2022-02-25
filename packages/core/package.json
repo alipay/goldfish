@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/core",
-  "version": "1.9.5",
+  "version": "2.0.0",
   "description": "goldfish",
   "main": "lib/index.js",
   "files": [
@@ -19,12 +19,12 @@
   "author": "yibuyisheng@icloud.com",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/module-usage": "^1.9.5",
-    "@goldfishjs/reactive-connect": "^1.9.5",
-    "@goldfishjs/utils": "^1.9.5",
-    "@goldfishjs/composition-api": "^1.9.5",
-    "@goldfishjs/hooks": "^1.9.5",
-    "@goldfishjs/react": "^1.9.5",
+    "@goldfishjs/module-usage": "^2.0.0",
+    "@goldfishjs/reactive-connect": "^2.0.0",
+    "@goldfishjs/utils": "^2.0.0",
+    "@goldfishjs/composition-api": "^2.0.0",
+    "@goldfishjs/hooks": "^2.0.0",
+    "@goldfishjs/react": "^2.0.0",
     "@types/react": "^16.9.53",
     "concurrently": "^6.2.0",
     "query-string": "^7.0.1",
