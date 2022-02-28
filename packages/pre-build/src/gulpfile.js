@@ -62,19 +62,8 @@ function commonStream(files, cb) {
   let stream = cb(
     gulp
       .src(files, { base: baseDir })
-      .pipe(plumber(utils.error))
-      .pipe(
-        gulpFilter(file => {
-          // const result = utils.shouldCompileFile(file.path, sourceType);
-          // if (result) {
-          //   compiledFiles.push(file.path);
-          // } else {
-          //   utils.log(`The file is not modified, so it will not be compiled: ${file.path}`);
-          // }
-          // return result;
-          return true;
-        }),
-      ),
+      .pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV)))
+      .pipe(plumber(utils.error)),
   );
 
   stream = stream.pipe(gulp.dest(utils.distDir));
@@ -114,13 +103,16 @@ function getTSConfig() {
 
 function compileDTSStream(files) {
   const tsProject = getTSProject();
-  const tsconfig = getTSConfig();
   return commonStream(files, stream => {
     if (tsProject) {
       return stream.pipe(tsProject()).dts;
     }
     return stream.pipe(
-      ts(tsconfig.compilerOptions),
+      ts({
+        skipLibCheck: true,
+        types: ['mini-types'],
+        declaration: true,
+      }),
     ).dts;
   });
 }
@@ -175,8 +167,7 @@ gulp.task('copy', () => {
 });
 
 gulp.task('dts', () => {
-  // return compileDTSStream(sourceFiles.ts);
-  return null;
+  return compileDTSStream(sourceFiles.ts);
 });
 
 gulp.task(
