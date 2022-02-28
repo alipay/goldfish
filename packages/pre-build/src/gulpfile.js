@@ -10,7 +10,6 @@ const replace = require('gulp-replace');
 const getBabelConfig = require('./getBabelConfig');
 const utils = require('./utils');
 const micromatch = require('micromatch');
-const gulpFilter = require('gulp-filter');
 const path = require('path');
 const plumber = require('gulp-plumber');
 const alias = require('./lib/@gulp-plugin/alias/index');
