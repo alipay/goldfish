@@ -2,7 +2,7 @@ const { exec } = require('../utils');
 const path = require('path');
 
 module.exports = {
-  name: 'compile',
+  name: 'npm',
   description: 'Compile the source codes in npm development.',
   builder: () => {},
   async handler() {
