@@ -11,9 +11,9 @@ const getBabelConfig = require('./getBabelConfig');
 const utils = require('./utils');
 const micromatch = require('micromatch');
 const gulpFilter = require('gulp-filter');
-const merge = require('merge2');
 const path = require('path');
 const plumber = require('gulp-plumber');
+const alias = require('./lib/@gulp-plugin/alias/index');
 
 const cwd = process.cwd();
 const excludeDistDir = `${utils.distDir.replace(cwd + '/', '')}/**`;
@@ -65,13 +65,14 @@ function commonStream(files, cb) {
       .pipe(plumber(utils.error))
       .pipe(
         gulpFilter(file => {
-          const result = utils.shouldCompileFile(file.path, sourceType);
-          if (result) {
-            compiledFiles.push(file.path);
-          } else {
-            utils.log(`The file is not modified, so it will not be compiled: ${file.path}`);
-          }
-          return result;
+          // const result = utils.shouldCompileFile(file.path, sourceType);
+          // if (result) {
+          //   compiledFiles.push(file.path);
+          // } else {
+          //   utils.log(`The file is not modified, so it will not be compiled: ${file.path}`);
+          // }
+          // return result;
+          return true;
         }),
       ),
   );
@@ -94,24 +95,33 @@ function compileJSStream(files) {
   });
 }
 
-const tsconfigPath = utils.tsconfigPath;
-const tsconfig = require(tsconfigPath);
-function compileTSStream(files) {
-  const projectDir = path.dirname(tsconfigPath);
-  const declarationDir = path.resolve(
-    projectDir,
-    tsconfig.compilerOptions.declarationDir || path.resolve(projectDir, 'types'),
-  );
-  if (tsconfig.compilerOptions.outDir) {
-    utils.warn(`The outDir config in ${tsconfigPath} will not work, and the real outDir is: ${utils.distDir}`);
-  }
+function getTSProject() {
+  return utils.tsconfigPath && fs.existsSync(utils.tsconfigPath) ? ts.createProject(utils.tsconfigPath) : null;
+}
 
+function compileTSStream(files) {
+  const tsProject = getTSProject();
   return commonStream(files, stream => {
-    const s = stream.pipe(ts.createProject(tsconfigPath)());
-    if (tsconfig.compilerOptions.declaration) {
-      return merge([s.dts.pipe(gulp.dest(declarationDir)), s.js.pipe(babel(getBabelConfig()))]);
+    const babelConfig = getBabelConfig();
+    babelConfig.presets.push([require.resolve('@babel/preset-typescript'), {}]);
+    return stream.pipe(alias(tsProject.config)).pipe(babel(babelConfig));
+  });
+}
+
+function getTSConfig() {
+  return utils.tsconfigPath && fs.existsSync(utils.tsconfigPath) ? require(utils.tsconfigPath) : {};
+}
+
+function compileDTSStream(files) {
+  const tsProject = getTSProject();
+  const tsconfig = getTSConfig();
+  return commonStream(files, stream => {
+    if (tsProject) {
+      return stream.pipe(tsProject()).dts;
     }
-    return s.js.pipe(babel(getBabelConfig()));
+    return stream.pipe(
+      ts(tsconfig.compilerOptions),
+    ).dts;
   });
 }
 
@@ -164,6 +174,11 @@ gulp.task('copy', () => {
   return copyStream(sourceFiles.copy);
 });
 
+gulp.task('dts', () => {
+  // return compileDTSStream(sourceFiles.ts);
+  return null;
+});
+
 gulp.task(
   'all',
   gulp.parallel(
@@ -178,6 +193,9 @@ gulp.task(
     },
     function copy() {
       return copyStream(sourceFiles.copy);
+    },
+    function dts() {
+      return compileDTSStream(sourceFiles.ts);
     },
   ),
 );
@@ -197,7 +215,7 @@ function getCustomBlobs() {
 
 function createDevWatcherTask(globs) {
   const watcher = gulp.watch(globs, {
-    ignoreInitial: false,
+    ignoreInitial: true,
   });
   watcher.on('change', sourceUpdateHandler);
   watcher.on('add', sourceUpdateHandler);
@@ -215,6 +233,15 @@ function createDevWatcherTask(globs) {
     let stream;
     if (sourceType.check(path) === 'ts') {
       stream = compileTSStream(path);
+
+      // handle the dts
+      const dtsStream = compileDTSStream(path);
+      dtsStream.once('error', e => {
+        utils.error('Compile file[dts] failed:', path, e);
+      });
+      dtsStream.once('end', () => {
+        utils.log('Compile file[dts] completed and cost ' + (Date.now() - startTime) + 'ms:', path);
+      });
     } else if (sourceType.check(path) === 'less') {
       stream = compileLessStream(path);
     } else if (sourceType.check(path) === 'js') {
@@ -264,6 +291,9 @@ gulp.task(
     },
     function copy() {
       return copyStream(['src/**/*.@(json|axml|png|svg)']);
+    },
+    function dts() {
+      return compileDTSStream(['src/**/*.@(ts|tsx)']);
     },
   ),
 );
