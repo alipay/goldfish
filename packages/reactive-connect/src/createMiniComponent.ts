@@ -63,19 +63,28 @@ export default function createTinyappComponent<
     },
   );
 
-  function syncProps(this: ComponentInstance<P, D, CS, M>) {
-    for (const key in this.props) {
-      if (key in this.store.props) {
-        this.store.props[key] = this.props[key];
+  function syncProps(lifeCycleName: 'onInit' | 'didMount' | 'deriveDataFromProps' | 'didUpdate') {
+    return function (this: ComponentInstance<P, D, CS, M>, ...args: any[]) {
+      const nextProps: P = {
+        onInit: this.props,
+        didMount: this.props,
+        deriveDataFromProps: args[0],
+        didUpdate: this.props,
+      }[lifeCycleName];
+
+      for (const key in nextProps) {
+        if (key in this.store.props) {
+          this.store.props[key] = nextProps[key];
+        }
       }
-    }
+    };
   }
 
   attachLogic<typeof enterKey, Required<ComponentOptions<P, D, CS, M>>[typeof enterKey]>(
     componentOptions,
     enterKey,
     'after',
-    syncProps,
+    syncProps(enterKey),
   );
 
   const refreshKey = isComponent2 ? 'deriveDataFromProps' : 'didUpdate';
@@ -83,7 +92,7 @@ export default function createTinyappComponent<
     componentOptions,
     refreshKey,
     'after',
-    syncProps,
+    syncProps(refreshKey),
   );
 
   attachLogic<typeof leaveKey, Required<ComponentOptions<P, D, CS, M>>[typeof leaveKey]>(
