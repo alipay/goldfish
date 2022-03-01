@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.2](https://github.com/alipay/goldfish/compare/v2.4.1...v2.4.2) (2022-03-01)
+
+
+### Bug Fixes
+
+* props sync ([64402c4](https://github.com/alipay/goldfish/commit/64402c4c978392e58e5ad58477c5d1c13a85a60b))
+
+
+
+
+
 ## [2.4.1](https://github.com/alipay/goldfish/compare/v2.4.0...v2.4.1) (2022-02-28)
 
 **Note:** Version bump only for package goldfishjs
