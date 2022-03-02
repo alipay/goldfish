@@ -10,17 +10,6 @@ it('should create the app options.', () => {
   expect(options).toHaveProperty('onError');
 });
 
-it('should put a `$setup` to the app instance.', () => {
-  const options = setupApp(() => {
-    return {};
-  });
-
-  const app = { $setup: null };
-  setApp(app);
-  options.onLaunch?.call(app, {});
-  expect(app.$setup).not.toBeNull();
-});
-
 it('should not have `onShareAppMessage`.', () => {
   const options = setupApp(() => {
     return {};

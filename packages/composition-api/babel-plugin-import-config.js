@@ -21,7 +21,6 @@ module.exports = {
       useContextType: `${codeDir}/useContextType`,
       useReady: `${codeDir}/useReady`,
       useInitDataReady: `${codeDir}/useInitDataReady`,
-      useGlobalData: `${codeDir}/useGlobalData`,
       useWatch: `${codeDir}/useWatch`,
       useAutorun: `${codeDir}/useAutorun`,
       reactive: `${codeDir}/reactive`,

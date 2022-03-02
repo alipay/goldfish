@@ -9,7 +9,9 @@ it('should have the `onShareAppMessage`.', () => {
     return {};
   });
 
-  const app = {};
+  const app = {
+    globalData: options.globalData,
+  };
   setApp(app);
   options.onLaunch?.call(app, {});
   expect(app).toHaveProperty('onShareAppMessage');
@@ -27,7 +29,9 @@ it('shoule merge the mutiple `onShareAppMessage` results.', () => {
     return {};
   });
 
-  const app = {};
+  const app = {
+    globalData: options.globalData,
+  };
   setApp(app);
   options.onLaunch?.call(app, {});
   expect(app).toHaveProperty('onShareAppMessage');

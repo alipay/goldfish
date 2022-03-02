@@ -1,16 +1,9 @@
 import { AppInstance } from '@goldfishjs/reactive-connect';
 import CommonSetup from './CommonSetup';
-import AppStore from '../connector/store/AppStore';
 
-export type SetupAppStore = AppStore;
+export type SetupAppInstance = AppInstance<any, any> & Pick<tinyapp.IAppOptionsMethods, 'onShareAppMessage'>;
 
-export type SetupAppInstance = AppInstance<any, AppStore> & Pick<tinyapp.IAppOptionsMethods, 'onShareAppMessage'>;
-
-export default class AppSetup extends CommonSetup<
-  Required<tinyapp.IAppOptionsMethods>,
-  SetupAppStore,
-  SetupAppInstance
-> {
+export default class AppSetup extends CommonSetup<Required<tinyapp.IAppOptionsMethods>, SetupAppInstance> {
   public launchOptions?: tinyapp.IAppLaunchOptions;
 
   public addMethod<N extends keyof Required<tinyapp.IAppOptionsMethods>>(
@@ -32,5 +25,10 @@ export default class AppSetup extends CommonSetup<
       }
     }
     return super.addMethod(name, fn);
+  }
+
+  public destroy() {
+    super.destroy();
+    this.launchOptions = undefined;
   }
 }

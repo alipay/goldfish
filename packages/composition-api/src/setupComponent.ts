@@ -1,13 +1,11 @@
 import { IProps, attachLogic } from '@goldfishjs/reactive-connect';
-import { cloneDeep } from '@goldfishjs/utils';
+import { cloneDeep, uniqueId } from '@goldfishjs/utils';
 import observable from '@goldfishjs/reactive/lib/observable';
-import AppStore from './connector/store/AppStore';
-import createComponent from './connector/view/createComponent';
-import ComponentStore from './connector/store/ComponentStore';
+import isComponent2 from '@goldfishjs/reactive-connect/lib/isComponent2';
 import appendFn from './appendFn';
-import integrateSetupFunctionResult, { ISetupFunction } from './integrateSetupFunctionResult';
+import { ISetupFunction } from './setup/CommonSetup';
 import ComponentSetup, { SetupComponentInstance } from './setup/ComponentSetup';
-import integrateLifeCycleMethods from './integrateLifeCycleMethods';
+import setupManager from './setup/setupManager';
 
 const lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[] = [
   'onInit',
@@ -17,6 +15,8 @@ const lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[] =
   'didUnmount',
 ];
 
+const COMPONENT_SETUP_ID_KEY = '$$componentSetupId';
+
 export default function setupComponent<P extends IProps, D = Record<string, any>>(
   passInFn: ISetupFunction,
 ): tinyapp.ComponentOptions<P, D, {}>;
@@ -24,82 +24,113 @@ export default function setupComponent<P, D = Record<string, any>>(
   passInProps: P,
   passInFn: ISetupFunction,
 ): tinyapp.ComponentOptions<P, D, {}>;
-export default function setupComponent<P, D = Record<string, any>>(
-  passInProps: P,
-  dftData: Partial<D>,
-  passInFn: ISetupFunction,
-): tinyapp.ComponentOptions<P, D, {}>;
 export default function setupComponent<P extends Record<string, any>, D = any>(
   arg1: P | ISetupFunction,
-  arg2?: Partial<D> | ISetupFunction,
-  arg3?: ISetupFunction,
+  arg2?: ISetupFunction,
 ): tinyapp.ComponentOptions<P, D, {}> {
   let props: P | undefined = undefined;
-  let dftData: D | undefined = undefined;
   let fn: ISetupFunction | undefined = undefined;
 
-  if (typeof arg3 === 'function') {
-    props = arg1 as P;
-    dftData = arg2 as D;
-    fn = arg3 as ISetupFunction;
-  } else if (typeof arg2 === 'function') {
-    props = arg1 as P;
-    fn = arg2 as ISetupFunction;
-  } else if (typeof arg1 === 'function') {
-    fn = arg1 as ISetupFunction;
+  if (typeof arg1 === 'function') {
+    fn = arg1;
+  } else {
+    props = arg1;
+    fn = arg2;
   }
 
   let options: tinyapp.ComponentOptions<P, D, {}> = {};
   if (props) {
     options.props = props;
   }
-  if (dftData) {
-    options.data = dftData;
-  }
 
   type View = SetupComponentInstance & { $setup?: ComponentSetup };
-  let view: View;
 
-  class BizComponentStore extends ComponentStore<any, AppStore> {
-    props = observable(cloneDeep(props) || {}) as P;
-
-    private stopWatchDeepList: (() => void)[] = [];
-
-    public constructor() {
-      super();
-
-      if (!fn) {
-        throw new Error('Please pass in the setup Function.');
-      }
-
-      const setup = view.$setup!;
-      setup.wrap(() => {
-        this.stopWatchDeepList = integrateSetupFunctionResult<'component'>(fn!, setup, view, this);
-      });
+  const oldData = options.data;
+  // No `this` for the component data function.
+  options.data = function () {
+    let finalData: Record<string, any> = {};
+    if (oldData) {
+      finalData = typeof oldData === 'function' ? oldData() : oldData;
     }
 
-    public destroy() {
-      super.destroy();
-      this.stopWatchDeepList.forEach(stop => stop());
-      this.stopWatchDeepList = [];
+    // Create the setup instance.
+    const componentSetupId = uniqueId('component-setup-');
+    finalData[COMPONENT_SETUP_ID_KEY] = componentSetupId;
+    const setup = new ComponentSetup();
+    setupManager.add(componentSetupId, setup);
+
+    // Get the default props.
+    setup.props = observable(cloneDeep(props) || {});
+
+    // Execute the setup function.
+    setup.executeSetupFunction(fn);
+
+    const compositionData = setup.compositionState;
+    if (compositionData) {
+      finalData =
+        typeof finalData === 'object' ? { ...finalData, ...cloneDeep(compositionData) } : cloneDeep(compositionData);
     }
+
+    return finalData;
+  } as any;
+
+  const enterKey = isComponent2 ? 'onInit' : 'didMount';
+  attachLogic(options, enterKey, 'before', function (this: View) {
+    const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;
+    if (!setup) {
+      return;
+    }
+
+    setup.isSyncDataSafe = true;
+
+    // Set the component instance.
+    setup.setViewInstance(this);
+
+    // Mount the instance methods.
+    setup.iterateInstanceMethods((fns, name) => {
+      appendFn(this, name, fns as Function[]);
+    });
+
+    // Watch the reactive data.
+    setup.watchReactiveData();
+  });
+
+  // Sync props in lifecyle.
+  function defaultSyncHandler(this: View) {
+    const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;
+    setup?.syncProps(this.props);
   }
+  attachLogic(options, 'onInit', 'before', defaultSyncHandler);
+  attachLogic(options, 'didMount', 'before', defaultSyncHandler);
+  attachLogic(options, 'didUpdate', 'before', defaultSyncHandler);
+  attachLogic(options, 'deriveDataFromProps', 'before', function (this: View, nextProps: Record<string, any>) {
+    const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;
+    setup?.syncProps(nextProps);
+  });
 
-  options = createComponent<AppStore, BizComponentStore, P, D>(BizComponentStore, options, {
-    beforeCreateStore: (v: View) => {
-      const setup = new ComponentSetup();
-      v.$setup = setup;
-      view = v;
+  // Mount the lifecycle methods.
+  function integrateLifeCycleMethods(lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[]) {
+    return lifeCycleMethods.reduce<tinyapp.ComponentOptions<any>>((prev, cur) => {
+      (prev as any)[cur] = function (this: View, ...args: any[]) {
+        const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]);
+        if (!setup) {
+          return;
+        }
 
-      setup.iterateMethods((fns, name) => {
-        appendFn(v, name, fns as Function[]);
-      });
-    },
-  }) as any;
-
-  const lifeCycleMethodsOptions = integrateLifeCycleMethods<'component'>(lifeCycleMethods);
+        return setup.executeLifeCycleFns(cur, ...args);
+      };
+      return prev;
+    }, {});
+  }
+  const lifeCycleMethodsOptions = integrateLifeCycleMethods(lifeCycleMethods);
   lifeCycleMethods.forEach(m => {
     attachLogic(options, m, 'after', lifeCycleMethodsOptions[m] as any);
+  });
+
+  // Destroy
+  attachLogic(options, 'didUnmount', 'after', function (this: View) {
+    const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]);
+    setup?.destroy();
   });
 
   return options;

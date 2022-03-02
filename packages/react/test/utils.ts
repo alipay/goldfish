@@ -14,6 +14,12 @@ export function createPageInstance() {
   };
 
   return {
+    get data() {
+      return result.result.current;
+    },
+    set data(v) {
+      result.result.current = v;
+    },
     result,
     query: {},
     $batchedUpdates: (fn: () => void) => {

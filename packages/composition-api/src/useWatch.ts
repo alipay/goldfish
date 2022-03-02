@@ -1,28 +1,15 @@
 import useContextType from './useContextType';
 import CommonSetup from './setup/CommonSetup';
 import checkSetupEnv from './checkSetupEnv';
-import AppSetup from './setup/AppSetup';
-import PageSetup from './setup/PageSetup';
-import ComponentSetup from './setup/ComponentSetup';
 
 export default function useWatch() {
   checkSetupEnv('useWatch', ['app', 'page', 'component']);
 
   const type = useContextType();
 
-  if (type === 'app') {
-    const store = CommonSetup.getCurrent<AppSetup>().getStoreInstance()!;
-    return store.watch.bind(store);
-  }
-
-  if (type === 'page') {
-    const store = CommonSetup.getCurrent<PageSetup>().getStoreInstance()!;
-    return store.watch.bind(store);
-  }
-
-  if (type === 'component') {
-    const store = CommonSetup.getCurrent<ComponentSetup>().getStoreInstance()!;
-    return store.watch.bind(store);
+  if (['app', 'page', 'component'].indexOf(type) > -1) {
+    const setup = CommonSetup.getCurrent<CommonSetup<any, any>>();
+    return setup.watch.bind(setup);
   }
 
   throw new Error('Unknown context.');

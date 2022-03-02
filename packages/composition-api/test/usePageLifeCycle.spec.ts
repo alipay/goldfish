@@ -58,6 +58,7 @@ it('should have the `onShareAppMessage`.', () => {
   });
 
   const page = createPageInstance();
+  (options.data as any)?.call(page, {});
   options.onLoad?.call(page, {});
   expect(page).toHaveProperty('onShareAppMessage');
   expect((page as any).onShareAppMessage({ from: 'menu' })).toEqual({ title: 'title', path: 'path' });
@@ -75,6 +76,7 @@ it('shoule merge the mutiple `onShareAppMessage` results.', () => {
   });
 
   const page = createPageInstance();
+  (options.data as any)?.call(page, {});
   options.onLoad?.call(page, {});
   expect(page).toHaveProperty('onShareAppMessage');
   expect((page as any).onShareAppMessage({ from: 'menu' })).toEqual({ title: 'title2', path: 'path2', desc: 'desc1' });

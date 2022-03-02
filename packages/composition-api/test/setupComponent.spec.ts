@@ -16,9 +16,11 @@ it('should convert the default props to an reactive object.', () => {
         return {};
       },
     );
-    options.didMount?.call({
+    const instance: any = {
       $batchedUpdates() {},
-    });
+    };
+    instance.data = (options.data as any).call();
+    options.didMount?.call(instance);
   });
 });
 
@@ -47,6 +49,7 @@ it('should handle the props change.', () => {
     const componentInstance: any = {
       $batchedUpdates() {},
     };
+    componentInstance.data = (options.data as any).call();
     options.didMount?.call(componentInstance);
 
     componentInstance.props = {

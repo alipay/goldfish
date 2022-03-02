@@ -7,5 +7,10 @@ export default function usePageLifeCycle<F extends keyof FullMethods>(name: F, f
   checkSetupEnv('usePageLifeCycle', ['page']);
 
   const setup = PageSetup.getCurrent<PageSetup>();
-  setup.addMethod(name, fn);
+  // Treat the `onShareAppMessage` to an instance member.
+  if (name === 'onShareAppMessage') {
+    setup.addInstanceMethod('onShareAppMessage', fn);
+  } else {
+    setup.addMethod(name, fn);
+  }
 }

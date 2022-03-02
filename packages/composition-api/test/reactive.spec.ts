@@ -1,7 +1,7 @@
 import reactive from '../src/reactive';
 
 describe('reactive', () => {
-  it('should update the nested computed value.', async () => {
+  it('should update the nested computed value.', () => {
     const obj = reactive({
       get c() {
         return {

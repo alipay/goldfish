@@ -15,6 +15,7 @@ it('should initialize the feedback instance.', async () => {
   });
 
   const page = createPageInstance();
+  page.data = (options.data as any).call(page);
   options.onLoad?.call(page, {});
 
   await timeout();
@@ -34,6 +35,7 @@ it('should alert.', async () => {
   });
 
   const page = createPageInstance();
+  options.data = (options.data as any).call(page);
   options.onLoad?.call(page, {});
 
   expect(alert.mock.calls.length).toBe(1);
@@ -63,6 +65,7 @@ it('should block the next alert.', async () => {
   });
 
   const page = createPageInstance();
+  page.data = (options.data as any)?.call(page);
   options.onLoad?.call(page, {});
 
   expect(counter).toBe(1);

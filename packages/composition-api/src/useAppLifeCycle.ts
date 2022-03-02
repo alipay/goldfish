@@ -7,5 +7,10 @@ export default function useAppLifeCycle<F extends keyof tinyapp.IAppOptionsMetho
   checkSetupEnv('useAppLifeCycle', ['app']);
 
   const setup = AppSetup.getCurrent<AppSetup>();
-  setup.addMethod(name, fn);
+  // Treat the `onShareAppMessage` to an instance member.
+  if (name === 'onShareAppMessage') {
+    setup.addInstanceMethod('onShareAppMessage', fn);
+  } else {
+    setup.addMethod(name, fn);
+  }
 }
