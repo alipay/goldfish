@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/alipay/goldfish/compare/v2.4.2...v2.5.0) (2022-03-03)
+
+
+### Features
+
+* create setup in advance. ([86a7048](https://github.com/alipay/goldfish/commit/86a70486ba833067e311e526d80ec79e989f0244))
+
+
+
+
+
 ## [2.4.2](https://github.com/alipay/goldfish/compare/v2.4.1...v2.4.2) (2022-03-01)
 
 **Note:** Version bump only for package @goldfishjs/react
