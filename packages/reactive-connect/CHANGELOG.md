@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/alipay/goldfish/compare/v2.5.0...v2.6.0) (2022-03-04)
+
+
+### Bug Fixes
+
+* do not flushing repeatedly. ([1a47c20](https://github.com/alipay/goldfish/commit/1a47c20233a7a76247c0457ca5d6da50a9a6f717))
+
+
+
+
+
 # [2.5.0](https://github.com/alipay/goldfish/compare/v2.4.2...v2.5.0) (2022-03-03)
 
 **Note:** Version bump only for package @goldfishjs/reactive-connect

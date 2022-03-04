@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/alipay/goldfish/compare/v2.5.0...v2.6.0) (2022-03-04)
+
+
+### Features
+
+* use npm mode ([6fd1c99](https://github.com/alipay/goldfish/commit/6fd1c99d13efd5a7692dcfc451bd205d13b1641a))
+* use tnpm ([23cb1ce](https://github.com/alipay/goldfish/commit/23cb1ce8172fd7f7f1dd9cdb5b9a723544ecad37))
+
+
+
+
+
 # [2.5.0](https://github.com/alipay/goldfish/compare/v2.4.2...v2.5.0) (2022-03-03)
 
 **Note:** Version bump only for package @goldfishjs/module-usage
