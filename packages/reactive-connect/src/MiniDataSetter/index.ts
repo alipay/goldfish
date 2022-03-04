@@ -18,11 +18,18 @@ export default class MiniDataSetter {
 
   private updaterMap: Record<string, Updater> = {};
 
+  private isFlushing = false;
+
   private getBatchUpdates(view: View) {
     return view.$batchedUpdates ? view.$batchedUpdates.bind(view) : view.$page.$batchedUpdates.bind(view.$page);
   }
 
   private flush() {
+    if (this.isFlushing) {
+      console.warn('The data is flushing.');
+    }
+
+    this.isFlushing = true;
     for (const id in this.viewMap) {
       const updater = this.updaterMap[id];
       const view = this.viewMap[id];
@@ -49,6 +56,7 @@ export default class MiniDataSetter {
     this.viewMap = {};
     this.updaterMap = {};
     keyPath.clear();
+    this.isFlushing = false;
   }
 
   private getValue(obj: any, keyPathList: keyPath.KeyPathList): any {
@@ -75,6 +83,11 @@ export default class MiniDataSetter {
       for (const k in newV) {
         this.set(view, fullObj, [k], newV[k], isObject(oldV) ? oldV[k] : undefined, options);
       }
+      return;
+    }
+
+    if (this.isFlushing) {
+      Promise.resolve().then(() => this.set(view, fullObj, keyPathList, newV, oldV, options));
       return;
     }
 
