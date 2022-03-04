@@ -10,7 +10,8 @@ module.exports = {
       .replace('package.json', 'bin/gulp.js');
 
     const cwd = process.cwd();
-    exec(`${gulpCommand} npm --gulpfile ${path.resolve(__dirname, '../gulpfile.js')} --cwd ${cwd}`, {
+    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
+    exec(`node ${gulpCommand} npm --gulpfile ${gulpFilePath} --cwd ${cwd}`, {
       cwd,
       env: {
         OUT_DIR: './lib',

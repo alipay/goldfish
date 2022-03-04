@@ -10,7 +10,8 @@ module.exports = {
       .replace('package.json', 'bin/gulp.js');
 
     const cwd = process.cwd();
-    await exec(`${gulpCommand} all --gulpfile ${path.resolve(__dirname, '../gulpfile.js')} --cwd ${cwd}`, { cwd });
-    exec(`${gulpCommand} dev --gulpfile ${path.resolve(__dirname, '../gulpfile.js')} --cwd ${cwd}`, { cwd });
+    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
+    await exec(`node ${gulpCommand} all --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd });
+    exec(`node ${gulpCommand} dev --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd });
   },
 };
