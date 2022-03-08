@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.1](https://github.com/alipay/goldfish/compare/v2.6.0...v2.6.1) (2022-03-08)
+
+
+### Bug Fixes
+
+* sync the data changing in initializing stage. ([41174a5](https://github.com/alipay/goldfish/commit/41174a527e4724b8ada6a91f46ed6a0b23d6406f))
+
+
+
+
+
 # [2.6.0](https://github.com/alipay/goldfish/compare/v2.5.0...v2.6.0) (2022-03-04)
 
 **Note:** Version bump only for package @goldfishjs/composition-api
