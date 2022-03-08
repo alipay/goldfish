@@ -90,7 +90,7 @@ export default function setupPage<D>(fn: ISetupFunction): tinyapp.PageOptions<D>
       return;
     }
 
-    setup.isSyncDataSafe = true;
+    setup.status = 'ready';
     setup.query.data = query;
   });
 

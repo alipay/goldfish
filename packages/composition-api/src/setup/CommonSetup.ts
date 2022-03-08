@@ -21,6 +21,8 @@ export interface ISetupFunction {
   (): Record<string, any>;
 }
 
+export type Status = 'initializing' | 'ready' | 'destroyed';
+
 export default class CommonSetup<M, V> extends Setup {
   private fetchInitDataMethod?: () => Promise<void>;
 
@@ -32,7 +34,19 @@ export default class CommonSetup<M, V> extends Setup {
   // The custom instance methods.
   private instanceMethods: Record<string, Function[]> = {};
 
-  public isSyncDataSafe = false;
+  private _status: Status = 'initializing';
+
+  private syncFnInInitializingStage: (() => void)[] = [];
+
+  public get status() {
+    return this._status;
+  }
+
+  public set status(v: Status) {
+    this._status = v;
+    this.syncFnInInitializingStage.forEach(fn => fn());
+    this.syncFnInInitializingStage = [];
+  }
 
   public stopWatchDeepList: (() => void)[] = [];
 
@@ -182,12 +196,14 @@ export default class CommonSetup<M, V> extends Setup {
         watchDeep(
           compositionState,
           (obj: any, keyPathList, newV, oldV, options) => {
-            if (!this.isSyncDataSafe) {
-              return;
-            }
-
             const miniDataSetter = getMiniDataSetter();
-            miniDataSetter.set(this.viewInstance as any, obj, keyPathList, newV, oldV, options);
+            if (this.status === 'initializing') {
+              this.syncFnInInitializingStage.push(() => {
+                miniDataSetter.set(this.viewInstance as any, obj, keyPathList, newV, oldV, options);
+              });
+            } else if (this.status === 'ready') {
+              miniDataSetter.set(this.viewInstance as any, obj, keyPathList, newV, oldV, options);
+            }
           },
           {
             immediate: false,
@@ -199,7 +215,7 @@ export default class CommonSetup<M, V> extends Setup {
   }
 
   public destroy() {
-    this.isSyncDataSafe = false;
+    this.status = 'destroyed';
     this.fetchInitDataMethod = undefined;
     this.viewInstance = undefined;
     this.methods = {};

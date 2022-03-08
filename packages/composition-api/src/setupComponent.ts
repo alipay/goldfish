@@ -81,7 +81,7 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
       return;
     }
 
-    setup.isSyncDataSafe = true;
+    setup.status = 'ready';
 
     // Set the component instance.
     setup.setViewInstance(this);

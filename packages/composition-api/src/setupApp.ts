@@ -34,7 +34,7 @@ export default function setupApp(fn: ISetupFunction): tinyapp.AppOptions {
   options.globalData = finalData;
 
   attachLogic(options, 'onLaunch', 'before', function (this: View, options: tinyapp.IAppLaunchOptions) {
-    setup.isSyncDataSafe = true;
+    setup.status = 'ready';
 
     // Save the launch options.
     setup.launchOptions = options;
