@@ -30,6 +30,13 @@ class StopFns {
     this.fns[keyPathString][curKey] = fn;
   }
 
+  private isStartWithKeyPathString(target: string, keyPathString: string) {
+    return (
+      target === keyPathString ||
+      (target.indexOf(keyPathString) === 0 && '.['.indexOf(target.replace(keyPathString, '')[0]) !== -1)
+    );
+  }
+
   /**
    * Remove current layer and all the children's listeners.
    *
@@ -38,7 +45,7 @@ class StopFns {
   public remove(keyPathList: KeyPathList) {
     const keyPathString = generateKeyPathString(keyPathList);
     for (const kps in this.fns) {
-      if (kps.indexOf(keyPathString) === 0) {
+      if (this.isStartWithKeyPathString(kps, keyPathString)) {
         for (const k in this.fns[kps]) {
           this.fns[kps][k]();
         }
@@ -50,7 +57,7 @@ class StopFns {
   public removeChildren(keyPathList: KeyPathList) {
     const keyPathString = generateKeyPathString(keyPathList);
     for (const kps in this.fns) {
-      if (kps !== keyPathString && kps.indexOf(keyPathString) === 0) {
+      if (kps !== keyPathString && this.isStartWithKeyPathString(kps, keyPathString)) {
         for (const k in this.fns[kps]) {
           this.fns[kps][k]();
         }

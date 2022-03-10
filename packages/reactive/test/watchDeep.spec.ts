@@ -328,3 +328,47 @@ it('should swap the elements.', () => {
   element2.name = 'yy';
   expect(result[3][1]).toEqual(['data', 0, 'name']);
 });
+
+it('should watch the object with special keys.', () => {
+  const obj = {
+    address: {
+      city: 'a',
+    },
+    '.addr': {
+      city: 'c',
+    },
+    'addr.': {
+      city: 'd',
+    },
+    '[addr': {
+      city: 'e',
+    },
+    'addr[]': {
+      city: 'f',
+    },
+    'addr addr': {
+      city: 'g',
+    },
+    addr: {
+      city: 'b',
+    },
+  };
+  observable(obj);
+
+  const result: any[] = [];
+  const stop = watchDeep(obj, (...args) => {
+    result.push(args[2]);
+  });
+  expect(result).toEqual([]);
+
+  obj.address.city = 'a1';
+  obj['addr'].city = 'b1';
+  obj['.addr'].city = 'c1';
+  obj['addr.'].city = 'd1';
+  obj['[addr'].city = 'e1';
+  obj['addr[]'].city = 'f1';
+  obj['addr addr'].city = 'g1';
+  expect(result).toEqual(['a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1']);
+
+  stop();
+});
