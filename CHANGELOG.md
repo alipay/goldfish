@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.2](https://github.com/alipay/goldfish/compare/v2.6.1...v2.6.2) (2022-03-10)
+
+
+### Bug Fixes
+
+* the parent key logic ([fb78271](https://github.com/alipay/goldfish/commit/fb78271d3ecaa9a572d6c3690a6ec16ba68a363c))
+
+
+
+
+
 ## [2.6.1](https://github.com/alipay/goldfish/compare/v2.6.0...v2.6.1) (2022-03-08)
 
 
