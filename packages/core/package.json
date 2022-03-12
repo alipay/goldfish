@@ -30,7 +30,7 @@
     "@goldfishjs/react": "^2.6.2",
     "@goldfishjs/reactive-connect": "^2.6.2",
     "@goldfishjs/utils": "^2.6.2",
-    "@types/react": "^16.9.53",
+    "@types/react": "*",
     "babel-types": "^6.26.0",
     "concurrently": "^6.2.0",
     "mini-types": "^0.1.3",

@@ -19,11 +19,11 @@
   },
   "devDependencies": {
     "@types/lodash": "4.14.117",
-    "@types/react": "16.7.3",
-    "@types/react-dom": "16.0.9",
+    "@types/react": "*",
+    "@types/react-dom": "*",
     "lodash": "4.17.19",
-    "react": "^16.6.1",
-    "react-dom": "^16.6.1"
+    "react": "*",
+    "react-dom": "*"
   },
   "sideEffects": false,
   "registry": "https://registry.npmjs.org/"

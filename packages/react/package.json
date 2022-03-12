@@ -24,14 +24,14 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.117",
-    "@types/react": "^16.9.22",
-    "@types/react-dom": "^16.9.5",
+    "@types/react": "*",
+    "@types/react-dom": "*",
     "lodash": "^4.17.19",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react": "*",
+    "react-dom": "*"
   },
   "peerDependencies": {
-    "@types/react": "^16.9.22"
+    "@types/react": "*"
   },
   "sideEffects": false,
   "registry": "https://registry.npmjs.org/"
