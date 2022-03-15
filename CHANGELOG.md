@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/alipay/goldfish/compare/v2.7.0...v2.8.0) (2022-03-15)
+
+
+### Features
+
+* add babel-plugin-module-resolver ([96fcc3a](https://github.com/alipay/goldfish/commit/96fcc3ade59ab2a90bb91c518d72185ca39aa6b8))
+
+
+
+
+
 # [2.7.0](https://github.com/alipay/goldfish/compare/v2.6.2...v2.7.0) (2022-03-12)
 
 
