@@ -15,7 +15,7 @@ const plumber = require('gulp-plumber');
 const alias = require('./lib/@gulp-plugin/alias/index');
 
 const cwd = process.cwd();
-const excludeDistDir = `${utils.distDir.replace(cwd + '/', '')}/**`;
+const excludeDistDir = `${utils.distDir.replace(cwd + path.sep, '')}/**`;
 
 const baseDir = utils.baseDir;
 
@@ -57,7 +57,6 @@ const sourceType = {
 };
 
 function commonStream(files, cb) {
-  const compiledFiles = [];
   let stream = cb(
     gulp
       .src(files, { base: baseDir })
@@ -67,10 +66,6 @@ function commonStream(files, cb) {
   );
 
   stream = stream.pipe(gulp.dest(utils.distDir));
-
-  stream.on('end', () => {
-    compiledFiles.forEach(f => utils.recordFileUpdateTime(f));
-  });
   return stream;
 }
 

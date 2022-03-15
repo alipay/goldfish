@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const fs = require('fs-extra');
 const path = require('path');
 const lodash = require('lodash');
+const concurrently = require('concurrently');
 
 const cwd = process.cwd();
 exports.cwd = cwd;
@@ -89,24 +90,6 @@ const tsconfigPath = path.resolve(
 );
 exports.tsconfigPath = tsconfigPath;
 
-const dir = `${cwd}${path.sep}.cache`;
-const cacheFilePath = `${dir}${path.sep}mtimes`;
-if (!fs.existsSync(cacheFilePath)) {
-  fs.ensureFileSync(cacheFilePath);
-  fs.writeJSONSync(cacheFilePath, {});
-}
-let mtimesJson = fs.readJSONSync(cacheFilePath);
-exports.recordFileUpdateTime = filePath => {
-  const stats = fs.statSync(filePath);
-  const time = stats.mtimeMs;
-
-  mtimesJson = {
-    ...mtimesJson,
-    [filePath]: time,
-  };
-  fs.writeJSONSync(cacheFilePath, mtimesJson);
-};
-
 function getCompiledPath(sourceFilePath, sourceType) {
   const relativeSourcePath = '.' + sourceFilePath.replace(cwd, '');
   const type = sourceType.check(relativeSourcePath.replace(/^.\//, ''));
@@ -125,22 +108,5 @@ function getCompiledPath(sourceFilePath, sourceType) {
 
   return interTargetPath;
 }
-
-exports.shouldCompileFile = (filePath, sourceType) => {
-  const compiledFilePath = getCompiledPath(filePath, sourceType);
-  const hasCompiledFile = fs.existsSync(compiledFilePath);
-  if (!hasCompiledFile) {
-    return true;
-  }
-
-  const recordModifyTime = mtimesJson[filePath];
-  const lastModifyTime = fs.statSync(filePath).mtimeMs;
-  if (!lastModifyTime) {
-    return true;
-  }
-
-  const isModified = lastModifyTime > recordModifyTime;
-  return isModified;
-};
 
 exports.getCompiledPath = getCompiledPath;
