@@ -3,7 +3,6 @@ import { cloneDeep, uniqueId } from '@goldfishjs/utils';
 import { ISetupFunction } from './setup/CommonSetup';
 import PageSetup from './setup/PageSetup';
 import appendFn from './appendFn';
-import integratePageEventMethods from './integratePageEventMethods';
 import setupManager from './setup/setupManager';
 
 const lifeCycleMethods: (keyof tinyapp.IPageOptionsMethods)[] = [
@@ -35,6 +34,26 @@ const pageEventMethods: (keyof tinyapp.IPageEvents)[] = [
 ];
 
 const PAGE_SETUP_ID_KEY = '$$pageSetupId';
+
+function integratePageEventMethods(pageMethods: (keyof tinyapp.IPageEvents)[]): tinyapp.IPageEvents {
+  return pageMethods.reduce((prev, cur: keyof tinyapp.IPageEvents) => {
+    (prev as any)[cur] = function (this: any, ...args: any[]) {
+      const setup = setupManager.get((this.data as any)?.[PAGE_SETUP_ID_KEY]);
+      if (!setup) {
+        return;
+      }
+
+      const fns: Function[] = (setup.getMethod as any)(`events.${cur}`) || [];
+      let result: any;
+      for (const i in fns) {
+        const fn = fns[i];
+        result = (fn as Function).call(this, ...args);
+      }
+      return result;
+    };
+    return prev;
+  }, {});
+}
 
 export default function setupPage<D>(fn: ISetupFunction): tinyapp.PageOptions<D> {
   type View = PageInstance<D, any>;
