@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1](https://github.com/alipay/goldfish/compare/v2.8.0...v2.8.1) (2022-03-17)
+
+
+### Bug Fixes
+
+* page events. ([b4f9756](https://github.com/alipay/goldfish/commit/b4f975695b29709d449bba2023b01443c423ce45))
+
+
+
+
+
 # [2.8.0](https://github.com/alipay/goldfish/compare/v2.7.0...v2.8.0) (2022-03-15)
 
 
