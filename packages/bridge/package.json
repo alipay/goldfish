@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/bridge",
-  "version": "2.8.1",
+  "version": "2.9.0",
   "description": "goldfish-bridge",
   "main": "lib/index.js",
   "files": [
@@ -14,7 +14,7 @@
   "author": "644506165@qq.com",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/module-usage": "^2.8.1",
+    "@goldfishjs/module-usage": "^2.9.0",
     "mini-types": "^0.1.3"
   },
   "sideEffects": false,

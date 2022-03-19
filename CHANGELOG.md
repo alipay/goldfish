@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/alipay/goldfish/compare/v2.8.1...v2.9.0) (2022-03-19)
+
+
+### Bug Fixes
+
+* add this for page. ([32b4d22](https://github.com/alipay/goldfish/commit/32b4d2229d34f5c33fe985b785897dd5aa9ffa1e))
+
+
+### Features
+
+* add cloneDeepWith ([e451c6b](https://github.com/alipay/goldfish/commit/e451c6b7438de2d5ff0fabe8fbac5042fe3a2374))
+
+
+
+
+
 ## [2.8.1](https://github.com/alipay/goldfish/compare/v2.8.0...v2.8.1) (2022-03-17)
 
 

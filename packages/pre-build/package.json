@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/pre-build",
-  "version": "2.8.1",
+  "version": "2.9.0",
   "main": "./src/index.js",
   "description": "goldfish-pre-build",
   "scripts": {},
