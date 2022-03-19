@@ -1,5 +1,5 @@
 import Batch from '@goldfishjs/reactive-connect/lib/MiniDataSetter/Batch';
-import cloneDeep from '@goldfishjs/utils/lib/cloneDeep';
+import cloneDeepWith from '@goldfishjs/utils/lib/cloneDeepWith';
 import silent from '@goldfishjs/utils/lib/silent';
 import getViewId from '@goldfishjs/reactive-connect/lib/MiniDataSetter/getViewId';
 import diff, { Operation } from '../common/diff';
@@ -7,24 +7,38 @@ import Context from './Context';
 import createContextStack from '../common/createContextStack';
 import { CreateFunction } from '../connector/create';
 import isFunction from '../common/isFunction';
-import View from '../common/View';
+
+export type Status = 'initializing' | 'ready' | 'destroyed';
+
+function cloneDeep(obj: any) {
+  return cloneDeepWith(obj, (v: any) => {
+    if (typeof v === 'function') {
+      return v;
+    }
+  });
+}
+
+export interface IView {
+  setData(data: Record<string, any>, callback?: () => void): void;
+  batchedUpdates(fn: () => void): void;
+  spliceData(data: Record<string, [number, number, ...any[]]>, callback: () => void): void;
+  status: Status;
+  addStatusChangeListener(listener: (status: Status) => void): () => void;
+  renderDataResult?: Record<string, any>;
+}
 
 const { push, pop, getCurrent } = createContextStack<StateContext>();
 
 class DataSetter {
   private count = new Batch(() => this.flush());
 
-  private viewMap: Record<string, View | null> = {};
+  private viewMap: Record<string, IView | null> = {};
 
   private operationsMap: Record<string, Operation[]> = {};
 
   private updatedListeners: Record<string, Array<() => void>> = {};
 
   private previousDataMap: Record<string, any> = {};
-
-  private getBatchUpdates(view: View) {
-    return view.$batchedUpdates ? view.$batchedUpdates.bind(view) : view.$page.$batchedUpdates.bind(view.$page);
-  }
 
   private flush() {
     const delayUpdateFns: Array<() => void> = [];
@@ -38,25 +52,31 @@ class DataSetter {
       }
 
       delayUpdateFns.push(() => {
-        const isSyncDataSafe = view.$$isSyncDataSafe === false ? false : true;
+        const isSyncDataSafe = view.status === 'ready';
         if (!isSyncDataSafe) {
           return;
         }
 
-        this.getBatchUpdates(view)(() => {
+        view.batchedUpdates(() => {
           operations.forEach(operation => {
             if (operation.type === 'set') {
               promiseList.push(
                 new Promise<void>(resolve => {
-                  view.setData(operation.value, resolve);
+                  // cloneDeep: Prevent pollution data on the instance.
+                  view.setData(cloneDeep(operation.value), resolve);
                 }),
               );
             } else {
               promiseList.push(
                 new Promise<void>(resolve => {
-                  view.$spliceData(
+                  view.spliceData(
                     {
-                      [operation.keyPathString]: [operation.start, operation.deleteCount, ...operation.values],
+                      [operation.keyPathString]: [
+                        operation.start,
+                        operation.deleteCount,
+                        // cloneDeep: Prevent pollution data on the instance.
+                        ...cloneDeep(operation.values),
+                      ],
                     },
                     resolve,
                   );
@@ -76,7 +96,7 @@ class DataSetter {
     delayUpdateFns.forEach(fn => fn());
   }
 
-  public addUpdatedListener(view: View, cb: () => void) {
+  public addUpdatedListener(view: IView, cb: () => void) {
     const viewId = getViewId(view);
     this.updatedListeners[viewId] = this.updatedListeners[viewId] || [];
     this.updatedListeners[viewId].push(cb);
@@ -90,10 +110,11 @@ class DataSetter {
     updatedListeners.forEach(cb => cb && silent(cb)());
   }
 
-  public set(view: View, data: any) {
+  public set(view: IView, data: any) {
     const viewId = getViewId(view);
     if (!this.previousDataMap[viewId]) {
-      view.setData(data, () => Promise.resolve().then(() => this.invokeUpdatedListeners(viewId)));
+      // cloneDeep: Prevent pollution data on the instance.
+      view.setData(cloneDeep(data), () => Promise.resolve().then(() => this.invokeUpdatedListeners(viewId)));
       this.previousDataMap[viewId] = cloneDeep(data);
       return;
     }
@@ -114,7 +135,7 @@ class DataSetter {
     this.previousDataMap[viewId] = cloneDeep(data);
   }
 
-  public clearByView(view: View) {
+  public clearByView(view: IView) {
     const viewId = getViewId(view);
     this.viewMap[viewId] = null;
     this.operationsMap[viewId] = [];
@@ -134,16 +155,25 @@ export default class StateContext extends Context {
 
   private arr: Array<{ value: any; setter: (v: any) => void }> = [];
 
-  private view: View;
+  private view: IView;
 
   private batch: Batch;
 
-  public constructor(view: View, onChange: () => void, onUpdated: () => void) {
+  private syncFnInInitializingStage: (() => void)[] = [];
+
+  private stopStatusChangeListener: () => void;
+
+  public constructor(view: IView, onChange: () => void, onUpdated: () => void) {
     super();
     this.view = view;
     this.batch = new Batch(onChange);
 
     dataSetter.addUpdatedListener(this.view, onUpdated);
+
+    this.stopStatusChangeListener = this.view.addStatusChangeListener(() => {
+      this.syncFnInInitializingStage.forEach(f => f());
+      this.syncFnInInitializingStage = [];
+    });
   }
 
   public wrap(fn: () => ReturnType<CreateFunction>) {
@@ -152,7 +182,13 @@ export default class StateContext extends Context {
       push(this);
       try {
         const result = super.wrapExecutor(fn);
-        dataSetter.set(this.view, result.data);
+
+        this.view.renderDataResult = result.data;
+        if (this.view.status === 'initializing') {
+          this.syncFnInInitializingStage.push(() => dataSetter.set(this.view, result.data));
+        } else {
+          dataSetter.set(this.view, result.data);
+        }
 
         // Mount the functions to the view.
         for (let key in result) {
@@ -206,5 +242,6 @@ export default class StateContext extends Context {
 
     this.arr = [];
     dataSetter.clearByView(this.view);
+    this.stopStatusChangeListener();
   }
 }

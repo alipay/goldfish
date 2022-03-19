@@ -1,5 +1,4 @@
 import CacheContext from './CacheContext';
-import { IHostInstance } from '../connector/create';
 
 export interface IInstanceEvent<I extends Partial<Record<string, (...args: any[]) => any>>, T extends keyof I> {
   name: T;
@@ -35,7 +34,7 @@ export default class InstanceEventContext<I> extends CacheContext<IInstanceEvent
     this.index++;
   }
 
-  public call(eventName: keyof I, app: IHostInstance<any>, ...args: any[]) {
+  public call(eventName: keyof I, app: any, ...args: any[]) {
     let result: any;
     this.arr.forEach(item => {
       if (item.value.name === eventName) {

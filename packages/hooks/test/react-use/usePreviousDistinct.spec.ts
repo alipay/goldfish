@@ -8,12 +8,17 @@ describe('usePreviousDistinct', () => {
   });
 
   function getHook<T>(initialValue?: T, predicate?: Predicate<T>) {
-    return renderHook(props => usePreviousDistinct<T>(props?.val as T, props?.cmp), {
-      initialProps: {
-        val: initialValue || 0,
-        cmp: predicate,
-      } as { val?: T; cmp?: Predicate<T> },
-    });
+    return renderHook(
+      props => {
+        return usePreviousDistinct<T>(props?.val as T, props?.cmp);
+      },
+      {
+        initialProps: {
+          val: initialValue || 0,
+          cmp: predicate,
+        } as { val?: T; cmp?: Predicate<T> },
+      },
+    );
   }
 
   it('should return undefined on init', () => {
@@ -36,12 +41,15 @@ describe('usePreviousDistinct', () => {
     expect(hook.result.current).toBeUndefined();
 
     hook.rerender({ val: 1 });
+    await timeout();
     expect(hook.result.current).toBe(0);
 
     hook.rerender({ val: 2 });
+    await timeout();
     expect(hook.result.current).toBe(1);
 
     hook.rerender({ val: 2 });
+    await timeout();
     expect(hook.result.current).toBe(1);
 
     hook.rerender({ val: 3 });
@@ -60,6 +68,7 @@ describe('usePreviousDistinct', () => {
     expect(hook.result.current).toBeUndefined();
 
     hook.rerender({ value: undefined });
+    await timeout();
     expect(hook.result.current).toBe(1);
 
     hook.rerender({ value: 2 });
@@ -67,7 +76,7 @@ describe('usePreviousDistinct', () => {
     expect(hook.result.current).toBeUndefined();
   });
 
-  it('should receive a predicate as a second parameter that will compare prev and current', () => {
+  it('should receive a predicate as a second parameter that will compare prev and current', async () => {
     const obj1 = { label: 'John', value: 'john' };
     const obj2 = { label: 'Jonny', value: 'john' };
     const obj3 = { label: 'Kate', value: 'kate' };
@@ -82,7 +91,7 @@ describe('usePreviousDistinct', () => {
     expect(hook.result.current).toBeUndefined();
 
     hook.rerender({ val: obj3, cmp: predicate });
-
+    await timeout();
     expect(hook.result.current).toEqual(obj1);
   });
 });

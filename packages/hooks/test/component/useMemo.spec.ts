@@ -2,6 +2,7 @@
 import useMemo from '../../src/hooks/useMemo';
 import useState from '../../src/hooks/useState';
 import createComponent from '../../src/connector/createComponent';
+import createComponentInstance from '../common/createComponentInstance';
 
 it('should cache the value.', done => {
   let v: any;
@@ -20,7 +21,9 @@ it('should cache the value.', done => {
     };
   });
 
-  options.didMount?.call({ setData: () => {} });
+  const componentInstance = createComponentInstance();
+  componentInstance.data = options.data.call();
+  options.didMount?.call(componentInstance);
   setTimeout(() => {
     expect(v).toBe(0);
     done();

@@ -3,6 +3,7 @@ import useEffect from '../../src/hooks/useEffect';
 import useState from '../../src/hooks/useState';
 import createComponentForMini from '../../src/connector/createComponent';
 import { createComponent } from '../utils';
+import createComponentInstance from '../common/createComponentInstance';
 
 it('should run the effect function after mount.', done => {
   const fn = jest.fn();
@@ -13,7 +14,9 @@ it('should run the effect function after mount.', done => {
     };
   });
 
-  options.didMount?.call({ setData: () => {} });
+  const componentInstance = createComponentInstance();
+  componentInstance.data = options.data.call();
+  options.didMount?.call(componentInstance);
   expect(fn.mock.calls.length).toBe(1);
   done();
 });
@@ -29,7 +32,9 @@ it('should run the multiple effect functions after mount.', done => {
     };
   });
 
-  options.didMount?.call({ setData: () => {} });
+  const componentInstance = createComponentInstance();
+  componentInstance.data = options.data.call();
+  options.didMount?.call(componentInstance);
   expect(fn1.mock.calls.length).toBe(1);
   expect(fn2.mock.calls.length).toBe(1);
   done();
@@ -50,9 +55,10 @@ it('should call the clear function after the next mount.', done => {
     };
   });
 
-  const componentInstance = {
+  const componentInstance = createComponentInstance({
     setData: (_: any, cb: () => void) => cb(),
-  };
+  });
+  componentInstance.data = options.data.call();
   options.didMount?.call(componentInstance);
   options.didUnmount?.call(componentInstance);
   setTimeout(() => {
@@ -109,9 +115,8 @@ it('should not rerun the effect while the dependencies not being changed.', done
     };
   });
 
-  const componentInstance = {
-    setData: () => {},
-  };
+  const componentInstance = createComponentInstance();
+  componentInstance.data = options.data.call();
   options.didMount?.call(componentInstance);
   expect(fn.mock.calls.length).toBe(1);
   setTimeout(() => {

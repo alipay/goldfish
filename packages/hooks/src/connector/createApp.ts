@@ -1,31 +1,74 @@
-import create, { CreateFunction, IHostInstance } from './create';
+import { get as keyPathGet } from '@goldfishjs/reactive-connect/lib/MiniDataSetter/keyPath';
+import create, { CreateFunction } from './create';
 import isFunction from '../common/isFunction';
+import companionObjectManager from './companionObjectManager';
+
+const appNotReadyError = new Error('The app is not ready.');
 
 export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp.AppOptions {
   const options: tinyapp.AppOptions = {};
   const hooksOptions = create(fn, 'app');
 
-  type AppInstance = IHostInstance<undefined> &
-    tinyapp.IAppInstance<any> &
-    Pick<tinyapp.IAppOptionsMethods, 'onShareAppMessage'>;
+  // Create the componion object.
+  const companionObject = companionObjectManager.create({
+    setData() {
+      throw appNotReadyError;
+    },
+    spliceData() {
+      throw appNotReadyError;
+    },
+    batchedUpdates() {
+      throw appNotReadyError;
+    },
+  });
+
+  // Initialize the componion object.
+  hooksOptions.init.call(companionObject);
+
+  type AppInstance = tinyapp.IAppInstance<any> & Pick<tinyapp.IAppOptionsMethods, 'onShareAppMessage'>;
 
   const oldOnLaunch = options.onLaunch;
   options.onLaunch = function (this: AppInstance, options) {
-    // Implement the fake `setData` method for App.
-    this.setData = (data: any, cb?: () => void) => {
-      this.globalData = data;
-      cb && cb();
-    };
+    // Set the real data sync methods.
+    Object.assign(companionObject, {
+      setData: (obj: any, cb?: () => void) => {
+        for (const key in obj) {
+          const keyPathList = keyPathGet(key);
+          keyPathList.reduce((prevData, key, index, list) => {
+            if (index === list.length - 1) {
+              prevData[key] = obj[key];
+            }
+            return prevData[key];
+          }, this.globalData);
+        }
+        cb && cb();
+      },
+      spliceData: (obj: Record<string, [number, number, ...any[]]>, cb?: () => void) => {
+        for (const key in obj) {
+          const keyPathList = keyPathGet(key);
+          keyPathList.reduce((prevData, key, index, list) => {
+            if (index === list.length - 1) {
+              prevData[key].splice(obj[key][0], obj[key][1], ...obj[key].slice(2));
+            }
+            return prevData[key];
+          }, this.globalData);
+        }
+        cb && cb();
+      },
+      batchedUpdates: (cb: () => void) => cb(),
+    });
 
-    hooksOptions.init.call(this);
+    // It is safe to sync data from now on.
+    companionObject.status = 'ready';
 
-    if (this.$$appEventContext?.hasEventCallback('onShareAppMessage')) {
+    // If there are some onShareAppMessage methods configured, mount them on the app instance.
+    if (companionObject.appEventContext?.hasEventCallback('onShareAppMessage')) {
       const oldOnShareAppMessage = this.onShareAppMessage;
       this.onShareAppMessage = function (this: AppInstance, options) {
         const previousResult = isFunction(oldOnShareAppMessage) ? oldOnShareAppMessage.call(this, options) : {};
         return {
           ...previousResult,
-          ...this.$$appEventContext?.call('onShareAppMessage', this, options),
+          ...companionObject.appEventContext?.call('onShareAppMessage', this, options),
         };
       };
     }
@@ -34,7 +77,8 @@ export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp
       oldOnLaunch.call(this, options);
     }
 
-    this.$$appEventContext?.call('onLaunch', this, options);
+    // Call the lifecycle methods.
+    companionObject.appEventContext?.call('onLaunch', this, options);
   };
 
   const oldOnShow = options.onShow;
@@ -43,9 +87,10 @@ export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp
       oldOnShow.call(this, options);
     }
 
-    hooksOptions.mounted.call(this);
+    hooksOptions.mounted.call(companionObject);
 
-    this.$$appEventContext?.call('onShow', this, options);
+    // Call the lifecycle methods.
+    companionObject.appEventContext?.call('onShow', this, options);
   };
 
   const oldOnHide = options.onHide;
@@ -54,7 +99,8 @@ export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp
       oldOnHide.call(this);
     }
 
-    this.$$appEventContext?.call('onHide', this);
+    // Call the lifecycle methods.
+    companionObject.appEventContext?.call('onHide', this);
   };
 
   const oldOnError = options.onError;
@@ -63,7 +109,8 @@ export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp
       oldOnError.call(this, error);
     }
 
-    this.$$appEventContext?.call('onError', this, error);
+    // Call the lifecycle methods.
+    companionObject.appEventContext?.call('onError', this, error);
   };
 
   const oldOnUnhandledRejection = options.onUnhandledRejection;
@@ -72,10 +119,11 @@ export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp
       oldOnUnhandledRejection.call(this, res);
     }
 
-    this.$$appEventContext?.call('onUnhandledRejection', this, res);
+    // Call the lifecycle methods.
+    companionObject.appEventContext?.call('onUnhandledRejection', this, res);
   };
 
-  // Attention: The App dose not have a destroy method.
+  // Attention: The App dose not have any destroy method.
 
   return options;
 }

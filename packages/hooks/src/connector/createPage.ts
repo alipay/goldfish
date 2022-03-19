@@ -1,31 +1,68 @@
-import create, { CreateFunction, IHostInstance } from './create';
+import { uniqueId, cloneDeep } from '@goldfishjs/utils';
+import create, { CreateFunction } from './create';
 import isFunction from '../common/isFunction';
 import { OptionsEventName } from '../context/PageEventContext';
+import companionObjectManager from './companionObjectManager';
+
+export const PAGE_COMPONION_OBJECT_ID_KEY = '$$pageComponionObjectId';
 
 export default function createPage(fn: () => ReturnType<CreateFunction>): tinyapp.PageOptions {
   const options: tinyapp.PageOptions = {};
   const hooksOptions = create(fn, 'page');
 
-  type PageInstance = IHostInstance<undefined> &
-    tinyapp.IPageInstance<any> &
-    Pick<tinyapp.IPageOptionsMethods, 'onShareAppMessage'>;
+  type PageInstance = tinyapp.IPageInstance<any> & Pick<tinyapp.IPageOptionsMethods, 'onShareAppMessage'>;
 
-  const oldOnLoad = options.onLoad;
-  options.onLoad = function (this: PageInstance, query) {
-    this.$$query = query;
+  const oldData = options.data;
+  options.data = function (this: PageInstance) {
+    let finalData: Record<string, any> = {};
+    if (oldData) {
+      finalData = typeof oldData === 'function' ? oldData.call(this) : oldData;
+    }
 
-    hooksOptions.init.call(this);
+    // Create the componion object.
+    const pageComponionObjectId = uniqueId('page-componion-object-');
+    finalData[PAGE_COMPONION_OBJECT_ID_KEY] = pageComponionObjectId;
+    const companionObject = companionObjectManager.create({
+      setData: this.setData.bind(this),
+      spliceData: this.$spliceData.bind(this),
+      batchedUpdates: this.$batchedUpdates.bind(this),
+    });
+    companionObjectManager.add(pageComponionObjectId, companionObject);
 
-    if (this.$$pageEventContext?.hasEventCallback('onShareAppMessage')) {
+    // Initialize
+    hooksOptions.init.call(companionObject);
+
+    // Check the onShareAppMessage
+    if (companionObject.pageEventContext?.hasEventCallback('onShareAppMessage')) {
       const oldOnShareAppMessage = this.onShareAppMessage;
       this.onShareAppMessage = function (this: PageInstance, options) {
         const previousResult = isFunction(oldOnShareAppMessage) ? oldOnShareAppMessage.call(this, options) : {};
         return {
           ...previousResult,
-          ...this.$$pageEventContext?.call('onShareAppMessage', this, options),
+          ...companionObject.pageEventContext?.call('onShareAppMessage', this, options),
         };
       };
     }
+
+    if (companionObject.renderDataResult) {
+      finalData =
+        typeof finalData === 'object'
+          ? { ...finalData, ...cloneDeep(companionObject.renderDataResult) }
+          : cloneDeep(companionObject.renderDataResult);
+    }
+
+    return finalData;
+  };
+
+  const oldOnLoad = options.onLoad;
+  options.onLoad = function (this: PageInstance, query) {
+    const companionObject = companionObjectManager.get(this.data[PAGE_COMPONION_OBJECT_ID_KEY]);
+    if (!companionObject) {
+      return;
+    }
+
+    companionObject.query = query;
+    companionObject.status = 'ready';
 
     if (isFunction(oldOnLoad)) {
       oldOnLoad.call(this, query);
@@ -38,19 +75,27 @@ export default function createPage(fn: () => ReturnType<CreateFunction>): tinyap
       oldOnReady.call(this);
     }
 
-    hooksOptions.mounted.call(this);
+    const companionObject = companionObjectManager.get(this.data[PAGE_COMPONION_OBJECT_ID_KEY]);
+    if (companionObject) {
+      hooksOptions.mounted.call(companionObject);
+    }
   };
 
   const oldOnUnload = options.onUnload;
   options.onUnload = function (this: PageInstance) {
-    hooksOptions.unmounted.call(this);
+    const companionObject = companionObjectManager.get(this.data[PAGE_COMPONION_OBJECT_ID_KEY]);
+    if (companionObject) {
+      hooksOptions.unmounted.call(companionObject);
+      companionObject.status = 'destroyed';
+      companionObjectManager.remove(this.data[PAGE_COMPONION_OBJECT_ID_KEY]);
+    }
 
     if (isFunction(oldOnUnload)) {
       oldOnUnload.call(this);
     }
   };
 
-  // 触发事件
+  // Lifecycle
   const optionsEventNameList: OptionsEventName[] = [
     'onLoad',
     'onShow',
@@ -67,10 +112,14 @@ export default function createPage(fn: () => ReturnType<CreateFunction>): tinyap
         (oldFn as any).call(this, ...args);
       }
 
-      this.$$pageEventContext?.call(name, this, ...args);
+      const companionObject = companionObjectManager.get(this.data[PAGE_COMPONION_OBJECT_ID_KEY]);
+      if (companionObject) {
+        companionObject.pageEventContext?.call(name, this, ...args);
+      }
     } as any;
   });
 
+  // Events
   const eventNameList: (keyof tinyapp.IPageEvents)[] = [
     'onBack',
     'onKeyboardHeight',
@@ -90,7 +139,10 @@ export default function createPage(fn: () => ReturnType<CreateFunction>): tinyap
         (oldFn as any).call(this, ...args);
       }
 
-      this.$$pageEventContext?.call(name, this, ...args);
+      const companionObject = companionObjectManager.get(this.data[PAGE_COMPONION_OBJECT_ID_KEY]);
+      if (companionObject) {
+        companionObject.pageEventContext?.call(name, this, ...args);
+      }
     } as any;
   });
   options.events = events;

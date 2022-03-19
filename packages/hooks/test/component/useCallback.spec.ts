@@ -2,6 +2,7 @@
 import useCallback from '../../src/hooks/useCallback';
 import useState from '../../src/hooks/useState';
 import createComponent from '../../src/connector/createComponent';
+import createComponentInstance from '../common/createComponentInstance';
 
 it('should cache the function.', done => {
   const fns: ((...args: any[]) => any)[] = [];
@@ -19,7 +20,9 @@ it('should cache the function.', done => {
     };
   });
 
-  options.didMount?.call({ setData: () => {} });
+  const componentInstance = createComponentInstance();
+  componentInstance.data = options.data.call();
+  options.didMount?.call(componentInstance);
   setTimeout(() => {
     expect(fns.length).toBe(4);
     expect(fns[0]).toBe(fns[1]);
@@ -45,7 +48,9 @@ it('should not cache the function after deps being changed.', done => {
     };
   });
 
-  options.didMount?.call({ setData: () => {} });
+  const componentInstance = createComponentInstance();
+  componentInstance.data = options.data.call();
+  options.didMount?.call(componentInstance);
   setTimeout(() => {
     expect(fns.length).toBe(4);
     expect(fns[0]).not.toBe(fns[1]);

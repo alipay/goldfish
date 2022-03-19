@@ -1,5 +1,6 @@
 import createComponentForMini from '../../src/connector/createComponent';
 import useReducer from '../../src/hooks/useReducer';
+import createComponentInstance from '../common/createComponentInstance';
 import { createComponent } from '../utils';
 
 it('should support the basic ability.', done => {
@@ -30,11 +31,12 @@ it('should support the basic ability.', done => {
   );
 
   handler.mount();
-  expect(setData.mock.calls.length).toBe(1);
-  expect(setData.mock.calls[0][0]).toEqual({ count: 1 });
+  const componentInstance = handler.getComponentInstance();
+  expect(componentInstance.data.count).toBe(1);
+  expect(setData.mock.calls.length).toBe(0);
   setTimeout(() => {
-    expect(setData.mock.calls.length).toBe(2);
-    expect(setData.mock.calls[1][0]).toEqual({ count: 2 });
+    expect(setData.mock.calls.length).toBe(1);
+    expect(setData.mock.calls[0][0]).toEqual({ count: 2 });
     done();
   }, 201);
 });
@@ -59,9 +61,9 @@ it('should initialize the state with the third function.', () => {
   });
 
   const setData = jest.fn();
-  options.didMount?.call({
-    setData,
-  });
-  expect(setData.mock.calls.length).toBe(1);
-  expect(setData.mock.calls[0][0]).toEqual({ count: 2 });
+  const componentInstance = createComponentInstance({ setData });
+  componentInstance.data = options.data.call();
+  options.didMount?.call(componentInstance);
+  expect(componentInstance.data.count).toBe(2);
+  expect(setData.mock.calls.length).toBe(0);
 });
