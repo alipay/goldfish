@@ -64,7 +64,7 @@ export default function setupPage<D>(fn: ISetupFunction): tinyapp.PageOptions<D>
   options.data = function (this: View) {
     let finalData: Record<string, any> = {};
     if (oldData) {
-      finalData = typeof oldData === 'function' ? oldData() : oldData;
+      finalData = typeof oldData === 'function' ? oldData.call(this) : oldData;
     }
 
     // Create the setup instance.
