@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run clean && ../../node_modules/.bin/gulp copy && ../../node_modules/.bin/gulp ts",
     "clean": "rm -rf lib",
-    "lodash": "lodash include='cloneDeep,find,isEqual,omit,pick,debounce,uniqueId' exports='es' modularize -o './src/lodash'",
+    "lodash": "lodash include='cloneDeep,cloneDeepWith,find,isEqual,omit,pick,debounce,uniqueId' exports='es' modularize -o './src/lodash'",
     "prepublishOnly": "npm run lodash"
   },
   "publishConfig": {
