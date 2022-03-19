@@ -1,4 +1,5 @@
 import cloneDeep from './cloneDeep.js';
+import cloneDeepWith from './cloneDeepWith.js';
 import eq from './eq.js';
 import isArguments from './isArguments.js';
 import isArray from './isArray.js';
@@ -20,8 +21,9 @@ import toNumber from './toNumber.js';
 import toString from './toString.js';
 
 export default {
-  cloneDeep, eq, isArguments, isArray, isArrayLike,
-  isBuffer, isEqual, isFunction, isLength, isMap,
-  isObject, isObjectLike, isPlainObject, isSet, isSymbol,
-  isTypedArray, toFinite, toInteger, toNumber, toString
+  cloneDeep, cloneDeepWith, eq, isArguments, isArray,
+  isArrayLike, isBuffer, isEqual, isFunction, isLength,
+  isMap, isObject, isObjectLike, isPlainObject, isSet,
+  isSymbol, isTypedArray, toFinite, toInteger, toNumber,
+  toString
 };

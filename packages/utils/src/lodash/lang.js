@@ -1,4 +1,5 @@
 export { default as cloneDeep } from './cloneDeep.js';
+export { default as cloneDeepWith } from './cloneDeepWith.js';
 export { default as eq } from './eq.js';
 export { default as isArguments } from './isArguments.js';
 export { default as isArray } from './isArray.js';

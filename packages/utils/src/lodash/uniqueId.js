@@ -1,6 +1,6 @@
 /**
  * Lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash include="cloneDeep,find,isEqual,omit,pick,debounce,uniqueId" exports="es" modularize -o ./src/lodash`
+ * Build: `lodash include="cloneDeep,cloneDeepWith,find,isEqual,omit,pick,debounce,uniqueId" exports="es" modularize -o ./src/lodash`
  * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
