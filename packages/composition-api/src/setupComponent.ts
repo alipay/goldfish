@@ -17,17 +17,11 @@ const lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[] =
 
 const COMPONENT_SETUP_ID_KEY = '$$componentSetupId';
 
-export default function setupComponent<P extends IProps, D = Record<string, any>>(
-  passInFn: ISetupFunction,
-): tinyapp.ComponentOptions<P, D, {}>;
-export default function setupComponent<P, D = Record<string, any>>(
-  passInProps: P,
-  passInFn: ISetupFunction,
-): tinyapp.ComponentOptions<P, D, {}>;
-export default function setupComponent<P extends Record<string, any>, D = any>(
+export function buildComponentOptions<P extends Record<string, any>, D = any>(
   arg1: P | ISetupFunction,
   arg2?: ISetupFunction,
-): tinyapp.ComponentOptions<P, D, {}> {
+  isComponent2Param: boolean = isComponent2,
+) {
   let props: P | undefined = undefined;
   let fn: ISetupFunction | undefined = undefined;
 
@@ -74,7 +68,7 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
     return finalData;
   } as any;
 
-  const enterKey = isComponent2 ? 'onInit' : 'didMount';
+  const enterKey = isComponent2Param ? 'onInit' : 'didMount';
   attachLogic(options, enterKey, 'before', function (this: View) {
     const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;
     if (!setup) {
@@ -134,4 +128,18 @@ export default function setupComponent<P extends Record<string, any>, D = any>(
   });
 
   return options;
+}
+
+export default function setupComponent<P extends IProps, D = Record<string, any>>(
+  passInFn: ISetupFunction,
+): tinyapp.ComponentOptions<P, D, {}>;
+export default function setupComponent<P, D = Record<string, any>>(
+  passInProps: P,
+  passInFn: ISetupFunction,
+): tinyapp.ComponentOptions<P, D, {}>;
+export default function setupComponent<P extends Record<string, any>, D = any>(
+  arg1: P | ISetupFunction,
+  arg2?: ISetupFunction,
+): tinyapp.ComponentOptions<P, D, {}> {
+  return buildComponentOptions(arg1, arg2);
 }

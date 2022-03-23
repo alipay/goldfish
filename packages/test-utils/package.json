@@ -1,0 +1,23 @@
+{
+  "name": "@goldfishjs/test-utils",
+  "version": "2.9.0",
+  "description": "goldfish test utils",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rm -rf ./lib && ../../node_modules/.bin/gulp ts"
+  },
+  "keywords": [],
+  "author": "yibuyisheng@icloud.com",
+  "license": "MIT",
+  "dependencies": {
+    "@goldfishjs/composition-api": "^2.9.0",
+    "@goldfishjs/reactive-connect": "^2.9.0",
+    "qs": "^6.10.3",
+    "@goldfishjs/reactive": "^2.9.0"
+  },
+  "sideEffects": false,
+  "registry": "https://registry.npmjs.org/"
+}
