@@ -10,6 +10,8 @@
     "index.d.ts",
     "utils.js",
     "utils.d.ts",
+    "test-utils.js",
+    "test-utils.d.ts",
     "hooks",
     "bin"
   ],
@@ -23,6 +25,7 @@
   "author": "yibuyisheng@icloud.com",
   "license": "MIT",
   "dependencies": {
+    "@goldfishjs/test-utils": "^2.10.0",
     "@goldfishjs/composition-api": "^2.10.0",
     "@goldfishjs/hooks": "^2.10.0",
     "@goldfishjs/module-usage": "^2.10.0",

@@ -140,6 +140,7 @@ module.exports = () => {
               'app',
               'App',
               'useReactiveData',
+              'usePageQuery',
             ],
             '@goldfishjs/reactive-connect': ['observable', 'state', 'computed'],
             '@goldfishjs/composition-api': [

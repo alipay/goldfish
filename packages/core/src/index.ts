@@ -15,6 +15,7 @@ export {
   app,
   App,
   useReactiveData,
+  usePageQuery,
 } from '@goldfishjs/react';
 
 export { observable, state, computed } from '@goldfishjs/reactive-connect';
