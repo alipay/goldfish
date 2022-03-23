@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/alipay/goldfish/compare/v2.9.0...v2.10.0) (2022-03-23)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
 # [2.9.0](https://github.com/alipay/goldfish/compare/v2.8.1...v2.9.0) (2022-03-19)
 
 **Note:** Version bump only for package @goldfishjs/reactive

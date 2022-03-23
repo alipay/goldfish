@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/alipay/goldfish/compare/v2.9.0...v2.10.0) (2022-03-23)
+
+
+### Features
+
+* lodash functions ([daa97aa](https://github.com/alipay/goldfish/commit/daa97aafa02cf1698937401291447cdd8b2c556e))
+* sync props when init ([e241619](https://github.com/alipay/goldfish/commit/e2416193fb1fcbc34ed517a317cd9f53021617f0))
+* test utils for composition api ([57acec9](https://github.com/alipay/goldfish/commit/57acec9d0ab2fc662251389168318f8d1d7f8d63))
+
+
+
+
+
 # [2.9.0](https://github.com/alipay/goldfish/compare/v2.8.1...v2.9.0) (2022-03-19)
 
 

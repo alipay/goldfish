@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/alipay/goldfish/compare/v2.9.0...v2.10.0) (2022-03-23)
+
+
+### Features
+
+* sync props when init ([e241619](https://github.com/alipay/goldfish/commit/e2416193fb1fcbc34ed517a317cd9f53021617f0))
+
+
+
+
+
 # [2.9.0](https://github.com/alipay/goldfish/compare/v2.8.1...v2.9.0) (2022-03-19)
 
 **Note:** Version bump only for package @goldfishjs/hooks
