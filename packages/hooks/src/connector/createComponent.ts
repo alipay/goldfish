@@ -11,7 +11,7 @@ export const COMPONENT_COMPaNION_OBJECT_ID_KEY = '$$companentCompanionObjectId';
 const componentNotReadyError = new Error('The component is not ready.');
 
 interface ICreateFunction<P> {
-  (props: P): ReturnType<CreateFunction>;
+  (props?: P): ReturnType<CreateFunction>;
 }
 
 export default function createComponent<P>(fn: ICreateFunction<P>): tinyapp.ComponentOptions;
@@ -87,6 +87,9 @@ export default function createComponent<P>(arg1: any, arg2?: any): tinyapp.Compo
       if (pageCompanionObject) {
         companionObject.query = pageCompanionObject.query;
       }
+
+      // Sync props in init lifecycle.
+      hooksOptions.syncProps.call(companionObject, this.props);
 
       companionObject.status = 'ready';
     }
