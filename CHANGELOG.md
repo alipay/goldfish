@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/alipay/goldfish/compare/v2.10.0...v2.11.0) (2022-03-25)
+
+
+### Features
+
+* export test utils ([3ee6c28](https://github.com/alipay/goldfish/commit/3ee6c280df6242542ae96196f8b154d19aeda40f))
+* optimize ([c5f0a7c](https://github.com/alipay/goldfish/commit/c5f0a7c428c8882f74fba5bca131ad6c7d9e6294))
+
+
+
+
+
 # [2.10.0](https://github.com/alipay/goldfish/compare/v2.9.0...v2.10.0) (2022-03-23)
 
 
