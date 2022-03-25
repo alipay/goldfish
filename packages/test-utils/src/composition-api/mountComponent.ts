@@ -1,5 +1,7 @@
 import { ISetupFunction } from '@goldfishjs/composition-api';
-import { buildComponentOptions } from '@goldfishjs/composition-api/lib/setupComponent';
+import { buildComponentOptions, COMPONENT_SETUP_ID_KEY } from '@goldfishjs/composition-api/lib/setupComponent';
+import setupManager from '@goldfishjs/composition-api/lib/setup/setupManager';
+import ComponentSetup from '@goldfishjs/composition-api/lib/setup/ComponentSetup';
 import { get as keyPathGet } from '@goldfishjs/reactive-connect/lib/MiniDataSetter/keyPath';
 import {
   watch as baseWatch,
@@ -23,8 +25,8 @@ export default function mountComponent<P, D>(fn: ISetupFunction, opts?: IMountCo
 
   const options = buildComponentOptions(opts?.propsData || {}, fn, isComponent2);
   const instance: tinyapp.IComponentInstance<P, D> = {
-    props: undefined as any,
-    data: undefined as any,
+    props: options.props as any,
+    data: (options.data as Function).call(undefined),
     $id: counter++,
     is: '',
     $page: {
@@ -39,11 +41,11 @@ export default function mountComponent<P, D>(fn: ISetupFunction, opts?: IMountCo
     setData(obj: Record<string, any>, cb?: () => void) {
       for (const key in obj) {
         const keyPathList = keyPathGet(key);
-        keyPathList.reduce((prevData: any, key, index, list) => {
+        keyPathList.reduce((prevData: any, keySeg, index, list) => {
           if (index === list.length - 1) {
-            prevData[key] = obj[key];
+            prevData[keySeg] = obj[key];
           }
-          return prevData[key];
+          return prevData[keySeg];
         }, this.data);
       }
       Promise.resolve().then(cb);
@@ -51,18 +53,17 @@ export default function mountComponent<P, D>(fn: ISetupFunction, opts?: IMountCo
     $spliceData(obj: Record<string, [number, number, ...any[]]>, cb?: () => void) {
       for (const key in obj) {
         const keyPathList = keyPathGet(key);
-        keyPathList.reduce((prevData: any, key, index, list) => {
+        keyPathList.reduce((prevData: any, keySeg, index, list) => {
           if (index === list.length - 1) {
-            prevData[key].splice(obj[key][0], obj[key][1], ...obj[key].slice(2));
+            prevData[keySeg].splice(obj[key][0], obj[key][1], ...obj[key].slice(2));
           }
-          return prevData[key];
+          return prevData[keySeg];
         }, this.data);
       }
       Promise.resolve().then(cb);
     },
   };
 
-  (instance as any).data = (options.data as Function).call(undefined);
   if (isComponent2) {
     options.onInit?.call(instance);
   } else {
@@ -72,9 +73,20 @@ export default function mountComponent<P, D>(fn: ISetupFunction, opts?: IMountCo
   const stopWatchList: (() => void)[] = [];
   const stopAutorunList: (() => void)[] = [];
 
+  function getSetup() {
+    const setup = setupManager.get((instance.data as any)[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | null;
+    if (!setup) {
+      throw new Error('No setup instance.');
+    }
+    return setup;
+  }
+
   return {
     get data() {
       return instance.data;
+    },
+    get reactiveData() {
+      return getSetup().compositionState;
     },
     get props() {
       return instance.props;
@@ -85,6 +97,9 @@ export default function mountComponent<P, D>(fn: ISetupFunction, opts?: IMountCo
       const prevProps = instance.props;
       (instance as any).props = { ...instance.props, ...v };
       options.didUpdate?.call(instance, prevProps, instance.data);
+    },
+    get reactiveProps() {
+      return getSetup().props;
     },
     unmount() {
       options.didUnmount?.call(instance);

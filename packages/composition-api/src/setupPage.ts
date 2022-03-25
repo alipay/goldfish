@@ -33,7 +33,7 @@ const pageEventMethods: (keyof tinyapp.IPageEvents)[] = [
   'beforeTabItemTap',
 ];
 
-const PAGE_SETUP_ID_KEY = '$$pageSetupId';
+export const PAGE_SETUP_ID_KEY = '$$pageSetupId';
 
 function integratePageEventMethods(pageMethods: (keyof tinyapp.IPageEvents)[]): tinyapp.IPageEvents {
   return pageMethods.reduce((prev, cur: keyof tinyapp.IPageEvents) => {

@@ -1,9 +1,10 @@
 import { AppInstance, attachLogic } from '@goldfishjs/reactive-connect';
 import { get as keyPathGet } from '@goldfishjs/reactive-connect/lib/MiniDataSetter/keyPath';
-import { cloneDeep } from '@goldfishjs/utils';
+import { cloneDeep, uniqueId } from '@goldfishjs/utils';
 import AppSetup from './setup/AppSetup';
 import { ISetupFunction } from './setup/CommonSetup';
 import appendFn from './appendFn';
+import setupManager from './setup/setupManager';
 
 const lifeCycleMethods: (keyof tinyapp.IAppOptionsMethods)[] = [
   'onLaunch',
@@ -13,19 +14,25 @@ const lifeCycleMethods: (keyof tinyapp.IAppOptionsMethods)[] = [
   'onUnhandledRejection',
 ];
 
+export const APP_SETUP_ID_KEY = '$$appSetupId';
+
 export default function setupApp(fn: ISetupFunction): tinyapp.AppOptions {
   let options: tinyapp.AppOptions = {};
 
   type View = AppInstance<any, any>;
 
+  let finalData: Record<string, any> = {};
+
   // Create the setup instance.
   const setup = new AppSetup();
+  const appSetupId = uniqueId('app-setup-');
+  finalData[APP_SETUP_ID_KEY] = appSetupId;
+  setupManager.add(appSetupId, setup);
 
   // Execute the setup function.
   setup.executeSetupFunction(fn);
 
   // Set the global data.
-  let finalData = options.globalData;
   const compositionData = setup.compositionState;
   if (compositionData) {
     finalData =
@@ -52,22 +59,22 @@ export default function setupApp(fn: ISetupFunction): tinyapp.AppOptions {
     (this as any).setData = (obj: Record<string, any>) => {
       for (const key in obj) {
         const keyPathList = keyPathGet(key);
-        keyPathList.reduce((prevData, key, index, list) => {
+        keyPathList.reduce((prevData, keySeg, index, list) => {
           if (index === list.length - 1) {
-            prevData[key] = obj[key];
+            prevData[keySeg] = obj[key];
           }
-          return prevData[key];
+          return prevData[keySeg];
         }, this.globalData);
       }
     };
     (this as any).$spliceData = (obj: Record<string, [number, number, ...any[]]>) => {
       for (const key in obj) {
         const keyPathList = keyPathGet(key);
-        keyPathList.reduce((prevData, key, index, list) => {
+        keyPathList.reduce((prevData, keySeg, index, list) => {
           if (index === list.length - 1) {
-            prevData[key].splice(obj[key][0], obj[key][1], ...obj[key].slice(2));
+            prevData[keySeg].splice(obj[key][0], obj[key][1], ...obj[key].slice(2));
           }
-          return prevData[key];
+          return prevData[keySeg];
         }, this.globalData);
       }
     };

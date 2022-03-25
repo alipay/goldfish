@@ -29,6 +29,13 @@ export default function createPage(fn: () => ReturnType<CreateFunction>): tinyap
     });
     companionObjectManager.add(pageComponionObjectId, companionObject);
 
+    // Mount the methods.
+    companionObject.addMethodsChangeListener(methods => {
+      for (const key in methods) {
+        this[key] = methods[key];
+      }
+    });
+
     // Initialize
     hooksOptions.init.call(companionObject);
 

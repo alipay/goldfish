@@ -20,6 +20,7 @@ it('should always return previous state after each update', async () => {
   const { result, rerender } = setUp();
 
   rerender({ state: 2 });
+  await timeout();
   expect(result.current).toBe(0);
 
   rerender({ state: 4 });

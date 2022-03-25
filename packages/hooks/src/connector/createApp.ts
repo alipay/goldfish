@@ -29,16 +29,25 @@ export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp
 
   const oldOnLaunch = options.onLaunch;
   options.onLaunch = function (this: AppInstance, options) {
+    // Mount the methods.
+    const mountMethods = (methods: Record<string, Function>) => {
+      for (const key in methods) {
+        (this as any)[key] = methods[key];
+      }
+    };
+    mountMethods(companionObject.methods);
+    companionObject.addMethodsChangeListener(mountMethods);
+
     // Set the real data sync methods.
     Object.assign(companionObject, {
       setData: (obj: any, cb?: () => void) => {
         for (const key in obj) {
           const keyPathList = keyPathGet(key);
-          keyPathList.reduce((prevData, key, index, list) => {
+          keyPathList.reduce((prevData, keySeg, index, list) => {
             if (index === list.length - 1) {
-              prevData[key] = obj[key];
+              prevData[keySeg] = obj[key];
             }
-            return prevData[key];
+            return prevData[keySeg];
           }, this.globalData);
         }
         cb && cb();
@@ -46,11 +55,11 @@ export default function createApp(fn: () => ReturnType<CreateFunction>): tinyapp
       spliceData: (obj: Record<string, [number, number, ...any[]]>, cb?: () => void) => {
         for (const key in obj) {
           const keyPathList = keyPathGet(key);
-          keyPathList.reduce((prevData, key, index, list) => {
+          keyPathList.reduce((prevData, keySeg, index, list) => {
             if (index === list.length - 1) {
-              prevData[key].splice(obj[key][0], obj[key][1], ...obj[key].slice(2));
+              prevData[keySeg].splice(obj[key][0], obj[key][1], ...obj[key].slice(2));
             }
-            return prevData[key];
+            return prevData[keySeg];
           }, this.globalData);
         }
         cb && cb();

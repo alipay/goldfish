@@ -1,4 +1,6 @@
 import { ISetupFunction, setupApp } from '@goldfishjs/composition-api';
+import { APP_SETUP_ID_KEY } from '@goldfishjs/composition-api/lib/setupApp';
+import setupManager from '@goldfishjs/composition-api/lib/setup/setupManager';
 import {
   watch as baseWatch,
   autorun as baseAutorun,
@@ -8,6 +10,7 @@ import {
   AutorunFunction,
   IErrorCallback,
 } from '@goldfishjs/reactive';
+import AppSetup from '@goldfishjs/composition-api/lib/setup/AppSetup';
 
 export interface IMountAppOptions {
   launchOptions?: tinyapp.IAppLaunchOptions;
@@ -25,6 +28,13 @@ export default function mountApp(fn: ISetupFunction, opts?: IMountAppOptions) {
   return {
     get globalData() {
       return instance.globalData;
+    },
+    get reactiveData() {
+      const setup = setupManager.get(instance.globalData[APP_SETUP_ID_KEY]) as AppSetup | null;
+      if (!setup) {
+        throw new Error('No setup instance.');
+      }
+      return setup.compositionState;
     },
     hide() {
       return options.onHide?.call(instance);

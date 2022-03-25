@@ -22,6 +22,7 @@ export interface IHostInstance<P> extends IView {
   pageEventContext?: PageEventContext;
   props?: P;
   query?: Record<string, any>;
+  destroy: () => void;
 }
 
 export default function create<P>(fn: CreateFunction, type?: ContainerType) {
@@ -81,6 +82,7 @@ export default function create<P>(fn: CreateFunction, type?: ContainerType) {
       this.appEventContext?.destroy();
       this.pageEventContext?.destroy();
       this.memoContext?.destroy();
+      this.destroy();
     },
     executeEffect(this: IHostInstance<P>) {
       this.effectContext?.executeEffect();

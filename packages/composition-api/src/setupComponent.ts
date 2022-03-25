@@ -15,7 +15,7 @@ const lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[] =
   'didUnmount',
 ];
 
-const COMPONENT_SETUP_ID_KEY = '$$componentSetupId';
+export const COMPONENT_SETUP_ID_KEY = '$$componentSetupId';
 
 export function buildComponentOptions<P extends Record<string, any>, D = any>(
   arg1: P | ISetupFunction,

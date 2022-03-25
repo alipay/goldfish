@@ -31,12 +31,11 @@ it('should support the basic ability.', done => {
   );
 
   handler.mount();
-  const componentInstance = handler.getComponentInstance();
-  expect(componentInstance.data.count).toBe(1);
-  expect(setData.mock.calls.length).toBe(0);
+  expect(setData.mock.calls.length).toBe(1);
+  expect(setData.mock.calls[0][0]).toEqual({ count: 1 });
   setTimeout(() => {
-    expect(setData.mock.calls.length).toBe(1);
-    expect(setData.mock.calls[0][0]).toEqual({ count: 2 });
+    expect(setData.mock.calls.length).toBe(2);
+    expect(setData.mock.calls[1][0]).toEqual({ count: 2 });
     done();
   }, 201);
 });
@@ -64,6 +63,6 @@ it('should initialize the state with the third function.', () => {
   const componentInstance = createComponentInstance({ setData });
   componentInstance.data = options.data.call();
   options.didMount?.call(componentInstance);
-  expect(componentInstance.data.count).toBe(2);
-  expect(setData.mock.calls.length).toBe(0);
+  expect(setData.mock.calls.length).toBe(1);
+  expect(setData.mock.calls[0][0]).toEqual({ count: 2 });
 });

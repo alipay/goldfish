@@ -25,6 +25,8 @@ export interface IView {
   status: Status;
   addStatusChangeListener(listener: (status: Status) => void): () => void;
   renderDataResult?: Record<string, any>;
+  methods: Record<string, Function>;
+  addMethodsChangeListener(listener: (methods: Record<string, Function>) => void): () => void;
 }
 
 const { push, pop, getCurrent } = createContextStack<StateContext>();
@@ -161,8 +163,6 @@ export default class StateContext extends Context {
 
   private syncFnInInitializingStage: (() => void)[] = [];
 
-  private stopStatusChangeListener: () => void;
-
   public constructor(view: IView, onChange: () => void, onUpdated: () => void) {
     super();
     this.view = view;
@@ -170,7 +170,7 @@ export default class StateContext extends Context {
 
     dataSetter.addUpdatedListener(this.view, onUpdated);
 
-    this.stopStatusChangeListener = this.view.addStatusChangeListener(() => {
+    this.view.addStatusChangeListener(() => {
       this.syncFnInInitializingStage.forEach(f => f());
       this.syncFnInInitializingStage = [];
     });
@@ -191,11 +191,13 @@ export default class StateContext extends Context {
         }
 
         // Mount the functions to the view.
+        const methods: Record<string, Function> = {};
         for (let key in result) {
           if (result[key] instanceof Function) {
-            (this.view as any)[key] = result[key];
+            methods[key] = result[key];
           }
         }
+        this.view.methods = methods;
         return result;
       } catch (e) {
         throw e;
@@ -242,6 +244,5 @@ export default class StateContext extends Context {
 
     this.arr = [];
     dataSetter.clearByView(this.view);
-    this.stopStatusChangeListener();
   }
 }

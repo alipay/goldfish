@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 import isObject from '@goldfishjs/utils/lib/isObject';
-import createComponent, { COMPONENT_COMPaNION_OBJECT_ID_KEY } from '../../src/connector/createComponent';
+import createComponent, { COMPONENT_COMPANION_OBJECT_ID_KEY } from '../../src/connector/createComponent';
 import { createDefaultInstance } from '../utils';
 import companionObjectManager from '../../src/connector/companionObjectManager';
 
@@ -43,15 +43,16 @@ export default function renderHook<S>(fn: (props?: S) => any, opts?: IRenderHook
       error: {},
     },
     rerender: (props?: any) => {
+      const prevProps = instance.props;
       instance.props = props;
 
       try {
-        options.didUpdate?.call(instance, {}, {});
+        options.didUpdate?.call(instance, prevProps!, instance.data);
       } catch (e) {
         result.result.error = e;
       }
 
-      const companionObject = companionObjectManager.get(instance.data[COMPONENT_COMPaNION_OBJECT_ID_KEY]);
+      const companionObject = companionObjectManager.get(instance.data[COMPONENT_COMPANION_OBJECT_ID_KEY]);
       if (companionObject) {
         companionObject.effectContext?.executeEffect();
       }
@@ -66,6 +67,7 @@ export default function renderHook<S>(fn: (props?: S) => any, opts?: IRenderHook
 
   const instance = {
     ...createDefaultInstance(),
+    props: options.props,
     setData(r: any, cb: () => void) {
       if (isObject(r) && isObject(instance.data) && !Array.isArray(r)) {
         for (const key in r) {

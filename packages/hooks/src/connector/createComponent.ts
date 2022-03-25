@@ -6,7 +6,7 @@ import { PAGE_COMPONION_OBJECT_ID_KEY } from './createPage';
 
 export const isComponent2 = typeof my !== 'undefined' && !!my?.canIUse('component2');
 
-export const COMPONENT_COMPaNION_OBJECT_ID_KEY = '$$companentCompanionObjectId';
+export const COMPONENT_COMPANION_OBJECT_ID_KEY = '$$companentCompanionObjectId';
 
 const componentNotReadyError = new Error('The component is not ready.');
 
@@ -27,7 +27,7 @@ export default function createComponent<P>(arg1: any, arg2?: any): tinyapp.Compo
     fn = arg2;
   }
 
-  const options: tinyapp.ComponentOptions = {};
+  const options: tinyapp.ComponentOptions = { props };
   const hooksOptions = create<P>(fn, 'component');
 
   type ComponentInstance = tinyapp.IComponentInstance<P, any>;
@@ -42,7 +42,7 @@ export default function createComponent<P>(arg1: any, arg2?: any): tinyapp.Compo
 
     // Create the companion object.
     const companentCompanionObjectId = uniqueId('component-companion-object-');
-    finalData[COMPONENT_COMPaNION_OBJECT_ID_KEY] = companentCompanionObjectId;
+    finalData[COMPONENT_COMPANION_OBJECT_ID_KEY] = companentCompanionObjectId;
     const companionObject = companionObjectManager.create({
       setData() {
         throw componentNotReadyError;
@@ -59,23 +59,13 @@ export default function createComponent<P>(arg1: any, arg2?: any): tinyapp.Compo
     // Get the default props.
     companionObject.props = props && cloneDeep(props);
 
-    // Initialize
-    hooksOptions.init.call(companionObject);
-
-    if (companionObject.renderDataResult) {
-      finalData =
-        typeof finalData === 'object'
-          ? { ...finalData, ...cloneDeep(companionObject.renderDataResult) }
-          : cloneDeep(companionObject.renderDataResult);
-    }
-
     return finalData;
   };
 
   const initMethod = isComponent2 ? 'onInit' : 'didMount';
   const oldInitMethod = options[initMethod];
   options[initMethod] = function (this: ComponentInstance) {
-    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPaNION_OBJECT_ID_KEY]);
+    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPANION_OBJECT_ID_KEY]);
     if (companionObject) {
       Object.assign(companionObject, {
         setData: this.setData.bind(this),
@@ -88,10 +78,19 @@ export default function createComponent<P>(arg1: any, arg2?: any): tinyapp.Compo
         companionObject.query = pageCompanionObject.query;
       }
 
-      // Sync props in init lifecycle.
-      hooksOptions.syncProps.call(companionObject, this.props);
-
       companionObject.status = 'ready';
+
+      companionObject.props = this.props;
+
+      // Mount the methods.
+      companionObject.addMethodsChangeListener(methods => {
+        for (const key in methods) {
+          this[key] = methods[key];
+        }
+      });
+
+      // Initialize
+      hooksOptions.init.call(companionObject);
     }
 
     if (isFunction(oldInitMethod)) {
@@ -105,7 +104,7 @@ export default function createComponent<P>(arg1: any, arg2?: any): tinyapp.Compo
       oldDidMount.call(this);
     }
 
-    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPaNION_OBJECT_ID_KEY]);
+    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPANION_OBJECT_ID_KEY]);
     if (companionObject) {
       hooksOptions.mounted.call(companionObject);
     }
@@ -113,7 +112,7 @@ export default function createComponent<P>(arg1: any, arg2?: any): tinyapp.Compo
 
   const oldUnmount = options.didUnmount;
   options.didUnmount = function (this: ComponentInstance) {
-    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPaNION_OBJECT_ID_KEY]);
+    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPANION_OBJECT_ID_KEY]);
     if (companionObject) {
       hooksOptions.unmounted.call(companionObject);
     }
@@ -126,7 +125,7 @@ export default function createComponent<P>(arg1: any, arg2?: any): tinyapp.Compo
   const syncPropsMethod = isComponent2 ? 'deriveDataFromProps' : 'didUpdate';
   const oldSyncPropsMethod = options[syncPropsMethod];
   options[syncPropsMethod] = function (this: ComponentInstance, nextProps: any) {
-    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPaNION_OBJECT_ID_KEY]);
+    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPANION_OBJECT_ID_KEY]);
     if (companionObject) {
       hooksOptions.syncProps.call(companionObject, isComponent2 ? nextProps : this.props);
     }
@@ -138,7 +137,7 @@ export default function createComponent<P>(arg1: any, arg2?: any): tinyapp.Compo
 
   const oldDidUpdateMethod = options.didUpdate;
   options.didUpdate = function (this: ComponentInstance, prevProps: Partial<{}>, prevData: Partial<{}>) {
-    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPaNION_OBJECT_ID_KEY]);
+    const companionObject = companionObjectManager.get(this.data[COMPONENT_COMPANION_OBJECT_ID_KEY]);
     if (companionObject) {
       if (prevProps !== this.props) {
         hooksOptions.executeEffect.call(companionObject);

@@ -1,16 +1,11 @@
 {
   "name": "@goldfishjs/pre-build",
-  "version": "2.10.0",
+  "version": "2.10.1",
   "main": "./src/index.js",
   "description": "goldfish-pre-build",
   "scripts": {},
   "author": "yibuyisheng@icloud.com",
   "license": "MIT",
-  "bin": {
-    "goldfish-compile": "bin/goldfish-compile.js",
-    "goldfish-dev": "bin/goldfish-dev.js",
-    "goldfish-npm": "bin/goldfish-npm.js"
-  },
   "dependencies": {
     "@babel/core": "^7.7.2",
     "@babel/plugin-proposal-class-properties": "^7.7.0",

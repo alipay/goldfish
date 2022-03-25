@@ -25,7 +25,24 @@ export class CompanionObjectManager {
 
     let status: Status = 'initializing';
     let statusChangeListenerList: ((s: Status) => void)[] = [];
+
+    let methods: Record<string, Function> = {};
+    let methodsChangeListenerList: ((m: Record<string, Function>) => void)[] = [];
+
     const result: IHostInstance<any> = {
+      get methods() {
+        return methods;
+      },
+      set methods(m: Record<string, Function>) {
+        methods = m;
+        methodsChangeListenerList.forEach(l => l(methods));
+      },
+      addMethodsChangeListener(listener) {
+        methodsChangeListenerList.push(listener);
+        return () => {
+          methodsChangeListenerList = methodsChangeListenerList.filter(l => l !== listener);
+        };
+      },
       setData: params.setData,
       batchedUpdates: params.batchedUpdates,
       spliceData: params.spliceData,
@@ -34,12 +51,17 @@ export class CompanionObjectManager {
       },
       set status(v) {
         status = v;
+        statusChangeListenerList.forEach(l => l(status));
       },
       addStatusChangeListener(listener) {
         statusChangeListenerList.push(listener);
         return () => {
           statusChangeListenerList = statusChangeListenerList.filter(l => l !== listener);
         };
+      },
+      destroy() {
+        statusChangeListenerList = [];
+        methodsChangeListenerList = [];
       },
     };
 

@@ -1,6 +1,9 @@
 import qs from 'qs';
 import { ISetupFunction, setupPage } from '@goldfishjs/composition-api';
 import { get as keyPathGet } from '@goldfishjs/reactive-connect/lib/MiniDataSetter/keyPath';
+import setupManager from '@goldfishjs/composition-api/lib/setup/setupManager';
+import PageSetup from '@goldfishjs/composition-api/lib/setup/PageSetup';
+import { PAGE_SETUP_ID_KEY } from '@goldfishjs/composition-api/lib/setupPage';
 import {
   watch as baseWatch,
   autorun as baseAutorun,
@@ -25,11 +28,11 @@ export default function mountPage<D>(fn: ISetupFunction, opts?: IMountPageOption
     setData(obj: Record<string, any>, cb?: () => void) {
       for (const key in obj) {
         const keyPathList = keyPathGet(key);
-        keyPathList.reduce((prevData: any, key, index, list) => {
+        keyPathList.reduce((prevData: any, keySeg, index, list) => {
           if (index === list.length - 1) {
-            prevData[key] = obj[key];
+            prevData[keySeg] = obj[key];
           }
-          return prevData[key];
+          return prevData[keySeg];
         }, this.data);
       }
       Promise.resolve().then(cb);
@@ -37,11 +40,11 @@ export default function mountPage<D>(fn: ISetupFunction, opts?: IMountPageOption
     $spliceData(obj: Record<string, [number, number, ...any[]]>, cb?: () => void) {
       for (const key in obj) {
         const keyPathList = keyPathGet(key);
-        keyPathList.reduce((prevData: any, key, index, list) => {
+        keyPathList.reduce((prevData: any, keySeg, index, list) => {
           if (index === list.length - 1) {
-            prevData[key].splice(obj[key][0], obj[key][1], ...obj[key].slice(2));
+            prevData[keySeg].splice(obj[key][0], obj[key][1], ...obj[key].slice(2));
           }
-          return prevData[key];
+          return prevData[keySeg];
         }, this.data);
       }
       Promise.resolve().then(cb);
@@ -59,6 +62,13 @@ export default function mountPage<D>(fn: ISetupFunction, opts?: IMountPageOption
   return {
     get data() {
       return instance.data;
+    },
+    get reactiveData() {
+      const setup = setupManager.get((instance.data as any)[PAGE_SETUP_ID_KEY]) as PageSetup | null;
+      if (!setup) {
+        throw new Error('No setup instance.');
+      }
+      return setup.compositionState;
     },
     hide() {
       return options.onHide?.call(instance);

@@ -14,8 +14,8 @@ it('should initialize state.', () => {
   );
 
   handler.mount();
-  expect(setData.mock.calls.length).toBe(0);
-  expect(handler.getComponentInstance().data).toMatchObject({ v: undefined });
+  expect(setData.mock.calls.length).toBe(1);
+  expect(setData.mock.calls[0][0]).toEqual({ v: undefined });
 });
 
 it('should rerun the `render` function after state changed.', done => {
@@ -38,13 +38,12 @@ it('should rerun the `render` function after state changed.', done => {
   );
 
   handler.mount();
-  const componentInstance = handler.getComponentInstance();
-  expect(setData.mock.calls.length).toBe(0);
-  expect(componentInstance.data).toMatchObject({ v: undefined });
+  expect(setData.mock.calls.length).toBe(1);
+  expect(setData.mock.calls[0][0]).toEqual({ v: undefined });
 
   setTimeout(() => {
-    expect(setData.mock.calls.length).toBe(1);
-    expect(setData.mock.calls[0][0]).toEqual({ v: 1 });
+    expect(setData.mock.calls.length).toBe(2);
+    expect(setData.mock.calls[1][0]).toEqual({ v: 1 });
     done();
   }, 4);
 });
@@ -53,8 +52,8 @@ it('should initialize multiple states.', () => {
   const setData = jest.fn();
   const handler = createComponent(
     () => {
-      const [v] = useState<any>(0);
-      const [v1] = useState<any>(1);
+      const [v] = useState<any>();
+      const [v1] = useState<any>();
       return {
         data: { v, v1 },
       };
@@ -67,10 +66,8 @@ it('should initialize multiple states.', () => {
   handler.mount.call({
     setData,
   });
-  const componentInstance = handler.getComponentInstance();
-  expect(componentInstance.data.v).toBe(0);
-  expect(componentInstance.data.v1).toBe(1);
-  expect(setData.mock.calls.length).toBe(0);
+  expect(setData.mock.calls.length).toBe(1);
+  expect(setData.mock.calls[0][0]).toEqual({ v: undefined, v1: undefined });
 });
 
 it('should batch the states changing.', done => {
@@ -96,16 +93,13 @@ it('should batch the states changing.', done => {
   );
 
   handler.mount();
-  const data = handler.getComponentInstance().data;
-  expect(data).toHaveProperty('v');
-  expect(data).toHaveProperty('v1');
-  expect(data.v).toBe(undefined);
-  expect(data.v1).toBe(undefined);
-  expect(setData.mock.calls.length).toBe(0);
+
+  expect(setData.mock.calls.length).toBe(1);
+  expect(setData.mock.calls[0][0]).toEqual({ v: undefined, v1: undefined });
 
   setTimeout(() => {
-    expect(setData.mock.calls.length).toBe(1);
-    expect(setData.mock.calls[0][0]).toEqual({ v: 1, v1: 2 });
+    expect(setData.mock.calls.length).toBe(2);
+    expect(setData.mock.calls[1][0]).toEqual({ v: 1, v1: 2 });
     done();
   }, 4);
 });
