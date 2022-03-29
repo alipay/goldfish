@@ -1,4 +1,4 @@
-const { exec } = require('../utils');
+const { exec, getBinCommand } = require('../utils');
 const path = require('path');
 
 module.exports = {
@@ -6,11 +6,10 @@ module.exports = {
   description: 'Pre-compile the miniprogram source codes.',
   builder: () => {},
   async handler() {
-    const gulpCommand = require.resolve('gulp/package.json')
-      .replace('package.json', 'bin/gulp.js');
+    const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
 
     const cwd = process.cwd();
     const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
-    exec(`node ${gulpCommand} all --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd });
+    exec(`${gulpCommand} all --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd });
   },
 };

@@ -110,3 +110,15 @@ function getCompiledPath(sourceFilePath, sourceType) {
 }
 
 exports.getCompiledPath = getCompiledPath;
+
+exports.getBinCommand = (pkgName, commandName, paths) => {
+  const pkgPath = require.resolve(`${pkgName}/package.json`, paths);
+  const pkgJson = fs.readJSONSync(pkgPath);
+
+  let commandPath = path.normalize(pkgPath.replace(/package\.json$/, (pkgJson.bin || {})[commandName]));
+  if (fs.existsSync(commandPath)) {
+    return process.platform === 'win32' ? `node ${commandPath}` : commandPath;
+  }
+
+  throw new Error(`Can not find the command under: ${pkgPath}`);
+};
