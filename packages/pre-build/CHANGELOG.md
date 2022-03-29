@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/alipay/goldfish/compare/v2.11.0...v2.12.0) (2022-03-29)
+
+
+### Features
+
+* support windows ([c50296e](https://github.com/alipay/goldfish/commit/c50296eae8f73395a14d2cb550cb87bfe80502a9))
+
+
+
+
+
 # [2.11.0](https://github.com/alipay/goldfish/compare/v2.10.0...v2.11.0) (2022-03-25)
 
 
