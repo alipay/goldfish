@@ -10,7 +10,7 @@ module.exports = {
 
     const cwd = process.cwd();
     const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
-    await exec(`node ${gulpCommand} all --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd });
+    await exec(`${gulpCommand} all --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd });
     exec(`${gulpCommand} dev --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd });
   },
 };
