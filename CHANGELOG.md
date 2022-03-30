@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.1](https://github.com/alipay/goldfish/compare/v2.12.0...v2.12.1) (2022-03-30)
+
+
+### Bug Fixes
+
+* remove node ([532610a](https://github.com/alipay/goldfish/commit/532610a6a9fa92321404b5cbf16ba64f29f57d43))
+
+
+
+
+
 # [2.12.0](https://github.com/alipay/goldfish/compare/v2.11.0...v2.12.0) (2022-03-29)
 
 
