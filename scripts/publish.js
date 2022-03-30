@@ -7,5 +7,9 @@ packages.forEach((pkg) => {
   if (pkg.private) {
     return;
   }
-  runCommand(`cd ${pkg.location} && yarn publish --non-interactive --registry https://registry.npmjs.org`);
+  try {
+    runCommand(`cd ${pkg.location} && yarn publish --non-interactive --registry https://registry.npmjs.org`);
+  } catch (e) {
+    console.error(e);
+  }
 });
