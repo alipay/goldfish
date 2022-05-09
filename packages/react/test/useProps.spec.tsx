@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import observer from '../src/observer';
 import { act } from 'react-dom/test-utils';
+import observer from '../src/observer';
 import useProps from '../src/useProps';
 import useState from '../src/useState';
 
@@ -19,7 +19,7 @@ it('should receive the props.', () => {
     {
       name: '',
     },
-    (data) => <div>{JSON.stringify(data.props)}</div>,
+    data => <div>{JSON.stringify(data.props)}</div>,
     () => {
       const props = useProps<IC1Props>();
       return {
@@ -28,10 +28,7 @@ it('should receive the props.', () => {
     },
   );
 
-  const c2 = observer(
-    React,
-    () => React.createElement(c1, { name: 'yujiang' }),
-  );
+  const c2 = observer(React, () => React.createElement(c1, { name: 'yujiang' }));
 
   const container = document.createElement('div');
   ReactDOM.render(React.createElement(c2), container);
@@ -53,7 +50,7 @@ it('should detect the props change.', () => {
     {
       name: '',
     },
-    (data) => <div>{JSON.stringify(data.props)}</div>,
+    data => <div>{JSON.stringify(data.props)}</div>,
     () => {
       const props = useProps<IC1Props>();
       return {
@@ -64,7 +61,7 @@ it('should detect the props change.', () => {
 
   const c2 = observer(
     React,
-    (data) => React.createElement(c1, { name: data.state.name }),
+    data => React.createElement(c1, { name: data.state.name }),
     () => {
       const state = useState({
         name: 'yujiang',
@@ -81,7 +78,7 @@ it('should detect the props change.', () => {
   const container = document.createElement('div');
   ReactDOM.render(React.createElement(c2), container);
 
-  return new Promise<void>((resolve) => {
+  return new Promise<void>(resolve => {
     expect(container.innerHTML).toBe('<div>{"name":"yujiang"}</div>');
     setTimeout(() => {
       expect(container.innerHTML).toBe('<div>{"name":"diandao"}</div>');
