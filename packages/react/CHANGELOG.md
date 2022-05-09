@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.2](https://github.com/alipay/goldfish/compare/v2.12.1...v2.12.2) (2022-05-09)
+
+
+### Bug Fixes
+
+* do not install the inner package. ([729ad5e](https://github.com/alipay/goldfish/commit/729ad5e37ec56935201847dd9da4d01238ff474d))
+
+
+
+
+
 ## [2.12.1](https://github.com/alipay/goldfish/compare/v2.12.0...v2.12.1) (2022-03-30)
 
 **Note:** Version bump only for package @goldfishjs/react
