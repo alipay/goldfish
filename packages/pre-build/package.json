@@ -7,6 +7,8 @@
   "author": "yibuyisheng@icloud.com",
   "license": "MIT",
   "dependencies": {
+    "webpack": "5.72.1",
+    "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "@babel/core": "^7.7.2",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-decorators": "^7.15.4",
@@ -33,7 +35,8 @@
     "lodash": "^4.17.15",
     "micromatch": "^4.0.2",
     "postcss-px-to-viewport": "^1.1.1",
-    "yargs": "^15.4.1"
+    "yargs": "^15.4.1",
+    "command-exists": "^1.2.9"
   },
   "registry": "https://registry.npmjs.org/"
 }
