@@ -24,7 +24,8 @@ module.exports = {
       await gulpPromise;
       const npm = await getNPMCommand();
       await exec(`${npm} i --production`, { cwd: distDir });
-      excludeUselessScriptsInIntlMiniProgram(distDir);
+      // TODO: exclude optimization.
+      // excludeUselessScriptsInIntlMiniProgram(distDir);
     }
   },
 };
