@@ -51,7 +51,7 @@ exports.exec = (cmd, options) => {
 
       let p;
       try {
-        p = cp.exec(`${cmd}${color ? ' --color' : ''}`, { env, ...options, cwd: localCwd });
+        p = cp.exec(`${cmd}${color ? ' --color' : ''}`, { ...options, env, cwd: localCwd });
       } catch (e) {
         log(`failed executing: ${cmd}, \n ${e} \n`);
         throw e;
