@@ -10,6 +10,7 @@ module.exports = {
       describe: 'Project type.',
       alias: 't',
       type: 'string',
+      default: 'intl',
     });
   },
   async handler(args) {
