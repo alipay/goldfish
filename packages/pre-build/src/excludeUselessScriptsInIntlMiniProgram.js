@@ -1,4 +1,4 @@
-const startPack = require("@goldfishjs/webpack-build");
+const startPack = require('@goldfishjs/webpack-build');
 const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
 
 /**
@@ -12,11 +12,12 @@ export default async function excludeUselessScriptsInIntlMiniProgram(projectDir)
     isProduction: true,
     isWatch: false,
     config: {
-      outputRoot: projectDir,
+      sourceRoot: projectDir,
+      outputRoot: projectDir + '2',
       webpack(conf) {
-        conf.plugins.unshift(new FriendlyErrorsWebpackPlugin())
-        return conf
-      }      
-    }
-  })
+        conf.plugins.unshift(new FriendlyErrorsWebpackPlugin());
+        return conf;
+      },
+    },
+  });
 }
