@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+const startPack = require("@goldfishjs/webpack-build");
 const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
 
 /**
@@ -8,37 +8,15 @@ const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugi
  * @param {string} projectDir the directory of the miniprogram directory (should be compiled with `goldfish compile`).
  */
 export default async function excludeUselessScriptsInIntlMiniProgram(projectDir) {
-  const webpackConfig = {
-    context: projectDir,
-    entry: './app.js',
-    output: {
-      path: projectDir,
-      filename: '[name].bundle.js',
-    },
-    plugins: [
-      new FriendlyErrorsWebpackPlugin(),
-      // TODO: add the common chunk plugin.
-    ],
-    optimization: {
-      splitChunks: {
-        chunks: 'all',
-        name: 'common',
-        minChunks: 2,
-        minSize: 0,
-      },
-      runtimeChunk: {
-        name: 'runtime',
-      },
-    },
-  };
-
-  return new Promise((resolve, reject) => {
-    webpack(webpackConfig, (err, stats) => {
-      if (err || stats.hasErrors()) {
-        reject(error || stats);
-      } else {
-        resolve(stats);
-      }
-    });
-  });
+  return startPack({
+    isProduction: true,
+    isWatch: false,
+    config: {
+      outputRoot: projectDir,
+      webpack(conf) {
+        conf.plugins.unshift(new FriendlyErrorsWebpackPlugin())
+        return conf
+      }      
+    }
+  })
 }
