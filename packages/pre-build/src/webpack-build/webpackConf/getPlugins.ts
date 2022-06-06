@@ -1,12 +1,12 @@
-import webpack from 'webpack'
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
-import { getBuildOptions } from '../ampConf'
-import AmpWebpackPlugin from '../plugin/amp-plugin'
-import { BuildOptions } from '../types'
+import webpack from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { getBuildOptions } from '../ampConf';
+import AmpWebpackPlugin from '../plugin/amp-plugin';
+import { BuildOptions } from '../types';
 
 export default function getWebpackPlugins(options: BuildOptions) {
-  const { isProduct, analyze } = options
-  const { defineConstants } = getBuildOptions()
+  const { isProduct, analyze } = options as any;
+  const { defineConstants } = getBuildOptions();
 
   const plugins = [
     new AmpWebpackPlugin(),
@@ -16,11 +16,11 @@ export default function getWebpackPlugins(options: BuildOptions) {
       },
       ...defineConstants,
     }),
-  ]
+  ];
 
   if (analyze) {
-    plugins.push(new BundleAnalyzerPlugin())
+    plugins.push(new BundleAnalyzerPlugin() as any);
   }
 
-  return plugins
+  return plugins;
 }

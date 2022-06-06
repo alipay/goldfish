@@ -1,12 +1,12 @@
-import webpack from 'webpack'
-import npmImportPlugin from 'less-plugin-npm-import'
-import { resolve } from 'path'
-import { getBuildOptions, platformConf } from '../ampConf'
-import { fileLoader, jsonLoader, xmlLoader } from '../loader'
+import webpack from 'webpack';
+import npmImportPlugin from 'less-plugin-npm-import';
+import { resolve } from 'path';
+import { getBuildOptions, platformConf } from '../ampConf';
+import { fileLoader, jsonLoader, xmlLoader } from '../loader';
 
 export default function getWebpackRules(): webpack.RuleSetRule[] {
-  const { alias, sourceRoot, platform } = getBuildOptions()
-  const { xml, css, json, njs } = platformConf[platform].ext
+  const { alias, sourceRoot, platform } = getBuildOptions();
+  const { xml, json, njs } = platformConf[platform].ext;
 
   const loader = {
     babelLoader: {
@@ -34,17 +34,12 @@ export default function getWebpackRules(): webpack.RuleSetRule[] {
         },
       },
     },
-  }
+  };
 
   return [
     {
       test: /\.js$/,
       use: [loader.babelLoader],
-      include: [resolve(sourceRoot)],
-    },
-    {
-      test: /\.ts$/,
-      use: [loader.babelLoader, 'ts-loader'],
       include: [resolve(sourceRoot)],
     },
     {
@@ -58,34 +53,8 @@ export default function getWebpackRules(): webpack.RuleSetRule[] {
       use: [xmlLoader],
     },
     {
-      test: new RegExp(css),
-      use: [fileLoader, loader.postCssLoader],
-    },
-    {
-      test: /\.less/,
-      use: [
-        {
-          loader: fileLoader,
-          options: { ext: css },
-        },
-        loader.postCssLoader,
-        {
-          loader: 'less-loader',
-          options: {
-            lessOptions: {
-              plugins: [new npmImportPlugin({ prefix: '~' })],
-            },
-          },
-        },
-      ],
-    },
-    {
       test: new RegExp(njs),
       use: [fileLoader, loader.babelLoader],
     },
-    {
-      test: /\.(png|jpe?g|gif|svg)$/,
-      use: [fileLoader],
-    },
-  ]
+  ];
 }

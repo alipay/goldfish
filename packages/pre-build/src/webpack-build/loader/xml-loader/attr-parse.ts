@@ -1,15 +1,15 @@
-import Parser from 'fastparse'
+import Parser from 'fastparse';
 
-const processMatch = function (match, strUntilValue, name, value, index) {
-  if (!this.isRelevantTagAttr(this.currentTag, name)) return
+const processMatch = function (this: any, match: any, strUntilValue: any, name: any, value: any, index: number) {
+  if (!this.isRelevantTagAttr(this.currentTag, name)) return;
   this.results.push({
     start: index + strUntilValue.length,
     length: value.length,
     value,
     name,
     tag: this.currentTag,
-  })
-}
+  });
+};
 
 const parser = new Parser({
   outside: {
@@ -17,9 +17,9 @@ const parser = new Parser({
     '<![CDATA[.*?]]>': true,
     '<[!\\?].*?>': true,
     '</[^>]+>': true,
-    '<([a-zA-Z\\-:]+)\\s*': function (match, tagName) {
-      this.currentTag = tagName
-      return 'inside'
+    '<([a-zA-Z\\-:]+)\\s*': function (this: any, match: any, tagName: any) {
+      this.currentTag = tagName;
+      return 'inside';
     },
   },
   inside: {
@@ -29,12 +29,12 @@ const parser = new Parser({
     "(([0-9a-zA-Z\\-:]+)\\s*=\\s*')([^']*)'": processMatch,
     '(([0-9a-zA-Z\\-:]+)\\s*=\\s*)([^\\s>]+)': processMatch,
   },
-})
+});
 
-export default function parse(html, isRelevantTagAttr) {
+export default function parse(html: any, isRelevantTagAttr: any) {
   return parser.parse('outside', html, {
     currentTag: null,
     results: [],
     isRelevantTagAttr,
-  }).results
+  }).results;
 }

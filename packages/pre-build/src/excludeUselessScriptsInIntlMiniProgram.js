@@ -1,5 +1,5 @@
-const startPack = require('./webpack-build');
 const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
+const startPack = require('./webpack-build');
 
 /**
  * Exclude the useless js files in miniprogram directory before uploading.
@@ -9,6 +9,8 @@ const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugi
  */
 export default async function excludeUselessScriptsInIntlMiniProgram(projectDir) {
   return startPack({
+    platform: 'ali',
+    appEntry: '',
     sourceRoot: projectDir,
     outputRoot: projectDir + '2',
     webpack(conf) {
