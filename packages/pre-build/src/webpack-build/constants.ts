@@ -1,10 +1,14 @@
 export const MAIN_PACKAGE = 'main'
 export const jsonExt = '.json'
 export const useComp = 'usingComponents'
+export const usePluginComp = 'publicComponents'
 export const empty = ''
 
 export const runtimeCodeCtxObject =
   'var context = (function() { return this })() || Function("return this")();\n'
+
+export const regeneratorRuntimeFix = 'var regeneratorRuntime\n'
+
 export const runtimeCodeFixBabel = `
 try {
   if(!context.console){

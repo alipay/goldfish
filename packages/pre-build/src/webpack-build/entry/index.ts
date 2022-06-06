@@ -2,18 +2,18 @@ import { resolve, isAbsolute, parse, join } from 'path'
 import hash from 'hash-sum'
 import { jsonExt, MAIN_PACKAGE, useComp } from '../constants'
 import { Entry, EntryType } from '../types'
-import { parseAmpConf } from '../ampConf'
+import { getBuildOptions } from '../ampConf'
 import { getBaseOutput, getRelativeOutput } from '../utils'
 
-const { sourceRoot, outputRoot, appEntry } = parseAmpConf()
+const { sourceRoot, outputRoot, appEntry } = getBuildOptions()
 
 class AmpEntry {
   entries: Entry[] = [] // 所有引用关系
   entryOutputMap: Map<string, string> = new Map() // 输入与输出
-  resourceMap: Map<string, Entry[]> = new Map()
+  resourceMap: Map<string, Entry[]> = new Map() // 当前文件引用了哪些资源
 
   constructor() {
-    const appJson = this.getJsonEntry(appEntry)
+    const appJson = this.getJson(appEntry)
 
     if (appJson.pages) {
       appJson.pages.forEach((page) => this.addPage(page, MAIN_PACKAGE))
@@ -49,7 +49,7 @@ class AmpEntry {
     this.resourceMap.set(options.caller, caller.concat(options))
   }
 
-  private getJsonEntry(_path) {
+  private getJson(_path) {
     const { name, dir, ext } = parse(_path)
     try {
       if (ext) return require(resolve(dir, `${name}${jsonExt}`))
@@ -59,29 +59,33 @@ class AmpEntry {
     }
   }
 
-  private addPage(page = '', pkg = MAIN_PACKAGE) {
-    const entry = this.pagePathResolve(page, pkg)
+  addPage(page = '', pkg = MAIN_PACKAGE) {
+    const loc = this.pagePathResolve(page, pkg)
 
-    this.addEntry({
+    const entry = {
       type: EntryType.page,
       pkg,
       value: page,
       key: page,
-      loc: entry,
-      name: parse(join(entry, '..')).name,
-      output: getBaseOutput(entry),
-      caller: parse(entry).dir,
-    })
+      loc,
+      name: parse(join(loc, '..')).name,
+      output: getBaseOutput(loc),
+      caller: parse(loc).dir,
+    }
 
-    this.travelComponents(entry, page, pkg)
+    this.addEntry(entry)
+    this.travelComponents(loc, pkg)
+
+    return entry
   }
 
-  private travelComponents(entry, page, pkg) {
-    const json = this.getJsonEntry(entry)
+  private travelComponents(loc, pkg) {
+    const json = this.getJson(loc)
     const compMap = json[useComp]
+
     if (compMap) {
       Object.entries(compMap).forEach(([key, value]) => {
-        this.addComponent(key, value as string, page, pkg, parse(entry).dir)
+        this.addComponent(key, value as string, pkg, parse(loc).dir)
       })
     }
   }
@@ -91,31 +95,33 @@ class AmpEntry {
     return `${parse(join(entry, '..')).name.toLowerCase()}-${hash(entry)}`
   }
 
-  private addComponent(key, value, page, pkg = MAIN_PACKAGE, currentDir) {
-    const entry = this.compPathResolve(value, currentDir)
-    const name = this.getOutputCompName(entry)
+  addComponent(key, value, pkg = MAIN_PACKAGE, caller) {
+    const loc = this.compPathResolve(value, caller)
+    const name = this.getOutputCompName(loc)
     // 所有组件都输出到 output 下的 components 目录中
     const output = resolve(outputRoot) + `/components/${name}/index`
 
-    this.addEntry({
+    const entry = {
       type: EntryType.comp,
       pkg,
       name,
       value,
-      loc: entry,
+      loc,
       output,
       key,
-      caller: currentDir,
-    })
+      caller,
+    }
 
-    this.travelComponents(entry, page, pkg)
+    this.addEntry(entry)
+    this.travelComponents(loc, pkg)
+    return entry
   }
 
-  private pagePathResolve(page, pkg = MAIN_PACKAGE) {
+  pagePathResolve(page, pkg = MAIN_PACKAGE) {
     return resolve(sourceRoot, pkg === MAIN_PACKAGE ? '' : pkg, page)
   }
 
-  private compPathResolve(comp, currentDir) {
+  compPathResolve(comp, currentDir) {
     // 组件写成绝对路径，性能会高一些
     if (isAbsolute(comp)) {
       return resolve(sourceRoot) + comp

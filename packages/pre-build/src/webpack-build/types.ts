@@ -1,3 +1,16 @@
+export interface BuildOptions {
+  platform: 'ali' | 'wx'
+  appEntry: string
+  sourceRoot: string
+  outputRoot: string
+  defineConstants: { [key: string]: string }
+  alias: { [key: string]: string }
+  style: string
+  entryIncludes: string[]
+  externals: { [key: string]: string }
+  webpack(config: any): any
+}
+
 export interface Entry {
   type: EntryType // 入口类型
   loc: string // 当前文件位置
@@ -12,17 +25,4 @@ export interface Entry {
 export enum EntryType {
   page = 'page',
   comp = 'component',
-}
-
-export interface AmpConf {
-  platform: 'ali' | 'wx'
-  appEntry: string
-  sourceRoot: string
-  outputRoot: string
-  defineConstants: { [key: string]: string }
-  alias: { [key: string]: string }
-  style: string
-  entryIncludes: string[]
-  externals: { [key: string]: string }
-  webpack: (config) => any
 }

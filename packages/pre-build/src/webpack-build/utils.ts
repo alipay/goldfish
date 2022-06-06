@@ -1,19 +1,19 @@
 import path from 'path'
 import { empty } from './constants'
-import { parseAmpConf } from './ampConf'
+import { getBuildOptions } from './ampConf'
 
 export function getBaseOutput(_path) {
-  const { sourceRoot, outputRoot } = parseAmpConf()
+  const { sourceRoot, outputRoot } = getBuildOptions()
   return _path.replace(path.resolve(sourceRoot), path.resolve(outputRoot))
 }
 
 export function getRelativeOutput(_path) {
-  const { outputRoot } = parseAmpConf()
+  const { outputRoot } = getBuildOptions()
   return _path.replace(path.resolve(outputRoot), empty)
 }
 
 export function getRelativeSource(_path) {
-  const { sourceRoot } = parseAmpConf()
+  const { sourceRoot } = getBuildOptions()
   return _path.replace(path.resolve(sourceRoot), empty)
 }
 

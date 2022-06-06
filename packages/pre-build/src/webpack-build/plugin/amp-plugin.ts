@@ -3,12 +3,16 @@ import fs from 'fs'
 import { parseQuery } from 'loader-utils'
 import path, { resolve } from 'path'
 import { ampEntry } from '../entry'
-import { parseAmpConf } from '../ampConf'
-import { runtimeCodeFixBabel, runtimeCodeCtxObject } from '../constants'
+import { getBuildOptions } from '../ampConf'
+import {
+  runtimeCodeFixBabel,
+  runtimeCodeCtxObject,
+  regeneratorRuntimeFix,
+} from '../constants'
 import { getRelativeOutput, createRelativePath } from '../utils'
-import { platformConf } from '../ampConf/default-conf'
+import { platformConf } from '../ampConf'
 
-const { outputRoot, style, platform } = parseAmpConf()
+const { outputRoot, style, platform } = getBuildOptions()
 
 export default class AmpWebpackPlugin {
   compiler: Compiler
@@ -26,8 +30,7 @@ export default class AmpWebpackPlugin {
       new EntryPlugin(this.compiler.context, loc, out).apply(this.compiler)
 
       // 需要检验文件存不存在
-      const userExts = [style]
-      const exts = [css, json, xml, ...userExts]
+      const exts = [css, json, xml].concat([style])
 
       exts.forEach((ext) => {
         if (fs.existsSync(resolve(this.compiler.context, loc + ext))) {
@@ -65,8 +68,12 @@ export default class AmpWebpackPlugin {
               if (!chunkFile || processedChunk.has(chunk)) return
 
               let originalSource = compilation.assets[chunkFile]
+              const isRegeneratorRuntime = /regeneratorRuntime/.test(
+                originalSource.source().toString()
+              )
               const source = new sources.ConcatSource()
               source.add(`\nvar ${globalObject} = ${globalObject} || {};\n\n`)
+              if (isRegeneratorRuntime) source.add(regeneratorRuntimeFix)
 
               relativeChunks.forEach((relativeChunk, index) => {
                 const relativeChunkFile = relativeChunk.files
@@ -95,6 +102,7 @@ export default class AmpWebpackPlugin {
                   } else {
                     // 其余chunk中通过context全局传递runtime
                     source.add(runtimeCodeCtxObject)
+
                     source.add(
                       `${globalObject}[${JSON.stringify(
                         chunkLoadingGlobal
@@ -108,6 +116,7 @@ export default class AmpWebpackPlugin {
 
               if (isRuntime) {
                 source.add(runtimeCodeCtxObject)
+
                 source.add(runtimeCodeFixBabel)
                 source.add(originalSource)
                 source.add(
@@ -163,7 +172,7 @@ export default class AmpWebpackPlugin {
   // 编译过程中, 新增入口
   dynamicEntry() {
     this.compiler.hooks.thisCompilation.tap(
-      'AmpWebpackPlugin',
+      'AmpWebpackPlugin ',
       (compilation) => {
         this.compilation = compilation
       }
@@ -184,14 +193,14 @@ export default class AmpWebpackPlugin {
               resourceQuery = request.slice(queryIndex)
             }
             const { type, output } = parseQuery(resourceQuery || '?')
+
             if (type === 'entry') {
-              const dep = EntryPlugin.createDependency(
-                resourcePath,
-                path.parse(resourcePath).name
-              )
               this.compilation.addEntry(
                 this.compiler.context,
-                dep,
+                EntryPlugin.createDependency(
+                  resourcePath,
+                  path.parse(resourcePath).name
+                ),
                 output,
                 (e, res) => { }
               )

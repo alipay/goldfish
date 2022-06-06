@@ -9,15 +9,11 @@ const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugi
  */
 export default async function excludeUselessScriptsInIntlMiniProgram(projectDir) {
   return startPack({
-    isProduction: true,
-    isWatch: false,
-    config: {
-      sourceRoot: projectDir,
-      outputRoot: projectDir + '2',
-      webpack(conf) {
-        conf.plugins.unshift(new FriendlyErrorsWebpackPlugin());
-        return conf;
-      },
+    sourceRoot: projectDir,
+    outputRoot: projectDir + '2',
+    webpack(conf) {
+      conf.plugins.unshift(new FriendlyErrorsWebpackPlugin());
+      return conf;
     },
   });
 }

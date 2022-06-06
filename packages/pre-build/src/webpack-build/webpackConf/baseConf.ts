@@ -7,18 +7,15 @@ export default {
   mode: 'none',
   resolve: {
     modules: ['node_modules'],
-    alias: {
-      // 小程序支持 async
-      'regenerator-runtime': require.resolve('@goldfishjs/webpack-build/lib/deps/regenerator-runtime'),
-    },
+    alias: {},
   },
-  cache: {
-    type: 'filesystem',
-    buildDependencies: {
-      // config: [resolve('config/')],
-    },
-    cacheDirectory: resolve('.cache/'),
-  },
+  // cache: {
+  //   type: 'filesystem',
+  //   buildDependencies: {
+  //     // config: [resolve('config/')],
+  //   },
+  //   cacheDirectory: resolve('.cache/'),
+  // },
   snapshot: {
     managedPaths: [resolve('node_modules/')],
   },

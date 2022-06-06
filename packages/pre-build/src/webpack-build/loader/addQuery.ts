@@ -1,14 +1,15 @@
 interface Options {
   output: string
   type?: string
+  asConfig?: boolean
 }
 
-export interface AssetQuery {
+export interface Query {
   resource: string
   options?: Options
 }
 
-export function addQuery(query: AssetQuery[]) {
+export function addQuery(query: Query[]) {
   return `
     module.export = {
       ${query.map(({ resource, options = {} }) => {

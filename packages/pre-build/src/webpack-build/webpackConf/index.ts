@@ -1,11 +1,12 @@
 import { resolve } from 'path'
+import webpack from 'webpack'
 import { mergeWithCustomize, customizeObject } from 'webpack-merge'
-import baseConf from './baseWebpackConf'
-import getWebpackRules from './getWebpackRules'
-import getWebpackPlugins from './getWebpackPlugins'
-import { parseAmpConf } from '../ampConf'
+import baseConf from './baseConf'
+import getWebpackRules from './getRules'
+import getWebpackPlugins from './getPlugins'
+import { getBuildOptions } from '../ampConf'
 
-export default function getWebpackConf(options): any {
+export default function getWebpackConf(options): webpack.Configuration {
   const { isProduct, isWatch } = options
 
   const {
@@ -13,9 +14,9 @@ export default function getWebpackConf(options): any {
     webpack: userWebpack,
     entryIncludes,
     externals,
-  } = parseAmpConf()
+  } = getBuildOptions()
 
-  const config = {
+  const config: webpack.Configuration = {
     entry: { app: entryIncludes },
     output: {
       path: resolve(outputRoot),
@@ -31,7 +32,7 @@ export default function getWebpackConf(options): any {
     optimization: {
       nodeEnv: isProduct ? 'production' : 'development',
     },
-    devtool: isWatch ? 'inline-source-map' : 'source-map',
+    devtool: isWatch ? 'inline-source-map' : false,
     plugins: getWebpackPlugins(options),
     module: { rules: getWebpackRules() },
   }
