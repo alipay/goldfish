@@ -1,4 +1,4 @@
-const startPack = require('@goldfishjs/webpack-build');
+const startPack = require('./webpack-build');
 const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
 
 /**
