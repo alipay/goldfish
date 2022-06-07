@@ -52,6 +52,7 @@ module.exports = {
         error(`The optimization failed, bacause the optimization dist directory is empty: ${optimizedDistDir}.`);
       }
       fs.cpSync(optimizedDistDir, distDir, { force: true, recursive: true });
+      fs.rmSync(path.resolve(distDir, 'node_modules'), { force: true, recursive: true });
     }
   },
 };
