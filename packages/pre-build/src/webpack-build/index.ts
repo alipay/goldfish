@@ -3,6 +3,7 @@ import getWebpackConf from './webpackConf';
 
 export interface WebpackBuildOptions {
   projectDir: string;
+  analyze?: boolean;
 }
 
 export default function webpackBuild(options: WebpackBuildOptions) {

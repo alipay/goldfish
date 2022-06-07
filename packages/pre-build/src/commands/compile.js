@@ -11,12 +11,17 @@ const distDir = process.env.OUT_DIR ? baseDistDir : path.resolve(cwd, defaultOut
 module.exports = {
   name: 'compile',
   description: 'Pre-compile the miniprogram source codes.',
-  builder: (y) => {
+  builder: y => {
     y.option('type', {
       describe: 'Project type.',
       alias: 't',
       type: 'string',
       default: 'intl',
+    }).option('analyze', {
+      describe: 'Analyze the bundle.',
+      alias: 'a',
+      type: 'string',
+      default: 'false',
     });
   },
   async handler(args) {
@@ -40,7 +45,9 @@ module.exports = {
       fs.copySync(`${cwd}/package.json`, `${distDir}/package.json`);
       const npm = await getNPMCommand();
       await exec(`${npm} i --production`, { cwd: distDir });
-      const { distDir: optimizedDistDir } = await excludeUselessScriptsInIntlMiniProgram(distDir);
+      const { distDir: optimizedDistDir } = await excludeUselessScriptsInIntlMiniProgram(distDir, {
+        analyze: args.analyze === true || args.analyze === 'true',
+      });
       if (!optimizedDistDir) {
         error(`The optimization failed, bacause the optimization dist directory is empty: ${optimizedDistDir}.`);
       }

@@ -8,6 +8,7 @@ import ampEntry from '../ampEntry';
 
 export interface GetWebpackConfOptions {
   projectDir: string;
+  analyze?: boolean;
 }
 
 export default function getWebpackConf(options: GetWebpackConfOptions): webpack.Configuration {
@@ -31,7 +32,7 @@ export default function getWebpackConf(options: GetWebpackConfOptions): webpack.
       minimize: false,
     },
     devtool: false,
-    plugins: getWebpackPlugins(),
+    plugins: getWebpackPlugins(options),
     module: { rules: getWebpackRules() },
   };
 
