@@ -2,17 +2,15 @@ import path from 'path';
 import fs from 'fs-extra';
 import attrParse from './attr-parse';
 import { ampEntry } from '../../entry';
-import { getBaseOutput, getRelativeOutput, isRelativeUrl } from '../../utils';
+import { isRelativeUrl } from '../../utils';
 import { addQuery, Query } from '../addQuery';
-import { getBuildOptions, platformConf } from '../../ampConf';
 
-const { sourceRoot, platform, style } = getBuildOptions();
 const assetSet = new Set();
 
 module.exports = function xmlLoader(this: any, source: any) {
   const { dir } = path.parse(this.resourcePath);
   const output = ampEntry.getResourceOutput(this.resourcePath);
-  const { css, json } = platformConf[platform].ext;
+  const json = '.json';
 
   const attributes = [
     'image:src',
@@ -44,8 +42,8 @@ module.exports = function xmlLoader(this: any, source: any) {
       let currentPath = '';
       let outputPath = '';
       if (path.isAbsolute(link.value)) {
-        currentPath = path.resolve(sourceRoot) + link.value;
-        outputPath = getBaseOutput(currentPath);
+        currentPath = path.resolve(ampEntry.sourceRoot) + link.value;
+        outputPath = ampEntry.getBaseOutput(currentPath);
       } else {
         currentPath = path.join(dir, link.value);
         outputPath = path.join(path.parse(output).dir, link.value);
@@ -58,14 +56,13 @@ module.exports = function xmlLoader(this: any, source: any) {
         const { dir, name } = path.parse(currentPath);
         const { dir: outDir } = path.parse(outputPath);
 
-        const userExts = [style];
-        const exts = [css, json, ...userExts];
+        const exts = [json];
 
         // js/ts 不需要 ext，需要加入独立的 entry
         assets.push({
           resource: `${dir}/${name}`,
           options: {
-            output: getRelativeOutput(`${outDir}/${name}`),
+            output: ampEntry.getRelativeOutput(`${outDir}/${name}`),
             type: 'entry',
           },
         });
@@ -76,7 +73,7 @@ module.exports = function xmlLoader(this: any, source: any) {
             file = `${file}${ext === json ? '?asConfig' : ''}`;
             assets.push({
               resource: file,
-              options: { output: getRelativeOutput(`${outDir}/${name}${ext}`) },
+              options: { output: ampEntry.getRelativeOutput(`${outDir}/${name}${ext}`) },
             });
           }
         });
@@ -86,11 +83,11 @@ module.exports = function xmlLoader(this: any, source: any) {
 
       assets.push({
         resource: currentPath,
-        options: { output: getRelativeOutput(outputPath) },
+        options: { output: ampEntry.getRelativeOutput(outputPath) },
       });
     });
 
-  this.emitFile(getRelativeOutput(output), source);
+  // this.emitFile(ampEntry.getRelativeOutput(output), source);
 
   return addQuery(assets);
 };

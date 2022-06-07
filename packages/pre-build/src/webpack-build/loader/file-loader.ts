@@ -12,7 +12,7 @@ module.exports = function (this: any, source: any) {
     output = query.output || output;
   }
 
-  if (options.ext) {
+  if (options?.ext) {
     const { dir, name } = parse(output);
     this.emitFile(resolve(dir, `${name}${options.ext}`), source);
   } else {

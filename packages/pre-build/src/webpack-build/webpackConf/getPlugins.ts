@@ -1,24 +1,16 @@
 import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import { getBuildOptions } from '../ampConf';
+import FriendlyErrorsWebpackPlugin from '@soda/friendly-errors-webpack-plugin';
 import AmpWebpackPlugin from '../plugin/amp-plugin';
-import { BuildOptions } from '../types';
 
-export default function getWebpackPlugins(options: BuildOptions) {
-  const { isProduct, analyze } = options as any;
-  const { defineConstants } = getBuildOptions();
+export interface GetWebpackPluginsOptions {
+  analyze?: boolean;
+}
 
-  const plugins = [
-    new AmpWebpackPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: isProduct ? '"production"' : '"development"',
-      },
-      ...defineConstants,
-    }),
-  ];
+export default function getWebpackPlugins(options?: GetWebpackPluginsOptions) {
+  const plugins: webpack.Configuration['plugins'] = [new AmpWebpackPlugin() /*, new FriendlyErrorsWebpackPlugin()*/];
 
-  if (analyze) {
+  if (options?.analyze === true) {
     plugins.push(new BundleAnalyzerPlugin() as any);
   }
 

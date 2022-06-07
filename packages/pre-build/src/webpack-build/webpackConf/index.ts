@@ -4,40 +4,40 @@ import { mergeWithCustomize, customizeObject } from 'webpack-merge';
 import baseConf from './baseConf';
 import getWebpackRules from './getRules';
 import getWebpackPlugins from './getPlugins';
-import { getBuildOptions } from '../ampConf';
-import { BuildOptions } from '../types';
+import { ampEntry } from '../entry';
 
-export default function getWebpackConf(options: Partial<BuildOptions>): webpack.Configuration {
-  const { isProduct, isWatch } = options as any;
+export interface GetWebpackConfOptions {
+  projectDir: string;
+}
 
-  const { outputRoot, webpack: userWebpack, entryIncludes, externals } = getBuildOptions();
+export default function getWebpackConf(options: GetWebpackConfOptions): webpack.Configuration {
+  const entryIncludes = ['./app.js', './app.json?asConfig'];
+
+  const sourceRoot = options.projectDir;
+  const outputRoot = resolve(options.projectDir, 'dist');
+
+  ampEntry.init(sourceRoot, outputRoot, resolve(options.projectDir, './app.json'));
 
   const config: webpack.Configuration = {
+    context: options.projectDir,
     entry: { app: entryIncludes },
     output: {
-      path: resolve(outputRoot),
-      publicPath: '/',
+      path: outputRoot,
       filename: '[name].js',
     },
-    resolve: {
-      // https://webpack.js.org/configuration/resolve#resolveextensions
-      extensions: ['.ts', '...'],
-    },
-    externals,
-    mode: isProduct ? 'production' : 'none',
+    mode: 'production',
     optimization: {
-      nodeEnv: isProduct ? 'production' : 'development',
+      nodeEnv: 'production',
+      minimize: false,
     },
-    devtool: isWatch ? 'inline-source-map' : false,
-    plugins: getWebpackPlugins(options as any),
+    devtool: false,
+    plugins: getWebpackPlugins(),
     module: { rules: getWebpackRules() },
   };
 
-  return userWebpack(
-    mergeWithCustomize({
-      customizeObject: customizeObject({
-        snapshot: 'merge',
-      }),
-    })(baseConf, config),
-  );
+  return mergeWithCustomize({
+    customizeObject: customizeObject({
+      snapshot: 'merge',
+    }),
+  })(baseConf, config);
 }

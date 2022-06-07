@@ -1,60 +1,20 @@
 import webpack from 'webpack';
-import npmImportPlugin from 'less-plugin-npm-import';
-import { resolve } from 'path';
-import { getBuildOptions, platformConf } from '../ampConf';
-import { fileLoader, jsonLoader, xmlLoader } from '../loader';
 
 export default function getWebpackRules(): webpack.RuleSetRule[] {
-  const { alias, sourceRoot, platform } = getBuildOptions();
-  const { xml, json, njs } = platformConf[platform].ext;
-
-  const loader = {
-    babelLoader: {
-      loader: 'babel-loader',
-      options: {
-        plugins: [
-          [
-            'module-resolver',
-            {
-              root: './src',
-              alias: {
-                '@': './src',
-                ...alias,
-              },
-            },
-          ],
-        ],
-      },
-    },
-    postCssLoader: {
-      loader: 'postcss-loader',
-      options: {
-        postcssOptions: {
-          plugins: [['postcss-preset-env', {}]],
-        },
-      },
-    },
-  };
-
   return [
     {
-      test: /\.js$/,
-      use: [loader.babelLoader],
-      include: [resolve(sourceRoot)],
-    },
-    {
-      test: new RegExp(json),
+      test: /\.json/,
       resourceQuery: /asConfig/,
-      use: [jsonLoader],
+      use: [require.resolve('../loader/json-loader')],
       type: 'javascript/auto',
     },
     {
-      test: new RegExp(xml),
-      use: [xmlLoader],
+      test: /\.axml/,
+      use: [require.resolve('../loader/xml-loader')],
     },
     {
-      test: new RegExp(njs),
-      use: [fileLoader, loader.babelLoader],
+      test: /\.sjs/,
+      use: [require.resolve('../loader/file-loader')],
     },
   ];
 }

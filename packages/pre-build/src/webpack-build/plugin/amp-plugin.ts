@@ -1,14 +1,10 @@
-import { Compiler, EntryPlugin, Compilation, sources, Chunk } from 'webpack';
 import fs from 'fs';
+import path from 'path';
+import { Compiler, EntryPlugin, Compilation, sources, Chunk } from 'webpack';
 import { parseQuery } from 'loader-utils';
-import path, { resolve } from 'path';
 import { ampEntry } from '../entry';
-import { getBuildOptions } from '../ampConf';
 import { runtimeCodeFixBabel, runtimeCodeCtxObject, regeneratorRuntimeFix } from '../constants';
-import { getRelativeOutput, createRelativePath } from '../utils';
-import { platformConf } from '../ampConf';
-
-const { outputRoot, style, platform } = getBuildOptions();
+import { createRelativePath } from '../utils';
 
 export default class AmpWebpackPlugin {
   compiler: Compiler | null = null;
@@ -16,20 +12,20 @@ export default class AmpWebpackPlugin {
 
   // 动态添加入口
   applyAppEntry() {
-    const { xml, css, json } = platformConf[platform].ext;
+    const { xml, json } = { xml: '.axml', json: '.json' };
 
     ampEntry.entryOutputMap.forEach((output, loc) => {
       // https://webpack.js.org/plugins/internal-plugins/#entryplugin
-      const out = getRelativeOutput(output);
+      const out = ampEntry.getRelativeOutput(output);
 
       // js 文件
       new EntryPlugin(this.compiler!.context, loc, out).apply(this.compiler!);
 
       // 需要检验文件存不存在
-      const exts = [css, json, xml].concat([style]);
+      const exts = [json, xml];
 
       exts.forEach(ext => {
-        if (fs.existsSync(resolve(this.compiler!.context, loc + ext))) {
+        if (fs.existsSync(path.resolve(this.compiler!.context, loc + ext))) {
           const fi = loc + (ext = ext === json ? `${json}?asConfig` : ext);
           new EntryPlugin(this.compiler!.context, fi, out).apply(this.compiler!);
         }
@@ -69,8 +65,8 @@ export default class AmpWebpackPlugin {
               const x = (chunk: any) => (chunk[0] === '/' ? '' : '/') + chunk;
               const relativePath = createRelativePath(
                 path.relative(
-                  path.dirname(resolve(outputRoot) + x(chunkFile)),
-                  resolve(outputRoot) + x(relativeChunkFile),
+                  path.dirname(path.resolve(ampEntry.outputRoot) + x(chunkFile)),
+                  path.resolve(ampEntry.outputRoot) + x(relativeChunkFile),
                 ),
               );
 

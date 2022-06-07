@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'path';
 
 export default {
   performance: {
@@ -9,13 +9,6 @@ export default {
     modules: ['node_modules'],
     alias: {},
   },
-  // cache: {
-  //   type: 'filesystem',
-  //   buildDependencies: {
-  //     // config: [resolve('config/')],
-  //   },
-  //   cacheDirectory: resolve('.cache/'),
-  // },
   snapshot: {
     managedPaths: [resolve('node_modules/')],
   },
@@ -26,14 +19,13 @@ export default {
       chunks: 'all',
       usedExports: true,
       minChunks: 1,
-      minSize: 1000,
+      minSize: 0,
       enforceSizeThreshold: Infinity,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
+      maxSize: Infinity,
       automaticNameDelimiter: '-',
     },
     runtimeChunk: {
       name: 'bundle',
     },
   },
-}
+};

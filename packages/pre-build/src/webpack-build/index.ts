@@ -1,14 +1,14 @@
 import webpack from 'webpack';
-import { setConfig } from './ampConf';
-import type { BuildOptions } from './types';
 import getWebpackConf from './webpackConf';
 
-export default function (options: Partial<BuildOptions>) {
+export interface WebpackBuildOptions {
+  projectDir: string;
+}
+
+export default function webpackBuild(options: WebpackBuildOptions) {
   const webpackConf = getWebpackConf(options);
 
-  setConfig(options);
-
-  return new Promise((resolve, reject) => {
+  return new Promise<webpack.StatsChunkGroup | undefined>((resolve, reject) => {
     webpack([webpackConf], (err, stats) => {
       if (err) return reject(err);
       resolve(stats);

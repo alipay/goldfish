@@ -18,6 +18,5 @@
     "skipLibCheck": true,
     "allowJs": true,
     "emitDeclarationOnly": true
-  },
-  "include": ["./src"]
+  }
 }

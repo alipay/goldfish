@@ -1,18 +1,19 @@
 import { resolve, isAbsolute, parse, join } from 'path';
-import hash from 'hash-sum';
 import { jsonExt, MAIN_PACKAGE, useComp } from '../constants';
 import { Entry, EntryType } from '../types';
-import { getBuildOptions } from '../ampConf';
-import { getBaseOutput, getRelativeOutput } from '../utils';
-
-const { sourceRoot, outputRoot, appEntry } = getBuildOptions();
 
 class AmpEntry {
   entries: Entry[] = []; // 所有引用关系
   entryOutputMap: Map<string, string> = new Map(); // 输入与输出
   resourceMap: Map<string, Entry[]> = new Map(); // 当前文件引用了哪些资源
 
-  constructor() {
+  sourceRoot = '';
+  outputRoot = '';
+
+  init(sourceRoot: string, outputRoot: string, appEntry: string) {
+    this.sourceRoot = sourceRoot;
+    this.outputRoot = outputRoot;
+
     const appJson = this.getJson(appEntry);
 
     if (appJson.pages) {
@@ -27,13 +28,23 @@ class AmpEntry {
     }
   }
 
+  getBaseOutput(p: string) {
+    const { sourceRoot, outputRoot } = this;
+    return p.replace(sourceRoot, outputRoot);
+  }
+
+  getRelativeOutput(p: string) {
+    const { outputRoot } = this;
+    return p.replace(resolve(outputRoot), '');
+  }
+
   // 获取某源码文件的应当的输出目录
   getResourceOutput(resourcePath: string, relative?: boolean): string {
     const { dir, name, ext } = parse(resourcePath);
     const pathNoExt = `${dir}/${name}`;
-    const outputDir = this.entryOutputMap.get(pathNoExt) || getBaseOutput(pathNoExt);
+    const outputDir = this.entryOutputMap.get(pathNoExt) || this.getBaseOutput(pathNoExt);
     const output = `${outputDir}${ext}`;
-    return relative ? getRelativeOutput(output) : output;
+    return relative ? this.getRelativeOutput(output) : output;
   }
 
   getResourceEntries(resourcePath: string): Entry[] {
@@ -68,7 +79,7 @@ class AmpEntry {
       key: page,
       loc,
       name: parse(join(loc, '..')).name,
-      output: getBaseOutput(loc),
+      output: this.getBaseOutput(loc),
       caller: parse(loc).dir,
     };
 
@@ -89,16 +100,18 @@ class AmpEntry {
     }
   }
 
-  private getOutputCompName(entry) {
-    // hash 处理为了防止命名重复
-    return `${parse(join(entry, '..')).name.toLowerCase()}-${hash(entry)}`;
+  private getOutputCompName(entry: string) {
+    return `${parse(join(entry, '..')).name.toLowerCase()}`;
+  }
+
+  private getOutputCompPath(sourcePath: string) {
+    return resolve(this.outputRoot, sourcePath.replace(this.sourceRoot, '/'));
   }
 
   addComponent(key, value, pkg = MAIN_PACKAGE, caller) {
     const loc = this.compPathResolve(value, caller);
     const name = this.getOutputCompName(loc);
-    // 所有组件都输出到 output 下的 components 目录中
-    const output = resolve(outputRoot) + `/components/${name}/index`;
+    const output = this.getOutputCompPath(loc);
 
     const entry = {
       type: EntryType.comp,
@@ -117,13 +130,13 @@ class AmpEntry {
   }
 
   pagePathResolve(page, pkg = MAIN_PACKAGE) {
-    return resolve(sourceRoot, pkg === MAIN_PACKAGE ? '' : pkg, page);
+    return resolve(this.sourceRoot, pkg === MAIN_PACKAGE ? '' : pkg, page);
   }
 
   compPathResolve(comp, currentDir) {
     // 组件写成绝对路径，性能会高一些
     if (isAbsolute(comp)) {
-      return resolve(sourceRoot) + comp;
+      return resolve(this.sourceRoot) + comp;
     }
 
     try {
