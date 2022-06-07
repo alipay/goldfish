@@ -35,7 +35,6 @@ module.exports = function xmlLoader(this: any, source: any) {
 
   const assets: Query[] = [];
 
-  // 解析 xml 中的相对路径资源进行拷贝
   links
     .filter((link: any) => isRelativeUrl(link.value))
     .forEach((link: any) => {
@@ -49,7 +48,6 @@ module.exports = function xmlLoader(this: any, source: any) {
         outputPath = path.join(path.parse(output).dir, link.value);
       }
 
-      // 如果是模板或者引用
       // https://opendocs.alipay.com/mini/framework/axml-template
       const template = ['import', 'include'];
       if (!assetSet.has(currentPath) && template.includes(link.tag)) {
@@ -58,7 +56,6 @@ module.exports = function xmlLoader(this: any, source: any) {
 
         const exts = [json];
 
-        // js/ts 不需要 ext，需要加入独立的 entry
         assets.push({
           resource: `${dir}/${name}`,
           options: {

@@ -12,14 +12,14 @@ export interface BuildOptions {
 }
 
 export interface Entry {
-  type: EntryType; // 入口类型
-  loc: string; // 当前文件位置
-  name: string; // 名称
-  output: string; // 输出位置
-  pkg: string; // 预留分包名称，为体积优化留坑位
-  key: string; // 组件 key
-  value: string; // 组件 value
-  caller: string; // 调用方
+  type: EntryType;
+  loc: string;
+  name: string;
+  output: string;
+  pkg: string;
+  key: string;
+  value: string;
+  caller: string;
 }
 
 export enum EntryType {

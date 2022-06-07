@@ -5,13 +5,11 @@ import { parseQuery } from 'loader-utils';
 import ampEntry from '../ampEntry';
 import { runtimeCodeFixBabel, runtimeCodeCtxObject, regeneratorRuntimeFix } from '../constants';
 import { createRelativePath } from '../utils';
+import { error } from '../../utils';
 
 export default class AmpWebpackPlugin {
-  compiler: Compiler | null = null;
-  compilation: Compilation | null = null;
-
   // 动态添加入口
-  applyAppEntry() {
+  applyAppEntry(compiler: Compiler) {
     const { xml, json } = { xml: '.axml', json: '.json' };
 
     ampEntry.entryOutputMap.forEach((output, loc) => {
@@ -19,24 +17,24 @@ export default class AmpWebpackPlugin {
       const out = ampEntry.getRelativeOutput(output);
 
       // js 文件
-      new EntryPlugin(this.compiler!.context, loc, out).apply(this.compiler!);
+      new EntryPlugin(compiler.context, loc, out).apply(compiler);
 
       // 需要检验文件存不存在
       const exts = [json, xml];
 
       exts.forEach(ext => {
-        if (fs.existsSync(path.resolve(this.compiler!.context, loc + ext))) {
+        if (fs.existsSync(path.resolve(compiler.context, loc + ext))) {
           const fi = loc + (ext = ext === json ? `${json}?asConfig` : ext);
-          new EntryPlugin(this.compiler!.context, fi, out).apply(this.compiler!);
+          new EntryPlugin(compiler.context, fi, out).apply(compiler);
         }
       });
     });
   }
 
   // chunk 添加依赖
-  applyChunkRequire() {
+  applyChunkRequire(compiler: Compiler) {
     // https://github.com/didi/mpx/blob/c034d454986fe1f932784f26295d59328da951c3/packages/webpack-plugin/lib/index.js#L1145
-    this.compiler!.hooks.thisCompilation.tap('AmpWebpackPlugin', compilation => {
+    compiler.hooks.thisCompilation.tap('AmpWebpackPlugin', compilation => {
       compilation.hooks.processAssets.tap(
         {
           name: 'AmpWebpackPlugin',
@@ -144,12 +142,13 @@ export default class AmpWebpackPlugin {
   }
 
   // 编译过程中, 新增入口
-  dynamicEntry() {
-    this.compiler!.hooks.thisCompilation.tap('AmpWebpackPlugin ', compilation => {
-      this.compilation = compilation;
+  dynamicEntry(compiler: Compiler) {
+    let compilation: Compilation | null = null;
+    compiler.hooks.thisCompilation.tap('AmpWebpackPlugin ', c => {
+      compilation = c;
     });
 
-    this.compiler!.hooks.normalModuleFactory.tap('AmpWebpackPlugin', normalModuleFactory => {
+    compiler.hooks.normalModuleFactory.tap('AmpWebpackPlugin', normalModuleFactory => {
       normalModuleFactory.hooks.beforeResolve.tap('AmpWebpackPlugin', ({ request }) => {
         const queryIndex = request.indexOf('?');
         let resourcePath = request;
@@ -159,14 +158,22 @@ export default class AmpWebpackPlugin {
           resourcePath = request.slice(0, queryIndex);
           resourceQuery = request.slice(queryIndex);
         }
-        const { type, output } = parseQuery(resourceQuery || '?');
+        const { type, output } = parseQuery(resourceQuery || '?') as { type: string; output: string };
 
         if (type === 'entry') {
-          this.compilation!.addEntry(
-            this.compiler!.context,
+          if (!compilation) {
+            throw new Error('The compilation is not ready.');
+          }
+
+          compilation.addEntry(
+            compiler.context,
             EntryPlugin.createDependency(resourcePath, path.parse(resourcePath).name),
-            output as any,
-            (e, res) => {},
+            output,
+            e => {
+              if (e) {
+                error(e);
+              }
+            },
           );
         }
       });
@@ -174,9 +181,8 @@ export default class AmpWebpackPlugin {
   }
 
   apply(compiler: Compiler) {
-    this.compiler = compiler;
-    this.applyAppEntry();
-    this.applyChunkRequire();
-    this.dynamicEntry();
+    this.applyAppEntry(compiler);
+    this.applyChunkRequire(compiler);
+    this.dynamicEntry(compiler);
   }
 }

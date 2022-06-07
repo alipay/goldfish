@@ -3,9 +3,9 @@ import { jsonExt, MAIN_PACKAGE, useComp } from './constants';
 import { Entry, EntryType } from './types';
 
 class AmpEntry {
-  entries: Entry[] = []; // 所有引用关系
-  entryOutputMap: Map<string, string> = new Map(); // 输入与输出
-  resourceMap: Map<string, Entry[]> = new Map(); // 当前文件引用了哪些资源
+  entries: Entry[] = [];
+  entryOutputMap: Map<string, string> = new Map();
+  resourceMap: Map<string, Entry[]> = new Map();
 
   sourceRoot = '';
   outputRoot = '';
@@ -14,7 +14,8 @@ class AmpEntry {
     this.sourceRoot = sourceRoot;
     this.outputRoot = outputRoot;
 
-    const appJson = this.getJson(appEntry);
+    const appJson: { pages?: string[]; subPackages?: Array<{ root: string; pages: string[] }> } =
+      this.getJson(appEntry);
 
     if (appJson.pages) {
       appJson.pages.forEach(page => this.addPage(page, MAIN_PACKAGE));
@@ -59,8 +60,8 @@ class AmpEntry {
     this.resourceMap.set(options.caller, caller.concat(options));
   }
 
-  private getJson(_path) {
-    const { name, dir, ext } = parse(_path);
+  private getJson(p: string) {
+    const { name, dir, ext } = parse(p);
     try {
       if (ext) return require(resolve(dir, `${name}${jsonExt}`));
       return require(resolve(dir, name) + jsonExt);
@@ -89,13 +90,13 @@ class AmpEntry {
     return entry;
   }
 
-  private travelComponents(loc, pkg) {
-    const json = this.getJson(loc);
+  private travelComponents(loc: string, pkg: string) {
+    const json: { usingComponents?: Record<string, string> } = this.getJson(loc);
     const compMap = json[useComp];
 
     if (compMap) {
       Object.entries(compMap).forEach(([key, value]) => {
-        this.addComponent(key, value as string, pkg, parse(loc).dir);
+        this.addComponent(key, value, pkg, parse(loc).dir);
       });
     }
   }
@@ -108,7 +109,7 @@ class AmpEntry {
     return resolve(this.outputRoot, sourcePath.replace(this.sourceRoot, '/'));
   }
 
-  addComponent(key, value, pkg = MAIN_PACKAGE, caller) {
+  addComponent(key: string, value: string, pkg = MAIN_PACKAGE, caller: string) {
     const loc = this.compPathResolve(value, caller);
     const name = this.getOutputCompName(loc);
     const output = this.getOutputCompPath(loc);
@@ -133,18 +134,17 @@ class AmpEntry {
     return resolve(this.sourceRoot, pkg === MAIN_PACKAGE ? '' : pkg, page);
   }
 
-  compPathResolve(comp, currentDir) {
-    // 组件写成绝对路径，性能会高一些
+  compPathResolve(comp: string, currentDir: string) {
     if (isAbsolute(comp)) {
       return resolve(this.sourceRoot) + comp;
     }
 
     try {
-      // 兼容 monorepos 结构
+      // Compatible with the monorepo projects
       const { dir, name } = parse(require.resolve(comp + jsonExt));
       return resolve(dir, name);
     } catch (e) {
-      // 处理 ../../ 路径
+      // handle the path: `../../`
       return join(currentDir, comp);
     }
   }

@@ -2,7 +2,6 @@ import { parse, resolve } from 'path';
 import { getOptions, parseQuery } from 'loader-utils';
 import ampEntry from '../ampEntry';
 
-// 直接输出文件
 module.exports = function (this: any, source: any) {
   let output = ampEntry.getResourceOutput(this.resourcePath, true);
   const options = getOptions(this);
