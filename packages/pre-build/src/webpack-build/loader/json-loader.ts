@@ -1,5 +1,5 @@
 import { parseQuery } from 'loader-utils';
-import { ampEntry } from '../entry';
+import ampEntry from '../ampEntry';
 import { useComp } from '../constants';
 import { jsonModule, normalizeCompPath } from '../utils';
 import { addQuery, Query } from './addQuery';

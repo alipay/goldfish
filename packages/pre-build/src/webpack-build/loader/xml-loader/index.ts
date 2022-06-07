@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import attrParse from './attr-parse';
-import { ampEntry } from '../../entry';
+import ampEntry from '../../ampEntry';
 import { isRelativeUrl } from '../../utils';
 import { addQuery, Query } from '../addQuery';
 
@@ -86,8 +86,6 @@ module.exports = function xmlLoader(this: any, source: any) {
         options: { output: ampEntry.getRelativeOutput(outputPath) },
       });
     });
-
-  // this.emitFile(ampEntry.getRelativeOutput(output), source);
 
   return addQuery(assets);
 };

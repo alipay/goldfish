@@ -4,7 +4,7 @@ import { mergeWithCustomize, customizeObject } from 'webpack-merge';
 import baseConf from './baseConf';
 import getWebpackRules from './getRules';
 import getWebpackPlugins from './getPlugins';
-import { ampEntry } from '../entry';
+import ampEntry from '../ampEntry';
 
 export interface GetWebpackConfOptions {
   projectDir: string;

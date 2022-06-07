@@ -8,9 +8,10 @@ export interface GetWebpackPluginsOptions {
 }
 
 export default function getWebpackPlugins(options?: GetWebpackPluginsOptions) {
-  const plugins: webpack.Configuration['plugins'] = [new AmpWebpackPlugin() /*, new FriendlyErrorsWebpackPlugin()*/];
+  const plugins: webpack.Configuration['plugins'] = [new AmpWebpackPlugin(), new FriendlyErrorsWebpackPlugin()];
 
   if (options?.analyze === true) {
+    // TODO: remove the any.
     plugins.push(new BundleAnalyzerPlugin() as any);
   }
 

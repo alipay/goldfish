@@ -1,6 +1,6 @@
 import { resolve, isAbsolute, parse, join } from 'path';
-import { jsonExt, MAIN_PACKAGE, useComp } from '../constants';
-import { Entry, EntryType } from '../types';
+import { jsonExt, MAIN_PACKAGE, useComp } from './constants';
+import { Entry, EntryType } from './types';
 
 class AmpEntry {
   entries: Entry[] = []; // 所有引用关系
@@ -150,4 +150,5 @@ class AmpEntry {
   }
 }
 
-export const ampEntry = new AmpEntry();
+const ampEntry = new AmpEntry();
+export default ampEntry;

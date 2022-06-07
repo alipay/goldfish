@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Compiler, EntryPlugin, Compilation, sources, Chunk } from 'webpack';
 import { parseQuery } from 'loader-utils';
-import { ampEntry } from '../entry';
+import ampEntry from '../ampEntry';
 import { runtimeCodeFixBabel, runtimeCodeCtxObject, regeneratorRuntimeFix } from '../constants';
 import { createRelativePath } from '../utils';
 
