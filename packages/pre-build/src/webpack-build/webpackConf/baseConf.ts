@@ -1,6 +1,7 @@
 import { resolve } from 'path';
+import type { Configuration } from 'webpack';
 
-export default {
+const config: Configuration = {
   performance: {
     hints: false,
   },
@@ -29,3 +30,5 @@ export default {
     },
   },
 };
+
+export default config;
