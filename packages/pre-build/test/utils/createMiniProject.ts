@@ -23,6 +23,6 @@ export default async function createMiniProject(
   } catch (e) {
     throw e;
   } finally {
-    fs.rmSync(targetDir, { force: true, recursive: true });
+    // fs.rmSync(targetDir, { force: true, recursive: true });
   }
 }

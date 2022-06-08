@@ -10,13 +10,13 @@ export interface Query {
 }
 
 export function addQuery(query: Query[]) {
-  return `
+  const result = `
     module.export = {
       ${query.map(({ resource, options = {} }) => {
         const keys = Object.keys(options);
         const queryStr = keys.reduce((res, cur, idx) => {
           const end = keys.length - 1 === idx ? '' : '&';
-          return res + `${cur}=${options[cur]}${end}`;
+          return res + `${encodeURIComponent(cur)}=${encodeURIComponent(options[cur])}${end}`;
         }, '?');
 
         return `
@@ -24,4 +24,5 @@ export function addQuery(query: Query[]) {
     `;
       })}
     }`;
+  return result;
 }

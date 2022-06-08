@@ -12,9 +12,9 @@ export default function getWebpackRules(): webpack.RuleSetRule[] {
       test: /\.axml/,
       use: [require.resolve('../loader/xml-loader')],
     },
-    {
-      test: /\.sjs/,
-      use: [require.resolve('../loader/file-loader')],
-    },
+    // {
+    //   test: /\.sjs/,
+    //   use: [require.resolve('../loader/file-loader')],
+    // },
   ];
 }

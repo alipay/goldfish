@@ -31,7 +31,10 @@ const parser = new Parser({
   },
 });
 
-export default function parse(html: any, isRelevantTagAttr: any) {
+export default function parse(
+  html: string,
+  isRelevantTagAttr: (tag: string, attr: string) => boolean,
+): Array<{ tag: string; value: string }> {
   return parser.parse('outside', html, {
     currentTag: null,
     results: [],

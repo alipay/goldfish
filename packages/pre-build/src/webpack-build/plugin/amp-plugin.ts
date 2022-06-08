@@ -60,7 +60,7 @@ export default class AmpWebpackPlugin {
               const relativeChunkFile = relativeChunk.files.values().next().value;
               if (!relativeChunkFile) return;
 
-              const x = (chunk: any) => (chunk[0] === '/' ? '' : '/') + chunk;
+              const x = (chunk: string) => (chunk[0] === '/' ? '' : '/') + chunk;
               const relativePath = createRelativePath(
                 path.relative(
                   path.dirname(path.resolve(ampEntry.outputRoot) + x(chunkFile)),
@@ -105,6 +105,7 @@ export default class AmpWebpackPlugin {
             processedChunk.add(chunk);
           }
 
+          console.log('-------chunkGroups', compilation.chunkGroups.length);
           compilation.chunkGroups.forEach(chunkGroup => {
             if (!chunkGroup.isInitial()) return;
 
@@ -113,6 +114,7 @@ export default class AmpWebpackPlugin {
 
             const chunksLength = chunkGroup.chunks.length;
 
+            console.log('-------chunks', chunkGroup.chunks.length);
             chunkGroup.chunks.forEach((chunk, index) => {
               if (index === 0) {
                 runtimeChunk = chunk;

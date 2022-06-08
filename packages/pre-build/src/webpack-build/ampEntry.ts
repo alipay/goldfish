@@ -1,4 +1,5 @@
 import { resolve, isAbsolute, parse, join } from 'path';
+import { EntryObject } from 'webpack';
 import { jsonExt, MAIN_PACKAGE, useComp } from './constants';
 import { Entry, EntryType } from './types';
 
@@ -9,6 +10,8 @@ class AmpEntry {
 
   sourceRoot = '';
   outputRoot = '';
+
+  sjsEntryObject: EntryObject = {};
 
   init(sourceRoot: string, outputRoot: string, appEntry: string) {
     this.sourceRoot = sourceRoot;
@@ -29,6 +32,16 @@ class AmpEntry {
     }
   }
 
+  clearEntryOutputMap() {
+    this.entryOutputMap.clear();
+  }
+
+  addSjsEntry(name: string, p: string) {
+    this.sjsEntryObject[name.replace(this.outputRoot + '/', '').replace(/\.sjs$/, '')] = p
+      .replace(this.sourceRoot + '/', './')
+      .replace(/\.sjs$/, '');
+  }
+
   getBaseOutput(p: string) {
     const { sourceRoot, outputRoot } = this;
     return p.replace(sourceRoot, outputRoot);
@@ -36,10 +49,9 @@ class AmpEntry {
 
   getRelativeOutput(p: string) {
     const { outputRoot } = this;
-    return p.replace(resolve(outputRoot), '');
+    return p.replace(outputRoot, '');
   }
 
-  // 获取某源码文件的应当的输出目录
   getResourceOutput(resourcePath: string, relative?: boolean): string {
     const { dir, name, ext } = parse(resourcePath);
     const pathNoExt = `${dir}/${name}`;
@@ -105,14 +117,17 @@ class AmpEntry {
     return `${parse(join(entry, '..')).name.toLowerCase()}`;
   }
 
-  private getOutputCompPath(sourcePath: string) {
-    return resolve(this.outputRoot, sourcePath.replace(this.sourceRoot, '/'));
+  private getOutputCompPath(sourceCodePath: string, caller: string) {
+    if (sourceCodePath.startsWith('/')) {
+      return resolve(this.outputRoot, sourceCodePath.replace(/^\//, ''));
+    }
+    return resolve(caller, sourceCodePath);
   }
 
   addComponent(key: string, value: string, pkg = MAIN_PACKAGE, caller: string) {
     const loc = this.compPathResolve(value, caller);
     const name = this.getOutputCompName(loc);
-    const output = this.getOutputCompPath(loc);
+    const output = this.getOutputCompPath(value, caller);
 
     const entry = {
       type: EntryType.comp,
@@ -147,6 +162,15 @@ class AmpEntry {
       // handle the path: `../../`
       return join(currentDir, comp);
     }
+  }
+
+  destroy() {
+    this.entries = [];
+    this.entryOutputMap.clear();
+    this.resourceMap.clear();
+    this.sjsEntryObject = {};
+    this.sourceRoot = '';
+    this.outputRoot = '';
   }
 }
 
