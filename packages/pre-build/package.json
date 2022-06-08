@@ -42,10 +42,9 @@
     "command-exists": "^1.2.9",
     "@types/fs-extra": "9.0.13",
     "fastparse": "1.1.2",
-    "@types/loader-utils": "2.0.3",
-    "webpack-bundle-analyzer": "4.5.0",
-    "@types/webpack-bundle-analyzer": "4.4.1",
-    "webpack-merge": "5.8.0"
+    "@babel/parser": "7.18.4",
+    "@babel/traverse": "7.18.2",
+    "enhanced-resolve": "5.9.3"
   },
   "devDependencies": {
     "@babel/preset-typescript": "7.17.12",
