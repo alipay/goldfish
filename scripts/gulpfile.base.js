@@ -9,9 +9,9 @@ const sourceFiles = {
 };
 
 const tsconfigPath = path.resolve(__dirname, '../tsconfig.json');
-const tsconfig = require(tsconfigPath);
+const defaultTSConfig = require(tsconfigPath);
 
-function compileTsStream(files, imports) {
+function compileTsStream(files, imports, tsconfig) {
   const babelOptions = {
     presets: [
       [
@@ -51,8 +51,8 @@ function compileTsStream(files, imports) {
   ]);
 }
 
-module.exports = imports => {
+module.exports = (imports = [], tsconfig = defaultTSConfig) => {
   gulp.task('ts', () => {
-    return compileTsStream(sourceFiles.ts, imports);
+    return compileTsStream(sourceFiles.ts, imports, tsconfig);
   });
 };
