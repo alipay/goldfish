@@ -1,7 +1,7 @@
 {
   "name": "@goldfishjs/pre-build",
   "version": "2.12.2",
-  "main": "./src/index.js",
+  "main": "./lib/index.js",
   "description": "goldfish-pre-build",
   "scripts": {
     "build": "sh ./scripts/build.sh"

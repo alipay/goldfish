@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should pack the mini project. 1`] = `
+Array [
+  "/app.js",
+  "/app.json",
+  "/components/button/button.axml",
+  "/components/button/button.js",
+  "/components/button/button.json",
+  "/components/button/button.sjs",
+  "/node_modules/some-package/index.js",
+  "/node_modules/some-package/package.json",
+  "/pages/index/index.axml",
+  "/pages/index/index.js",
+  "/pages/index/index.json",
+  "/pages/index/index.sjs",
+  "/utils.js",
+  "/utils.sjs",
+]
+`;

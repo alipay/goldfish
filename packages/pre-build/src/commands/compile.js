@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const lodash = require('lodash');
 const { default: excludeUselessScriptsInIntlMiniProgram } = require('../excludeUselessScriptsInIntlMiniProgram');
-const { exec, getBinCommand, getNPMCommand, distDir: baseDistDir, cwd, error } = require('../utils');
+const { exec, getBinCommand, getNPMCommand, distDir: baseDistDir, cwd } = require('../utils');
 
 // redifine the `distDir`
 const defaultOutDir = 'lib';
@@ -45,14 +45,7 @@ module.exports = {
       fs.copySync(`${cwd}/package.json`, `${distDir}/package.json`);
       const npm = await getNPMCommand();
       await exec(`${npm} i --production`, { cwd: distDir });
-      const { distDir: optimizedDistDir } = await excludeUselessScriptsInIntlMiniProgram(distDir, {
-        analyze: args.analyze === true || args.analyze === 'true',
-      });
-      if (!optimizedDistDir) {
-        error(`The optimization failed, bacause the optimization dist directory is empty: ${optimizedDistDir}.`);
-      }
-      fs.cpSync(optimizedDistDir, distDir, { force: true, recursive: true });
-      fs.rmSync(path.resolve(distDir, 'node_modules'), { force: true, recursive: true });
+      excludeUselessScriptsInIntlMiniProgram(distDir);
     }
   },
 };
