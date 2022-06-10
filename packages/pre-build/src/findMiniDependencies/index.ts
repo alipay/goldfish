@@ -12,5 +12,8 @@ export default function findAllDependecies(projectDir: string) {
     ...entries.sjsList.map(sjs => findJsDependencyModules(sjs.sjsPath)),
     ...findJsDependencyModules(path.resolve(projectDir, 'app.js')),
   ]);
-  return lodash.uniqBy(result, dep => dep.importFilePath);
+  return {
+    entries,
+    entryDeps: lodash.uniqBy(result, dep => dep.importFilePath),
+  };
 }

@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const lodash = require('lodash');
 const { default: excludeUselessScriptsInIntlMiniProgram } = require('../excludeUselessScriptsInIntlMiniProgram');
-const { exec, getBinCommand, getNPMCommand, distDir: baseDistDir, cwd } = require('../utils');
+const { exec, getBinCommand, getNPMCommand, distDir: baseDistDir, cwd, log } = require('../utils');
 
 // redifine the `distDir`
 const defaultOutDir = 'lib';
@@ -42,10 +42,9 @@ module.exports = {
 
     if (args.type === 'intl') {
       await gulpPromise;
-      fs.copySync(`${cwd}/package.json`, `${distDir}/package.json`);
-      const npm = await getNPMCommand();
-      await exec(`${npm} i --production`, { cwd: distDir });
+      log('Start resolve and copy the dependecies.');
       excludeUselessScriptsInIntlMiniProgram(distDir);
+      log('Successfully resolve and copy the dependencies.');
     }
   },
 };

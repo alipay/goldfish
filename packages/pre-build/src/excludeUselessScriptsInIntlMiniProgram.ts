@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import findMiniDependencies from './findMiniDependencies';
 
-function findPackageJson(dir: string): string | undefined {
+export function findPackageJson(dir: string): string | undefined {
   const checkPath = path.resolve(dir, 'package.json');
   if (fs.existsSync(checkPath)) {
     return checkPath;
@@ -16,6 +16,50 @@ function findPackageJson(dir: string): string | undefined {
 }
 
 /**
+ * projectDir: /a/b/c/d
+ * sourcePath: /a/b/node_modules/e/node_modules/f/g.js
+ * result: node_modules/e/node_modules/f/g.js
+ *
+ * @param {string} projectDir
+ * @param {string} sourcePath
+ */
+export function findRelativePath(projectDir: string, sourcePath: string): string | undefined {
+  if (sourcePath.startsWith(path.resolve(projectDir, 'node_modules'))) {
+    return sourcePath.replace(`${projectDir}/`, '');
+  }
+  const dir = path.dirname(projectDir);
+  if (dir === projectDir) {
+    return;
+  }
+  return findRelativePath(dir, sourcePath);
+}
+
+export function cpDepFile(projectDir: string, depFilePath: string, newNodeModulesDir: string) {
+  const relativePath = findRelativePath(projectDir, depFilePath);
+  if (!relativePath) {
+    throw new Error(
+      `The dependency file \`${depFilePath}\` does not locate at the module resolve path: \`${projectDir}\`.`,
+    );
+  }
+  fs.cpSync(depFilePath, path.resolve(newNodeModulesDir, relativePath.replace('node_modules/', '')), { force: true });
+}
+
+export function cpDepFileWithPkgJson(projectDir: string, depFilePath: string, newNodeModulesDir: string) {
+  // Only move the dependency under node_modules.
+  if (!/\/node_modules\//.test(depFilePath)) {
+    return;
+  }
+
+  cpDepFile(projectDir, depFilePath, newNodeModulesDir);
+
+  // Move the package.json
+  const sourcePath = findPackageJson(path.dirname(depFilePath));
+  if (sourcePath) {
+    cpDepFile(projectDir, sourcePath, newNodeModulesDir);
+  }
+}
+
+/**
  * Exclude the useless js files in miniprogram directory before uploading.
  *
  * @export
@@ -25,26 +69,24 @@ export default function excludeUselessScriptsInIntlMiniProgram(projectDir: strin
   const oldNodeModulesDir = path.resolve(projectDir, 'node_modules');
   const newNodeModulesDir = path.resolve(projectDir, 'node_modules_new');
 
-  const dependencies = findMiniDependencies(projectDir);
-  dependencies.forEach(dep => {
-    const depFilePath = dep.importFilePath;
-    if (!depFilePath.startsWith(projectDir)) {
-      throw new Error(`The dependency \`${depFilePath}\` is not under the project \`${projectDir}\`.`);
-    }
-
-    // Only move the dependency under node_modules.
-    if (!/\/node_modules\//.test(depFilePath)) {
-      return;
-    }
-
-    fs.cpSync(depFilePath, depFilePath.replace(oldNodeModulesDir, newNodeModulesDir), { force: true });
-
-    // Move the package.json
-    const sourcePath = findPackageJson(path.dirname(depFilePath));
-    if (sourcePath) {
-      const targetPath = path.resolve(sourcePath.replace(oldNodeModulesDir, newNodeModulesDir));
-      fs.cpSync(sourcePath, targetPath, { force: true });
-    }
+  const { entries, entryDeps } = findMiniDependencies(projectDir);
+  entryDeps.forEach(dep => {
+    cpDepFileWithPkgJson(projectDir, dep.importFilePath, newNodeModulesDir);
+  });
+  entries.pages.forEach(page => {
+    cpDepFileWithPkgJson(projectDir, page.jsPath, newNodeModulesDir);
+    page.acssPath && cpDepFileWithPkgJson(projectDir, page.acssPath, newNodeModulesDir);
+    page.jsonPath && cpDepFileWithPkgJson(projectDir, page.jsonPath, newNodeModulesDir);
+    page.axmlPath && cpDepFileWithPkgJson(projectDir, page.axmlPath, newNodeModulesDir);
+  });
+  entries.components.forEach(component => {
+    component.acssPath && cpDepFileWithPkgJson(projectDir, component.acssPath, newNodeModulesDir);
+    cpDepFileWithPkgJson(projectDir, component.axmlPath, newNodeModulesDir);
+    cpDepFileWithPkgJson(projectDir, component.jsPath, newNodeModulesDir);
+    cpDepFileWithPkgJson(projectDir, component.jsonPath, newNodeModulesDir);
+  });
+  entries.sjsList.forEach(sjs => {
+    cpDepFileWithPkgJson(projectDir, sjs.sjsPath, newNodeModulesDir);
   });
 
   // Remove the node_modules and use the new node_modules.
