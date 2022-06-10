@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/alipay/goldfish/compare/v2.12.2...v2.13.0) (2022-06-10)
+
+
+### Bug Fixes
+
+* 路径 ([62738b1](https://github.com/alipay/goldfish/commit/62738b10fd4b55e16e7ea3d62ceffcce29894f9f))
+* 输入 ([2fc693c](https://github.com/alipay/goldfish/commit/2fc693c46d19bc4ca66e3c333f5be76837bcb807))
+* only compile the src ([38f75ca](https://github.com/alipay/goldfish/commit/38f75cac32c1e8d3c47de9246860be98986e3d12))
+
+
+### Features
+
+* add default value for the compile command. ([2b983d1](https://github.com/alipay/goldfish/commit/2b983d11411260d8aba97904924ab00b15d9e440))
+* add the basic webpack framework ([424bca3](https://github.com/alipay/goldfish/commit/424bca31ebc3690d5caa1e599d377ce31f76cc81))
+* add to commands. ([399c0e9](https://github.com/alipay/goldfish/commit/399c0e9087600923de9cc6d98b3c5a960bcaa8dd))
+* add TypeScript Compilation for pre-build. ([02ec65c](https://github.com/alipay/goldfish/commit/02ec65ca2cd8e6fc8b55d5dd057be656fc1f8bb3))
+* change the default process.env.BASE_DIR to `src` and the default process.env.OUT_DIR to `lib`. ([8f66ca4](https://github.com/alipay/goldfish/commit/8f66ca4f79fe52fd3b9c177c620dda1447f39576))
+* expose the analyze. ([76b27b0](https://github.com/alipay/goldfish/commit/76b27b07d8f18c52c7805b5044689d20befc2d51))
+* remove the node_modules after optimization. ([c7707e7](https://github.com/alipay/goldfish/commit/c7707e73dbad200cde8634a73332d62544008970))
+* should handle the components under node_modules ([ad052bc](https://github.com/alipay/goldfish/commit/ad052bc47ea7acb1b76d110beb1771a6f6ef37f9))
+* stash ([a95ca4d](https://github.com/alipay/goldfish/commit/a95ca4df59cf3d427ee57e32210ec636e601a7c5))
+* support dev mode. ([ca01fcd](https://github.com/alipay/goldfish/commit/ca01fcdc9d5c79b9def025139788b40b6305ad63))
+* update dependecies. ([3ec94ad](https://github.com/alipay/goldfish/commit/3ec94ad6c562202cf7c14fb95c51aed9df49a9ef))
+* use babel. ([dbc803e](https://github.com/alipay/goldfish/commit/dbc803ee049bc8c1d1e6867e25f3083e22847d00))
+* use webpack to optimize the package. ([30a0695](https://github.com/alipay/goldfish/commit/30a0695368c61b8f223d670820b0713c0132d27e))
+* webpack 预编译 ([bd90dd9](https://github.com/alipay/goldfish/commit/bd90dd92ef7256b32938b1ec189c63bfa11c8fdb))
+
+
+
+
+
 ## [2.12.2](https://github.com/alipay/goldfish/compare/v2.12.1...v2.12.2) (2022-05-09)
 
 **Note:** Version bump only for package @goldfishjs/pre-build

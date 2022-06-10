@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/alipay/goldfish/compare/v2.12.2...v2.13.0) (2022-06-10)
+
+
+### Bug Fixes
+
+* sync the props change between data function and init(onInit or didMount) function. ([f41aa2a](https://github.com/alipay/goldfish/commit/f41aa2a7f109a16e7d38d2b0bfd3d60e46dc1cbe))
+
+
+
+
+
 ## [2.12.2](https://github.com/alipay/goldfish/compare/v2.12.1...v2.12.2) (2022-05-09)
 
 **Note:** Version bump only for package @goldfishjs/composition-api
