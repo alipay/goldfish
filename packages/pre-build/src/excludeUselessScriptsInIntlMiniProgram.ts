@@ -1,6 +1,8 @@
 import path from 'path';
 import fs from 'fs-extra';
 import findMiniDependencies from './findMiniDependencies';
+import fileCache from './findMiniDependencies/fileCache';
+import { log } from './utils';
 
 export function findPackageJson(dir: string): string | undefined {
   const checkPath = path.resolve(dir, 'package.json');
@@ -42,6 +44,7 @@ export function cpDepFile(projectDir: string, depFilePath: string, newNodeModule
     );
   }
   fs.cpSync(depFilePath, path.resolve(newNodeModulesDir, relativePath.replace('node_modules/', '')), { force: true });
+  log(`Copy file: ${depFilePath} -> ${newNodeModulesDir}.`);
 }
 
 export function cpDepFileWithPkgJson(projectDir: string, depFilePath: string, newNodeModulesDir: string) {
@@ -50,12 +53,16 @@ export function cpDepFileWithPkgJson(projectDir: string, depFilePath: string, ne
     return;
   }
 
-  cpDepFile(projectDir, depFilePath, newNodeModulesDir);
+  fileCache.run('cpDepFileWithPkgJson', depFilePath, () => {
+    cpDepFile(projectDir, depFilePath, newNodeModulesDir);
+  });
 
   // Move the package.json
   const sourcePath = findPackageJson(path.dirname(depFilePath));
   if (sourcePath) {
-    cpDepFile(projectDir, sourcePath, newNodeModulesDir);
+    fileCache.run('cpDepFileWithPkgJson', sourcePath, () => {
+      cpDepFile(projectDir, sourcePath, newNodeModulesDir);
+    });
   }
 }
 
