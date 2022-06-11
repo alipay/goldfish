@@ -1,4 +1,4 @@
-import resolve from 'enhanced-resolve';
+import * as resolve from 'enhanced-resolve';
 
 export default function resolveModule(request: string, options?: { paths?: string[] }) {
   const paths = options?.paths || [process.cwd()];

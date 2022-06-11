@@ -1,5 +1,5 @@
-import path from 'path';
-import lodash from 'lodash';
+import * as path from 'path';
+import * as lodash from 'lodash';
 import findEntries from './findEntries';
 import findJsDependencyModules from './findJsDependencyModules';
 

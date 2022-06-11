@@ -1,6 +1,6 @@
-import path from 'path';
-import fs from 'fs-extra';
-import lodash from 'lodash';
+import * as path from 'path';
+import * as fs from 'fs-extra';
+import * as lodash from 'lodash';
 import ensurePath from './ensurePath';
 import resolveModule from './resolveModule';
 import fileCache from './fileCache';

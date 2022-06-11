@@ -1,7 +1,7 @@
-import path from 'path';
+import * as path from 'path';
 import Parser from 'fastparse';
-import fs from 'fs-extra';
-import lodash from 'lodash';
+import * as fs from 'fs-extra';
+import * as lodash from 'lodash';
 import fileCache from './fileCache';
 
 const processMatch = function (this: any, match: any, strUntilValue: any, name: any, value: any, index: number) {

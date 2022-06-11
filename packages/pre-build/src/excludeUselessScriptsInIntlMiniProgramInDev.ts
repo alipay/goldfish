@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 import { cpDepFileWithPkgJson } from './excludeUselessScriptsInIntlMiniProgram';
 import EntriesWatcher from './findMiniDependencies/EntriesWatcher';
 import { log } from './utils';

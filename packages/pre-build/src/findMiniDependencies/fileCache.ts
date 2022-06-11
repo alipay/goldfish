@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import * as fs from 'fs-extra';
 
 export class FileCache {
   private recorder = new Map<string, Map<string, { value: any; lastModifiedTime: number }>>();

@@ -8,7 +8,6 @@
     "traceResolution": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "esModuleInterop": true,
     "noImplicitAny": false,
     "module": "CommonJS",
     "target": "ES5",

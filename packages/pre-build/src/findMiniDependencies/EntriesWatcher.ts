@@ -1,7 +1,7 @@
-import path from 'path';
+import * as path from 'path';
 import { EventEmitter } from 'events';
-import chokidar from 'chokidar';
-import lodash from 'lodash';
+import * as chokidar from 'chokidar';
+import * as lodash from 'lodash';
 import findJsDependencyModules, { Dependency } from './findJsDependencyModules';
 import findPages from './findPages';
 import findComponents from './findComponents';

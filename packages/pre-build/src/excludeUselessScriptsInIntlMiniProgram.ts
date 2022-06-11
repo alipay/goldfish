@@ -1,5 +1,5 @@
-import path from 'path';
-import fs from 'fs-extra';
+import * as path from 'path';
+import * as fs from 'fs-extra';
 import findMiniDependencies from './findMiniDependencies';
 import fileCache from './findMiniDependencies/fileCache';
 import { log } from './utils';

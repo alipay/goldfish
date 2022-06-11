@@ -1,4 +1,4 @@
-import lodash from 'lodash';
+import * as lodash from 'lodash';
 import findComponents from './findComponents';
 import findPages from './findPages';
 import findSjs from './findSjs';
