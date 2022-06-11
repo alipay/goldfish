@@ -26,7 +26,7 @@ export function buildComponentOptions<P extends Record<string, any>, D = any>(
   let fn: ISetupFunction | undefined = undefined;
 
   if (typeof arg1 === 'function') {
-    fn = arg1;
+    fn = arg1 as any;
   } else {
     props = arg1;
     fn = arg2;

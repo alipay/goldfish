@@ -19,7 +19,9 @@ export default class InstanceEventContext<I> extends CacheContext<IInstanceEvent
       };
     } else if (oldItem.value.name !== value.name) {
       throw new Error(
-        `Current event name does not equal with the previous one: current is ${value.name}, and the previous is ${oldItem.value.name}`,
+        `Current event name does not equal with the previous one: current is ${
+          value.name as string
+        }, and the previous is ${oldItem.value.name as string}`,
       );
     } else {
       this.arr[this.index] = {

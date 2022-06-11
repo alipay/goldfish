@@ -16,17 +16,17 @@
   "dependencies": {
     "@goldfishjs/reactive": "^2.13.1",
     "@goldfishjs/reactive-connect": "^2.13.1",
-    "mini-types": "^0.1.5"
+    "mini-types": "^0.1.7"
   },
   "devDependencies": {
-    "@types/lodash": "4.14.117",
+    "@types/lodash": "4.14.182",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "lodash": "4.17.19",
     "react": "*",
     "react-dom": "*",
-    "react-use": "^17.2.3",
-    "rxjs": "^6.6.7"
+    "lodash": "4.17.21",
+    "react-use": "17.4.0",
+    "rxjs": "6.6.7"
   },
   "sideEffects": false,
   "registry": "https://registry.npmjs.org/"

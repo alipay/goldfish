@@ -1,5 +1,5 @@
 import * as path from 'path';
-import Parser from 'fastparse';
+import * as Parser from 'fastparse';
 import * as fs from 'fs-extra';
 import * as lodash from 'lodash';
 import fileCache from './fileCache';

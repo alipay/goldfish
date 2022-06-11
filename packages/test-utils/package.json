@@ -16,7 +16,7 @@
     "@goldfishjs/composition-api": "^2.13.1",
     "@goldfishjs/reactive": "^2.13.1",
     "@goldfishjs/reactive-connect": "^2.13.1",
-    "qs": "^6.10.3"
+    "qs": "6.10.3"
   },
   "sideEffects": false,
   "registry": "https://registry.npmjs.org/"

@@ -18,10 +18,10 @@
     "@goldfishjs/utils": "^2.13.1"
   },
   "devDependencies": {
-    "@types/lodash": "4.14.117",
+    "@types/lodash": "4.14.182",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "react": "*",
     "react-dom": "*"
   },

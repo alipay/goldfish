@@ -1,4 +1,4 @@
-import glob from 'glob';
+import * as glob from 'glob';
 import excludeUselessScriptsInIntlMiniProgram, {
   findRelativePath,
 } from '../src/excludeUselessScriptsInIntlMiniProgram';

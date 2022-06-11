@@ -43,7 +43,9 @@ export function cpDepFile(projectDir: string, depFilePath: string, newNodeModule
       `The dependency file \`${depFilePath}\` does not locate at the module resolve path: \`${projectDir}\`.`,
     );
   }
-  fs.cpSync(depFilePath, path.resolve(newNodeModulesDir, relativePath.replace('node_modules/', '')), { force: true });
+  fs.copySync(depFilePath, path.resolve(newNodeModulesDir, relativePath.replace('node_modules/', '')), {
+    overwrite: true,
+  });
   log(`Copy file: ${depFilePath} -> ${newNodeModulesDir}.`);
 }
 
