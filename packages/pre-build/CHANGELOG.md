@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.1](https://github.com/alipay/goldfish/compare/v2.14.0...v2.14.1) (2022-06-11)
+
+
+### Bug Fixes
+
+* import error. ([0bd8653](https://github.com/alipay/goldfish/commit/0bd8653a3a4da4c4c8e2e946d2890e2ff7c7f4ec))
+
+
+
+
+
 # [2.14.0](https://github.com/alipay/goldfish/compare/v2.13.1...v2.14.0) (2022-06-11)
 
 
