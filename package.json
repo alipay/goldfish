@@ -4,11 +4,11 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "ci": "yarn run build && yarn run lint && yarn run test && coveralls-lerna",
+    "ci": "yarn build && yarn lint && yarn test && coveralls-lerna",
     "release": "node scripts/release.js",
     "lint": "node scripts/lint.js",
     "build": "node scripts/build.js",
-    "reboot": "yarn run clear && yarn install",
+    "reboot": "yarn clear && yarn install",
     "clear": "rm -rf node_modules && rm -rf packages/*/node_modules",
     "test": "jest --coverage --passWithNoTests",
     "test:dev": "node ./scripts/test_dev.js",

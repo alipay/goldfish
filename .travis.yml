@@ -11,11 +11,11 @@ before_install:
   - export TZ='Asia/Shanghai'
 install:
   - npm install -g vuepress
-  - yarn run reboot
+  - yarn reboot
 script:
-  - yarn run ci
+  - yarn ci
   - vuepress build docs
-  - yarn run deploy:boilerplate
+  - yarn deploy:boilerplate
 deploy:
   provider: pages
   skip-cleanup: true
