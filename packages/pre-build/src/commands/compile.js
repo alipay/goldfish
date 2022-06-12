@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const lodash = require('lodash');
 const { default: excludeUselessScriptsInIntlMiniProgram } = require('../excludeUselessScriptsInIntlMiniProgram');
-const { exec, getBinCommand, getNPMCommand, distDir: baseDistDir, cwd, log } = require('../utils');
+const { exec, getBinCommand, distDir: baseDistDir, cwd, log } = require('../utils');
 
 // redifine the `distDir`
 const defaultOutDir = 'lib';
@@ -25,6 +25,8 @@ module.exports = {
     });
   },
   async handler(args) {
+    log('Start compilation.');
+
     fs.removeSync(distDir);
 
     const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
@@ -46,5 +48,7 @@ module.exports = {
       excludeUselessScriptsInIntlMiniProgram(distDir);
       log('Successfully resolve and copy the dependencies.');
     }
+
+    log('Compiled successfully.');
   },
 };
