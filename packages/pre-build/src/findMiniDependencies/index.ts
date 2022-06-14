@@ -7,10 +7,10 @@ export default function findAllDependecies(projectDir: string) {
   const entries = findEntries(projectDir);
 
   const result = lodash.flatten([
-    ...entries.pages.map(page => findJsDependencyModules(page.jsPath)),
-    ...entries.components.map(component => findJsDependencyModules(component.jsPath)),
-    ...entries.sjsList.map(sjs => findJsDependencyModules(sjs.sjsPath)),
-    ...findJsDependencyModules(path.resolve(projectDir, 'app.js')),
+    ...entries.pages.map(page => findJsDependencyModules(page.jsPath, projectDir)),
+    ...entries.components.map(component => findJsDependencyModules(component.jsPath, projectDir)),
+    ...entries.sjsList.map(sjs => findJsDependencyModules(sjs.sjsPath, projectDir)),
+    ...findJsDependencyModules(path.resolve(projectDir, 'app.js'), projectDir),
   ]);
   return {
     entries,

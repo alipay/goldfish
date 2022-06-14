@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import * as lodash from 'lodash';
 import { parse } from '@babel/parser';
 import traverse from '@babel/traverse';
-import resolveModule from './resolveModule';
+import resolveModuleInSourceDir from './resolveModuleInSourceDir';
 import fileCache from './fileCache';
 
 export type Dependency = {
@@ -22,7 +22,7 @@ function correctImportPath(p: string) {
 class Finder {
   private visited = new Set();
 
-  run(jsPath: string) {
+  run(jsPath: string, projectDir: string) {
     if (!jsPath.startsWith('/') || jsPath.endsWith('.json') || this.visited.has(jsPath)) {
       return [];
     }
@@ -34,9 +34,11 @@ class Finder {
 
       const result: Dependency[] = [];
       const record = (importPath: string) => {
-        const importFilePath = resolveModule(correctImportPath(importPath), {
-          paths: [path.dirname(jsPath)],
-        });
+        const importFilePath = resolveModuleInSourceDir(
+          correctImportPath(importPath),
+          path.dirname(jsPath),
+          projectDir,
+        );
         if (!importFilePath) {
           throw new Error(`Can not find the file \`${importPath}\` under \`${path.dirname(jsPath)}\`.`);
         }
@@ -45,7 +47,7 @@ class Finder {
           importFilePath,
           jsPath,
         });
-        result.push(...this.run(importFilePath));
+        result.push(...this.run(importFilePath, projectDir));
       };
       traverse(ast, {
         ImportDeclaration: babelPath => {
@@ -78,6 +80,6 @@ class Finder {
   }
 }
 
-export default function findJsDependencyModules(jsPath: string) {
-  return new Finder().run(jsPath);
+export default function findJsDependencyModules(jsPath: string, projectDir: string) {
+  return new Finder().run(jsPath, projectDir);
 }

@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as lodash from 'lodash';
 import ensurePath from './ensurePath';
-import resolveModule from './resolveModule';
+import resolveModuleInSourceDir from './resolveModuleInSourceDir';
 import fileCache from './fileCache';
 
 type Component = {
@@ -34,7 +34,8 @@ export default function findComponents(jsonPath: string, projectDir: string) {
       if (item.configPath.startsWith('/')) {
         item.jsPath = path.resolve(projectDir, `${item.configPath.replace(/^\//, '')}.js`);
       } else {
-        item.jsPath = resolveModule(item.configPath, { paths: [path.parse(item.configFilePath).dir] }) || '';
+        const configFilePathDir = path.parse(item.configFilePath).dir;
+        item.jsPath = resolveModuleInSourceDir(item.configPath, configFilePathDir, projectDir) || '';
       }
 
       if (!fs.existsSync(item.jsPath)) {

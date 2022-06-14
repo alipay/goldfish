@@ -39,14 +39,14 @@ export default class EntriesWatcher {
     const handler = (filePath: string) => {
       try {
         if (filePath.endsWith('.js')) {
-          this.event.emit('deps', { changedFile: filePath, deps: findJsDependencyModules(filePath) });
+          this.event.emit('deps', { changedFile: filePath, deps: findJsDependencyModules(filePath, this.projectDir) });
         } else if (filePath === path.resolve(this.projectDir, 'app.json')) {
           const pages = findPages(this.projectDir);
           this.event.emit('deps', {
             pages,
             changedFile: filePath,
             deps: lodash.uniqBy(
-              lodash.flatten(pages.map(page => findJsDependencyModules(page.jsPath))),
+              lodash.flatten(pages.map(page => findJsDependencyModules(page.jsPath, this.projectDir))),
               dep => dep.importFilePath,
             ),
           });
@@ -56,8 +56,13 @@ export default class EntriesWatcher {
             components,
             changedFile: filePath,
             deps: lodash.uniqBy(
-              lodash.flatten(components.map(component => findJsDependencyModules(component.jsPath))),
-              dep => dep.importPath,
+              lodash.flatten(components.map(component => findJsDependencyModules(component.jsPath, this.projectDir))),
+              dep => dep.importFilePath,
+            ),
+            // Handle the sjs files under the node_modules.
+            sjsList: lodash.uniqBy(
+              lodash.flatten(components.map(component => findSjs(component.axmlPath))),
+              sjs => sjs.sjsPath,
             ),
           });
         } else if (filePath.endsWith('.axml')) {
@@ -66,8 +71,8 @@ export default class EntriesWatcher {
             sjsList,
             changedFile: filePath,
             deps: lodash.uniqBy(
-              lodash.flatten(sjsList.map(sjs => findJsDependencyModules(sjs.sjsPath))),
-              dep => dep.importPath,
+              lodash.flatten(sjsList.map(sjs => findJsDependencyModules(sjs.sjsPath, this.projectDir))),
+              dep => dep.importFilePath,
             ),
           });
         }
