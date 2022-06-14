@@ -82,5 +82,9 @@ export default class EntriesWatcher {
     };
     watcher.on('add', handler);
     watcher.on('change', handler);
+
+    process.on('SIGINT', () => {
+      watcher.close();
+    });
   }
 }
