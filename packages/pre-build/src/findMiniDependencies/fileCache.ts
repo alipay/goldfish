@@ -16,6 +16,10 @@ export class FileCache {
     }
     return this.recorder.get(group)?.get(filePath)?.value;
   }
+
+  clear() {
+    this.recorder.clear();
+  }
 }
 
 export default new FileCache();

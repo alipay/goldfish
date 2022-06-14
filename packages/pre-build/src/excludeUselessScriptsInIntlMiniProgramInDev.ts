@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { cpDepFileWithPkgJson } from './excludeUselessScriptsInIntlMiniProgram';
 import EntriesWatcher from './findMiniDependencies/EntriesWatcher';
+import fileCache from './findMiniDependencies/fileCache';
 import { log } from './utils';
 
 /**
@@ -10,6 +11,7 @@ import { log } from './utils';
  * @param {string} projectDir the directory of the miniprogram directory (should be compiled with `goldfish compile`).
  */
 export default function excludeUselessScriptsInIntlMiniProgramInDev(projectDir: string) {
+  fileCache.clear();
   const nodeModulesDir = path.resolve(projectDir, 'node_modules');
   const entriesWatcher = new EntriesWatcher(projectDir);
   entriesWatcher.onChange(({ deps, pages, components, sjsList, changedFile }) => {

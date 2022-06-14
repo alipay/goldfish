@@ -75,6 +75,7 @@ export function cpDepFileWithPkgJson(projectDir: string, depFilePath: string, ne
  * @param {string} projectDir the directory of the miniprogram directory (should be compiled with `goldfish compile`).
  */
 export default function excludeUselessScriptsInIntlMiniProgram(projectDir: string) {
+  fileCache.clear();
   const oldNodeModulesDir = path.resolve(projectDir, 'node_modules');
   const newNodeModulesDir = path.resolve(projectDir, 'node_modules_new');
 
