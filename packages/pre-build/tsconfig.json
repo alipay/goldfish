@@ -16,7 +16,8 @@
     "declaration": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true
   },
   "include": ["./src"]
 }
