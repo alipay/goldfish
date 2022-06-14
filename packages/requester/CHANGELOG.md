@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v2.14.1...v2.15.0) (2022-06-14)
+
+**Note:** Version bump only for package @goldfishjs/requester
+
+
+
+
+
 ## [2.14.1](https://github.com/alipay/goldfish/blob/master/packages/requester/README.md/compare/v2.14.0...v2.14.1) (2022-06-11)
 
 **Note:** Version bump only for package @goldfishjs/requester

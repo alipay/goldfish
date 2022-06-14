@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/alipay/goldfish/compare/v2.14.1...v2.15.0) (2022-06-14)
+
+
+### Features
+
+* clear the file cache before resolving. ([74bed38](https://github.com/alipay/goldfish/commit/74bed380aa4535cbcf386b20e0b7f52eac221a4b))
+* find modules in outer node_modules directory. ([682acd3](https://github.com/alipay/goldfish/commit/682acd370b6c8e59c5ba52add7a041b342d89556))
+
+
+
+
+
 ## [2.14.1](https://github.com/alipay/goldfish/compare/v2.14.0...v2.14.1) (2022-06-11)
 
 
