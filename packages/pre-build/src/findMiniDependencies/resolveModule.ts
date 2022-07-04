@@ -69,9 +69,7 @@ export default function resolveModule(request: string, options?: { paths?: strin
 
   for (let i = 0, il = paths.length; i < il; i++) {
     try {
-      return (
-        resolver.resolveSync({}, paths[i], request) || undefined
-      );
+      return resolver.resolveSync({}, paths[i], request) || undefined;
     } catch (e) {
       warn(e);
       continue;
