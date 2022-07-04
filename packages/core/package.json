@@ -2,7 +2,7 @@
   "name": "@goldfishjs/core",
   "version": "2.15.1",
   "description": "goldfish",
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
     "lib",
     "babel-plugin.js",
