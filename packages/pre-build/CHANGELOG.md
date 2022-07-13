@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/alipay/goldfish/compare/v2.15.2...v2.16.0) (2022-07-13)
+
+
+### Bug Fixes
+
+* lint errors. ([697a4c1](https://github.com/alipay/goldfish/commit/697a4c18d5fba589c3fc9972dd3f3aa1c3b6a7b2))
+
+
+### Features
+
+* support outer logger ([22f4659](https://github.com/alipay/goldfish/commit/22f4659bd994c71e72562754b03fe440dfff1ae5))
+* support the index.js ([6d38c05](https://github.com/alipay/goldfish/commit/6d38c0516396d4e5cf5eece46ae762a9527c60c8))
+
+
+
+
+
 ## [2.15.2](https://github.com/alipay/goldfish/compare/v2.15.1...v2.15.2) (2022-07-04)
 
 
