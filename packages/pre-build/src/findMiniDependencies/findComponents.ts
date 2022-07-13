@@ -39,9 +39,12 @@ export default function findComponents(jsonPath: string, projectDir: string) {
       }
 
       if (!fs.existsSync(item.jsPath)) {
-        throw new Error(
-          `Can not find the component \`${item.configPath}\` in config file: \`${item.configFilePath}\`.`,
-        );
+        item.jsPath = path.resolve(item.jsPath.replace(/\.js$/, ''), './index.js');
+        if (!fs.existsSync(item.jsPath)) {
+          throw new Error(
+            `Can not find the component \`${item.configPath}\` in config file: \`${item.configFilePath}\`.`,
+          );
+        }
       }
 
       item.axmlPath = item.jsPath.replace(/\.js/, '.axml');
