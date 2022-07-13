@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import lodash from 'lodash';
 import findMiniDependencies from './findMiniDependencies';
 import fileCache from './findMiniDependencies/fileCache';
 import { log } from './utils';
@@ -36,7 +37,7 @@ export function findRelativePath(projectDir: string, sourcePath: string): string
   return findRelativePath(dir, sourcePath);
 }
 
-export function cpDepFile(projectDir: string, depFilePath: string, newNodeModulesDir: string) {
+export function cpDepFile(projectDir: string, depFilePath: string, newNodeModulesDir: string, options: ExcludeUselessScriptsInIntlMiniProgramOptions) {
   const relativePath = findRelativePath(projectDir, depFilePath);
   if (!relativePath) {
     throw new Error(
@@ -46,27 +47,41 @@ export function cpDepFile(projectDir: string, depFilePath: string, newNodeModule
   fs.copySync(depFilePath, path.resolve(newNodeModulesDir, relativePath.replace('node_modules/', '')), {
     overwrite: true,
   });
-  log(`Copy file: ${depFilePath} -> ${newNodeModulesDir}.`);
+  options.log?.info?.(`Copy file: ${depFilePath} -> ${newNodeModulesDir}.`);
 }
 
-export function cpDepFileWithPkgJson(projectDir: string, depFilePath: string, newNodeModulesDir: string) {
+export function cpDepFileWithPkgJson(projectDir: string, depFilePath: string, newNodeModulesDir: string, options: ExcludeUselessScriptsInIntlMiniProgramOptions) {
   // Only move the dependency under node_modules.
   if (!/\/node_modules\//.test(depFilePath)) {
     return;
   }
 
   fileCache.run('cpDepFileWithPkgJson', depFilePath, () => {
-    cpDepFile(projectDir, depFilePath, newNodeModulesDir);
+    cpDepFile(projectDir, depFilePath, newNodeModulesDir, options);
   });
 
   // Move the package.json
   const sourcePath = findPackageJson(path.dirname(depFilePath));
   if (sourcePath) {
     fileCache.run('cpDepFileWithPkgJson', sourcePath, () => {
-      cpDepFile(projectDir, sourcePath, newNodeModulesDir);
+      cpDepFile(projectDir, sourcePath, newNodeModulesDir, options);
     });
   }
 }
+
+export interface ExcludeUselessScriptsInIntlMiniProgramOptions {
+  log?: {
+    info?: (message: string) => void;
+  };
+}
+
+const defaultOptions: ExcludeUselessScriptsInIntlMiniProgramOptions = {
+  log: {
+    info(message) {
+      log(message);
+    },
+  },
+};
 
 /**
  * Exclude the useless js files in miniprogram directory before uploading.
@@ -74,29 +89,31 @@ export function cpDepFileWithPkgJson(projectDir: string, depFilePath: string, ne
  * @export
  * @param {string} projectDir the directory of the miniprogram directory (should be compiled with `goldfish compile`).
  */
-export default function excludeUselessScriptsInIntlMiniProgram(projectDir: string) {
+export default function excludeUselessScriptsInIntlMiniProgram(projectDir: string, options?: ExcludeUselessScriptsInIntlMiniProgramOptions) {
+  const finalOptions = lodash.merge(options || {}, defaultOptions);
+
   fileCache.clear();
   const oldNodeModulesDir = path.resolve(projectDir, 'node_modules');
   const newNodeModulesDir = path.resolve(projectDir, 'node_modules_new');
 
   const { entries, entryDeps } = findMiniDependencies(projectDir);
   entryDeps.forEach(dep => {
-    cpDepFileWithPkgJson(projectDir, dep.importFilePath, newNodeModulesDir);
+    cpDepFileWithPkgJson(projectDir, dep.importFilePath, newNodeModulesDir, finalOptions);
   });
   entries.pages.forEach(page => {
-    cpDepFileWithPkgJson(projectDir, page.jsPath, newNodeModulesDir);
-    page.acssPath && cpDepFileWithPkgJson(projectDir, page.acssPath, newNodeModulesDir);
-    page.jsonPath && cpDepFileWithPkgJson(projectDir, page.jsonPath, newNodeModulesDir);
-    page.axmlPath && cpDepFileWithPkgJson(projectDir, page.axmlPath, newNodeModulesDir);
+    cpDepFileWithPkgJson(projectDir, page.jsPath, newNodeModulesDir, finalOptions);
+    page.acssPath && cpDepFileWithPkgJson(projectDir, page.acssPath, newNodeModulesDir, finalOptions);
+    page.jsonPath && cpDepFileWithPkgJson(projectDir, page.jsonPath, newNodeModulesDir, finalOptions);
+    page.axmlPath && cpDepFileWithPkgJson(projectDir, page.axmlPath, newNodeModulesDir, finalOptions);
   });
   entries.components.forEach(component => {
-    component.acssPath && cpDepFileWithPkgJson(projectDir, component.acssPath, newNodeModulesDir);
-    cpDepFileWithPkgJson(projectDir, component.axmlPath, newNodeModulesDir);
-    cpDepFileWithPkgJson(projectDir, component.jsPath, newNodeModulesDir);
-    cpDepFileWithPkgJson(projectDir, component.jsonPath, newNodeModulesDir);
+    component.acssPath && cpDepFileWithPkgJson(projectDir, component.acssPath, newNodeModulesDir, finalOptions);
+    cpDepFileWithPkgJson(projectDir, component.axmlPath, newNodeModulesDir, finalOptions);
+    cpDepFileWithPkgJson(projectDir, component.jsPath, newNodeModulesDir, finalOptions);
+    cpDepFileWithPkgJson(projectDir, component.jsonPath, newNodeModulesDir, finalOptions);
   });
   entries.sjsList.forEach(sjs => {
-    cpDepFileWithPkgJson(projectDir, sjs.sjsPath, newNodeModulesDir);
+    cpDepFileWithPkgJson(projectDir, sjs.sjsPath, newNodeModulesDir, finalOptions);
   });
 
   // Remove the node_modules and use the new node_modules.
