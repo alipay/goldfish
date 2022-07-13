@@ -37,7 +37,12 @@ export function findRelativePath(projectDir: string, sourcePath: string): string
   return findRelativePath(dir, sourcePath);
 }
 
-export function cpDepFile(projectDir: string, depFilePath: string, newNodeModulesDir: string, options: ExcludeUselessScriptsInIntlMiniProgramOptions) {
+export function cpDepFile(
+  projectDir: string,
+  depFilePath: string,
+  newNodeModulesDir: string,
+  options: ExcludeUselessScriptsInIntlMiniProgramOptions,
+) {
   const relativePath = findRelativePath(projectDir, depFilePath);
   if (!relativePath) {
     throw new Error(
@@ -50,7 +55,12 @@ export function cpDepFile(projectDir: string, depFilePath: string, newNodeModule
   options.log?.info?.(`Copy file: ${depFilePath} -> ${newNodeModulesDir}.`);
 }
 
-export function cpDepFileWithPkgJson(projectDir: string, depFilePath: string, newNodeModulesDir: string, options: ExcludeUselessScriptsInIntlMiniProgramOptions) {
+export function cpDepFileWithPkgJson(
+  projectDir: string,
+  depFilePath: string,
+  newNodeModulesDir: string,
+  options: ExcludeUselessScriptsInIntlMiniProgramOptions,
+) {
   // Only move the dependency under node_modules.
   if (!/\/node_modules\//.test(depFilePath)) {
     return;
@@ -89,7 +99,10 @@ const defaultOptions: ExcludeUselessScriptsInIntlMiniProgramOptions = {
  * @export
  * @param {string} projectDir the directory of the miniprogram directory (should be compiled with `goldfish compile`).
  */
-export default function excludeUselessScriptsInIntlMiniProgram(projectDir: string, options?: ExcludeUselessScriptsInIntlMiniProgramOptions) {
+export default function excludeUselessScriptsInIntlMiniProgram(
+  projectDir: string,
+  options?: ExcludeUselessScriptsInIntlMiniProgramOptions,
+) {
   const finalOptions = lodash.merge(options || {}, defaultOptions);
 
   fileCache.clear();

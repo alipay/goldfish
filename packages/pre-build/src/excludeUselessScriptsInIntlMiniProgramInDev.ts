@@ -25,7 +25,10 @@ const defaultOptions: ExcludeUselessScriptsInIntlMiniProgramInDevOptions = {
  * @export
  * @param {string} projectDir the directory of the miniprogram directory (should be compiled with `goldfish compile`).
  */
-export default function excludeUselessScriptsInIntlMiniProgramInDev(projectDir: string, options?: ExcludeUselessScriptsInIntlMiniProgramInDevOptions) {
+export default function excludeUselessScriptsInIntlMiniProgramInDev(
+  projectDir: string,
+  options?: ExcludeUselessScriptsInIntlMiniProgramInDevOptions,
+) {
   const finalOptions = lodash.merge(options || {}, defaultOptions);
 
   fileCache.clear();
