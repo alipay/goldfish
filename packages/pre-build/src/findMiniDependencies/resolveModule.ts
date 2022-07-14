@@ -1,6 +1,5 @@
 import fs from 'fs-extra';
 import { ResolverFactory, FileSystem } from 'enhanced-resolve';
-import { warn } from '@goldfishjs/pre-build/lib/utils';
 
 function getCallback(...args: any[]) {
   let callback: Function | undefined = undefined;
@@ -71,7 +70,6 @@ export default function resolveModule(request: string, options?: { paths?: strin
     try {
       return resolver.resolveSync({}, paths[i], request) || undefined;
     } catch (e) {
-      warn(e);
       continue;
     }
   }
