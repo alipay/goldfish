@@ -23,7 +23,7 @@ class StopFns {
       this.fns[keyPathString] = {};
     }
 
-    if (this.fns[keyPathString][curKey]) {
+    if (Object.prototype.hasOwnProperty.call(this.fns[keyPathString], curKey)) {
       throw new Error(`Duplicate stop function for key: ${generateKeyPathString([...keyPathList, curKey])}`);
     }
 

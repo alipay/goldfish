@@ -372,3 +372,19 @@ it('should watch the object with special keys.', () => {
 
   stop();
 });
+
+it('should watch the object with `valueOf` property.', () => {
+  const obj = {
+    valueOf: 'a',
+  };
+  observable(obj);
+
+  const result: any[] = [];
+  const stop = watchDeep(obj, (...args) => {
+    result.push(args[2]);
+  });
+  obj.valueOf = 'b';
+  obj.valueOf = 'c';
+  expect(result).toEqual(['b', 'c']);
+  stop();
+});
