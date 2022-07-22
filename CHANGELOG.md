@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.1](https://github.com/alipay/goldfish/compare/v2.17.0...v2.17.1) (2022-07-22)
+
+
+### Bug Fixes
+
+* **reactive:** babel config import ([bb7c9a9](https://github.com/alipay/goldfish/commit/bb7c9a9d0c2e0a4b21046393dbdf655b93472571))
+
+
+
+
+
 # [2.17.0](https://github.com/alipay/goldfish/compare/v2.16.1...v2.17.0) (2022-07-22)
 
 
