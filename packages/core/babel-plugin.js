@@ -152,6 +152,11 @@ module.exports = () => {
               'useComponentLifeCycle',
               'usePageEvents',
             ],
+            '@goldfishjs/reactive': [
+              'isMarkedUnobservable',
+              'markUnobservable',
+              'unmarkUnobservable',
+            ],
           };
           const findPkg = importedName => {
             for (const key in map) {

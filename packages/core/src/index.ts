@@ -29,3 +29,5 @@ export {
   useComponentLifeCycle,
   usePageEvents,
 } from '@goldfishjs/composition-api';
+
+export { isMarkedUnobservable, markUnobservable, unmarkUnobservable } from '@goldfishjs/reactive';

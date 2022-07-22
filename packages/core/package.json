@@ -31,6 +31,7 @@
     "@goldfishjs/pre-build": "^2.16.1",
     "@goldfishjs/react": "^2.16.1",
     "@goldfishjs/reactive-connect": "^2.16.1",
+    "@goldfishjs/reactive": "^2.16.1",
     "@goldfishjs/test-utils": "^2.16.1",
     "@goldfishjs/utils": "^2.16.1",
     "babel-types": "6.26.0",

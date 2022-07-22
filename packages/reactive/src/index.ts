@@ -28,3 +28,7 @@ export { SourceType, ChangeOptions, Dep } from './dep';
 export { default as markObservable } from './markObservable';
 
 export { default as call } from './call';
+
+export { default as isMarkedUnobservable } from './isMarkedUnobservable';
+export { default as markUnobservable } from './markUnobservable';
+export { default as unmarkUnobservable } from './unmarkUnobservable';
