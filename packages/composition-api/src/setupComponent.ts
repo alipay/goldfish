@@ -26,7 +26,7 @@ export function buildComponentOptions<P extends Record<string, any>, D = any>(
   let fn: ISetupFunction | undefined = undefined;
 
   if (typeof arg1 === 'function') {
-    fn = arg1;
+    fn = arg1 as any;
   } else {
     props = arg1;
     fn = arg2;
@@ -68,6 +68,12 @@ export function buildComponentOptions<P extends Record<string, any>, D = any>(
     return finalData;
   } as any;
 
+  // Sync props in lifecyle.
+  function defaultSyncHandler(this: View) {
+    const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;
+    setup?.syncProps(this.props);
+  }
+
   const enterKey = isComponent2Param ? 'onInit' : 'didMount';
   attachLogic(options, enterKey, 'before', function (this: View) {
     const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;
@@ -87,15 +93,10 @@ export function buildComponentOptions<P extends Record<string, any>, D = any>(
 
     // Watch the reactive data.
     setup.watchReactiveData();
+    // Ensure the sync logic after the `watchReactiveData`.
+    defaultSyncHandler.call(this);
   });
 
-  // Sync props in lifecyle.
-  function defaultSyncHandler(this: View) {
-    const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;
-    setup?.syncProps(this.props);
-  }
-  attachLogic(options, 'onInit', 'before', defaultSyncHandler);
-  attachLogic(options, 'didMount', 'before', defaultSyncHandler);
   attachLogic(options, 'didUpdate', 'before', defaultSyncHandler);
   attachLogic(options, 'deriveDataFromProps', 'before', function (this: View, nextProps: Record<string, any>) {
     const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;

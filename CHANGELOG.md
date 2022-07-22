@@ -3,6 +3,151 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/alipay/goldfish/compare/v2.16.1...v2.17.0) (2022-07-22)
+
+
+### Bug Fixes
+
+* test errors ([c69f463](https://github.com/alipay/goldfish/commit/c69f46322bd9fb32eddc83451e7bb8de0de43102))
+
+
+### Features
+
+* add unobservable flag. ([a248f70](https://github.com/alipay/goldfish/commit/a248f70f6455594719af6cb92ebe197a1b4fc532))
+* export the unobservable API. ([e2a263b](https://github.com/alipay/goldfish/commit/e2a263bbcd3aeffb0404a8f655f424bcb2c64c37))
+* improve the watchDeep performance. ([fa58419](https://github.com/alipay/goldfish/commit/fa58419bf7473c126d29dcef249e0ad3618f29a4))
+
+
+
+
+
+## [2.16.1](https://github.com/alipay/goldfish/compare/v2.16.0...v2.16.1) (2022-07-14)
+
+
+### Bug Fixes
+
+* exclude the property in prototype. ([203e6c3](https://github.com/alipay/goldfish/commit/203e6c38dc31f26628d875cef3c6167fee917cf4))
+
+
+
+
+
+# [2.16.0](https://github.com/alipay/goldfish/compare/v2.15.2...v2.16.0) (2022-07-13)
+
+
+### Bug Fixes
+
+* lint errors. ([697a4c1](https://github.com/alipay/goldfish/commit/697a4c18d5fba589c3fc9972dd3f3aa1c3b6a7b2))
+
+
+### Features
+
+* support outer logger ([22f4659](https://github.com/alipay/goldfish/commit/22f4659bd994c71e72562754b03fe440dfff1ae5))
+* support the index.js ([6d38c05](https://github.com/alipay/goldfish/commit/6d38c0516396d4e5cf5eece46ae762a9527c60c8))
+
+
+
+
+
+## [2.15.2](https://github.com/alipay/goldfish/compare/v2.15.1...v2.15.2) (2022-07-04)
+
+
+### Bug Fixes
+
+* lint error. ([5ddd304](https://github.com/alipay/goldfish/commit/5ddd3041aaab0c16928a3283bb69c65cea12107a))
+* main fields. ([a6616aa](https://github.com/alipay/goldfish/commit/a6616aa06ad431c1fd93b7e205d5807c18404eae))
+* resolve with the browser main fields. ([6949983](https://github.com/alipay/goldfish/commit/6949983281879c9209eab68ea1071acf4e491873))
+
+
+
+
+
+## [2.15.1](https://github.com/alipay/goldfish/compare/v2.15.0...v2.15.1) (2022-06-14)
+
+
+### Bug Fixes
+
+* exit the process. ([8118a50](https://github.com/alipay/goldfish/commit/8118a50d6e127ad827fca12c4c0bfb0742cd9419))
+
+
+
+
+
+# [2.15.0](https://github.com/alipay/goldfish/compare/v2.14.1...v2.15.0) (2022-06-14)
+
+
+### Features
+
+* clear the file cache before resolving. ([74bed38](https://github.com/alipay/goldfish/commit/74bed380aa4535cbcf386b20e0b7f52eac221a4b))
+* find modules in outer node_modules directory. ([682acd3](https://github.com/alipay/goldfish/commit/682acd370b6c8e59c5ba52add7a041b342d89556))
+
+
+
+
+
+## [2.14.1](https://github.com/alipay/goldfish/compare/v2.14.0...v2.14.1) (2022-06-11)
+
+
+### Bug Fixes
+
+* import error. ([0bd8653](https://github.com/alipay/goldfish/commit/0bd8653a3a4da4c4c8e2e946d2890e2ff7c7f4ec))
+
+
+
+
+
+# [2.14.0](https://github.com/alipay/goldfish/compare/v2.13.1...v2.14.0) (2022-06-11)
+
+
+### Features
+
+* lock dependencies ([a2dfe58](https://github.com/alipay/goldfish/commit/a2dfe58aa1eeb8e9491dbbbf538661612eb771bf))
+
+
+
+
+
+## [2.13.1](https://github.com/alipay/goldfish/compare/v2.13.0...v2.13.1) (2022-06-11)
+
+**Note:** Version bump only for package goldfishjs
+
+
+
+
+
+# [2.13.0](https://github.com/alipay/goldfish/compare/v2.12.2...v2.13.0) (2022-06-10)
+
+
+### Bug Fixes
+
+* 空格 ([cd2b4fb](https://github.com/alipay/goldfish/commit/cd2b4fb4643f897de0b9a5270e745c0d7f8c84fa))
+* 路径 ([62738b1](https://github.com/alipay/goldfish/commit/62738b10fd4b55e16e7ea3d62ceffcce29894f9f))
+* 输入 ([2fc693c](https://github.com/alipay/goldfish/commit/2fc693c46d19bc4ca66e3c333f5be76837bcb807))
+* only compile the src ([38f75ca](https://github.com/alipay/goldfish/commit/38f75cac32c1e8d3c47de9246860be98986e3d12))
+* sync the props change between data function and init(onInit or didMount) function. ([f41aa2a](https://github.com/alipay/goldfish/commit/f41aa2a7f109a16e7d38d2b0bfd3d60e46dc1cbe))
+
+
+### Features
+
+* add default value for the compile command. ([2b983d1](https://github.com/alipay/goldfish/commit/2b983d11411260d8aba97904924ab00b15d9e440))
+* add the basic webpack framework ([424bca3](https://github.com/alipay/goldfish/commit/424bca31ebc3690d5caa1e599d377ce31f76cc81))
+* add to commands. ([399c0e9](https://github.com/alipay/goldfish/commit/399c0e9087600923de9cc6d98b3c5a960bcaa8dd))
+* add TypeScript Compilation for pre-build. ([02ec65c](https://github.com/alipay/goldfish/commit/02ec65ca2cd8e6fc8b55d5dd057be656fc1f8bb3))
+* change the default process.env.BASE_DIR to `src` and the default process.env.OUT_DIR to `lib`. ([8f66ca4](https://github.com/alipay/goldfish/commit/8f66ca4f79fe52fd3b9c177c620dda1447f39576))
+* expose the analyze. ([76b27b0](https://github.com/alipay/goldfish/commit/76b27b07d8f18c52c7805b5044689d20befc2d51))
+* remove the node_modules after optimization. ([c7707e7](https://github.com/alipay/goldfish/commit/c7707e73dbad200cde8634a73332d62544008970))
+* should handle the components under node_modules ([ad052bc](https://github.com/alipay/goldfish/commit/ad052bc47ea7acb1b76d110beb1771a6f6ef37f9))
+* stash ([a95ca4d](https://github.com/alipay/goldfish/commit/a95ca4df59cf3d427ee57e32210ec636e601a7c5))
+* support dev mode. ([ca01fcd](https://github.com/alipay/goldfish/commit/ca01fcdc9d5c79b9def025139788b40b6305ad63))
+* update dependecies. ([3ec94ad](https://github.com/alipay/goldfish/commit/3ec94ad6c562202cf7c14fb95c51aed9df49a9ef))
+* use babel. ([dbc803e](https://github.com/alipay/goldfish/commit/dbc803ee049bc8c1d1e6867e25f3083e22847d00))
+* use webpack to optimize the package. ([30a0695](https://github.com/alipay/goldfish/commit/30a0695368c61b8f223d670820b0713c0132d27e))
+* webpack 预编译 ([bd90dd9](https://github.com/alipay/goldfish/commit/bd90dd92ef7256b32938b1ec189c63bfa11c8fdb))
+
+
+
+
+
 ## [2.12.2](https://github.com/alipay/goldfish/compare/v2.12.1...v2.12.2) (2022-05-09)
 
 

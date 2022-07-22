@@ -1,7 +1,7 @@
 import { isObject } from '@goldfishjs/utils';
 import { call, getCurrent, IErrorCallback, ChangeOptions } from './dep';
+import { isMarkedUnobservable } from './observable';
 import { isArray } from './utils';
-import isRaw from './isRaw';
 
 export type Unwatch = () => void;
 export type IWatchCallback<N, O = any> = (newValue: N, oldValue?: O, options?: ChangeOptions) => void;
@@ -44,23 +44,23 @@ class Watcher<R> {
     this.removeListeners.splice(0, this.removeListeners.length);
   }
 
-  // 递归访问一下，方便搜集依赖
+  // Deep visite the object to collect the dependencies.
   private deepVisit(obj: any) {
-    if (obj && isRaw(obj)) {
+    if (isObject(obj) && isMarkedUnobservable(obj)) {
       return;
     }
 
-    if (isObject(obj)) {
+    if (isArray(obj)) {
+      for (let i = 0, il = obj.length; i < il; i += 1) {
+        this.deepVisit(obj[i]);
+      }
+    } else if (isObject(obj)) {
       for (const key in obj) {
         if (!Object.prototype.hasOwnProperty.call(obj, key)) {
           continue;
         }
 
         this.deepVisit(obj[key]);
-      }
-    } else if (isArray(obj)) {
-      for (let i = 0, il = obj.length; i < il; i += 1) {
-        this.deepVisit(obj[i]);
       }
     }
   }

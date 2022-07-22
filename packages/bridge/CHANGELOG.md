@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/alipay/goldfish/compare/v2.16.1...v2.17.0) (2022-07-22)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
+## [2.16.1](https://github.com/alipay/goldfish/compare/v2.16.0...v2.16.1) (2022-07-14)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
+# [2.16.0](https://github.com/alipay/goldfish/compare/v2.15.2...v2.16.0) (2022-07-13)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
+## [2.15.2](https://github.com/alipay/goldfish/compare/v2.15.1...v2.15.2) (2022-07-04)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
+## [2.15.1](https://github.com/alipay/goldfish/compare/v2.15.0...v2.15.1) (2022-06-14)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
+# [2.15.0](https://github.com/alipay/goldfish/compare/v2.14.1...v2.15.0) (2022-06-14)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
+## [2.14.1](https://github.com/alipay/goldfish/compare/v2.14.0...v2.14.1) (2022-06-11)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
+# [2.14.0](https://github.com/alipay/goldfish/compare/v2.13.1...v2.14.0) (2022-06-11)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
+## [2.13.1](https://github.com/alipay/goldfish/compare/v2.13.0...v2.13.1) (2022-06-11)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
+# [2.13.0](https://github.com/alipay/goldfish/compare/v2.12.2...v2.13.0) (2022-06-10)
+
+**Note:** Version bump only for package @goldfishjs/bridge
+
+
+
+
+
 ## [2.12.2](https://github.com/alipay/goldfish/compare/v2.12.1...v2.12.2) (2022-05-09)
 
 **Note:** Version bump only for package @goldfishjs/bridge

@@ -20,4 +20,8 @@ describe('generateKeyPathString', () => {
     expect(generateKeyPathString(['a', 'b"[c', 'd'])).toBe('a["b\\"[c"].d');
     expect(generateKeyPathString(['a', 'b"]c', 'd'])).toBe('a["b\\"]c"].d');
   });
+
+  it('should work with the prefix.', () => {
+    expect(generateKeyPathString(['a'], 'b')).toBe('b.a');
+  });
 });

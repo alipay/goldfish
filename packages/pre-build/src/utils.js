@@ -4,6 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const lodash = require('lodash');
 const concurrently = require('concurrently');
+const commandExists = require('command-exists');
 
 const cwd = process.cwd();
 exports.cwd = cwd;
@@ -50,7 +51,7 @@ exports.exec = (cmd, options) => {
 
       let p;
       try {
-        p = cp.exec(`${cmd}${color ? ' --color' : ''}`, { env, ...options, cwd: localCwd });
+        p = cp.exec(`${cmd}${color ? ' --color' : ''}`, { ...options, env, cwd: localCwd });
       } catch (e) {
         log(`failed executing: ${cmd}, \n ${e} \n`);
         throw e;
@@ -121,4 +122,15 @@ exports.getBinCommand = (pkgName, commandName, paths) => {
   }
 
   throw new Error(`Can not find the command under: ${pkgPath}`);
+};
+
+exports.getNPMCommand = async () => {
+  const candidate = ['tnpm', 'npm', 'yarn'];
+  for (let i = 0, il = candidate.length; i < il; i++) {
+    if (await commandExists(candidate[i])) {
+      return 'tnpm';
+    }
+  }
+
+  throw new Error(`Can not find these commands: ${candidate.join(', ')}`);
 };

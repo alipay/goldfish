@@ -3,7 +3,6 @@ import { isObject, silent, deepVisit, DeepVisitBreak } from '@goldfishjs/utils';
 import { getCurrent, Dep, ChangeOptions } from './dep';
 import { genId, isArray } from './utils';
 import silentValue, { isSilentValue } from './silentValue';
-import { isRaw } from './raw';
 
 type ObservableBaseTypes = null | undefined | string | number | boolean;
 type ObservableArrayElement = ObservableBaseTypes | IObservableObject;
@@ -17,6 +16,8 @@ const OBSERVE_KEY = '__reactive-ob__';
 
 const NOTIFY_KEY = '__notify';
 
+const UNOBSERVABLE_KEY = '__unobservable__';
+
 export function isObservable(obj: any) {
   return obj && Object.prototype.hasOwnProperty.call(obj, OBSERVE_KEY) && obj[OBSERVE_KEY] === OBSERVE_FLAG;
 }
@@ -27,15 +28,38 @@ export function definePropertySilently(...args: Parameters<typeof Object['define
   })();
 }
 
-export function markObservable(obj: any) {
-  if (isObject(obj) && obj[OBSERVE_KEY] !== OBSERVE_FLAG) {
-    definePropertySilently(obj, OBSERVE_KEY, {
+export function markObservable(data: any) {
+  if (isObject(data) && data[OBSERVE_KEY] !== OBSERVE_FLAG) {
+    definePropertySilently(data, OBSERVE_KEY, {
       value: OBSERVE_FLAG,
       configurable: false,
       enumerable: false,
       writable: false,
     });
   }
+}
+
+export function markUnobservable(data: Array<any> | Record<string, any>) {
+  if (!(UNOBSERVABLE_KEY in data)) {
+    definePropertySilently(data, UNOBSERVABLE_KEY, {
+      value: true,
+      configurable: false,
+      enumerable: false,
+      writable: true,
+    });
+  } else {
+    data[UNOBSERVABLE_KEY] = true;
+  }
+}
+
+export function unmarkUnobservable(data: Array<any> | Record<string, any>) {
+  if (UNOBSERVABLE_KEY in data) {
+    data[UNOBSERVABLE_KEY] = false;
+  }
+}
+
+export function isMarkedUnobservable(data: Array<any> | Record<string, any>) {
+  return (data as any)[UNOBSERVABLE_KEY] === true;
 }
 
 // 改写 Array 相关方法
@@ -162,7 +186,7 @@ function defineProperty(obj: any, key: any) {
 }
 
 function createObserver(obj: IObservableObject | ObservableArray) {
-  if (isObservable(obj) || isRaw(obj)) {
+  if (isObservable(obj) || isMarkedUnobservable(obj)) {
     return;
   }
 
@@ -170,7 +194,7 @@ function createObserver(obj: IObservableObject | ObservableArray) {
   deepVisit(obj, (value, key, po, keyPathList) => {
     if (!visitKeyPathDeepRecords[keyPathList.length]) {
       visitKeyPathDeepRecords[keyPathList.length] = true;
-      if (isObservable(po) || isRaw(po)) {
+      if (isObservable(po) || isMarkedUnobservable(po)) {
         return DeepVisitBreak.CHILDREN;
       }
 

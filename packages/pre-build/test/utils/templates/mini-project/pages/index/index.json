@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "button": "/components/button/button",
+    "icon": "my-ui/icon/index"
+  }
+}

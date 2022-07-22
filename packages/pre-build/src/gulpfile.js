@@ -92,10 +92,6 @@ function compileTSStream(files) {
   });
 }
 
-function getTSConfig() {
-  return utils.tsconfigPath && fs.existsSync(utils.tsconfigPath) ? require(utils.tsconfigPath) : {};
-}
-
 function compileDTSStream(files) {
   const tsProject = getTSProject();
   return commonStream(files, stream => {

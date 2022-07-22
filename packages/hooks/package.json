@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/hooks",
-  "version": "2.12.2",
+  "version": "2.17.0",
   "description": "goldfish-hooks",
   "main": "lib/index.js",
   "scripts": {
@@ -14,19 +14,19 @@
   "author": "yibuyisheng@icloud.com",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/reactive": "^2.12.2",
-    "@goldfishjs/reactive-connect": "^2.12.2",
-    "mini-types": "^0.1.5"
+    "@goldfishjs/reactive": "^2.17.0",
+    "@goldfishjs/reactive-connect": "^2.17.0",
+    "mini-types": "^0.1.7"
   },
   "devDependencies": {
-    "@types/lodash": "4.14.117",
+    "@types/lodash": "4.14.182",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "react": "*",
     "react-dom": "*",
-    "react-use": "^17.2.3",
-    "rxjs": "^6.6.7"
+    "react-use": "17.4.0",
+    "rxjs": "6.6.7"
   },
   "sideEffects": false,
   "registry": "https://registry.npmjs.org/"

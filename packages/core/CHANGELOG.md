@@ -3,6 +3,95 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/alipay/goldfish/compare/v2.16.1...v2.17.0) (2022-07-22)
+
+
+### Features
+
+* export the unobservable API. ([e2a263b](https://github.com/alipay/goldfish/commit/e2a263bbcd3aeffb0404a8f655f424bcb2c64c37))
+
+
+
+
+
+## [2.16.1](https://github.com/alipay/goldfish/compare/v2.16.0...v2.16.1) (2022-07-14)
+
+**Note:** Version bump only for package @goldfishjs/core
+
+
+
+
+
+# [2.16.0](https://github.com/alipay/goldfish/compare/v2.15.2...v2.16.0) (2022-07-13)
+
+**Note:** Version bump only for package @goldfishjs/core
+
+
+
+
+
+## [2.15.2](https://github.com/alipay/goldfish/compare/v2.15.1...v2.15.2) (2022-07-04)
+
+
+### Bug Fixes
+
+* main fields. ([a6616aa](https://github.com/alipay/goldfish/commit/a6616aa06ad431c1fd93b7e205d5807c18404eae))
+
+
+
+
+
+## [2.15.1](https://github.com/alipay/goldfish/compare/v2.15.0...v2.15.1) (2022-06-14)
+
+**Note:** Version bump only for package @goldfishjs/core
+
+
+
+
+
+# [2.15.0](https://github.com/alipay/goldfish/compare/v2.14.1...v2.15.0) (2022-06-14)
+
+**Note:** Version bump only for package @goldfishjs/core
+
+
+
+
+
+## [2.14.1](https://github.com/alipay/goldfish/compare/v2.14.0...v2.14.1) (2022-06-11)
+
+**Note:** Version bump only for package @goldfishjs/core
+
+
+
+
+
+# [2.14.0](https://github.com/alipay/goldfish/compare/v2.13.1...v2.14.0) (2022-06-11)
+
+
+### Features
+
+* lock dependencies ([a2dfe58](https://github.com/alipay/goldfish/commit/a2dfe58aa1eeb8e9491dbbbf538661612eb771bf))
+
+
+
+
+
+## [2.13.1](https://github.com/alipay/goldfish/compare/v2.13.0...v2.13.1) (2022-06-11)
+
+**Note:** Version bump only for package @goldfishjs/core
+
+
+
+
+
+# [2.13.0](https://github.com/alipay/goldfish/compare/v2.12.2...v2.13.0) (2022-06-10)
+
+**Note:** Version bump only for package @goldfishjs/core
+
+
+
+
+
 ## [2.12.2](https://github.com/alipay/goldfish/compare/v2.12.1...v2.12.2) (2022-05-09)
 
 **Note:** Version bump only for package @goldfishjs/core

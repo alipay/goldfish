@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "declarationMap": false,
+    "diagnostics": true,
+    "help": true,
+    "locale": "zh-CN",
+    "strict": true,
+    "traceResolution": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "module": "CommonJS",
+    "target": "ES5",
+    "outDir": "./lib",
+    "lib": ["ESNext"],
+    "declaration": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true
+  },
+  "include": ["./src"]
+}

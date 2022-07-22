@@ -9,7 +9,7 @@ exports.runCommand = (cmd) => {
 exports.runScript = (scriptName, pkgLocation) => {
   const pkgJson = require(`${pkgLocation}/package.json`);
   if (pkgJson.scripts && pkgJson.scripts[scriptName]) {
-    exports.runCommand(`cd ${pkgLocation} && yarn run ${scriptName}`);
+    exports.runCommand(`cd ${pkgLocation} && yarn ${scriptName}`);
   }
 };
 

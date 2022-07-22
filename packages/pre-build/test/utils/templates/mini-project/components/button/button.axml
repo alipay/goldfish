@@ -1,0 +1,3 @@
+<import-sjs from="./button.sjs" name="test" />
+<view>{{test.message}}</view>
+<view>{{test.getMsg('aaa')}}</view>

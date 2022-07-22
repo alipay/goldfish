@@ -1,5 +1,7 @@
-const { exec, getBinCommand } = require('../utils');
 const path = require('path');
+const lodash = require('lodash');
+const { exec, getBinCommand } = require('../utils');
+const { default: excludeUselessScriptsInIntlMiniProgramInDev } = require('../excludeUselessScriptsInIntlMiniProgramInDev');
 
 module.exports = {
   name: 'dev',
@@ -10,7 +12,13 @@ module.exports = {
 
     const cwd = process.cwd();
     const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
-    await exec(`${gulpCommand} all --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd });
-    exec(`${gulpCommand} dev --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd });
+    const env = {
+      BASE_DIR: 'src',
+      OUT_DIR: 'lib',
+      ...lodash.pick(process.env, 'BASE_DIR', 'OUT_DIR'),
+    };
+    await exec(`${gulpCommand} all --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
+    exec(`${gulpCommand} dev --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
+    excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, env.OUT_DIR));
   },
 };
