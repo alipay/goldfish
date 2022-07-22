@@ -46,6 +46,7 @@ class StopFns {
    * @param keyPathList
    */
   public remove(keyPathList: KeyPathList) {
+    debugger;
     const keyPathString = keyPathList.str;
     for (const kps in this.fns) {
       if (this.isStartWithKeyPathString(kps, keyPathString)) {
