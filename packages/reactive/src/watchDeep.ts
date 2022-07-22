@@ -1,8 +1,8 @@
 import { isObject } from '@goldfishjs/utils';
 import { IWatchOptions } from './watch';
 import { ChangeOptions, getCurrent, call } from './dep';
-import isRaw from './isRaw';
 import generateKeyPathString from './generateKeyPathString';
+import { isMarkedUnobservable } from './observable';
 
 export interface IWatchDeepCallback {
   (obj: any, keyPathList: (string | number)[], newV: any, oldV: any, options?: ChangeOptions): void;
@@ -111,7 +111,7 @@ class Watcher {
   }
 
   private watchObj(obj: any, keyPathList: KeyPathList, options?: ChangeOptions) {
-    if (isRaw(obj)) {
+    if (isObject(obj) && isMarkedUnobservable(obj)) {
       return;
     }
 

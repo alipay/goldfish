@@ -1,6 +1,5 @@
 import { call, getCurrent, Dep, DepList } from './dep';
-import { isRaw } from './raw';
-import { definePropertySilently } from './observable';
+import { definePropertySilently, isMarkedUnobservable } from './observable';
 
 type Getter = () => any;
 type Setter = (v: any) => void;
@@ -34,7 +33,7 @@ export function isComputed(obj: any) {
 }
 
 export default function computed<T extends IComputedSource>(obj: T): { [K in keyof T]: T[K] } {
-  if (isComputed(obj) || isRaw(obj)) {
+  if (isComputed(obj) || isMarkedUnobservable(obj)) {
     return obj;
   }
 
