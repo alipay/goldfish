@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/utils",
-  "version": "2.16.1",
+  "version": "2.17.0",
   "description": "goldfish-utils",
   "main": "lib/index.js",
   "scripts": {
@@ -28,7 +28,7 @@
   "author": "likun7981 <likun7891@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/module-usage": "^2.16.1",
+    "@goldfishjs/module-usage": "^2.17.0",
     "@types/lodash-es": "^4.17.3",
     "lodash-cli": "4.17.5",
     "lodash-es": "4.17.21"

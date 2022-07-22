@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/alipay/goldfish/compare/v2.16.1...v2.17.0) (2022-07-22)
+
+
+### Features
+
+* export the unobservable API. ([e2a263b](https://github.com/alipay/goldfish/commit/e2a263bbcd3aeffb0404a8f655f424bcb2c64c37))
+
+
+
+
+
 ## [2.16.1](https://github.com/alipay/goldfish/compare/v2.16.0...v2.16.1) (2022-07-14)
 
 **Note:** Version bump only for package @goldfishjs/core

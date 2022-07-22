@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/alipay/goldfish/compare/v2.16.1...v2.17.0) (2022-07-22)
+
+
+### Bug Fixes
+
+* test errors ([c69f463](https://github.com/alipay/goldfish/commit/c69f46322bd9fb32eddc83451e7bb8de0de43102))
+
+
+### Features
+
+* add unobservable flag. ([a248f70](https://github.com/alipay/goldfish/commit/a248f70f6455594719af6cb92ebe197a1b4fc532))
+* export the unobservable API. ([e2a263b](https://github.com/alipay/goldfish/commit/e2a263bbcd3aeffb0404a8f655f424bcb2c64c37))
+* improve the watchDeep performance. ([fa58419](https://github.com/alipay/goldfish/commit/fa58419bf7473c126d29dcef249e0ad3618f29a4))
+
+
+
+
+
 ## [2.16.1](https://github.com/alipay/goldfish/compare/v2.16.0...v2.16.1) (2022-07-14)
 
 
