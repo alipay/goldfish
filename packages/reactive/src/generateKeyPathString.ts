@@ -1,4 +1,4 @@
-export default function generateKeyPathString(keyPathList: (string | number)[]) {
+export default function generateKeyPathString(keyPathList: Readonly<(string | number)[]>, prefix?: string) {
   return keyPathList.reduce<string>((prev, cur) => {
     if (typeof cur === 'number') {
       return prev ? `${prev}[${cur}]` : `[${cur}]`;
@@ -10,5 +10,5 @@ export default function generateKeyPathString(keyPathList: (string | number)[]) 
     }
 
     return prev ? `${prev}.${cur}` : cur;
-  }, '');
+  }, prefix ?? '');
 }

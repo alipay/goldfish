@@ -12,19 +12,22 @@ export interface IWatchDeepOptions extends Omit<IWatchOptions, 'deep'> {
   result?: any;
 }
 
-type KeyPathList = (string | number)[];
+type KeyPathList = {
+  raw: (string | number)[];
+  str: string;
+};
 
 class StopFns {
   private fns: Record<string, Record<string, () => void>> = {};
 
   public add(keyPathList: KeyPathList, curKey: string | number, fn: () => void) {
-    const keyPathString = generateKeyPathString(keyPathList);
+    const keyPathString = keyPathList.str;
     if (!this.fns[keyPathString]) {
       this.fns[keyPathString] = {};
     }
 
     if (Object.prototype.hasOwnProperty.call(this.fns[keyPathString], curKey)) {
-      throw new Error(`Duplicate stop function for key: ${generateKeyPathString([...keyPathList, curKey])}`);
+      throw new Error(`Duplicate stop function for key: ${generateKeyPathString([curKey], keyPathList.str)}`);
     }
 
     this.fns[keyPathString][curKey] = fn;
@@ -43,7 +46,7 @@ class StopFns {
    * @param keyPathList
    */
   public remove(keyPathList: KeyPathList) {
-    const keyPathString = generateKeyPathString(keyPathList);
+    const keyPathString = keyPathList.str;
     for (const kps in this.fns) {
       if (this.isStartWithKeyPathString(kps, keyPathString)) {
         for (const k in this.fns[kps]) {
@@ -55,7 +58,7 @@ class StopFns {
   }
 
   public removeChildren(keyPathList: KeyPathList) {
-    const keyPathString = generateKeyPathString(keyPathList);
+    const keyPathString = keyPathList.str;
     for (const kps in this.fns) {
       if (kps !== keyPathString && this.isStartWithKeyPathString(kps, keyPathString)) {
         for (const k in this.fns[kps]) {
@@ -67,7 +70,7 @@ class StopFns {
   }
 
   public removeSingleLayer(keyPathList: KeyPathList) {
-    const keyPathString = generateKeyPathString(keyPathList);
+    const keyPathString = keyPathList.str;
     for (const kps in this.fns) {
       if (kps === keyPathString) {
         for (const k in this.fns[kps]) {
@@ -121,7 +124,10 @@ class Watcher {
 
         if (method === 'sort' || method === 'reverse') {
           for (let i = 0, il = obj.length; i < il; i++) {
-            this.stopFns.removeChildren([...keyPathList, i]);
+            this.stopFns.removeChildren({
+              raw: [...keyPathList.raw, i],
+              str: generateKeyPathString([i], keyPathList.str),
+            });
             this.watchSingleKey(obj, i, keyPathList);
           }
         } else {
@@ -149,20 +155,31 @@ class Watcher {
 
           if (deletedCount === values.length) {
             for (let i = start, il = deletedCount; i < il; i++) {
-              this.stopFns.removeChildren([...keyPathList, i]);
+              this.stopFns.removeChildren({
+                raw: [...keyPathList.raw, i],
+                str: generateKeyPathString([i], keyPathList.str),
+              });
               this.watchSingleKey(obj, i, keyPathList);
             }
           } else {
             for (let i = start, il = oldV.length; i < il; i++) {
-              this.stopFns.removeChildren([...keyPathList, i]);
-              this.watchObj(obj[i], [...keyPathList, i]);
+              const newKeyPathList = {
+                raw: [...keyPathList.raw, i],
+                str: generateKeyPathString([i], keyPathList.str),
+              };
+              this.stopFns.removeChildren(newKeyPathList);
+              this.watchObj(obj[i], newKeyPathList);
             }
             for (let i = oldV.length, il = obj.length; i < il; i++) {
               this.watchSingleKey(obj, i, keyPathList);
             }
             for (let i = obj.length, il = oldV.length; i < il; i++) {
-              this.stopFns.removeSingleLayer([...keyPathList, i]);
-              this.stopFns.removeChildren([...keyPathList, i]);
+              const newKeyPathList = {
+                raw: [...keyPathList.raw, i],
+                str: generateKeyPathString([i], keyPathList.str),
+              };
+              this.stopFns.removeSingleLayer(newKeyPathList);
+              this.stopFns.removeChildren(newKeyPathList);
             }
           }
         }
@@ -181,7 +198,7 @@ class Watcher {
   }
 
   private watchCurrentKeyOnly(obj: any, key: string | number, keyPathList: KeyPathList) {
-    const nextKeyPathList = [...keyPathList, key];
+    const nextKeyPathList = { raw: [...keyPathList.raw, key], str: generateKeyPathString([key], keyPathList.str) };
     call(
       () => {
         /* eslint-disable @typescript-eslint/no-unused-expressions */
@@ -189,7 +206,7 @@ class Watcher {
         /* eslint-enable @typescript-eslint/no-unused-expressions */
         const stopList = getCurrent().addChangeListener((newV, oldV, options) => {
           this.watchObj(newV, nextKeyPathList, options);
-          this.callback(this.obj, nextKeyPathList, newV, oldV, options);
+          this.callback(this.obj, nextKeyPathList.raw, newV, oldV, options);
         }, false);
         this.stopFns.add(keyPathList, key, () => stopList.forEach(s => s()));
       },
@@ -213,7 +230,7 @@ class Watcher {
     if (this.options?.immediate) {
       this.callback(this.obj, [], this.obj, undefined);
     }
-    return this.watchObj(this.obj, []);
+    return this.watchObj(this.obj, { raw: [], str: generateKeyPathString([]) });
   }
 
   public stop() {
