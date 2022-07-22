@@ -1,3 +1,3 @@
 lib
 test/utils/tmp
-!test/utils/templates/mini-project/node_modules
+!test/utils/templates/*/node_modules
