@@ -1,9 +1,5 @@
-import lodash from 'lodash';
 import { default as observable, isObservable, IObservableObject, ObservableArray, set } from '../src/observable';
 import watch from '../src/watch';
-import bigdata from './bigdata';
-import watchDeep from '../src/watchDeep';
-import { deepVisit, DeepVisitBreak } from '@goldfishjs/utils';
 
 it('should convert a normal object to be observable.', () => {
   const obj: any = {
@@ -234,18 +230,11 @@ it('should react to the new property', async () => {
   stop();
 });
 
-it('should convert the bigdata.', () => {
-  const data = lodash.cloneDeep(bigdata);
+// it('should convert the bigdata in the expected time.', () => {
+//   const data = lodash.cloneDeep(bigdata);
 
-  let now = new Date().getTime();
-  observable(data as any);
-  console.log('observable time:', Date.now() - now);
-
-  now = new Date().getTime();
-  watchDeep(data, () => {});
-  console.log('watchDeep time:', Date.now() - now);
-
-  now = new Date().getTime();
-  deepVisit(data, () => { return DeepVisitBreak.NO });
-  console.log('deepVisit time:', Date.now() - now);
-});
+//   const now = new Date().getTime();
+//   observable(data as any);
+//   watchDeep(data, () => {});
+//   expect(Date.now() - now).toBeLessThan(500);
+// });

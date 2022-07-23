@@ -1,4 +1,4 @@
-import { isObject } from '@goldfishjs/utils';
+import { isObject, deepVisit, DeepVisitBreak } from '@goldfishjs/utils';
 import { IWatchOptions } from './watch';
 import { ChangeOptions, getCurrent, call } from './dep';
 import generateKeyPathString from './generateKeyPathString';
@@ -17,27 +17,51 @@ type KeyPathList = {
   str: string;
 };
 
+function hasOwnProperty(obj: any, property: string | number) {
+  return Object.prototype.hasOwnProperty.call(obj, property);
+}
+
 class StopFns {
-  private fns: Record<string, Record<string, () => void>> = {};
+  private fns: Record<string, any> = {};
+
+  private stopFnKey = '__stop_fn_key__';
 
   public add(keyPathList: KeyPathList, curKey: string | number, fn: () => void) {
-    const keyPathString = keyPathList.str;
-    if (!this.fns[keyPathString]) {
-      this.fns[keyPathString] = {};
+    let currentFns = this.fns;
+    for (let i = 0, il = keyPathList.raw.length; i < il; i += 1) {
+      if (!hasOwnProperty(currentFns, keyPathList.raw[i])) {
+        currentFns[keyPathList.raw[i]] = typeof keyPathList.raw[i] === 'number' ? [] : {};
+      }
+      currentFns = currentFns[keyPathList.raw[i]];
     }
 
-    if (Object.prototype.hasOwnProperty.call(this.fns[keyPathString], curKey)) {
+    if (!currentFns[this.stopFnKey]) {
+      currentFns[this.stopFnKey] = {};
+    }
+    if (
+      hasOwnProperty(currentFns[this.stopFnKey], curKey) &&
+      typeof currentFns[this.stopFnKey][curKey] === 'function'
+    ) {
       throw new Error(`Duplicate stop function for key: ${generateKeyPathString([curKey], keyPathList.str)}`);
     }
-
-    this.fns[keyPathString][curKey] = fn;
+    currentFns[this.stopFnKey][curKey] = fn;
   }
 
-  private isStartWithKeyPathString(target: string, keyPathString: string) {
-    return (
-      target === keyPathString ||
-      (target.indexOf(keyPathString) === 0 && '.['.indexOf(target.replace(keyPathString, '')[0]) !== -1)
-    );
+  private callStopFns(currentFns: Record<string, any>) {
+    const call = (obj: Record<string, any>) => {
+      if (obj[this.stopFnKey]) {
+        for (const key in obj[this.stopFnKey]) {
+          obj[this.stopFnKey][key] && obj[this.stopFnKey][key]();
+        }
+      }
+    };
+
+    call(currentFns);
+
+    deepVisit(currentFns, (...args) => {
+      call(args[2]);
+      return DeepVisitBreak.NO;
+    });
   }
 
   /**
@@ -46,48 +70,71 @@ class StopFns {
    * @param keyPathList
    */
   public remove(keyPathList: KeyPathList) {
-    debugger;
-    const keyPathString = keyPathList.str;
-    for (const kps in this.fns) {
-      if (this.isStartWithKeyPathString(kps, keyPathString)) {
-        for (const k in this.fns[kps]) {
-          this.fns[kps][k]();
-        }
-        this.fns[kps] = {};
+    let currentFns = this.fns;
+    for (let i = 0, il = keyPathList.raw.length; i < il; i += 1) {
+      if (!currentFns[keyPathList.raw[i]]) {
+        return;
       }
+      currentFns = currentFns[keyPathList.raw[i]];
+    }
+
+    if (!currentFns || !currentFns[this.stopFnKey]) {
+      return;
+    }
+
+    this.callStopFns(currentFns);
+
+    // Remove current layer stop functions.
+    currentFns[this.stopFnKey] = {};
+
+    // Remove the children's stop functions.
+    for (const k in currentFns) {
+      if (k === this.stopFnKey) {
+        continue;
+      }
+      currentFns[k] = Array.isArray(currentFns[k]) ? [] : {};
     }
   }
 
   public removeChildren(keyPathList: KeyPathList) {
-    const keyPathString = keyPathList.str;
-    for (const kps in this.fns) {
-      if (kps !== keyPathString && this.isStartWithKeyPathString(kps, keyPathString)) {
-        for (const k in this.fns[kps]) {
-          this.fns[kps][k]();
-        }
-        this.fns[kps] = {};
+    let currentFns = this.fns;
+    for (let i = 0, il = keyPathList.raw.length; i < il; i += 1) {
+      if (!currentFns[keyPathList.raw[i]]) {
+        return;
       }
+      currentFns = currentFns[keyPathList.raw[i]];
+    }
+
+    // Remove the children's stop functions.
+    for (const k in currentFns) {
+      if (k === this.stopFnKey) {
+        continue;
+      }
+      this.callStopFns(currentFns[k]);
+      currentFns[k] = Array.isArray(currentFns[k]) ? [] : {};
     }
   }
 
   public removeSingleLayer(keyPathList: KeyPathList) {
-    const keyPathString = keyPathList.str;
-    for (const kps in this.fns) {
-      if (kps === keyPathString) {
-        for (const k in this.fns[kps]) {
-          this.fns[kps][k]();
-        }
-        this.fns[kps] = {};
+    let currentFns = this.fns;
+    for (let i = 0, il = keyPathList.raw.length; i < il; i += 1) {
+      if (!currentFns[keyPathList.raw[i]]) {
+        return;
       }
+      currentFns = currentFns[keyPathList.raw[i]];
+    }
+
+    // Remove current layer stop functions.
+    if (currentFns && currentFns[this.stopFnKey]) {
+      for (const k in currentFns[this.stopFnKey]) {
+        currentFns[this.stopFnKey][k] && currentFns[this.stopFnKey][k]();
+      }
+      currentFns[this.stopFnKey] = {};
     }
   }
 
   private callAll() {
-    for (const k1 in this.fns) {
-      for (const k2 in this.fns[k1]) {
-        this.fns[k1][k2]();
-      }
-    }
+    this.callStopFns(this.fns);
   }
 
   public removeAll() {
