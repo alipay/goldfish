@@ -37,6 +37,7 @@ export function markObservable(data: any) {
       writable: false,
     });
   }
+  return data;
 }
 
 export function markUnobservable(data: Array<any> | Record<string, any>) {
@@ -50,12 +51,14 @@ export function markUnobservable(data: Array<any> | Record<string, any>) {
   } else {
     data[UNOBSERVABLE_KEY] = true;
   }
+  return data;
 }
 
 export function unmarkUnobservable(data: Array<any> | Record<string, any>) {
   if (UNOBSERVABLE_KEY in data) {
     data[UNOBSERVABLE_KEY] = false;
   }
+  return data;
 }
 
 export function isMarkedUnobservable(data: Array<any> | Record<string, any>) {
