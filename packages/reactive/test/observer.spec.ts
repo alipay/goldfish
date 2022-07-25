@@ -1,8 +1,5 @@
-import lodash from 'lodash';
 import { default as observable, isObservable, IObservableObject, ObservableArray, set } from '../src/observable';
 import watch from '../src/watch';
-import bigdata from './bigdata';
-import watchDeep from '../src/watchDeep';
 
 it('should convert a normal object to be observable.', () => {
   const obj: any = {
@@ -233,11 +230,11 @@ it('should react to the new property', async () => {
   stop();
 });
 
-// it('should convert the bigdata.', () => {
+// it('should convert the bigdata in the expected time.', () => {
 //   const data = lodash.cloneDeep(bigdata);
+
 //   const now = new Date().getTime();
 //   observable(data as any);
-//   expect(isObservable(data)).toBe(true);
 //   watchDeep(data, () => {});
-//   console.log('time:', Date.now() - now);
+//   expect(Date.now() - now).toBeLessThan(500);
 // });
