@@ -3,6 +3,7 @@ import { IWatchOptions } from './watch';
 import { ChangeOptions, getCurrent, call } from './dep';
 import generateKeyPathString from './generateKeyPathString';
 import { isMarkedUnobservable } from './observable';
+import { isArray, hasOwnProperty } from './utils';
 
 export interface IWatchDeepCallback {
   (obj: any, keyPathList: (string | number)[], newV: any, oldV: any, options?: ChangeOptions): void;
@@ -16,10 +17,6 @@ type KeyPathList = {
   raw: (string | number)[];
   str: string;
 };
-
-function hasOwnProperty(obj: any, property: string | number) {
-  return Object.prototype.hasOwnProperty.call(obj, property);
-}
 
 class StopFns {
   private fns: Record<string, any> = {};
@@ -92,7 +89,7 @@ class StopFns {
       if (k === this.stopFnKey) {
         continue;
       }
-      currentFns[k] = Array.isArray(currentFns[k]) ? [] : {};
+      currentFns[k] = isArray(currentFns[k]) ? [] : {};
     }
   }
 
@@ -111,7 +108,7 @@ class StopFns {
         continue;
       }
       this.callStopFns(currentFns[k]);
-      currentFns[k] = Array.isArray(currentFns[k]) ? [] : {};
+      currentFns[k] = isArray(currentFns[k]) ? [] : {};
     }
   }
 
@@ -163,7 +160,7 @@ class Watcher {
       return;
     }
 
-    if (Array.isArray(obj)) {
+    if (isArray(obj)) {
       // Optimization for arrays.
       if (options?.isArray) {
         const method = options.method!;

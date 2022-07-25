@@ -1,7 +1,7 @@
 import { isObject } from '@goldfishjs/utils';
 import { call, getCurrent, IErrorCallback, ChangeOptions } from './dep';
 import { isMarkedUnobservable } from './observable';
-import { isArray } from './utils';
+import { isArray, hasOwnProperty } from './utils';
 
 export type Unwatch = () => void;
 export type IWatchCallback<N, O = any> = (newValue: N, oldValue?: O, options?: ChangeOptions) => void;
@@ -56,7 +56,7 @@ class Watcher<R> {
       }
     } else if (isObject(obj)) {
       for (const key in obj) {
-        if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+        if (!hasOwnProperty(obj, key)) {
           continue;
         }
 

@@ -3,6 +3,7 @@ import { isObject, silent, deepVisit, DeepVisitBreak } from '@goldfishjs/utils';
 import { getCurrent, Dep, ChangeOptions } from './dep';
 import { genId, isArray } from './utils';
 import silentValue, { isSilentValue } from './silentValue';
+import { hasOwnProperty } from './utils';
 
 type ObservableBaseTypes = null | undefined | string | number | boolean;
 type ObservableArrayElement = ObservableBaseTypes | IObservableObject;
@@ -19,7 +20,7 @@ const NOTIFY_KEY = '__notify';
 const UNOBSERVABLE_KEY = '__unobservable__';
 
 export function isObservable(obj: any) {
-  return obj && Object.prototype.hasOwnProperty.call(obj, OBSERVE_KEY) && obj[OBSERVE_KEY] === OBSERVE_FLAG;
+  return obj && hasOwnProperty(obj, OBSERVE_KEY) && obj[OBSERVE_KEY] === OBSERVE_FLAG;
 }
 
 export function definePropertySilently(...args: Parameters<typeof Object['defineProperty']>) {
@@ -65,7 +66,7 @@ export function isMarkedUnobservable(data: Array<any> | Record<string, any>) {
   return (data as any)[UNOBSERVABLE_KEY] === true;
 }
 
-// 改写 Array 相关方法
+// Change the Array methods.
 export type Methods = 'push' | 'splice' | 'unshift' | 'pop' | 'sort' | 'reverse' | 'shift';
 const methods: Methods[] = ['push', 'splice', 'unshift', 'pop', 'sort', 'reverse', 'shift'];
 methods.forEach(methodName => {
@@ -230,7 +231,7 @@ export function set(obj: any, name: any, value: any, options?: { silent?: boolea
 
   const silent = (options && options.silent) || false;
 
-  if (!Object.prototype.hasOwnProperty.call(obj, name)) {
+  if (!hasOwnProperty(obj, name)) {
     defineProperty(obj, name);
     isObject(obj[name]) && createObserver(obj[name]);
     obj[name] = silent ? silentValue(value) : value;

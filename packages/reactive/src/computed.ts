@@ -1,5 +1,6 @@
 import { call, getCurrent, Dep, DepList } from './dep';
 import { definePropertySilently, isMarkedUnobservable } from './observable';
+import { hasOwnProperty } from './utils';
 
 type Getter = () => any;
 type Setter = (v: any) => void;
@@ -29,7 +30,7 @@ function isFullComputedValue(x: any): x is FullComputedValue {
 }
 
 export function isComputed(obj: any) {
-  return obj && Object.prototype.hasOwnProperty.call(obj, FLAG_KEY);
+  return obj && hasOwnProperty(obj, FLAG_KEY);
 }
 
 export default function computed<T extends IComputedSource>(obj: T): { [K in keyof T]: T[K] } {
@@ -40,7 +41,7 @@ export default function computed<T extends IComputedSource>(obj: T): { [K in key
   const depMap: Record<string, DepList> = {};
 
   for (const key in obj) {
-    if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+    if (!hasOwnProperty(obj, key)) {
       continue;
     }
 

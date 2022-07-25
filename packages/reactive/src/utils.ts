@@ -11,3 +11,7 @@ export function genId(prefix = 'g-') {
   id += 1;
   return `${prefix}${id}`;
 }
+
+export function hasOwnProperty(obj: any, property: string | number) {
+  return Object.prototype.hasOwnProperty.call(obj, property);
+}
