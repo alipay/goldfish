@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/alipay/goldfish/compare/v2.17.1...v2.18.0) (2022-07-25)
+
+
+### Bug Fixes
+
+* **reactive:** markObservable no return ([f64e791](https://github.com/alipay/goldfish/commit/f64e79185ad5c3f61c0a72d61fdec87f04ffc57b))
+
+
+### Features
+
+* optimize the watchDeep performance. ([affdf6b](https://github.com/alipay/goldfish/commit/affdf6b7dd1669ea0e9e3771bdc9835a27a52fa5))
+
+
+
+
+
 ## [2.17.1](https://github.com/alipay/goldfish/compare/v2.17.0...v2.17.1) (2022-07-22)
 
 
