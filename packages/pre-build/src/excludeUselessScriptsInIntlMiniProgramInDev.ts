@@ -9,6 +9,8 @@ export interface ExcludeUselessScriptsInIntlMiniProgramInDevOptions {
   log?: {
     info?: (message: string) => void;
   };
+  beforeCopy?(): void | Promise<void>;
+  afterCopy?(): void | Promise<void>;
 }
 
 const defaultOptions: ExcludeUselessScriptsInIntlMiniProgramInDevOptions = {
@@ -34,8 +36,9 @@ export default function excludeUselessScriptsInIntlMiniProgramInDev(
   fileCache.clear();
   const nodeModulesDir = path.resolve(projectDir, 'node_modules');
   const entriesWatcher = new EntriesWatcher(projectDir);
-  entriesWatcher.onChange(({ deps, pages, components, sjsList, changedFile }) => {
+  entriesWatcher.onChange(async ({ deps, pages, components, sjsList, changedFile }) => {
     finalOptions.log?.info?.(`Start coping files because the file changed: ${changedFile}.`);
+    await options?.beforeCopy?.();
     deps.forEach(dep => {
       if (dep.importFilePath.startsWith(nodeModulesDir)) {
         return;
@@ -66,6 +69,7 @@ export default function excludeUselessScriptsInIntlMiniProgramInDev(
       }
       cpDepFileWithPkgJson(projectDir, sjs.sjsPath, nodeModulesDir, finalOptions);
     });
+    await options?.afterCopy?.();
     finalOptions.log?.info?.(`Successfully copy files.`);
   });
 }
