@@ -57,7 +57,8 @@
     "typescript": "4.7.2",
     "eslint-plugin-flowtype": "4.7.0",
     "eslint-plugin-jsx-a11y": "6.5.1",
-    "eslint-plugin-react": "7.30.0"
+    "eslint-plugin-react": "7.30.0",
+    "git-branch": "2.0.1"
   },
   "dependencies": {
     "@vuepress/plugin-back-to-top": "1.4.0",
