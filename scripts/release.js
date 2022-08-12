@@ -5,7 +5,7 @@ runCommand('yarn install');
 
 const packages = lerna.list();
 
-packages.forEach((pkg) => {
+packages.forEach(pkg => {
   // Do not handle the private packages.
   if (pkg.private) {
     return;
@@ -16,9 +16,12 @@ packages.forEach((pkg) => {
   runScript('test', pkg.location);
 });
 
-runCommand('lerna version --loglevel=verbose --force-publish');
+const branchName = require('git-branch').sync();
+runCommand(
+  `lerna version --loglevel=verbose --force-publish ${{ dev: '--conventional-prerelease' }[branchName] || ''}`,
+);
 
-packages.forEach((pkg) => {
+packages.forEach(pkg => {
   // Do not release the private packages.
   if (pkg.private) {
     return;
