@@ -73,11 +73,11 @@ methods.forEach(methodName => {
   const oldMethod = Array.prototype[methodName] as Function;
   /* eslint-disable no-extend-native */
   Array.prototype[methodName] = function (this: any[], ...args: any[]) {
-    const originLength = this.length;
-    const oldV = this.slice(0);
-    const result = oldMethod.apply(this, args);
-
     if (isObservable(this)) {
+      const originLength = this.length;
+      const oldV = this.slice(0);
+      const result = oldMethod.apply(this, args);
+
       if (originLength < this.length) {
         for (let i = originLength; i < this.length; i += 1) {
           defineProperty(this, i);
@@ -92,9 +92,10 @@ methods.forEach(methodName => {
         isArray: true,
         method: methodName,
       });
-    }
 
-    return result;
+      return result;
+    }
+    return oldMethod.apply(this, args);
   };
   /* eslint-enable no-extend-native */
 });
