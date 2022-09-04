@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.19.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.18.0...v2.19.0-alpha.0) (2022-08-12)
+
+
+### Features
+
+* add dependency ([9ae89f8](https://github.com/alipay/goldfish/commit/9ae89f8f175fe85eb559f47fd358fa4636fbd1c3))
+* support copy hook. ([3b9c64e](https://github.com/alipay/goldfish/commit/3b9c64e4f68d2f89168e20bb1d0cb8a62ff9dd46))
+* support publish alpha at dev branch ([b576737](https://github.com/alipay/goldfish/commit/b576737841fbc59b442729aacc5a2b0e413bb9c7))
+
+
+
+
+
 # [2.18.0](https://github.com/alipay/goldfish/compare/v2.17.1...v2.18.0) (2022-07-25)
 
 
