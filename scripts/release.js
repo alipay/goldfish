@@ -18,7 +18,9 @@ packages.forEach(pkg => {
 
 const branchName = require('git-branch').sync();
 runCommand(
-  `lerna version --loglevel=verbose --force-publish ${{ dev: '--conventional-prerelease' }[branchName] || ''}`,
+  `lerna version --loglevel=verbose --force-publish ${
+    { dev: '--conventional-prerelease', master: '--conventional-graduate' }[branchName] || ''
+  }`,
 );
 
 packages.forEach(pkg => {
