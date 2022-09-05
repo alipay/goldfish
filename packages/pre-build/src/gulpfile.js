@@ -61,6 +61,7 @@ function commonStream(files, cb) {
     gulp
       .src(files, { base: baseDir })
       .pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV)))
+      .pipe(replace('process.env.STAGE_NAME', JSON.stringify(process.env.STAGE_NAME)))
       .pipe(replace('process.env.GOLDFISH_ENV', JSON.stringify(process.env.GOLDFISH_ENV)))
       .pipe(plumber(utils.error)),
   );
