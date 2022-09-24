@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.21.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.20.0-alpha.0...v2.21.0-alpha.0) (2022-09-24)
+
+
+### Features
+
+* supports exports configuration. ([6d192de](https://github.com/alipay/goldfish/commit/6d192ded66b75b4e998d510d083e222038d743cf))
+
+
+
+
+
 # [2.20.0](https://github.com/alipay/goldfish/compare/v2.20.0-alpha.0...v2.20.0) (2022-09-24)
 
 **Note:** Version bump only for package @goldfishjs/pre-build
