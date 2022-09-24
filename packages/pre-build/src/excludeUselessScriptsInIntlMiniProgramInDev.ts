@@ -1,6 +1,6 @@
 import * as path from 'path';
 import lodash from 'lodash';
-import { cpDepFileWithPkgJson } from './excludeUselessScriptsInIntlMiniProgram';
+import { cpDepFileWithPkgJson, copyFiles } from './excludeUselessScriptsInIntlMiniProgram';
 import EntriesWatcher from './findMiniDependencies/EntriesWatcher';
 import fileCache from './findMiniDependencies/fileCache';
 import { log } from './utils';
@@ -31,9 +31,11 @@ export default function excludeUselessScriptsInIntlMiniProgramInDev(
   projectDir: string,
   options?: ExcludeUselessScriptsInIntlMiniProgramInDevOptions,
 ) {
-  const finalOptions = lodash.merge(options || {}, defaultOptions);
-
   fileCache.clear();
+
+  const finalOptions = lodash.merge(defaultOptions, options || {});
+  copyFiles(projectDir, finalOptions);
+
   const nodeModulesDir = path.resolve(projectDir, 'node_modules');
   const entriesWatcher = new EntriesWatcher(projectDir);
   entriesWatcher.onChange(async ({ deps, pages, components, sjsList, changedFile }) => {

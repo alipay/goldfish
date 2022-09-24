@@ -31,7 +31,7 @@ export default class EntriesWatcher {
 
   private startWatch() {
     const watcher = chokidar.watch([`${this.projectDir}/**/*.(js|json|axml)`], {
-      ignoreInitial: false,
+      ignoreInitial: true,
       ignored: [/node_modules/],
       followSymlinks: false,
     });
