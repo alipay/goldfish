@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.20.0](https://github.com/alipay/goldfish/compare/v2.19.0...v2.20.0) (2022-09-24)
+
+
+### Bug Fixes
+
+* lint errors. ([27c76d5](https://github.com/alipay/goldfish/commit/27c76d5ebceda3aa5856d023870b79bbaab80c4e))
+
+
+### Features
+
+* exit the process if the exception exists. ([fb7b36f](https://github.com/alipay/goldfish/commit/fb7b36fc09b575301f7d1c84173282e273e23957))
+
+
+
+
+
 # [2.19.0](https://github.com/alipay/goldfish/compare/v2.19.0-alpha.0...v2.19.0) (2022-09-04)
 
 **Note:** Version bump only for package @goldfishjs/pre-build
