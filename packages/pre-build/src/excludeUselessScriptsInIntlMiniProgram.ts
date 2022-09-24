@@ -93,10 +93,7 @@ const defaultOptions: ExcludeUselessScriptsInIntlMiniProgramOptions = {
   },
 };
 
-export function copyFiles(
-  projectDir: string,
-  options?: ExcludeUselessScriptsInIntlMiniProgramOptions,
-) {
+export function copyFiles(projectDir: string, options?: ExcludeUselessScriptsInIntlMiniProgramOptions) {
   const finalOptions = lodash.merge(defaultOptions, options || {});
 
   const oldNodeModulesDir = path.resolve(projectDir, 'node_modules');

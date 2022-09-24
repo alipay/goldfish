@@ -1,5 +1,4 @@
 import * as path from 'path';
-import { warn } from '@goldfishjs/pre-build/lib/utils';
 import resolveModule from './resolveModule';
 
 export default function resolveModuleInSourceDir(
