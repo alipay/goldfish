@@ -19,11 +19,15 @@ function correctImportPath(p: string) {
   return p;
 }
 
+function isAbsolutePath(p: string) {
+  return /(\/|[a-z]\:\\)/i.test(p);
+}
+
 class Finder {
   private visited = new Set();
 
   run(jsPath: string, projectDir: string) {
-    if (!jsPath.startsWith('/') || jsPath.endsWith('.json') || this.visited.has(jsPath)) {
+    if (!isAbsolutePath(jsPath) || jsPath.endsWith('.json') || this.visited.has(jsPath)) {
       return [];
     }
     this.visited.add(jsPath);

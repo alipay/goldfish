@@ -28,7 +28,7 @@ export function findPackageJson(dir: string): string | undefined {
  */
 export function findRelativePath(projectDir: string, sourcePath: string): string | undefined {
   if (sourcePath.startsWith(path.resolve(projectDir, 'node_modules'))) {
-    return sourcePath.replace(`${projectDir}/`, '');
+    return sourcePath.replace(`${projectDir}${path.sep}`, '');
   }
   const dir = path.dirname(projectDir);
   if (dir === projectDir) {
@@ -62,7 +62,7 @@ export function cpDepFileWithPkgJson(
   options: ExcludeUselessScriptsInIntlMiniProgramOptions,
 ) {
   // Only move the dependency under node_modules.
-  if (!/\/node_modules\//.test(depFilePath)) {
+  if (!/[\/\\]node_modules[\/\\]/.test(depFilePath)) {
     return;
   }
 
