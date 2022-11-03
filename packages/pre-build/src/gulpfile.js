@@ -56,7 +56,9 @@ const sourceType = {
   },
 };
 
-function commonStream(files, cb) {
+function commonStream(files, cb, isPds = false) {
+  cb = isPds ? pdsCustomHandle(cb) : cb
+
   let stream = cb(
     gulp
       .src(files, { base: baseDir })
@@ -69,27 +71,27 @@ function commonStream(files, cb) {
   return stream;
 }
 
-function compileJSStream(files) {
+function compileJSStream(files, isPds = false) {
   return commonStream(files, stream => {
     return stream.pipe(
       replace('./assets/', function () {
         return `/${this.file.relative.replace(this.file.basename, '')}assets/`;
       }),
     );
-  });
+  }, isPds);
 }
 
 function getTSProject() {
   return utils.tsconfigPath && fs.existsSync(utils.tsconfigPath) ? ts.createProject(utils.tsconfigPath) : null;
 }
 
-function compileTSStream(files) {
+function compileTSStream(files, isPds = false) {
   const tsProject = getTSProject();
   return commonStream(files, stream => {
     const babelConfig = getBabelConfig();
     babelConfig.presets.push([require.resolve('@babel/preset-typescript'), {}]);
     return stream.pipe(alias(tsProject.config)).pipe(babel(babelConfig));
-  });
+  }, isPds);
 }
 
 function compileDTSStream(files) {
@@ -195,7 +197,7 @@ function getCustomBlobs() {
   }
 }
 
-function createDevWatcherTask(globs) {
+function createDevWatcherTask(globs, isPds = false) {
   const watcher = gulp.watch(globs, {
     ignoreInitial: true,
   });
@@ -214,7 +216,7 @@ function createDevWatcherTask(globs) {
     const startTime = Date.now();
     let stream;
     if (sourceType.check(path) === 'ts') {
-      stream = compileTSStream(path);
+      stream = compileTSStream(path, isPds);
 
       // handle the dts
       const dtsStream = compileDTSStream(path);
@@ -227,7 +229,7 @@ function createDevWatcherTask(globs) {
     } else if (sourceType.check(path) === 'less') {
       stream = compileLessStream(path);
     } else if (sourceType.check(path) === 'js') {
-      stream = compileJSStream(path);
+      stream = compileJSStream(path, isPds);
     } else if (sourceType.check(path) === 'copy') {
       stream = copyStream(path);
     }
@@ -276,6 +278,60 @@ gulp.task(
     },
     function dts() {
       return compileDTSStream(['src/**/*.@(ts|tsx)']);
+    },
+  ),
+);
+
+// PDS Custom
+function pdsCustomHandle (cb) {
+  const prefixRE = /^GOLDFISH_APP/
+
+  const envs = Object.create(null)
+  Object.keys(process.env).forEach(key => {
+    if (prefixRE.test(key) || key === 'NODE_ENV') {
+      envs[key] = process.env[key]
+    }
+  })
+
+  return (stream) => {
+    stream = Object.entries(envs).reduce((_stream, [ key, value ]) => {
+      return _stream.pipe(replace(`process.env.${key}`, JSON.stringify(value)))
+    }, stream)
+
+    return cb(stream)
+  }
+}
+
+gulp.task(
+  'all-pds',
+  gulp.parallel(
+    function ts() {
+      return compileTSStream(sourceFiles.ts, true);
+    },
+    function js() {
+      return compileJSStream(sourceFiles.js, true);
+    },
+    function less() {
+      return compileLessStream(sourceFiles.less);
+    },
+    function copy() {
+      return copyStream(sourceFiles.copy);
+    },
+    function dts() {
+      return compileDTSStream(sourceFiles.ts);
+    },
+  ),
+);
+
+gulp.task(
+  'dev-pds',
+  gulp.parallel(
+    function sourceCode() {
+      return createDevWatcherTask(['./**/*', '!node_modules/**', '!coverage/**', `!${excludeDistDir}`], true);
+    },
+    function customBlobs() {
+      const blobs = getCustomBlobs() || [];
+      return createDevWatcherTask(blobs, true);
     },
   ),
 );
