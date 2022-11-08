@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.21.1...v2.22.0-alpha.0) (2022-11-08)
+
+
+### Features
+
+* add PDS custom variable inject logic ([796a31c](https://github.com/alipay/goldfish/commit/796a31c1411340a890ce6cdd1fb178dfd2337c78))
+
+
+
+
+
 ## [2.21.1](https://github.com/alipay/goldfish/compare/v2.21.1-alpha.0...v2.21.1) (2022-10-03)
 
 **Note:** Version bump only for package goldfishjs
