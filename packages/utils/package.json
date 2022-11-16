@@ -30,10 +30,10 @@
   "dependencies": {
     "@goldfishjs/module-usage": "^2.22.0-alpha.0",
     "@types/lodash-es": "^4.17.3",
-    "lodash-cli": "4.17.5",
     "lodash-es": "4.17.21"
   },
   "devDependencies": {
+    "lodash-cli": "4.17.5",
     "gulp-if": "3.0.0",
     "gulp-replace": "1.1.3"
   },
