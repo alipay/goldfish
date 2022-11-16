@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.22.0-alpha.0...v2.22.0-alpha.1) (2022-11-16)
+
+
+### Features
+
+* move to dev dependencies ([021e9f2](https://github.com/alipay/goldfish/commit/021e9f2d86e1a1d429a3bb887f72e5cbb707e86c))
+
+
+
+
+
 # [2.22.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.21.1...v2.22.0-alpha.0) (2022-11-08)
 
 
