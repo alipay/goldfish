@@ -61,7 +61,7 @@ const fileSystem: FileSystem = {
 const resolver = ResolverFactory.createResolver({
   fileSystem,
   mainFields: ['browser', 'module', 'main'],
-  conditionNames: ['import', 'require', 'node'],
+  conditionNames: ['import', 'require', 'browser', 'node'],
 });
 
 export default function resolveModule(request: string, options?: { paths?: string[] }) {
