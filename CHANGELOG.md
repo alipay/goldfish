@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.23.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.23.0-alpha.0...v2.23.0-alpha.1) (2023-01-30)
+
+
+### Bug Fixes
+
+* Do not execute the sync twice. ([b947395](https://github.com/alipay/goldfish/commit/b947395251b1724691607f75e76b34b30c2f029d))
+
+
+
+
+
 # [2.23.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.22.0...v2.23.0-alpha.0) (2022-12-28)
 
 
