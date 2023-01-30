@@ -97,11 +97,14 @@ export function buildComponentOptions<P extends Record<string, any>, D = any>(
     defaultSyncHandler.call(this);
   });
 
-  attachLogic(options, 'didUpdate', 'before', defaultSyncHandler);
-  attachLogic(options, 'deriveDataFromProps', 'before', function (this: View, nextProps: Record<string, any>) {
-    const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;
-    setup?.syncProps(nextProps);
-  });
+  if (isComponent2) {
+    attachLogic(options, 'deriveDataFromProps', 'before', function (this: View, nextProps: Record<string, any>) {
+      const setup = setupManager.get(this.data[COMPONENT_SETUP_ID_KEY]) as ComponentSetup | undefined;
+      setup?.syncProps(nextProps);
+    });
+  } else {
+    attachLogic(options, 'didUpdate', 'before', defaultSyncHandler);
+  }
 
   // Mount the lifecycle methods.
   function integrateLifeCycleMethods(lifeCycleMethods: (keyof tinyapp.IComponentLifeCycleMethods<any, any>)[]) {
