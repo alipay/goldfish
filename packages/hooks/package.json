@@ -16,6 +16,7 @@
   "dependencies": {
     "@goldfishjs/reactive": "^2.23.0",
     "@goldfishjs/reactive-connect": "^2.23.0",
+    "@goldfishjs/utils": "^2.23.0",
     "mini-types": "^0.1.7"
   },
   "devDependencies": {
