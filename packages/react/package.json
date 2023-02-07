@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/react",
-  "version": "2.23.0",
+  "version": "2.23.1",
   "description": "goldfish-react",
   "main": "lib/index.js",
   "scripts": {
