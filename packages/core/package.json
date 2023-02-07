@@ -37,7 +37,8 @@
     "babel-types": "6.26.0",
     "concurrently": "6.5.1",
     "mini-types": "^0.1.7",
-    "qs": "6.10.3"
+    "qs": "6.10.3",
+    "react": "*"
   },
   "peerDependencies": {
     "@types/react": "*"

@@ -1,0 +1,35 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@goldfishjs/bridge": ["./packages/bridge/src/index.ts"],
+      "@goldfishjs/bridge/lib/*": ["./packages/bridge/src/*"],
+      "@goldfishjs/composition-api": ["./packages/composition-api/src/index.ts"],
+      "@goldfishjs/composition-api/lib/*": ["./packages/composition-api/src/*"],
+      "@goldfishjs/core": ["./packages/core/src/index.ts"],
+      "@goldfishjs/core/lib/*": ["./packages/core/src/*"],
+      "@goldfishjs/hooks": ["./packages/hooks/src/index.ts"],
+      "@goldfishjs/hooks/lib/*": ["./packages/hooks/src/*"],
+      "@goldfishjs/module-usage": ["./packages/module-usage/src/index.ts"],
+      "@goldfishjs/module-usage/lib/*": ["./packages/module-usage/src/*"],
+      "@goldfishjs/plugins/lib/*": ["./packages/plugins/src/*"],
+      "@goldfishjs/plugins": ["./packages/plugins/src/index.ts"],
+      "@goldfishjs/pre-build": ["./packages/pre-build/src/index.ts"],
+      "@goldfishjs/pre-build/lib/*": ["./packages/pre-build/src/*"],
+      "@goldfishjs/react": ["./packages/react/src/index.ts"],
+      "@goldfishjs/react/lib/*": ["./packages/react/src/*"],
+      "@goldfishjs/reactive-connect": ["./packages/reactive-connect/src/index.ts"],
+      "@goldfishjs/reactive-connect/lib/*": ["./packages/reactive-connect/src/*"],
+      "@goldfishjs/reactive": ["./packages/reactive/src/index.ts"],
+      "@goldfishjs/reactive/lib/*": ["./packages/reactive/src/*"],
+      "@goldfishjs/requester": ["./packages/requester/src/index.ts"],
+      "@goldfishjs/requester/lib/*": ["./packages/requester/src/*"],
+      "@goldfishjs/route": ["./packages/route/src/index.ts"],
+      "@goldfishjs/route/lib/*": ["./packages/route/src/*"],
+      "@goldfishjs/test-utils": ["./packages/test-utils/src/index.ts"],
+      "@goldfishjs/test-utils/lib/*": ["./packages/test-utils/src/*"],
+      "@goldfishjs/utils": ["./packages/utils/src/index.ts"],
+      "@goldfishjs/utils/lib/*": ["./packages/utils/src/*"]
+    }
+  }
+}
