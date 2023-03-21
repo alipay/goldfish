@@ -272,7 +272,7 @@ gulp.task(
       return compileLessStream(['src/**/*.@(acss|less)']);
     },
     function copy() {
-      return copyStream(['src/**/*.@(json|axml|png|svg)']);
+      return copyStream(['src/**/*.@(json|axml|png|svg|sjs)']);
     },
     function dts() {
       return compileDTSStream(['src/**/*.@(ts|tsx)']);
