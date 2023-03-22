@@ -7,7 +7,7 @@
   "dependencies": {
     "@goldfishjs/bridge": "^2.23.0",
     "@goldfishjs/composition-api": "^2.23.0",
-    "@goldfishjs/core": "^2.23.1",
+    "@goldfishjs/core": "^2.24.0",
     "@goldfishjs/plugins": "^2.23.0",
     "@goldfishjs/reactive": "^2.23.0",
     "@goldfishjs/reactive-connect": "^2.23.0",
@@ -17,5 +17,5 @@
   "devDependencies": {
     "eslint-config-airbnb": "18.0.1"
   },
-  "version": "2.23.1"
+  "version": "2.24.0"
 }
