@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.24.0...v2.25.0-alpha.0) (2023-05-08)
+
+
+### Features
+
+* add disable options for pds ([8978c44](https://github.com/alipay/goldfish/commit/8978c44c5303a601042e7af0ee901bedcd59498b))
+
+
+
+
+
 # [2.24.0](https://github.com/alipay/goldfish/compare/v2.23.1...v2.24.0) (2023-03-22)
 
 
