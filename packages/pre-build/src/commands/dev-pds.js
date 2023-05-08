@@ -6,8 +6,15 @@ const { default: excludeUselessScriptsInIntlMiniProgramInDev } = require('../exc
 module.exports = {
   name: 'dev-pds',
   description: 'Pre-compile the miniprogram source codes in develoment for PDS.',
-  builder: () => {},
-  async handler() {
+  builder: (y) => {
+    y.option('disable-copy-dependencies', {
+      describe: 'Whether to copy dependencies.',
+      type: 'boolean',
+      demandOption: false,
+    });
+  },
+  async handler(args) {
+    const disableCopyDependencies = args.disableCopyDependencies;
     const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
 
     const cwd = process.cwd();
@@ -19,6 +26,8 @@ module.exports = {
     };
     await exec(`${gulpCommand} all-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
     exec(`${gulpCommand} dev-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
-    excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, env.OUT_DIR));
+    if (!disableCopyDependencies) {
+      excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, env.OUT_DIR));
+    }
   },
 };
