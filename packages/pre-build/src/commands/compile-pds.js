@@ -22,10 +22,16 @@ module.exports = {
       alias: 'a',
       type: 'string',
       default: 'false',
+    }).option('disable-copy-dependencies', {
+      describe: 'Whether to copy dependencies.',
+      type: 'boolean',
+      default: false,
     });
   },
   async handler(args) {
     log('Start compilation.');
+
+    const disableCopyDependencies = args.disableCopyDependencies;
 
     fs.removeSync(distDir);
 
@@ -42,7 +48,7 @@ module.exports = {
       },
     });
 
-    if (args.type === 'intl') {
+    if (args.type === 'intl' && !disableCopyDependencies) {
       await gulpPromise;
       log('Start resolve and copy the dependecies.');
       excludeUselessScriptsInIntlMiniProgram(distDir);
