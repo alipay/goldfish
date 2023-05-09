@@ -30,7 +30,7 @@ module.exports = {
       ON_SUCCESS_CALLBACK: onSuccess,
     };
     await exec(`${gulpCommand} all-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
-    await execCallback();
+    await execCallback(undefined, onSuccess);
     exec(`${gulpCommand} dev-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
     if (!disableCopyDependencies) {
       excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, env.OUT_DIR));
