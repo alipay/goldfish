@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.0...v2.25.0-alpha.1) (2023-05-09)
+
+
+### Features
+
+* support callback in dev process. ([7a09df3](https://github.com/alipay/goldfish/commit/7a09df398a1442bf205f95618346fc755bfe5ba1))
+
+
+
+
+
 # [2.25.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.24.0...v2.25.0-alpha.0) (2023-05-08)
 
 

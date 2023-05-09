@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/route",
-  "version": "2.25.0-alpha.0",
+  "version": "2.25.0-alpha.1",
   "description": "goldfish-route",
   "main": "lib/index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   "author": "644506165@qq.com",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/module-usage": "^2.25.0-alpha.0",
+    "@goldfishjs/module-usage": "^2.25.0-alpha.1",
     "@types/qs": "^6.9.0",
     "mini-types": "^0.1.7",
     "qs": "6.10.3"
