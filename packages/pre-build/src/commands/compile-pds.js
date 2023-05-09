@@ -25,7 +25,6 @@ module.exports = {
     }).option('disable-copy-dependencies', {
       describe: 'Whether to copy dependencies.',
       type: 'boolean',
-      default: false,
     });
   },
   async handler(args) {
@@ -38,7 +37,7 @@ module.exports = {
     const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
 
     const cwd = process.cwd();
-    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
+    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile-pds.js`);
     const gulpPromise = exec(`${gulpCommand} all-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, {
       cwd,
       env: {

@@ -10,19 +10,24 @@ module.exports = {
     y.option('disable-copy-dependencies', {
       describe: 'Whether to copy dependencies.',
       type: 'boolean',
-      demandOption: false,
+    });
+    y.option('on-success', {
+      describe: 'The callback after every changed file successfully handled.',
+      type: 'string',
     });
   },
   async handler(args) {
     const disableCopyDependencies = args.disableCopyDependencies;
+    const onSuccess = args.onSuccess;
     const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
 
     const cwd = process.cwd();
-    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
+    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile-pds.js`);
     const env = {
       BASE_DIR: 'src',
       OUT_DIR: 'lib',
       ...lodash.pick(process.env, 'BASE_DIR', 'OUT_DIR'),
+      ON_SUCCESS_CALLBACK: onSuccess,
     };
     await exec(`${gulpCommand} all-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
     exec(`${gulpCommand} dev-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
