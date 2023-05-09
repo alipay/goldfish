@@ -1,6 +1,6 @@
 const path = require('path');
 const lodash = require('lodash');
-const { exec, getBinCommand } = require('../utils');
+const { exec, getBinCommand, execCallback } = require('../utils');
 const { default: excludeUselessScriptsInIntlMiniProgramInDev } = require('../excludeUselessScriptsInIntlMiniProgramInDev');
 
 module.exports = {
@@ -30,6 +30,7 @@ module.exports = {
       ON_SUCCESS_CALLBACK: onSuccess,
     };
     await exec(`${gulpCommand} all-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
+    await execCallback();
     exec(`${gulpCommand} dev-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
     if (!disableCopyDependencies) {
       excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, env.OUT_DIR));

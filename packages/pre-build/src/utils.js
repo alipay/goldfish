@@ -134,3 +134,19 @@ exports.getNPMCommand = async () => {
 
   throw new Error(`Can not find these commands: ${candidate.join(', ')}`);
 };
+
+exports.execCallback = async (filePath) => {
+  if (!process.env.ON_SUCCESS_CALLBACK) {
+    return;
+  }
+  try {
+    await exports.exec(process.env.ON_SUCCESS_CALLBACK, {
+      color: true,
+      env: {
+        HANDLED_FILE_PATH: filePath,
+      },
+    });
+  } catch (e) {
+    error(e);
+  }
+}

@@ -232,22 +232,6 @@ gulp.task(
   ),
 );
 
-async function onComplete(filePath) {
-  if (!process.env.ON_SUCCESS_CALLBACK) {
-    return;
-  }
-  try {
-    await utils.exec(process.env.ON_SUCCESS_CALLBACK, {
-      color: true,
-      env: {
-        HANDLED_FILE_PATH: filePath,
-      },
-    });
-  } catch (e) {
-    utils.error(e);
-  }
-}
-
 gulp.task(
   'dev-pds',
   gulp.parallel(
@@ -259,12 +243,12 @@ gulp.task(
           '!coverage/**',
           `!${excludeDistDir}`
         ],
-        onComplete,
+        utils.execCallback,
       );
     },
     function customBlobs() {
       const blobs = getCustomBlobs() || [];
-      return createDevWatcherTask(blobs, onComplete);
+      return createDevWatcherTask(blobs, utils.execCallback);
     },
   ),
 );
