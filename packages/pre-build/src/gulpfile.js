@@ -56,15 +56,19 @@ const sourceType = {
   },
 };
 
-function commonStream(files, cb) {
-  let stream = cb(
-    gulp
-      .src(files, { base: baseDir })
-      .pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV)))
-      .pipe(replace('process.env.GOLDFISH_ENV', JSON.stringify(process.env.GOLDFISH_ENV)))
-      .pipe(plumber(utils.error)),
-  );
+function replaceEnv(stream) {
+  let resultStream = stream;
+  if (process.env.NODE_ENV) {
+    resultStream = resultStream.pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV)));
+  }
+  if (process.env.GOLDFISH_ENV) {
+    resultStream = resultStream.pipe(replace('process.env.GOLDFISH_ENV', JSON.stringify(process.env.GOLDFISH_ENV)));
+  }
+  return resultStream;
+}
 
+function commonStream(files, cb) {
+  let stream = cb(replaceEnv(gulp.src(files, { base: baseDir })).pipe(plumber(utils.error)));
   stream = stream.pipe(gulp.dest(utils.distDir));
   return stream;
 }
