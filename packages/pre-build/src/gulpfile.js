@@ -206,7 +206,7 @@ function getCustomBlobs() {
   }
 }
 
-function createDevWatcherTask(globs, sourceFiles) {
+function createDevWatcherTask(globs, sourceFiles, onComplete) {
   const watcher = gulp.watch(globs, {
     ignoreInitial: true,
   });
@@ -216,15 +216,25 @@ function createDevWatcherTask(globs, sourceFiles) {
     let targetPath = utils.getCompiledPath(path, sourceType);
     if (fs.existsSync(targetPath)) {
       fs.unlinkSync(targetPath);
+      onComplete && onComplete(path);
       utils.log(`Remove file successfully: ${targetPath}.`);
     }
   });
   return watcher;
 
   function sourceUpdateHandler(path) {
+    let callbackCounter = 1;
+    const checkComplete = () => {
+      callbackCounter--;
+      if (callbackCounter <= 0) {
+        onComplete && onComplete(path);
+      }
+    };
+
     const startTime = Date.now();
     let stream;
     if (sourceType.check(path, sourceFiles) === 'ts') {
+      callbackCounter = 2;
       stream = compileTSStream(path);
 
       // handle the dts
@@ -234,6 +244,7 @@ function createDevWatcherTask(globs, sourceFiles) {
       });
       dtsStream.once('end', () => {
         utils.log('Compile file[dts] completed and cost ' + (Date.now() - startTime) + 'ms:', path);
+        checkComplete();
       });
     } else if (sourceType.check(path, sourceFiles) === 'less') {
       stream = compileLessStream(path);
@@ -252,6 +263,7 @@ function createDevWatcherTask(globs, sourceFiles) {
     });
     stream.once('end', () => {
       utils.log('Compile file completed and cost ' + (Date.now() - startTime) + 'ms:', path);
+      checkComplete();
     });
   }
 }
@@ -295,6 +307,7 @@ gulp.task('npm-dev', () => {
   return createDevWatcherTask(
     [...npmSourceFiles.ts, ...npmSourceFiles.js, ...npmSourceFiles.less, ...npmSourceFiles.copy],
     npmSourceFiles,
+    utils.execCallback,
   );
 });
 
