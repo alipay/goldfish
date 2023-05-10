@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0-alpha.4](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.3...v2.25.0-alpha.4) (2023-05-10)
+
+
+### Features
+
+* do not replace env variables when not exits. ([34cc556](https://github.com/alipay/goldfish/commit/34cc5562e95eaa839e79df66b7c24aa7ee812ef4))
+* support dev compiling in npm package projects. ([07e52ed](https://github.com/alipay/goldfish/commit/07e52ed6c9c48019a646e91781cf6b98fb1422db))
+* support npm dev callback. ([312f4f7](https://github.com/alipay/goldfish/commit/312f4f7997985ce48f6a3dccc4b8fdbea049d311))
+
+
+
+
+
 # [2.25.0-alpha.3](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.2...v2.25.0-alpha.3) (2023-05-09)
 
 
