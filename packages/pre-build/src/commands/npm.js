@@ -1,5 +1,6 @@
 const { exec, getBinCommand } = require('../utils');
 const path = require('path');
+const fs = require('fs-extra');
 
 module.exports = {
   name: 'npm',
