@@ -19,7 +19,6 @@ const {
   commonStream: baseCommonStream,
   getTSProject,
 } = require('./gulpfile');
-const { exec, getBinCommand } = require('./utils');
 
 function commonStream(files, cb) {
   return baseCommonStream(files, pdsCustomHandle(cb));
@@ -156,7 +155,7 @@ function createDevWatcherTask(globs, onComplete) {
 
     const startTime = Date.now();
     let stream;
-    if (sourceType.check(path) === 'ts') {
+    if (sourceType.check(path, sourceFiles) === 'ts') {
       callbackCounter = 2;
       stream = compileTSStream(path);
 
@@ -169,11 +168,11 @@ function createDevWatcherTask(globs, onComplete) {
         utils.log('Compile file[dts] completed and cost ' + (Date.now() - startTime) + 'ms:', path);
         checkComplete();
       });
-    } else if (sourceType.check(path) === 'less') {
+    } else if (sourceType.check(path, sourceFiles) === 'less') {
       stream = compileLessStream(path);
-    } else if (sourceType.check(path) === 'js') {
+    } else if (sourceType.check(path, sourceFiles) === 'js') {
       stream = compileJSStream(path);
-    } else if (sourceType.check(path) === 'copy') {
+    } else if (sourceType.check(path, sourceFiles) === 'copy') {
       stream = copyStream(path);
     }
 
