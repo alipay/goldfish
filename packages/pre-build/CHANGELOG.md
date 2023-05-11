@@ -3,6 +3,85 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0-alpha.6](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.5...v2.25.0-alpha.6) (2023-05-10)
+
+
+### Bug Fixes
+
+* pass in sourceFiles. ([a626310](https://github.com/alipay/goldfish/commit/a626310befa3a771ecf2e6415fc402ad840c5fdb))
+
+
+
+
+
+# [2.25.0-alpha.5](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.4...v2.25.0-alpha.5) (2023-05-10)
+
+
+### Bug Fixes
+
+* no fs ([013db19](https://github.com/alipay/goldfish/commit/013db196d95af330a80042e611883ec2892c40e7))
+
+
+
+
+
+# [2.25.0-alpha.4](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.3...v2.25.0-alpha.4) (2023-05-10)
+
+
+### Features
+
+* do not replace env variables when not exits. ([34cc556](https://github.com/alipay/goldfish/commit/34cc5562e95eaa839e79df66b7c24aa7ee812ef4))
+* support dev compiling in npm package projects. ([07e52ed](https://github.com/alipay/goldfish/commit/07e52ed6c9c48019a646e91781cf6b98fb1422db))
+* support npm dev callback. ([312f4f7](https://github.com/alipay/goldfish/commit/312f4f7997985ce48f6a3dccc4b8fdbea049d311))
+
+
+
+
+
+# [2.25.0-alpha.3](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.2...v2.25.0-alpha.3) (2023-05-09)
+
+
+### Bug Fixes
+
+* pass in the callback ([f7cd2c0](https://github.com/alipay/goldfish/commit/f7cd2c0db1f9001b3cb11c896d07e59cbbc188b9))
+
+
+
+
+
+# [2.25.0-alpha.2](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.1...v2.25.0-alpha.2) (2023-05-09)
+
+
+### Features
+
+* first execution ([a71b0fe](https://github.com/alipay/goldfish/commit/a71b0fee3f10ab4193e53db5fd692685fd54a5ee))
+
+
+
+
+
+# [2.25.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.0...v2.25.0-alpha.1) (2023-05-09)
+
+
+### Features
+
+* support callback in dev process. ([7a09df3](https://github.com/alipay/goldfish/commit/7a09df398a1442bf205f95618346fc755bfe5ba1))
+
+
+
+
+
+# [2.25.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.24.0...v2.25.0-alpha.0) (2023-05-08)
+
+
+### Features
+
+* add disable options for pds ([8978c44](https://github.com/alipay/goldfish/commit/8978c44c5303a601042e7af0ee901bedcd59498b))
+
+
+
+
+
 # [2.24.0](https://github.com/alipay/goldfish/compare/v2.23.1...v2.24.0) (2023-03-22)
 
 

@@ -9,75 +9,19 @@ const babel = require('gulp-babel');
 const replace = require('gulp-replace');
 const getBabelConfig = require('./getBabelConfig');
 const utils = require('./utils');
-const micromatch = require('micromatch');
-const path = require('path');
-const plumber = require('gulp-plumber');
 const alias = require('./lib/@gulp-plugin/alias/index');
-
-const cwd = process.cwd();
-const excludeDistDir = `${utils.distDir.replace(cwd + path.sep, '')}/**`;
-
-const baseDir = utils.baseDir;
-
-const souceBaseDir = path.relative(cwd, baseDir);
-const sourceFiles = {
-  ts: [`${souceBaseDir}/**/*.ts`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
-  less: [`${souceBaseDir}/**/*.@(less|acss)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
-  js: [`${souceBaseDir}/**/*.@(js|sjs)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
-  copy: [
-    `${souceBaseDir}/**/*.@(json|axml|png|svg)`,
-    '!node_modules/**',
-    '!scripts/**',
-    `!${excludeDistDir}`,
-    '!mini.project.json',
-    '!package.json',
-    '!tsconfig.json',
-  ],
-};
-const npmSourceFiles = {
-  ts: ['src/**/*.@(ts|tsx)', '!src/**/*.d.ts'],
-  js: ['src/**/*.@(js|jsx)'],
-  less: ['src/**/*.@(acss|less)'],
-  copy: ['src/**/*.@(json|axml|png|svg|sjs)', 'src/**/*.d.ts'],
-  dts: ['src/**/*.@(ts|tsx)'],
-};
-
-const sourceType = {
-  typeMap: {},
-  check(path, sourceFiles) {
-    if (path in this.typeMap) {
-      return this.typeMap[path];
-    }
-
-    if (micromatch([path], sourceFiles.ts).length) {
-      this.typeMap[path] = 'ts';
-    } else if (micromatch([path], sourceFiles.less).length) {
-      this.typeMap[path] = 'less';
-    } else if (micromatch([path], sourceFiles.js).length) {
-      this.typeMap[path] = 'js';
-    } else if (micromatch([path], sourceFiles.copy).length) {
-      this.typeMap[path] = 'copy';
-    }
-
-    return this.typeMap[path];
-  },
-};
-
-function replaceEnv(stream) {
-  let resultStream = stream;
-  if (process.env.NODE_ENV) {
-    resultStream = resultStream.pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV)));
-  }
-  if (process.env.GOLDFISH_ENV) {
-    resultStream = resultStream.pipe(replace('process.env.GOLDFISH_ENV', JSON.stringify(process.env.GOLDFISH_ENV)));
-  }
-  return resultStream;
-}
+const {
+  cwd,
+  excludeDistDir,
+  baseDir,
+  sourceFiles,
+  sourceType,
+  commonStream: baseCommonStream,
+  getTSProject,
+} = require('./gulpfile');
 
 function commonStream(files, cb) {
-  let stream = cb(replaceEnv(gulp.src(files, { base: baseDir })).pipe(plumber(utils.error)));
-  stream = stream.pipe(gulp.dest(utils.distDir));
-  return stream;
+  return baseCommonStream(files, pdsCustomHandle(cb));
 }
 
 function compileJSStream(files) {
@@ -90,17 +34,16 @@ function compileJSStream(files) {
   });
 }
 
-function getTSProject() {
-  return utils.tsconfigPath && fs.existsSync(utils.tsconfigPath) ? ts.createProject(utils.tsconfigPath) : null;
-}
-
 function compileTSStream(files) {
   const tsProject = getTSProject();
-  return commonStream(files, stream => {
-    const babelConfig = getBabelConfig();
-    babelConfig.presets.push([require.resolve('@babel/preset-typescript'), {}]);
-    return stream.pipe(alias(tsProject.config)).pipe(babel(babelConfig));
-  });
+  return commonStream(
+    files,
+    stream => {
+      const babelConfig = getBabelConfig();
+      babelConfig.presets.push([require.resolve('@babel/preset-typescript'), {}]);
+      return stream.pipe(alias(tsProject.config)).pipe(babel(babelConfig));
+    },
+  );
 }
 
 function compileDTSStream(files) {
@@ -172,27 +115,6 @@ gulp.task('dts', () => {
   return compileDTSStream(sourceFiles.ts);
 });
 
-gulp.task(
-  'all',
-  gulp.parallel(
-    function ts() {
-      return compileTSStream(sourceFiles.ts);
-    },
-    function js() {
-      return compileJSStream(sourceFiles.js);
-    },
-    function less() {
-      return compileLessStream(sourceFiles.less);
-    },
-    function copy() {
-      return copyStream(sourceFiles.copy);
-    },
-    function dts() {
-      return compileDTSStream(sourceFiles.ts);
-    },
-  ),
-);
-
 function getCustomBlobs() {
   try {
     const miniJson = require(`${cwd}/mini.project.json`);
@@ -206,12 +128,12 @@ function getCustomBlobs() {
   }
 }
 
-function createDevWatcherTask(globs, sourceFiles, onComplete) {
+function createDevWatcherTask(globs, onComplete) {
   const watcher = gulp.watch(globs, {
     ignoreInitial: true,
   });
-  watcher.on('change', sourceUpdateHandler);
-  watcher.on('add', sourceUpdateHandler);
+  watcher.on('change', path => sourceUpdateHandler(path, onComplete));
+  watcher.on('add', path => sourceUpdateHandler(path, onComplete));
   watcher.on('unlink', path => {
     let targetPath = utils.getCompiledPath(path, sourceType);
     if (fs.existsSync(targetPath)) {
@@ -222,7 +144,7 @@ function createDevWatcherTask(globs, sourceFiles, onComplete) {
   });
   return watcher;
 
-  function sourceUpdateHandler(path) {
+  function sourceUpdateHandler(path, onComplete) {
     let callbackCounter = 1;
     const checkComplete = () => {
       callbackCounter--;
@@ -268,53 +190,64 @@ function createDevWatcherTask(globs, sourceFiles, onComplete) {
   }
 }
 
+// PDS Custom
+function pdsCustomHandle(cb) {
+  const prefixRE = /^GOLDFISH_APP/;
+
+  const envs = Object.create(null);
+  Object.keys(process.env).forEach(key => {
+    if (prefixRE.test(key) || key === 'NODE_ENV') {
+      envs[key] = process.env[key];
+    }
+  });
+
+  return stream => {
+    stream = Object.entries(envs).reduce((_stream, [key, value]) => {
+      return _stream.pipe(replace(`process.env.${key}`, JSON.stringify(value)));
+    }, stream);
+
+    return cb(stream);
+  };
+}
+
 gulp.task(
-  'dev',
+  'all-pds',
+  gulp.parallel(
+    function ts() {
+      return compileTSStream(sourceFiles.ts);
+    },
+    function js() {
+      return compileJSStream(sourceFiles.js);
+    },
+    function less() {
+      return compileLessStream(sourceFiles.less);
+    },
+    function copy() {
+      return copyStream(sourceFiles.copy);
+    },
+    function dts() {
+      return compileDTSStream(sourceFiles.ts);
+    },
+  ),
+);
+
+gulp.task(
+  'dev-pds',
   gulp.parallel(
     function sourceCode() {
-      return createDevWatcherTask(['./**/*', '!node_modules/**', '!coverage/**', `!${excludeDistDir}`], sourceFiles);
+      return createDevWatcherTask(
+        [
+          './**/*',
+          '!node_modules/**',
+          '!coverage/**',
+          `!${excludeDistDir}`
+        ],
+        utils.execCallback,
+      );
     },
     function customBlobs() {
       const blobs = getCustomBlobs() || [];
-      return createDevWatcherTask(blobs, sourceFiles);
+      return createDevWatcherTask(blobs, utils.execCallback);
     },
   ),
 );
-
-// Compiler for npm package projects.
-gulp.task(
-  'npm',
-  gulp.parallel(
-    function ts() {
-      return compileTSStream(npmSourceFiles.ts);
-    },
-    function js() {
-      return compileJSStream(npmSourceFiles.js);
-    },
-    function less() {
-      return compileLessStream(npmSourceFiles.less);
-    },
-    function copy() {
-      return copyStream(npmSourceFiles.copy);
-    },
-    function dts() {
-      return compileDTSStream(npmSourceFiles.dts);
-    },
-  ),
-);
-
-gulp.task('npm-dev', () => {
-  return createDevWatcherTask(
-    [...npmSourceFiles.ts, ...npmSourceFiles.js, ...npmSourceFiles.less, ...npmSourceFiles.copy],
-    npmSourceFiles,
-    utils.execCallback,
-  );
-});
-
-exports.cwd = cwd;
-exports.excludeDistDir = excludeDistDir;
-exports.baseDir = baseDir;
-exports.sourceFiles = sourceFiles;
-exports.sourceType = sourceType;
-exports.commonStream = commonStream;
-exports.getTSProject = getTSProject;

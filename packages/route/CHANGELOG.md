@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0-alpha.6](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.5...v2.25.0-alpha.6) (2023-05-10)
+
+**Note:** Version bump only for package @goldfishjs/route
+
+
+
+
+
+# [2.25.0-alpha.5](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.4...v2.25.0-alpha.5) (2023-05-10)
+
+**Note:** Version bump only for package @goldfishjs/route
+
+
+
+
+
+# [2.25.0-alpha.4](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.3...v2.25.0-alpha.4) (2023-05-10)
+
+**Note:** Version bump only for package @goldfishjs/route
+
+
+
+
+
+# [2.25.0-alpha.3](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.2...v2.25.0-alpha.3) (2023-05-09)
+
+**Note:** Version bump only for package @goldfishjs/route
+
+
+
+
+
+# [2.25.0-alpha.2](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.1...v2.25.0-alpha.2) (2023-05-09)
+
+**Note:** Version bump only for package @goldfishjs/route
+
+
+
+
+
+# [2.25.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.0...v2.25.0-alpha.1) (2023-05-09)
+
+**Note:** Version bump only for package @goldfishjs/route
+
+
+
+
+
+# [2.25.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.24.0...v2.25.0-alpha.0) (2023-05-08)
+
+**Note:** Version bump only for package @goldfishjs/route
+
+
+
+
+
 # [2.23.0](https://github.com/alipay/goldfish/compare/v2.23.0-alpha.1...v2.23.0) (2023-01-30)
 
 **Note:** Version bump only for package @goldfishjs/route

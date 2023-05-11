@@ -22,17 +22,22 @@ module.exports = {
       alias: 'a',
       type: 'string',
       default: 'false',
+    }).option('disable-copy-dependencies', {
+      describe: 'Whether to copy dependencies.',
+      type: 'boolean',
     });
   },
   async handler(args) {
     log('Start compilation.');
+
+    const disableCopyDependencies = args.disableCopyDependencies;
 
     fs.removeSync(distDir);
 
     const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
 
     const cwd = process.cwd();
-    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
+    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile-pds.js`);
     const gulpPromise = exec(`${gulpCommand} all-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, {
       cwd,
       env: {
@@ -42,7 +47,7 @@ module.exports = {
       },
     });
 
-    if (args.type === 'intl') {
+    if (args.type === 'intl' && !disableCopyDependencies) {
       await gulpPromise;
       log('Start resolve and copy the dependecies.');
       excludeUselessScriptsInIntlMiniProgram(distDir);

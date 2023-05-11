@@ -1,5 +1,4 @@
 import { IHostInstance } from './create';
-import { Status } from '../context/StateContext';
 
 export class CompanionObjectManager {
   private map: Record<string, IHostInstance<any> | null> = {};
