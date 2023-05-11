@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.1-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.1-alpha.0...v2.25.1-alpha.1) (2023-05-11)
+
+
+### Bug Fixes
+
+* add sourceFiles params ([d9ca8c2](https://github.com/alipay/goldfish/commit/d9ca8c27f4f38b7146b01ad598b543662e7c3b5c))
+
+
+
+
+
 ## [2.25.1-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.0...v2.25.1-alpha.0) (2023-05-11)
 
 
