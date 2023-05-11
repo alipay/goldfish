@@ -142,7 +142,9 @@ function createDevWatcherTask(globs, onComplete) {
       utils.log(`Remove file successfully: ${targetPath}.`);
     }
   });
-  return watcher;
+  return new Promise((resolve) => {
+    watcher.on('close', resolve);
+  });
 
   function sourceUpdateHandler(path, onComplete) {
     let callbackCounter = 1;
