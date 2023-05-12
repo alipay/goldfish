@@ -213,14 +213,16 @@ function createDevWatcherTask(globs, sourceFiles, onComplete) {
   watcher.on('change', sourceUpdateHandler);
   watcher.on('add', sourceUpdateHandler);
   watcher.on('unlink', path => {
-    let targetPath = utils.getCompiledPath(path, sourceType);
+    let targetPath = utils.getCompiledPath(path, sourceType, sourceFiles);
     if (fs.existsSync(targetPath)) {
       fs.unlinkSync(targetPath);
       onComplete && onComplete(path);
       utils.log(`Remove file successfully: ${targetPath}.`);
     }
   });
-  return watcher;
+  return new Promise((resolve) => {
+    watcher.on('close', resolve);
+  });
 
   function sourceUpdateHandler(path) {
     let callbackCounter = 1;

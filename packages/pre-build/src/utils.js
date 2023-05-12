@@ -91,9 +91,9 @@ const tsconfigPath = path.resolve(
 );
 exports.tsconfigPath = tsconfigPath;
 
-function getCompiledPath(sourceFilePath, sourceType) {
+function getCompiledPath(sourceFilePath, sourceType, sourceFiles) {
   const relativeSourcePath = '.' + sourceFilePath.replace(cwd, '');
-  const type = sourceType.check(relativeSourcePath.replace(/^.\//, ''));
+  const type = sourceType.check(relativeSourcePath.replace(/^.\//, ''), sourceFiles);
   const interTargetPath = path.resolve(
     distDir,
     sourceFilePath.replace(exports.baseDir + path.sep, ''),
