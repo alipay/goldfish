@@ -102,15 +102,6 @@ export default function getBabelConfig(options: GetBabelConfigOptions) {
           transformFunctions: ['require', 'require.resolve', 'System.import'],
         },
       ],
-      [
-        'babel-plugin-module-resolver',
-        {
-          root: [utils.baseDir],
-          alias: {
-            '@': `.${path.sep}${path.relative(utils.cwd, utils.baseDir)}`,
-          },
-        },
-      ],
     ],
   };
 

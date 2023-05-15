@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const { default: excludeUselessScriptsInIntlMiniProgram } = require('../excludeUselessScriptsInIntlMiniProgram');
-const { distDir: baseDistDir, log, error } = require('../utils');
+const { log, error } = require('../utils');
 const createPDSGulpConfig = require('../createPDSGulpConfig').default;
 
 module.exports = {
@@ -26,18 +26,17 @@ module.exports = {
   async handler(args) {
     log('Start compilation.');
 
-    const disableCopyDependencies = args.disableCopyDependencies;
-
-    fs.removeSync(distDir);
-
     const cwd = process.cwd();
+    const disableCopyDependencies = args.disableCopyDependencies;
     const defaultOutDir = 'lib';
-    const distDir = process.env.OUT_DIR ? baseDistDir : path.resolve(cwd, defaultOutDir);
+    const distDir = process.env.OUT_DIR || defaultOutDir;
+
+    fs.removeSync(path.resolve(cwd, distDir));
 
     const { build } = createPDSGulpConfig({
       projectDir: cwd,
       baseDir: process.env.BASE_DIR || 'src',
-      distDir: process.env.OUT_DIR || defaultOutDir,
+      distDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
     });
     const taskPromise = new Promise((resolve, reject) => {

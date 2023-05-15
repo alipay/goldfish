@@ -9,12 +9,13 @@ module.exports = {
   builder: () => {},
   async handler() {
     const cwd = process.cwd();
-    fs.removeSync(path.resolve(cwd, './lib'));
+    const distDir = process.env.OUT_DIR || 'lib';
+    fs.removeSync(path.resolve(cwd, distDir));
 
     const { npm } = createGulpConfig({
       projectDir: cwd,
       baseDir: process.env.BASE_DIR || 'src',
-      distDir: process.env.OUT_DIR || 'lib',
+      distDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
     });
     const taskPromise = new Promise((resolve, reject) => {

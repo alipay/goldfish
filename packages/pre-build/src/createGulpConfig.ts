@@ -115,19 +115,26 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
       watcher.on('onCompilationComplete', () => {
         opts.onSuccess && opts.onSuccess();
       });
-      watcher.start('--project', tsconfigPath, '--emitDeclarationOnly', '--declaration', '--outDir', options.distDir);
+      watcher.start(
+        '--project',
+        tsconfigPath,
+        '--noClear',
+        '--emitDeclarationOnly',
+        '--declaration',
+        '--outDir',
+        options.distDir,
+      );
       return watcher;
     }
 
     const tsc = resolveTypeScript();
-    return utils.exec(
-      `${tsc} --project ${tsconfigPath} --emitDeclarationOnly --declaration --outDir ${options.distDir}`,
-      {
+    return utils
+      .exec(`${tsc} --project ${tsconfigPath} --emitDeclarationOnly --declaration --outDir ${options.distDir}`, {
         cwd: options.projectDir,
         prefix: '[typescript]',
         color: false,
-      },
-    );
+      })
+      .catch(() => {});
   }
 
   function compileLessStream(files: string[]) {
