@@ -1,6 +1,6 @@
-const { exec, getBinCommand } = require('../utils');
 const path = require('path');
 const fs = require('fs-extra');
+const createGulpConfig = require('../createGulpConfig');
 
 module.exports = {
   name: 'npm',
@@ -10,16 +10,25 @@ module.exports = {
     const cwd = process.cwd();
     fs.removeSync(path.resolve(cwd, './lib'));
 
-    const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
-
-    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
-    exec(`${gulpCommand} npm --gulpfile ${gulpFilePath} --cwd ${cwd}`, {
-      cwd,
-      env: {
-        OUT_DIR: './lib',
-        BASE_DIR: './src',
-        ...process.env,
-      },
+    const { npm } = createGulpConfig({
+      projectDir: cwd,
+      baseDir: process.env.BASE_DIR || 'src',
+      distDir: process.env.OUT_DIR || 'lib',
+      tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
     });
+    const taskPromise = new Promise((resolve, reject) => {
+      const startTime = Date.now();
+      log(`Start compiling the project: ${cwd}`);
+      build()(e => {
+        if (e) {
+          error(`Failed to compile the project: ${cwd}`, e);
+          reject(e);
+        } else {
+          log(`Successfully compile the project: ${cwd}. And cost ${Date.now() - startTime}ms.`);
+          resolve();
+        }
+      });
+    });
+    await taskPromise;
   },
 };

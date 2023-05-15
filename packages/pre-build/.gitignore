@@ -1,3 +1,5 @@
 lib
 test/utils/tmp
 !test/utils/templates/*/node_modules
+!src/lib
+!src/lib/*/lib

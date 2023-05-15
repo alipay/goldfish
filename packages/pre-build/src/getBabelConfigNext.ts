@@ -1,15 +1,22 @@
-const path = require('path');
-const fs = require('fs-extra');
-const glob = require('glob');
-const lodash = require('lodash');
-const utils = require('./utils');
+import path from 'path';
+import * as fs from 'fs-extra';
+import * as glob from 'glob';
+import lodash from 'lodash';
+import utils from './utils';
 
-let pkgCache = {};
-let babelPkgDirs = {};
-function parsePkgPluginConfig(pkgRootDir) {
+let pkgCache: Record<
+  string,
+  Array<{
+    pkgJson: Record<string, any>;
+    path: string;
+    plugins?: babel.PluginItem[];
+  }>
+> = {};
+let babelPkgDirs: Record<string, true> = {};
+function parsePkgPluginConfig(pkgRootDir: string) {
   const pkgJson = require(path.resolve(pkgRootDir, 'package.json'));
   if (!pkgCache[pkgJson.name]) {
-    const plugins = [];
+    const plugins: babel.PluginItem[] = [];
 
     const babelPluginPath = path.resolve(pkgRootDir, 'babel-plugin.js');
     if (fs.existsSync(babelPluginPath)) {
@@ -43,30 +50,25 @@ function parsePkgPluginConfig(pkgRootDir) {
   return [];
 }
 
-function findFiles(dir) {
+function findFiles(dir: string) {
   const pathSegList = dir.split(path.sep);
-  const files = [];
+  const files: string[] = [];
   while (pathSegList.length) {
     const currentDir = path.resolve(pathSegList.join(path.sep), 'node_modules');
     if (fs.pathExistsSync(currentDir)) {
-      files.push(
-        ...glob.sync(path.resolve(currentDir, '@goldfishjs/*/package.json'), { follow: false }),
-      );
+      files.push(...glob.sync(path.resolve(currentDir, '@goldfishjs/*/package.json'), { follow: false }));
     }
     pathSegList.pop();
   }
   return lodash.uniq(files);
 }
 
-/**
- * Create the babel configurations.
- *
- * @deprecated
- * @param {string} rootDir The root directory of the project.
- * @returns
- */
-module.exports = (rootDir = process.cwd()) => {
-  const babelConfig = {
+export interface GetBabelConfigOptions {
+  projectDir: string;
+}
+
+export default function getBabelConfig(options: GetBabelConfigOptions) {
+  const babelConfig: { presets: babel.PluginItem[]; plugins: babel.PluginItem[] } = {
     presets: [
       [
         require.resolve('@babel/preset-env'),
@@ -77,6 +79,7 @@ module.exports = (rootDir = process.cwd()) => {
           },
         },
       ],
+      [require.resolve('@babel/preset-typescript')],
     ],
     plugins: [
       [
@@ -92,6 +95,14 @@ module.exports = (rootDir = process.cwd()) => {
       require.resolve('@babel/plugin-proposal-class-properties'),
       '@babel/plugin-proposal-optional-chaining',
       [
+        require.resolve('./lib/babel-plugin-tsconfig-paths/index.js'),
+        {
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.es', '.es6', '.mjs'],
+          tsconfig: path.resolve(options.projectDir, 'tsconfig.json'),
+          transformFunctions: ['require', 'require.resolve', 'System.import'],
+        },
+      ],
+      [
         'babel-plugin-module-resolver',
         {
           root: [utils.baseDir],
@@ -103,7 +114,7 @@ module.exports = (rootDir = process.cwd()) => {
     ],
   };
 
-  const files = findFiles(rootDir);
+  const files = findFiles(options.projectDir);
   babelPkgDirs = {};
   pkgCache = {};
   const plugins = lodash.flatten(
@@ -129,7 +140,7 @@ module.exports = (rootDir = process.cwd()) => {
   });
 
   return babelConfig;
-};
+}
 
 module.exports.getBabelPkgDirs = () => {
   return Object.keys(babelPkgDirs);
