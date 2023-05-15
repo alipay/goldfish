@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
-const createGulpConfig = require('../createGulpConfig');
+const createGulpConfig = require('../createGulpConfig').default;
+const { log, error } = require('../utils');
 
 module.exports = {
   name: 'npm',
@@ -19,14 +20,13 @@ module.exports = {
     const taskPromise = new Promise((resolve, reject) => {
       const startTime = Date.now();
       log(`Start compiling the project: ${cwd}`);
-      build()(e => {
+      npm()(e => {
         if (e) {
           error(`Failed to compile the project: ${cwd}`, e);
-          reject(e);
         } else {
           log(`Successfully compile the project: ${cwd}. And cost ${Date.now() - startTime}ms.`);
-          resolve();
         }
+        resolve();
       });
     });
     await taskPromise;

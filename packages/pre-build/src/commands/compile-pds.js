@@ -46,11 +46,10 @@ module.exports = {
       build()(e => {
         if (e) {
           error(`Failed to compile the project: ${cwd}`, e);
-          reject(e);
         } else {
           log(`Successfully compile the project: ${cwd}. And cost ${Date.now() - startTime}ms.`);
-          resolve();
         }
+        resolve();
       });
     });
     await taskPromise;

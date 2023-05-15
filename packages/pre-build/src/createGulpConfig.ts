@@ -9,6 +9,7 @@ import babel from 'gulp-babel';
 import replace from 'gulp-replace';
 import micromatch from 'micromatch';
 import plumber from 'gulp-plumber';
+import { TscWatchClient } from 'tsc-watch/client';
 import getBabelConfig from './getBabelConfigNext';
 import utils from './utils';
 
@@ -102,17 +103,25 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
     });
   }
 
-  function compileDTS(opts: { watch?: boolean }) {
+  function compileDTS(opts: { watch?: boolean; onSuccess?: () => void }) {
     const tsconfigPath = options.tsconfigPath ?? path.resolve(options.projectDir, 'tsconfig.json');
     if (!tsconfigPath || !fs.existsSync(tsconfigPath)) {
       utils.error(`Please provide the tsconfig.json at here: ${tsconfigPath}.`);
       return;
     }
+
+    if (opts.watch) {
+      const watcher = new TscWatchClient();
+      watcher.on('onCompilationComplete', () => {
+        opts.onSuccess && opts.onSuccess();
+      });
+      watcher.start('--project', tsconfigPath, '--emitDeclarationOnly', '--declaration', '--outDir', options.distDir);
+      return watcher;
+    }
+
     const tsc = resolveTypeScript();
     return utils.exec(
-      `${tsc} --project ${tsconfigPath}${opts.watch ? ' --watch' : ''} --emitDeclarationOnly --declaration --outDir ${
-        options.distDir
-      }`,
+      `${tsc} --project ${tsconfigPath} --emitDeclarationOnly --declaration --outDir ${options.distDir}`,
       {
         cwd: options.projectDir,
         prefix: '[typescript]',
@@ -308,7 +317,7 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
   }
 
   function npmDev(onSuccess?: string) {
-    const watchers: ReturnType<typeof createDevWatcherTask>[] = [];
+    const watchers: Array<{ close: () => void }> = [];
     let hasClosed = false;
     return {
       task: gulp.parallel(
@@ -329,25 +338,24 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
           return watcher;
         },
         function compileDeclarations() {
-          const watcher = gulp.watch([`${options.distDir}/**/*.d.ts`], {
-            ignoreInitial: true,
-          });
-
-          const handler = (filePath: string) => {
-            utils.execCallback(filePath, onSuccess);
-          };
-          watcher.on('change', handler);
-          watcher.on('add', handler);
-          watcher.on('unlink', handler);
-          compileDTS({ watch: true });
-          // TODO:
-          // Consider the real compiling ending.
+          const watcher = compileDTS({
+            watch: true,
+            onSuccess: () => {
+              utils.execCallback(undefined, onSuccess);
+            },
+          }) as TscWatchClient;
           if (!hasClosed) {
-            watchers.push(watcher);
+            watchers.push({
+              close() {
+                watcher.kill();
+              },
+            });
           } else {
-            watcher.close();
+            watcher.kill();
           }
-          return watcher;
+          return new Promise(resolve => {
+            watcher.on('exit', resolve);
+          });
         },
         /* eslint-enable prefer-arrow-callback */
       ),
@@ -373,7 +381,7 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
 
 function resolveTypeScript() {
   try {
-    return path.resolve(path.dirname(require.resolve('typescript')), '/bin/tsc');
+    return path.resolve(path.dirname(require.resolve('typescript')), '../bin/tsc');
   } catch (e) {
     utils.error('Can not find the TypeScript.', e);
     throw e;

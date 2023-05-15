@@ -1,7 +1,7 @@
-const { exec, getBinCommand, execCallback } = require('../utils');
+const { execCallback, log, error } = require('../utils');
 const path = require('path');
 const npm = require('./npm');
-const createGulpConfig = require('../createGulpConfig');
+const createGulpConfig = require('../createGulpConfig').default;
 
 module.exports = {
   name: 'npm-dev',
