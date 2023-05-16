@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/pre-build",
-  "version": "2.25.2-alpha.2",
+  "version": "2.25.2-alpha.3",
   "main": "./lib/index.js",
   "description": "goldfish-pre-build",
   "scripts": {
