@@ -55,7 +55,7 @@ module.exports = {
 
     if (args.type === 'intl' && !disableCopyDependencies) {
       log('Start resolve and copy the dependecies.');
-      excludeUselessScriptsInIntlMiniProgram(distDir);
+      excludeUselessScriptsInIntlMiniProgram(path.resolve(cwd, distDir));
       log('Successfully resolve and copy the dependencies.');
     }
 
