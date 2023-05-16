@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/pre-build",
-  "version": "2.25.1",
+  "version": "2.25.2-alpha.3",
   "main": "./lib/index.js",
   "description": "goldfish-pre-build",
   "scripts": {
@@ -24,7 +24,10 @@
     "@soda/friendly-errors-webpack-plugin": "1.8.1",
     "@types/fs-extra": "9.0.13",
     "@types/gulp": "4.0.9",
+    "@types/gulp-plumber": "0.0.34",
     "@types/lodash": "4.14.182",
+    "@types/micromatch": "4.0.2",
+    "@types/node": "15.6.1",
     "autoprefixer": "9.8.8",
     "babel-plugin-import": "1.13.5",
     "babel-plugin-module-resolver": "4.1.0",
@@ -36,6 +39,7 @@
     "enhanced-resolve": "5.9.3",
     "fastparse": "1.1.2",
     "fs-extra": "10.1.0",
+    "glob": "7.2.3",
     "gulp": "4.0.2",
     "gulp-babel": "8.0.0",
     "gulp-less": "5.0.0",
@@ -48,6 +52,8 @@
     "lodash": "4.17.21",
     "micromatch": "4.0.5",
     "postcss-px-to-viewport": "1.1.1",
+    "tsc-watch": "6.0.4",
+    "typescript": "4.7.2",
     "webpack": "5.72.1",
     "yargs": "15.4.1"
   },

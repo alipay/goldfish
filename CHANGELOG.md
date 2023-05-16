@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.2-alpha.3](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.2...v2.25.2-alpha.3) (2023-05-16)
+
+
+### Bug Fixes
+
+* pass in absolute path ([37b4fd3](https://github.com/alipay/goldfish/commit/37b4fd394c047497844481244dca11359204e2a9))
+
+
+
+
+
+## [2.25.2-alpha.2](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.1...v2.25.2-alpha.2) (2023-05-15)
+
+
+### Bug Fixes
+
+* do not throw the compile errors. ([6991785](https://github.com/alipay/goldfish/commit/6991785f7531859a6d4b234e260ebb29ba9fb3d8))
+
+
+
+
+
+## [2.25.2-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.0...v2.25.2-alpha.1) (2023-05-15)
+
+
+### Bug Fixes
+
+* typescript compilation ([3445e51](https://github.com/alipay/goldfish/commit/3445e51f1b73b423a576c39d5557b8ab53e79c0c))
+
+
+
+
+
+## [2.25.2-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.1...v2.25.2-alpha.0) (2023-05-15)
+
+**Note:** Version bump only for package goldfishjs
+
+
+
+
+
 ## [2.25.1](https://github.com/alipay/goldfish/compare/v2.25.1-alpha.1...v2.25.1) (2023-05-12)
 
 **Note:** Version bump only for package goldfishjs

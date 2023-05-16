@@ -1,7 +1,8 @@
 const path = require('path');
-const lodash = require('lodash');
-const { exec, getBinCommand, execCallback } = require('../utils');
+const { execCallback, log, error } = require('../utils');
 const { default: excludeUselessScriptsInIntlMiniProgramInDev } = require('../excludeUselessScriptsInIntlMiniProgramInDev');
+const createPDSGulpConfig = require('../createPDSGulpConfig').default;
+const compilePDS = require('./compile-pds');
 
 module.exports = {
   name: 'dev-pds',
@@ -19,21 +20,31 @@ module.exports = {
   async handler(args) {
     const disableCopyDependencies = args.disableCopyDependencies;
     const onSuccess = args.onSuccess;
-    const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
 
     const cwd = process.cwd();
-    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile-pds.js`);
-    const env = {
-      BASE_DIR: 'src',
-      OUT_DIR: 'lib',
-      ...lodash.pick(process.env, 'BASE_DIR', 'OUT_DIR'),
-      ON_SUCCESS_CALLBACK: onSuccess,
-    };
-    await exec(`${gulpCommand} all-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
+
+    await compilePDS.handler({ type: 'intl', ...args });
     await execCallback(undefined, onSuccess);
-    exec(`${gulpCommand} dev-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
+
+    const outDir = process.env.OUT_DIR || 'lib';
+    const { dev } = createPDSGulpConfig({
+      projectDir: cwd,
+      baseDir: process.env.BASE_DIR || 'src',
+      distDir: outDir,
+      tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
+    });
+    const { task } = dev(onSuccess);
+    log(`Start watching the project: ${cwd}`);
+    task(e => {
+      if (e) {
+        error(e);
+      } else {
+        log(`Stop watching the project: ${cwd}.`);
+      }
+    });
+
     if (!disableCopyDependencies) {
-      excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, env.OUT_DIR));
+      excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, outDir));
     }
   },
 };

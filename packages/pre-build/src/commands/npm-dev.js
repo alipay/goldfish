@@ -1,5 +1,7 @@
-const { exec, getBinCommand, execCallback } = require('../utils');
+const { execCallback, log, error } = require('../utils');
 const path = require('path');
+const npm = require('./npm');
+const createGulpConfig = require('../createGulpConfig').default;
 
 module.exports = {
   name: 'npm-dev',
@@ -11,22 +13,26 @@ module.exports = {
     });
   },
   async handler(args) {
-    const onSuccess = args.onSuccess;
-    const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
-
     const cwd = process.cwd();
-    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
-    const env = {
-      OUT_DIR: './lib',
-      BASE_DIR: './src',
-      ...process.env,
-      ON_SUCCESS_CALLBACK: onSuccess,
-    };
-    await exec(`${gulpCommand} npm --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
+    const onSuccess = args.onSuccess;
+
+    await npm.handler();
     await execCallback(undefined, onSuccess);
-    exec(`${gulpCommand} npm-dev --gulpfile ${gulpFilePath} --cwd ${cwd}`, {
-      cwd,
-      env,
+
+    const { npmDev } = createGulpConfig({
+      projectDir: cwd,
+      baseDir: process.env.BASE_DIR || 'src',
+      distDir: process.env.OUT_DIR || 'lib',
+      tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
+    });
+    const { task } = npmDev(onSuccess);
+    log(`Start watching the project: ${cwd}`);
+    task(e => {
+      if (e) {
+        error(e);
+      } else {
+        log(`Stop watching the project: ${cwd}.`);
+      }
     });
   },
 };

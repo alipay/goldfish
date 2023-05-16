@@ -1,12 +1,8 @@
 const path = require('path');
 const fs = require('fs-extra');
-const lodash = require('lodash');
 const { default: excludeUselessScriptsInIntlMiniProgram } = require('../excludeUselessScriptsInIntlMiniProgram');
-const { exec, getBinCommand, distDir: baseDistDir, cwd, log } = require('../utils');
-
-// redifine the `distDir`
-const defaultOutDir = 'lib';
-const distDir = process.env.OUT_DIR ? baseDistDir : path.resolve(cwd, defaultOutDir);
+const { log, error } = require('../utils');
+const createPDSGulpConfig = require('../createPDSGulpConfig').default;
 
 module.exports = {
   name: 'compile-pds',
@@ -30,27 +26,36 @@ module.exports = {
   async handler(args) {
     log('Start compilation.');
 
-    const disableCopyDependencies = args.disableCopyDependencies;
-
-    fs.removeSync(distDir);
-
-    const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
-
     const cwd = process.cwd();
-    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile-pds.js`);
-    const gulpPromise = exec(`${gulpCommand} all-pds --gulpfile ${gulpFilePath} --cwd ${cwd}`, {
-      cwd,
-      env: {
-        BASE_DIR: 'src',
-        OUT_DIR: defaultOutDir,
-        ...lodash.pick(process.env, 'BASE_DIR', 'OUT_DIR'),
-      },
+    const disableCopyDependencies = args.disableCopyDependencies;
+    const defaultOutDir = 'lib';
+    const distDir = process.env.OUT_DIR || defaultOutDir;
+
+    fs.removeSync(path.resolve(cwd, distDir));
+
+    const { build } = createPDSGulpConfig({
+      projectDir: cwd,
+      baseDir: process.env.BASE_DIR || 'src',
+      distDir,
+      tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
     });
+    const taskPromise = new Promise((resolve, reject) => {
+      const startTime = Date.now();
+      log(`Start compiling the project: ${cwd}`);
+      build()(e => {
+        if (e) {
+          error(`Failed to compile the project: ${cwd}`, e);
+        } else {
+          log(`Successfully compile the project: ${cwd}. And cost ${Date.now() - startTime}ms.`);
+        }
+        resolve();
+      });
+    });
+    await taskPromise;
 
     if (args.type === 'intl' && !disableCopyDependencies) {
-      await gulpPromise;
       log('Start resolve and copy the dependecies.');
-      excludeUselessScriptsInIntlMiniProgram(distDir);
+      excludeUselessScriptsInIntlMiniProgram(path.resolve(cwd, distDir));
       log('Successfully resolve and copy the dependencies.');
     }
 
