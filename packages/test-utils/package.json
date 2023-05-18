@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/test-utils",
-  "version": "2.25.2",
+  "version": "2.25.3-alpha.0",
   "description": "goldfish test utils",
   "main": "lib/index.js",
   "files": [
@@ -13,9 +13,9 @@
   "author": "yibuyisheng@icloud.com",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/composition-api": "^2.25.2",
-    "@goldfishjs/reactive": "^2.25.2",
-    "@goldfishjs/reactive-connect": "^2.25.2",
+    "@goldfishjs/composition-api": "^2.25.3-alpha.0",
+    "@goldfishjs/reactive": "^2.25.3-alpha.0",
+    "@goldfishjs/reactive-connect": "^2.25.3-alpha.0",
     "qs": "6.10.3"
   },
   "sideEffects": false,

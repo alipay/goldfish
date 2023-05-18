@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.3-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.2...v2.25.3-alpha.0) (2023-05-18)
+
+
+### Bug Fixes
+
+* process exit ([785ed16](https://github.com/alipay/goldfish/commit/785ed161427bf8dff73bc0e16020372b5979e3eb))
+
+
+
+
+
 ## [2.25.2](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.3...v2.25.2) (2023-05-16)
 
 **Note:** Version bump only for package goldfishjs
