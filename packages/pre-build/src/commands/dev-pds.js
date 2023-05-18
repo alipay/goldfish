@@ -33,7 +33,9 @@ module.exports = {
       distDir: outDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
     });
-    const { task } = dev(onSuccess);
+    const { task, close } = dev(onSuccess);
+    process.on('SIGHUP', close);
+    process.on('SIGINT', close);
     log(`Start watching the project: ${cwd}`);
     task(e => {
       if (e) {

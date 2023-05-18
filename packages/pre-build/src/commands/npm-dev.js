@@ -25,7 +25,9 @@ module.exports = {
       distDir: process.env.OUT_DIR || 'lib',
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
     });
-    const { task } = npmDev(onSuccess);
+    const { task, close } = npmDev(onSuccess);
+    process.on('SIGHUP', close);
+    process.on('SIGINT', close);
     log(`Start watching the project: ${cwd}`);
     task(e => {
       if (e) {
