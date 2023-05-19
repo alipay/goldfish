@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.26.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.0...v2.26.0-alpha.1) (2023-05-19)
+
+
+### Bug Fixes
+
+* case ([8e6aab4](https://github.com/alipay/goldfish/commit/8e6aab47189486ba2ed832f36797041b27ab2699))
+
+
+
+
+
 # [2.26.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.3...v2.26.0-alpha.0) (2023-05-19)
 
 
