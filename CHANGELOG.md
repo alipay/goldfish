@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.26.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.3...v2.26.0-alpha.0) (2023-05-19)
+
+
+### Bug Fixes
+
+* handle the types files. ([8f3db6d](https://github.com/alipay/goldfish/commit/8f3db6d8375f7b66cb9d2cd5fc1a683836e1eb7e))
+
+
+### Features
+
+* add disablePx2vm options ([440ff92](https://github.com/alipay/goldfish/commit/440ff920d47d8fa068fa81f09e7b4d50cf30cb08))
+
+
+
+
+
 ## [2.25.3](https://github.com/alipay/goldfish/compare/v2.25.3-alpha.0...v2.25.3) (2023-05-18)
 
 **Note:** Version bump only for package goldfishjs
