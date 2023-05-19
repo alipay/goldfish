@@ -24,7 +24,7 @@ module.exports = {
   async handler(args) {
     const disableCopyDependencies = args.disableCopyDependencies;
     const onSuccess = args.onSuccess;
-    const disablePx2vw = args.disablePx2vw;
+    const disablePx2Vw = args.disablePx2Vw;
 
     const cwd = process.cwd();
 
@@ -37,7 +37,7 @@ module.exports = {
       baseDir: process.env.BASE_DIR || 'src',
       distDir: outDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
-      disablePx2vw,
+      disablePx2Vw,
     });
     const { task, close } = dev(onSuccess);
     process.on('SIGHUP', close);

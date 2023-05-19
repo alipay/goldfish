@@ -13,7 +13,7 @@ module.exports = {
     });
   },
   async handler(args) {
-    const disablePx2vw = args.disablePx2vw;
+    const disablePx2Vw = args.disablePx2Vw;
     const cwd = process.cwd();
     const distDir = process.env.OUT_DIR || 'lib';
     fs.removeSync(path.resolve(cwd, distDir));
@@ -23,7 +23,7 @@ module.exports = {
       baseDir: process.env.BASE_DIR || 'src',
       distDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
-      disablePx2vw,
+      disablePx2Vw,
     });
     const taskPromise = new Promise(resolve => {
       const startTime = Date.now();

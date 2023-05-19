@@ -19,7 +19,7 @@ module.exports = {
   async handler(args) {
     const cwd = process.cwd();
     const onSuccess = args.onSuccess;
-    const disablePx2vw = args.disablePx2vw;
+    const disablePx2Vw = args.disablePx2Vw;
 
     await npm.handler(args);
     await execCallback(undefined, onSuccess);
@@ -29,7 +29,7 @@ module.exports = {
       baseDir: process.env.BASE_DIR || 'src',
       distDir: process.env.OUT_DIR || 'lib',
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
-      disablePx2vw,
+      disablePx2Vw,
     });
     const { task, close } = npmDev(onSuccess);
     process.on('SIGHUP', close);

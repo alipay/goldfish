@@ -34,7 +34,7 @@ module.exports = {
 
     const cwd = process.cwd();
     const disableCopyDependencies = args.disableCopyDependencies;
-    const disablePx2vw = args.disablePx2vw;
+    const disablePx2Vw = args.disablePx2Vw;
     const defaultOutDir = 'lib';
     const distDir = process.env.OUT_DIR || defaultOutDir;
 
@@ -45,7 +45,7 @@ module.exports = {
       baseDir: process.env.BASE_DIR || 'src',
       distDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
-      disablePx2vw,
+      disablePx2Vw,
     });
     const taskPromise = new Promise(resolve => {
       const startTime = Date.now();

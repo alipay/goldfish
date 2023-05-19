@@ -18,7 +18,7 @@ export interface CreateGulConfigOptions {
   distDir: string;
   baseDir: string;
   tsconfigPath?: string;
-  disablePx2vw?: boolean;
+  disablePx2Vw?: boolean;
 }
 
 export default function createGulpConfig(options: CreateGulConfigOptions) {
@@ -156,7 +156,7 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
         .pipe(
           postcss(file => {
             const plugins = [require('autoprefixer')({})];
-            if (!options.disablePx2vw) {
+            if (!options.disablePx2Vw) {
               plugins.push(
                 require('postcss-px-to-viewport')({
                   viewportWidth: /mini-antui/.test(file.relative) ? 750 / 2 : 750,
