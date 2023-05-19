@@ -26,7 +26,13 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
 
   type SourceFiles = Record<'ts' | 'less' | 'js' | 'copy' | 'dts', string[]>;
   const sourceFiles: SourceFiles = {
-    ts: [`${souceBaseDir}/**/*.ts`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
+    ts: [
+      `${souceBaseDir}/**/*.ts`,
+      `!${souceBaseDir}/**/*.d.ts`,
+      '!node_modules/**',
+      '!scripts/**',
+      `!${excludeDistDir}`,
+    ],
     less: [`${souceBaseDir}/**/*.@(less|acss)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
     js: [`${souceBaseDir}/**/*.@(js|sjs)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
     copy: [
@@ -304,16 +310,16 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
     const tasks = [
       /* eslint-disable prefer-arrow-callback */
       function ts() {
-        return compileTSStream(sourceFiles.ts);
+        return compileTSStream(npmSourceFiles.ts);
       },
       function js() {
-        return compileJSStream(sourceFiles.js);
+        return compileJSStream(npmSourceFiles.js);
       },
       function less() {
-        return compileLessStream(sourceFiles.less);
+        return compileLessStream(npmSourceFiles.less);
       },
       function copy() {
-        return copyStream(sourceFiles.copy);
+        return copyStream(npmSourceFiles.copy);
       },
       function compileDeclarations() {
         return compileDTS({ watch: false });
