@@ -11,12 +11,17 @@ module.exports = {
       describe: 'The callback after every changed file successfully handled.',
       type: 'string',
     });
+    y.option('disable-px2vw', {
+      describe: 'Disable the px-2-vw converting.',
+      type: 'boolean',
+    });
   },
   async handler(args) {
     const cwd = process.cwd();
     const onSuccess = args.onSuccess;
+    const disablePx2vw = args.disablePx2vw;
 
-    await npm.handler();
+    await npm.handler(args);
     await execCallback(undefined, onSuccess);
 
     const { npmDev } = createGulpConfig({
@@ -24,6 +29,7 @@ module.exports = {
       baseDir: process.env.BASE_DIR || 'src',
       distDir: process.env.OUT_DIR || 'lib',
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
+      disablePx2vw,
     });
     const { task, close } = npmDev(onSuccess);
     process.on('SIGHUP', close);
