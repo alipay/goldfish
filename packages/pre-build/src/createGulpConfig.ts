@@ -18,6 +18,7 @@ export interface CreateGulConfigOptions {
   distDir: string;
   baseDir: string;
   tsconfigPath?: string;
+  disablePx2Vw?: boolean;
 }
 
 export default function createGulpConfig(options: CreateGulConfigOptions) {
@@ -26,7 +27,13 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
 
   type SourceFiles = Record<'ts' | 'less' | 'js' | 'copy' | 'dts', string[]>;
   const sourceFiles: SourceFiles = {
-    ts: [`${souceBaseDir}/**/*.ts`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
+    ts: [
+      `${souceBaseDir}/**/*.ts`,
+      `!${souceBaseDir}/**/*.d.ts`,
+      '!node_modules/**',
+      '!scripts/**',
+      `!${excludeDistDir}`,
+    ],
     less: [`${souceBaseDir}/**/*.@(less|acss)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
     js: [`${souceBaseDir}/**/*.@(js|sjs)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
     copy: [
@@ -148,13 +155,16 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
         )
         .pipe(
           postcss(file => {
-            return {
-              plugins: [
-                require('autoprefixer')({}),
+            const plugins = [require('autoprefixer')({})];
+            if (!options.disablePx2Vw) {
+              plugins.push(
                 require('postcss-px-to-viewport')({
                   viewportWidth: /mini-antui/.test(file.relative) ? 750 / 2 : 750,
                 }),
-              ],
+              );
+            }
+            return {
+              plugins,
             };
           }),
         )
@@ -304,16 +314,16 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
     const tasks = [
       /* eslint-disable prefer-arrow-callback */
       function ts() {
-        return compileTSStream(sourceFiles.ts);
+        return compileTSStream(npmSourceFiles.ts);
       },
       function js() {
-        return compileJSStream(sourceFiles.js);
+        return compileJSStream(npmSourceFiles.js);
       },
       function less() {
-        return compileLessStream(sourceFiles.less);
+        return compileLessStream(npmSourceFiles.less);
       },
       function copy() {
-        return copyStream(sourceFiles.copy);
+        return copyStream(npmSourceFiles.copy);
       },
       function compileDeclarations() {
         return compileDTS({ watch: false });

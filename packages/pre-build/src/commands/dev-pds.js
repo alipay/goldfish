@@ -16,10 +16,15 @@ module.exports = {
       describe: 'The callback after every changed file successfully handled.',
       type: 'string',
     });
+    y.option('disable-px2vw', {
+      describe: 'Disable the px-2-vw converting.',
+      type: 'boolean',
+    });
   },
   async handler(args) {
     const disableCopyDependencies = args.disableCopyDependencies;
     const onSuccess = args.onSuccess;
+    const disablePx2Vw = args.disablePx2Vw;
 
     const cwd = process.cwd();
 
@@ -32,6 +37,7 @@ module.exports = {
       baseDir: process.env.BASE_DIR || 'src',
       distDir: outDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
+      disablePx2Vw,
     });
     const { task, close } = dev(onSuccess);
     process.on('SIGHUP', close);

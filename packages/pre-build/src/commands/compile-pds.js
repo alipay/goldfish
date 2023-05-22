@@ -13,13 +13,19 @@ module.exports = {
       alias: 't',
       type: 'string',
       default: 'intl',
-    }).option('analyze', {
+    });
+    y.option('analyze', {
       describe: 'Analyze the bundle.',
       alias: 'a',
       type: 'string',
       default: 'false',
-    }).option('disable-copy-dependencies', {
+    });
+    y.option('disable-copy-dependencies', {
       describe: 'Whether to copy dependencies.',
+      type: 'boolean',
+    });
+    y.option('disable-px2vw', {
+      describe: 'Disable the px-2-vw converting.',
       type: 'boolean',
     });
   },
@@ -28,6 +34,7 @@ module.exports = {
 
     const cwd = process.cwd();
     const disableCopyDependencies = args.disableCopyDependencies;
+    const disablePx2Vw = args.disablePx2Vw;
     const defaultOutDir = 'lib';
     const distDir = process.env.OUT_DIR || defaultOutDir;
 
@@ -38,8 +45,9 @@ module.exports = {
       baseDir: process.env.BASE_DIR || 'src',
       distDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
+      disablePx2Vw,
     });
-    const taskPromise = new Promise((resolve, reject) => {
+    const taskPromise = new Promise(resolve => {
       const startTime = Date.now();
       log(`Start compiling the project: ${cwd}`);
       build()(e => {

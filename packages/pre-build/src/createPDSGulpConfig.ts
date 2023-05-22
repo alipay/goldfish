@@ -83,13 +83,16 @@ export default function createPDSGulpConfig(options: CreatePDSGulConfigOptions) 
         )
         .pipe(
           postcss(file => {
-            return {
-              plugins: [
-                require('autoprefixer')({}),
+            const plugins = [require('autoprefixer')({})];
+            if (!options.disablePx2Vw) {
+              plugins.push(
                 require('postcss-px-to-viewport')({
                   viewportWidth: /mini-antui/.test(file.relative) ? 750 / 2 : 750,
                 }),
-              ],
+              );
+            }
+            return {
+              plugins,
             };
           }),
         )
