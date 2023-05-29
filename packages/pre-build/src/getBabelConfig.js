@@ -90,7 +90,7 @@ module.exports = (rootDir = process.cwd()) => {
       ],
       [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
       require.resolve('@babel/plugin-proposal-class-properties'),
-      '@babel/plugin-proposal-optional-chaining',
+      require.resolve('@babel/plugin-proposal-optional-chaining'),
       [
         'babel-plugin-module-resolver',
         {
