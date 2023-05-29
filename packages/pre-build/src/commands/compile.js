@@ -23,11 +23,11 @@ module.exports = {
   async handler(args) {
     log('Start compilation.');
 
-    fs.removeSync(distDir);
-
     const cwd = process.cwd();
     const defaultOutDir = 'lib';
     const distDir = process.env.OUT_DIR ? baseDistDir : path.resolve(cwd, defaultOutDir);
+
+    fs.removeSync(distDir);
 
     const { build } = createGulpConfig({
       projectDir: cwd,
