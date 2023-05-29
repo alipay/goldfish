@@ -93,7 +93,7 @@ export default function getBabelConfig(options: GetBabelConfigOptions) {
       ],
       [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
       require.resolve('@babel/plugin-proposal-class-properties'),
-      '@babel/plugin-proposal-optional-chaining',
+      require.resolve('@babel/plugin-proposal-optional-chaining'),
       [
         require.resolve('./lib/babel-plugin-tsconfig-paths/index.js'),
         {
