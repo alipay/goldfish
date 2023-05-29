@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.1](https://github.com/alipay/goldfish/compare/v2.26.0...v2.26.1) (2023-05-29)
+
+
+### Bug Fixes
+
+* add missed deps ([0ad4e36](https://github.com/alipay/goldfish/commit/0ad4e3601c2ef3a87082e7f255266311fa732b62))
+* declaration before usage ([b12aedb](https://github.com/alipay/goldfish/commit/b12aedb4a5edd35df320340f7064d57783ce1f12))
+* resolve the optional plugin ([cc606ee](https://github.com/alipay/goldfish/commit/cc606ee2aa12f494469132aaadd65600832660a9))
+
+
+
+
+
 
 
 **Note:** Version bump only for package goldfishjs
