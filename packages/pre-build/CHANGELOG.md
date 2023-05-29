@@ -6,6 +6,24 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # [2.26.0](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.1...v2.26.0) (2023-05-22)
 
 **Note:** Version bump only for package @goldfishjs/pre-build
+# [2.26.0-alpha.3](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.2...v2.26.0-alpha.3) (2023-05-29)
+
+
+### Bug Fixes
+
+* resolve the optional plugin ([eb38409](https://github.com/alipay/goldfish/commit/eb384092d26914807c551398ea8f1ae547e3e3ee))
+
+
+
+
+
+# [2.26.0-alpha.2](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.1...v2.26.0-alpha.2) (2023-05-29)
+
+
+### Bug Fixes
+
+* add missed deps ([3eb7bbd](https://github.com/alipay/goldfish/commit/3eb7bbda7e25192f8ce35faceac7ab485f9767aa))
+* declaration before usage ([496b784](https://github.com/alipay/goldfish/commit/496b7849222a3c85cf1a6938ef1fa861cee5aa6e))
 
 
 
