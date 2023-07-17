@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.26.1...v2.27.0-alpha.0) (2023-07-17)
+
+**Note:** Version bump only for package @goldfishjs/route
+
+
+
+
+
 ## [2.26.1](https://github.com/alipay/goldfish/compare/v2.26.0...v2.26.1) (2023-05-29)
 
 **Note:** Version bump only for package @goldfishjs/route

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.26.1...v2.27.0-alpha.0) (2023-07-17)
+
+
+### Features
+
+* release the memory. ([ccb8d02](https://github.com/alipay/goldfish/commit/ccb8d0260aed3614cc53e669d17c427eab073160))
+* use typescript ([558ba1b](https://github.com/alipay/goldfish/commit/558ba1b496a9ca784ae477408959950b8bfce4f3))
+
+
+
+
+
 ## [2.26.1](https://github.com/alipay/goldfish/compare/v2.26.0...v2.26.1) (2023-05-29)
 
 
