@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/pre-build",
-  "version": "2.26.0-alpha.3",
+  "version": "2.26.1",
   "main": "./lib/index.js",
   "description": "goldfish-pre-build",
   "scripts": {
@@ -56,7 +56,8 @@
     "tsc-watch": "6.0.4",
     "typescript": "4.7.2",
     "webpack": "5.72.1",
-    "yargs": "15.4.1"
+    "yargs": "15.4.1",
+    "object-sizeof": "^2.6.1"
   },
   "devDependencies": {
     "@babel/cli": "7.17.0",
