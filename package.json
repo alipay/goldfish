@@ -71,5 +71,6 @@
       "packages/*"
     ],
     "nohoist": []
-  }
+  },
+  "repository": "git@github.com:alipay/goldfish.git"
 }

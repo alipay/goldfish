@@ -64,5 +64,6 @@
     "@babel/preset-typescript": "7.17.12",
     "ts-jest": "26.4.4"
   },
-  "registry": "https://registry.npmjs.org/"
+  "registry": "https://registry.npmjs.org/",
+  "repository": "git@github.com:alipay/goldfish.git"
 }
