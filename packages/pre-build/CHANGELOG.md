@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.27.0-alpha.0...v2.27.0-alpha.1) (2023-07-18)
+
+
+### Features
+
+* use timeout ([ef0af32](https://github.com/alipay/goldfish/commit/ef0af3263862b8d54393fb5232b03f4128779a89))
+
+
+
+
+
 # [2.27.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.26.1...v2.27.0-alpha.0) (2023-07-17)
 
 
