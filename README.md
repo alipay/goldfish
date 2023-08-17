@@ -1,4 +1,4 @@
-# Goldfish (WIP)
+# Goldfish
 
 <a href="https://coveralls.io/github/alipay/goldfish"><img src="https://coveralls.io/repos/github/alipay/goldfish/badge.svg" /></a>
 
