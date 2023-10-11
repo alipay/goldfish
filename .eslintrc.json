@@ -10,12 +10,11 @@
   ],
   "settings": {
     "import/resolver": {
-      "alias": {
-        // 根据项目情况调整文件路径和后缀
-        "map": [["@", "./"]],
-        "extensions": [".ts", ".tsx", ".d.ts", ".js", ".jsx"]
+      "typescript": {
+        "project": "./tsconfig.resolve.json"
       }
-    }
+    },
+    "import/internal-regex": "^@goldfishjs/"
   },
   "rules": {
     "jsdoc/require-param-description": "off",
@@ -32,6 +31,7 @@
         "newlines-between": "never"
       }
     ],
+    "import/no-extraneous-dependencies": ["error"],
     "prettier/prettier": "error"
   },
   "globals": {

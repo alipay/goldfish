@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { isObject, silent, deepVisit, DeepVisitBreak } from '@goldfishjs/utils';
 import { getCurrent, Dep, ChangeOptions } from './dep';
-import { genId, isArray } from './utils';
+import { genId, isArray, hasOwnProperty } from './utils';
 import silentValue, { isSilentValue } from './silentValue';
-import { hasOwnProperty } from './utils';
 
 type ObservableBaseTypes = null | undefined | string | number | boolean;
 type ObservableArrayElement = ObservableBaseTypes | IObservableObject;

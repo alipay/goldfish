@@ -1,24 +1,34 @@
 const path = require('path');
-const lodash = require('lodash');
-const { exec, getBinCommand } = require('../utils');
+const { error, log } = require('../utils');
 const { default: excludeUselessScriptsInIntlMiniProgramInDev } = require('../excludeUselessScriptsInIntlMiniProgramInDev');
+const compile = require('./compile');
+const createGulpConfig = require('../createGulpConfig').default;
 
 module.exports = {
   name: 'dev',
   description: 'Pre-compile the miniprogram source codes in develoment.',
   builder: () => {},
   async handler() {
-    const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
+    await compile.handler({ type: 'intl' });
 
     const cwd = process.cwd();
-    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
-    const env = {
-      BASE_DIR: 'src',
-      OUT_DIR: 'lib',
-      ...lodash.pick(process.env, 'BASE_DIR', 'OUT_DIR'),
-    };
-    await exec(`${gulpCommand} all --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
-    exec(`${gulpCommand} dev --gulpfile ${gulpFilePath} --cwd ${cwd}`, { cwd, env });
-    excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, env.OUT_DIR));
+    const outDir = process.env.OUT_DIR || 'lib';
+    const { dev } = createGulpConfig({
+      projectDir: cwd,
+      baseDir: process.env.BASE_DIR || 'src',
+      distDir: outDir,
+      tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
+    });
+    const { task } = dev();
+    log(`Start watching the project: ${cwd}`);
+    task(e => {
+      if (e) {
+        error(e);
+      } else {
+        log(`Stop watching the project: ${cwd}.`);
+      }
+    });
+
+    excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, outDir));
   },
 };

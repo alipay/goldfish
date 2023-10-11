@@ -28,7 +28,7 @@ export function findPackageJson(dir: string): string | undefined {
  */
 export function findRelativePath(projectDir: string, sourcePath: string): string | undefined {
   if (sourcePath.startsWith(path.resolve(projectDir, 'node_modules'))) {
-    return sourcePath.replace(`${projectDir}/`, '');
+    return sourcePath.replace(`${projectDir}${path.sep}`, '');
   }
   const dir = path.dirname(projectDir);
   if (dir === projectDir) {
@@ -62,7 +62,7 @@ export function cpDepFileWithPkgJson(
   options: ExcludeUselessScriptsInIntlMiniProgramOptions,
 ) {
   // Only move the dependency under node_modules.
-  if (!/\/node_modules\//.test(depFilePath)) {
+  if (!/[\/\\]node_modules[\/\\]/.test(depFilePath)) {
     return;
   }
 
@@ -93,19 +93,9 @@ const defaultOptions: ExcludeUselessScriptsInIntlMiniProgramOptions = {
   },
 };
 
-/**
- * Exclude the useless js files in miniprogram directory before uploading.
- *
- * @export
- * @param {string} projectDir the directory of the miniprogram directory (should be compiled with `goldfish compile`).
- */
-export default function excludeUselessScriptsInIntlMiniProgram(
-  projectDir: string,
-  options?: ExcludeUselessScriptsInIntlMiniProgramOptions,
-) {
-  const finalOptions = lodash.merge(options || {}, defaultOptions);
+export function copyFiles(projectDir: string, options?: ExcludeUselessScriptsInIntlMiniProgramOptions) {
+  const finalOptions = lodash.merge(defaultOptions, options || {});
 
-  fileCache.clear();
   const oldNodeModulesDir = path.resolve(projectDir, 'node_modules');
   const newNodeModulesDir = path.resolve(projectDir, 'node_modules_new');
 
@@ -132,4 +122,18 @@ export default function excludeUselessScriptsInIntlMiniProgram(
   // Remove the node_modules and use the new node_modules.
   fs.rmSync(oldNodeModulesDir, { force: true, recursive: true });
   fs.moveSync(newNodeModulesDir, oldNodeModulesDir);
+}
+
+/**
+ * Exclude the useless js files in miniprogram directory before uploading.
+ *
+ * @export
+ * @param {string} projectDir the directory of the miniprogram directory (should be compiled with `goldfish compile`).
+ */
+export default function excludeUselessScriptsInIntlMiniProgram(
+  projectDir: string,
+  options?: ExcludeUselessScriptsInIntlMiniProgramOptions,
+) {
+  fileCache.clear();
+  copyFiles(projectDir, options);
 }

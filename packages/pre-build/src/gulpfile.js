@@ -34,10 +34,17 @@ const sourceFiles = {
     '!tsconfig.json',
   ],
 };
+const npmSourceFiles = {
+  ts: ['src/**/*.@(ts|tsx)', '!src/**/*.d.ts'],
+  js: ['src/**/*.@(js|jsx)'],
+  less: ['src/**/*.@(acss|less)'],
+  copy: ['src/**/*.@(json|axml|png|svg|sjs)', 'src/**/*.d.ts'],
+  dts: ['src/**/*.@(ts|tsx)'],
+};
 
 const sourceType = {
   typeMap: {},
-  check(path) {
+  check(path, sourceFiles) {
     if (path in this.typeMap) {
       return this.typeMap[path];
     }
@@ -56,16 +63,19 @@ const sourceType = {
   },
 };
 
-function commonStream(files, cb) {
-  let stream = cb(
-    gulp
-      .src(files, { base: baseDir })
-      .pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV)))
-      .pipe(replace('process.env.STAGE_NAME', JSON.stringify(process.env.STAGE_NAME)))
-      .pipe(replace('process.env.GOLDFISH_ENV', JSON.stringify(process.env.GOLDFISH_ENV)))
-      .pipe(plumber(utils.error)),
-  );
+function replaceEnv(stream) {
+  let resultStream = stream;
+  if (process.env.NODE_ENV) {
+    resultStream = resultStream.pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV)));
+  }
+  if (process.env.GOLDFISH_ENV) {
+    resultStream = resultStream.pipe(replace('process.env.GOLDFISH_ENV', JSON.stringify(process.env.GOLDFISH_ENV)));
+  }
+  return resultStream;
+}
 
+function commonStream(files, cb) {
+  let stream = cb(replaceEnv(gulp.src(files, { base: baseDir })).pipe(plumber(utils.error)));
   stream = stream.pipe(gulp.dest(utils.distDir));
   return stream;
 }
@@ -196,25 +206,37 @@ function getCustomBlobs() {
   }
 }
 
-function createDevWatcherTask(globs) {
+function createDevWatcherTask(globs, sourceFiles, onComplete) {
   const watcher = gulp.watch(globs, {
     ignoreInitial: true,
   });
   watcher.on('change', sourceUpdateHandler);
   watcher.on('add', sourceUpdateHandler);
   watcher.on('unlink', path => {
-    let targetPath = utils.getCompiledPath(path, sourceType);
+    let targetPath = utils.getCompiledPath(path, sourceType, sourceFiles);
     if (fs.existsSync(targetPath)) {
       fs.unlinkSync(targetPath);
+      onComplete && onComplete(path);
       utils.log(`Remove file successfully: ${targetPath}.`);
     }
   });
-  return watcher;
+  return new Promise(resolve => {
+    watcher.on('close', resolve);
+  });
 
   function sourceUpdateHandler(path) {
+    let callbackCounter = 1;
+    const checkComplete = () => {
+      callbackCounter--;
+      if (callbackCounter <= 0) {
+        onComplete && onComplete(path);
+      }
+    };
+
     const startTime = Date.now();
     let stream;
-    if (sourceType.check(path) === 'ts') {
+    if (sourceType.check(path, sourceFiles) === 'ts') {
+      callbackCounter = 2;
       stream = compileTSStream(path);
 
       // handle the dts
@@ -224,12 +246,13 @@ function createDevWatcherTask(globs) {
       });
       dtsStream.once('end', () => {
         utils.log('Compile file[dts] completed and cost ' + (Date.now() - startTime) + 'ms:', path);
+        checkComplete();
       });
-    } else if (sourceType.check(path) === 'less') {
+    } else if (sourceType.check(path, sourceFiles) === 'less') {
       stream = compileLessStream(path);
-    } else if (sourceType.check(path) === 'js') {
+    } else if (sourceType.check(path, sourceFiles) === 'js') {
       stream = compileJSStream(path);
-    } else if (sourceType.check(path) === 'copy') {
+    } else if (sourceType.check(path, sourceFiles) === 'copy') {
       stream = copyStream(path);
     }
 
@@ -242,6 +265,7 @@ function createDevWatcherTask(globs) {
     });
     stream.once('end', () => {
       utils.log('Compile file completed and cost ' + (Date.now() - startTime) + 'ms:', path);
+      checkComplete();
     });
   }
 }
@@ -250,11 +274,11 @@ gulp.task(
   'dev',
   gulp.parallel(
     function sourceCode() {
-      return createDevWatcherTask(['./**/*', '!node_modules/**', '!coverage/**', `!${excludeDistDir}`]);
+      return createDevWatcherTask(['./**/*', '!node_modules/**', '!coverage/**', `!${excludeDistDir}`], sourceFiles);
     },
     function customBlobs() {
       const blobs = getCustomBlobs() || [];
-      return createDevWatcherTask(blobs);
+      return createDevWatcherTask(blobs, sourceFiles);
     },
   ),
 );
@@ -264,19 +288,35 @@ gulp.task(
   'npm',
   gulp.parallel(
     function ts() {
-      return compileTSStream(['src/**/*.@(ts|tsx)']);
+      return compileTSStream(npmSourceFiles.ts);
     },
     function js() {
-      return compileJSStream(['src/**/*.@(js|jsx)']);
+      return compileJSStream(npmSourceFiles.js);
     },
     function less() {
-      return compileLessStream(['src/**/*.@(acss|less)']);
+      return compileLessStream(npmSourceFiles.less);
     },
     function copy() {
-      return copyStream(['src/**/*.@(json|axml|png|svg)']);
+      return copyStream(npmSourceFiles.copy);
     },
     function dts() {
-      return compileDTSStream(['src/**/*.@(ts|tsx)']);
+      return compileDTSStream(npmSourceFiles.dts);
     },
   ),
 );
+
+gulp.task('npm-dev', () => {
+  return createDevWatcherTask(
+    [...npmSourceFiles.ts, ...npmSourceFiles.js, ...npmSourceFiles.less, ...npmSourceFiles.copy],
+    npmSourceFiles,
+    utils.execCallback,
+  );
+});
+
+exports.cwd = cwd;
+exports.excludeDistDir = excludeDistDir;
+exports.baseDir = baseDir;
+exports.sourceFiles = sourceFiles;
+exports.sourceType = sourceType;
+exports.commonStream = commonStream;
+exports.getTSProject = getTSProject;

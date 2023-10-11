@@ -3,6 +3,298 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.1](https://github.com/alipay/goldfish/compare/v2.26.0...v2.26.1) (2023-05-29)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.26.0](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.1...v2.26.0) (2023-05-22)
+# [2.26.0-alpha.3](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.2...v2.26.0-alpha.3) (2023-05-29)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.26.0-alpha.2](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.1...v2.26.0-alpha.2) (2023-05-29)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.26.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.0...v2.26.0-alpha.1) (2023-05-19)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.26.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.3...v2.26.0-alpha.0) (2023-05-19)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.25.3](https://github.com/alipay/goldfish/compare/v2.25.3-alpha.0...v2.25.3) (2023-05-18)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.25.3-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.2...v2.25.3-alpha.0) (2023-05-18)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.25.2](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.3...v2.25.2) (2023-05-16)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.25.2-alpha.3](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.2...v2.25.2-alpha.3) (2023-05-16)
+
+
+### Bug Fixes
+
+* pass in absolute path ([37b4fd3](https://github.com/alipay/goldfish/commit/37b4fd394c047497844481244dca11359204e2a9))
+
+
+
+
+
+## [2.25.2-alpha.2](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.1...v2.25.2-alpha.2) (2023-05-15)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.25.2-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.0...v2.25.2-alpha.1) (2023-05-15)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.25.2-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.1...v2.25.2-alpha.0) (2023-05-15)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.25.1](https://github.com/alipay/goldfish/compare/v2.25.1-alpha.1...v2.25.1) (2023-05-12)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.25.1-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.1-alpha.0...v2.25.1-alpha.1) (2023-05-11)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.25.1-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.0...v2.25.1-alpha.0) (2023-05-11)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.25.0](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.6...v2.25.0) (2023-05-11)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.25.0-alpha.6](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.5...v2.25.0-alpha.6) (2023-05-10)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.25.0-alpha.5](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.4...v2.25.0-alpha.5) (2023-05-10)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.25.0-alpha.4](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.3...v2.25.0-alpha.4) (2023-05-10)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.25.0-alpha.3](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.2...v2.25.0-alpha.3) (2023-05-09)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.25.0-alpha.2](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.1...v2.25.0-alpha.2) (2023-05-09)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.25.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.0...v2.25.0-alpha.1) (2023-05-09)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.25.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.24.0...v2.25.0-alpha.0) (2023-05-08)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.23.0](https://github.com/alipay/goldfish/compare/v2.23.0-alpha.1...v2.23.0) (2023-01-30)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.23.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.23.0-alpha.0...v2.23.0-alpha.1) (2023-01-30)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.23.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.22.0...v2.23.0-alpha.0) (2022-12-28)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.22.0](https://github.com/alipay/goldfish/compare/v2.22.0-alpha.1...v2.22.0) (2022-11-16)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.22.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.22.0-alpha.0...v2.22.0-alpha.1) (2022-11-16)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.22.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.21.1...v2.22.0-alpha.0) (2022-11-08)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.21.1](https://github.com/alipay/goldfish/compare/v2.21.1-alpha.0...v2.21.1) (2022-10-03)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+## [2.21.1-alpha.0](https://github.com/alipay/goldfish/compare/v2.21.0...v2.21.1-alpha.0) (2022-10-03)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.21.0](https://github.com/alipay/goldfish/compare/v2.21.0-alpha.0...v2.21.0) (2022-09-24)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.21.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.20.0-alpha.0...v2.21.0-alpha.0) (2022-09-24)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.20.0](https://github.com/alipay/goldfish/compare/v2.20.0-alpha.0...v2.20.0) (2022-09-24)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
+# [2.20.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.19.0...v2.20.0-alpha.0) (2022-09-24)
+
+**Note:** Version bump only for package @goldfishjs/reactive
+
+
+
+
+
 # [2.19.0](https://github.com/alipay/goldfish/compare/v2.19.0-alpha.0...v2.19.0) (2022-09-04)
 
 

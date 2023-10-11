@@ -3,6 +3,392 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.1](https://github.com/alipay/goldfish/compare/v2.26.0...v2.26.1) (2023-05-29)
+
+
+### Bug Fixes
+
+* add missed deps ([0ad4e36](https://github.com/alipay/goldfish/commit/0ad4e3601c2ef3a87082e7f255266311fa732b62))
+* declaration before usage ([b12aedb](https://github.com/alipay/goldfish/commit/b12aedb4a5edd35df320340f7064d57783ce1f12))
+* resolve the optional plugin ([cc606ee](https://github.com/alipay/goldfish/commit/cc606ee2aa12f494469132aaadd65600832660a9))
+
+
+
+
+
+
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+# [2.26.0](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.1...v2.26.0) (2023-05-22)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+# [2.26.0-alpha.3](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.2...v2.26.0-alpha.3) (2023-05-29)
+
+
+### Bug Fixes
+
+* resolve the optional plugin ([eb38409](https://github.com/alipay/goldfish/commit/eb384092d26914807c551398ea8f1ae547e3e3ee))
+
+
+
+
+
+# [2.26.0-alpha.2](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.1...v2.26.0-alpha.2) (2023-05-29)
+
+
+### Bug Fixes
+
+* add missed deps ([3eb7bbd](https://github.com/alipay/goldfish/commit/3eb7bbda7e25192f8ce35faceac7ab485f9767aa))
+* declaration before usage ([496b784](https://github.com/alipay/goldfish/commit/496b7849222a3c85cf1a6938ef1fa861cee5aa6e))
+
+
+
+
+
+# [2.26.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.26.0-alpha.0...v2.26.0-alpha.1) (2023-05-19)
+
+
+### Bug Fixes
+
+* case ([8e6aab4](https://github.com/alipay/goldfish/commit/8e6aab47189486ba2ed832f36797041b27ab2699))
+
+
+
+
+
+# [2.26.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.3...v2.26.0-alpha.0) (2023-05-19)
+
+
+### Bug Fixes
+
+* handle the types files. ([8f3db6d](https://github.com/alipay/goldfish/commit/8f3db6d8375f7b66cb9d2cd5fc1a683836e1eb7e))
+
+
+### Features
+
+* add disablePx2vm options ([440ff92](https://github.com/alipay/goldfish/commit/440ff920d47d8fa068fa81f09e7b4d50cf30cb08))
+
+
+
+
+
+## [2.25.3](https://github.com/alipay/goldfish/compare/v2.25.3-alpha.0...v2.25.3) (2023-05-18)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+## [2.25.3-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.2...v2.25.3-alpha.0) (2023-05-18)
+
+
+### Bug Fixes
+
+* process exit ([785ed16](https://github.com/alipay/goldfish/commit/785ed161427bf8dff73bc0e16020372b5979e3eb))
+
+
+
+
+
+## [2.25.2](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.3...v2.25.2) (2023-05-16)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+## [2.25.2-alpha.3](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.2...v2.25.2-alpha.3) (2023-05-16)
+
+
+### Bug Fixes
+
+* pass in absolute path ([37b4fd3](https://github.com/alipay/goldfish/commit/37b4fd394c047497844481244dca11359204e2a9))
+
+
+
+
+
+## [2.25.2-alpha.2](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.1...v2.25.2-alpha.2) (2023-05-15)
+
+
+### Bug Fixes
+
+* do not throw the compile errors. ([6991785](https://github.com/alipay/goldfish/commit/6991785f7531859a6d4b234e260ebb29ba9fb3d8))
+
+
+
+
+
+## [2.25.2-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.2-alpha.0...v2.25.2-alpha.1) (2023-05-15)
+
+
+### Bug Fixes
+
+* typescript compilation ([3445e51](https://github.com/alipay/goldfish/commit/3445e51f1b73b423a576c39d5557b8ab53e79c0c))
+
+
+
+
+
+## [2.25.2-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.1...v2.25.2-alpha.0) (2023-05-15)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+## [2.25.1](https://github.com/alipay/goldfish/compare/v2.25.1-alpha.1...v2.25.1) (2023-05-12)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+## [2.25.1-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.1-alpha.0...v2.25.1-alpha.1) (2023-05-11)
+
+
+### Bug Fixes
+
+* add sourceFiles params ([d9ca8c2](https://github.com/alipay/goldfish/commit/d9ca8c27f4f38b7146b01ad598b543662e7c3b5c))
+
+
+
+
+
+## [2.25.1-alpha.0](https://github.com/alipay/goldfish/compare/v2.25.0...v2.25.1-alpha.0) (2023-05-11)
+
+
+### Bug Fixes
+
+* return promise. ([526214d](https://github.com/alipay/goldfish/commit/526214d1ee1b3a09e21756e94f4af0f9fb7e318b))
+
+
+
+
+
+# [2.25.0](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.6...v2.25.0) (2023-05-11)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+# [2.25.0-alpha.6](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.5...v2.25.0-alpha.6) (2023-05-10)
+
+
+### Bug Fixes
+
+* pass in sourceFiles. ([a626310](https://github.com/alipay/goldfish/commit/a626310befa3a771ecf2e6415fc402ad840c5fdb))
+
+
+
+
+
+# [2.25.0-alpha.5](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.4...v2.25.0-alpha.5) (2023-05-10)
+
+
+### Bug Fixes
+
+* no fs ([013db19](https://github.com/alipay/goldfish/commit/013db196d95af330a80042e611883ec2892c40e7))
+
+
+
+
+
+# [2.25.0-alpha.4](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.3...v2.25.0-alpha.4) (2023-05-10)
+
+
+### Features
+
+* do not replace env variables when not exits. ([34cc556](https://github.com/alipay/goldfish/commit/34cc5562e95eaa839e79df66b7c24aa7ee812ef4))
+* support dev compiling in npm package projects. ([07e52ed](https://github.com/alipay/goldfish/commit/07e52ed6c9c48019a646e91781cf6b98fb1422db))
+* support npm dev callback. ([312f4f7](https://github.com/alipay/goldfish/commit/312f4f7997985ce48f6a3dccc4b8fdbea049d311))
+
+
+
+
+
+# [2.25.0-alpha.3](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.2...v2.25.0-alpha.3) (2023-05-09)
+
+
+### Bug Fixes
+
+* pass in the callback ([f7cd2c0](https://github.com/alipay/goldfish/commit/f7cd2c0db1f9001b3cb11c896d07e59cbbc188b9))
+
+
+
+
+
+# [2.25.0-alpha.2](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.1...v2.25.0-alpha.2) (2023-05-09)
+
+
+### Features
+
+* first execution ([a71b0fe](https://github.com/alipay/goldfish/commit/a71b0fee3f10ab4193e53db5fd692685fd54a5ee))
+
+
+
+
+
+# [2.25.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.25.0-alpha.0...v2.25.0-alpha.1) (2023-05-09)
+
+
+### Features
+
+* support callback in dev process. ([7a09df3](https://github.com/alipay/goldfish/commit/7a09df398a1442bf205f95618346fc755bfe5ba1))
+
+
+
+
+
+# [2.25.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.24.0...v2.25.0-alpha.0) (2023-05-08)
+
+
+### Features
+
+* add disable options for pds ([8978c44](https://github.com/alipay/goldfish/commit/8978c44c5303a601042e7af0ee901bedcd59498b))
+
+
+
+
+
+# [2.24.0](https://github.com/alipay/goldfish/compare/v2.23.1...v2.24.0) (2023-03-22)
+
+
+### Features
+
+* copy sjs ([a67ba63](https://github.com/alipay/goldfish/commit/a67ba63669eff4e86cdc9b72efbabee2d45b8de6))
+
+
+
+
+
+# [2.23.0](https://github.com/alipay/goldfish/compare/v2.23.0-alpha.1...v2.23.0) (2023-01-30)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+# [2.23.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.23.0-alpha.0...v2.23.0-alpha.1) (2023-01-30)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+# [2.23.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.22.0...v2.23.0-alpha.0) (2022-12-28)
+
+
+### Features
+
+* add browser confition ([ab1b38c](https://github.com/alipay/goldfish/commit/ab1b38cb142b6d1063cd2f3b334f60db8de24448))
+
+
+
+
+
+# [2.22.0](https://github.com/alipay/goldfish/compare/v2.22.0-alpha.1...v2.22.0) (2022-11-16)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+# [2.22.0-alpha.1](https://github.com/alipay/goldfish/compare/v2.22.0-alpha.0...v2.22.0-alpha.1) (2022-11-16)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+# [2.22.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.21.1...v2.22.0-alpha.0) (2022-11-08)
+
+
+### Features
+
+* add PDS custom variable inject logic ([796a31c](https://github.com/alipay/goldfish/commit/796a31c1411340a890ce6cdd1fb178dfd2337c78))
+
+
+
+
+
+## [2.21.1](https://github.com/alipay/goldfish/compare/v2.21.1-alpha.0...v2.21.1) (2022-10-03)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+## [2.21.1-alpha.0](https://github.com/alipay/goldfish/compare/v2.21.0...v2.21.1-alpha.0) (2022-10-03)
+
+
+### Bug Fixes
+
+* compatible with windows. ([6b0450d](https://github.com/alipay/goldfish/commit/6b0450d1a1a674c91ab5b46181fe8dd49e32f076))
+
+
+
+
+
+# [2.21.0](https://github.com/alipay/goldfish/compare/v2.21.0-alpha.0...v2.21.0) (2022-09-24)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+# [2.21.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.20.0-alpha.0...v2.21.0-alpha.0) (2022-09-24)
+
+
+### Features
+
+* supports exports configuration. ([6d192de](https://github.com/alipay/goldfish/commit/6d192ded66b75b4e998d510d083e222038d743cf))
+
+
+
+
+
+# [2.20.0](https://github.com/alipay/goldfish/compare/v2.20.0-alpha.0...v2.20.0) (2022-09-24)
+
+**Note:** Version bump only for package @goldfishjs/pre-build
+
+
+
+
+
+# [2.20.0-alpha.0](https://github.com/alipay/goldfish/compare/v2.19.0...v2.20.0-alpha.0) (2022-09-24)
+
+
+### Bug Fixes
+
+* lint errors. ([27c76d5](https://github.com/alipay/goldfish/commit/27c76d5ebceda3aa5856d023870b79bbaab80c4e))
+
+
+### Features
+
+* exit the process if the exception exists. ([fb7b36f](https://github.com/alipay/goldfish/commit/fb7b36fc09b575301f7d1c84173282e273e23957))
+
+
+
+
+
 # [2.19.0](https://github.com/alipay/goldfish/compare/v2.19.0-alpha.0...v2.19.0) (2022-09-04)
 
 **Note:** Version bump only for package @goldfishjs/pre-build

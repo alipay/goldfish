@@ -1,22 +1,42 @@
-const { exec, getBinCommand } = require('../utils');
 const path = require('path');
+const fs = require('fs-extra');
+const createGulpConfig = require('../createGulpConfig').default;
+const { log, error } = require('../utils');
 
 module.exports = {
   name: 'npm',
   description: 'Compile the source codes in npm development.',
-  builder: () => {},
-  async handler() {
-    const gulpCommand = getBinCommand('gulp', 'gulp', [__dirname]);
-
-    const cwd = process.cwd();
-    const gulpFilePath = path.resolve(__dirname, `..${path.sep}gulpfile.js`);
-    exec(`${gulpCommand} npm --gulpfile ${gulpFilePath} --cwd ${cwd}`, {
-      cwd,
-      env: {
-        OUT_DIR: './lib',
-        BASE_DIR: './src',
-        ...process.env,
-      },
+  builder: y => {
+    y.option('disable-px2vw', {
+      describe: 'Disable the px-2-vw converting.',
+      type: 'boolean',
     });
+  },
+  async handler(args) {
+    const disablePx2Vw = args.disablePx2Vw;
+    const cwd = process.cwd();
+    const distDir = process.env.OUT_DIR || 'lib';
+    fs.removeSync(path.resolve(cwd, distDir));
+
+    const { npm } = createGulpConfig({
+      projectDir: cwd,
+      baseDir: process.env.BASE_DIR || 'src',
+      distDir,
+      tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
+      disablePx2Vw,
+    });
+    const taskPromise = new Promise(resolve => {
+      const startTime = Date.now();
+      log(`Start compiling the project: ${cwd}`);
+      npm()(e => {
+        if (e) {
+          error(`Failed to compile the project: ${cwd}`, e);
+        } else {
+          log(`Successfully compile the project: ${cwd}. And cost ${Date.now() - startTime}ms.`);
+        }
+        resolve();
+      });
+    });
+    await taskPromise;
   },
 };
