@@ -1,16 +1,16 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import lodash from 'lodash';
 import ensurePath from './ensurePath';
 import fileCache from './fileCache';
-import lodash from 'lodash'
 
 type AppConfig = {
   pages?: string[];
   subPackages?: {
-    root: string
-    pages: string[]
-  }[]
-}
+    root: string;
+    pages: string[];
+  }[];
+};
 
 /**
  * Find the pages for mini-program.
@@ -21,7 +21,10 @@ export default function findPages(projectDir: string) {
   const configFilePath = path.resolve(projectDir, 'app.json');
   return fileCache.run('findPages', configFilePath, () => {
     const { pages = [], subPackages = [] }: AppConfig = fs.readJsonSync(configFilePath);
-    const allPages = lodash.concat(pages, lodash.flatten(subPackages.map(sub => sub.pages.map(page => `${sub.root}/${page}`))))
+    const allPages = lodash.concat(
+      pages,
+      lodash.flatten(subPackages.map(sub => sub.pages.map(page => `${sub.root}/${page}`))),
+    );
 
     return allPages.map(page => {
       const filePrefix = path.resolve(projectDir, page);
