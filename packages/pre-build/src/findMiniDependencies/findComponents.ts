@@ -43,7 +43,6 @@ export default function findComponents(jsonPath: string, projectDir: string) {
       const getFilePath = _ext => item.jsPath.replace(new RegExp(`\\${ext}$`), _ext);
 
       if (!fs.existsSync(item.jsPath)) {
-        const ext = path.extname(item.jsPath);
         item.jsPath = path.resolve(getFilePath(''), `./index${ext}`);
         if (!fs.existsSync(item.jsPath)) {
           throw new Error(
