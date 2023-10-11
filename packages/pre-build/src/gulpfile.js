@@ -1,18 +1,9 @@
 const gulp = require('gulp');
-const ts = require('gulp-typescript');
-const less = require('gulp-less');
-const NpmImportPlugin = require('less-plugin-npm-import');
-const postcss = require('gulp-postcss');
 const fs = require('fs');
-const rename = require('gulp-rename');
-const babel = require('gulp-babel');
-const replace = require('gulp-replace');
-const getBabelConfig = require('./getBabelConfig');
 const utils = require('./utils');
 const micromatch = require('micromatch');
 const path = require('path');
-const plumber = require('gulp-plumber');
-const alias = require('./lib/@gulp-plugin/alias/index');
+const { processors } = require('./processors');
 
 const cwd = process.cwd();
 const excludeDistDir = `${utils.distDir.replace(cwd + path.sep, '')}/**`;
@@ -63,132 +54,50 @@ const sourceType = {
   },
 };
 
-function replaceEnv(stream) {
-  let resultStream = stream;
-  if (process.env.NODE_ENV) {
-    resultStream = resultStream.pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV)));
-  }
-  if (process.env.GOLDFISH_ENV) {
-    resultStream = resultStream.pipe(replace('process.env.GOLDFISH_ENV', JSON.stringify(process.env.GOLDFISH_ENV)));
-  }
-  return resultStream;
-}
-
-function commonStream(files, cb) {
-  let stream = cb(replaceEnv(gulp.src(files, { base: baseDir })).pipe(plumber(utils.error)));
-  stream = stream.pipe(gulp.dest(utils.distDir));
-  return stream;
-}
-
-function compileJSStream(files) {
-  return commonStream(files, stream => {
-    return stream.pipe(
-      replace('./assets/', function () {
-        return `/${this.file.relative.replace(this.file.basename, '')}assets/`;
-      }),
-    );
-  });
-}
-
-function getTSProject() {
-  return utils.tsconfigPath && fs.existsSync(utils.tsconfigPath) ? ts.createProject(utils.tsconfigPath) : null;
-}
-
-function compileTSStream(files) {
-  const tsProject = getTSProject();
-  return commonStream(files, stream => {
-    const babelConfig = getBabelConfig();
-    babelConfig.presets.push([require.resolve('@babel/preset-typescript'), {}]);
-    return stream.pipe(alias(tsProject.config)).pipe(babel(babelConfig));
-  });
-}
-
-function compileDTSStream(files) {
-  const tsProject = getTSProject();
-  return commonStream(files, stream => {
-    if (tsProject) {
-      return stream.pipe(tsProject()).dts;
-    }
-    return stream.pipe(
-      ts({
-        skipLibCheck: true,
-        types: ['mini-types'],
-        declaration: true,
-      }),
-    ).dts;
-  });
-}
-
-function compileLessStream(files) {
-  return commonStream(files, stream => {
-    return stream
-      .pipe(
-        less({
-          javascriptEnabled: true,
-          plugins: [new NpmImportPlugin({ prefix: '~' })],
-        }),
-      )
-      .pipe(
-        postcss(file => {
-          return {
-            plugins: [
-              require('autoprefixer')({}),
-              require('postcss-px-to-viewport')({
-                viewportWidth: /mini-antui/.test(file.relative) ? 750 / 2 : 750,
-              }),
-            ],
-          };
-        }),
-      )
-      .pipe(
-        rename({
-          extname: '.acss',
-        }),
-      );
-  });
-}
-
-function copyStream(files) {
-  return gulp.src(files, { base: baseDir }).pipe(gulp.dest(utils.distDir));
+function complieProcess(files, type) {
+  return processors[type].reduce(
+    (stream, processor) => stream.pipe(processor.handler()),
+    gulp.src(files, { base: baseDir }),
+  );
 }
 
 gulp.task('ts', () => {
-  return compileTSStream(sourceFiles.ts);
+  return complieProcess(sourceFiles.ts, 'ts');
 });
 
 gulp.task('js', () => {
-  return compileJSStream(sourceFiles.js);
+  return complieProcess(sourceFiles.js, 'js');
 });
 
 gulp.task('less', () => {
-  return compileLessStream(sourceFiles.less);
+  return complieProcess(sourceFiles.less, 'less');
 });
 
 gulp.task('copy', () => {
-  return copyStream(sourceFiles.copy);
+  return complieProcess(sourceFiles.copy, 'copy');
 });
 
 gulp.task('dts', () => {
-  return compileDTSStream(sourceFiles.ts);
+  return complieProcess(sourceFiles.ts, 'dts');
 });
 
 gulp.task(
   'all',
   gulp.parallel(
     function ts() {
-      return compileTSStream(sourceFiles.ts);
+      return complieProcess(sourceFiles.ts, 'ts');
     },
     function js() {
-      return compileJSStream(sourceFiles.js);
+      return complieProcess(sourceFiles.js, 'js');
     },
     function less() {
-      return compileLessStream(sourceFiles.less);
+      return complieProcess(sourceFiles.less, 'less');
     },
     function copy() {
-      return copyStream(sourceFiles.copy);
+      return complieProcess(sourceFiles.copy, 'copy');
     },
     function dts() {
-      return compileDTSStream(sourceFiles.ts);
+      return complieProcess(sourceFiles.ts, 'dts');
     },
   ),
 );
@@ -237,10 +146,10 @@ function createDevWatcherTask(globs, sourceFiles, onComplete) {
     let stream;
     if (sourceType.check(path, sourceFiles) === 'ts') {
       callbackCounter = 2;
-      stream = compileTSStream(path);
+      stream = complieProcess(path, 'ts');
 
       // handle the dts
-      const dtsStream = compileDTSStream(path);
+      const dtsStream = complieProcess(path, 'dts').dts;
       dtsStream.once('error', e => {
         utils.error('Compile file[dts] failed:', path, e);
       });
@@ -249,11 +158,11 @@ function createDevWatcherTask(globs, sourceFiles, onComplete) {
         checkComplete();
       });
     } else if (sourceType.check(path, sourceFiles) === 'less') {
-      stream = compileLessStream(path);
+      stream = complieProcess(path, 'less');
     } else if (sourceType.check(path, sourceFiles) === 'js') {
-      stream = compileJSStream(path);
+      stream = complieProcess(path, 'js');
     } else if (sourceType.check(path, sourceFiles) === 'copy') {
-      stream = copyStream(path);
+      stream = complieProcess(path, 'copy');
     }
 
     if (!stream) {
@@ -288,19 +197,19 @@ gulp.task(
   'npm',
   gulp.parallel(
     function ts() {
-      return compileTSStream(npmSourceFiles.ts);
+      return complieProcess(npmSourceFiles.ts, 'ts');
     },
     function js() {
-      return compileJSStream(npmSourceFiles.js);
+      return complieProcess(npmSourceFiles.js, 'js');
     },
     function less() {
-      return compileLessStream(npmSourceFiles.less);
+      return complieProcess(npmSourceFiles.less, 'less');
     },
     function copy() {
-      return copyStream(npmSourceFiles.copy);
+      return complieProcess(npmSourceFiles.copy, 'copy');
     },
     function dts() {
-      return compileDTSStream(npmSourceFiles.dts);
+      return complieProcess(npmSourceFiles.dts, 'dts');
     },
   ),
 );
