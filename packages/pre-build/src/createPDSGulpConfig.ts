@@ -1,6 +1,6 @@
-import createGulpConfig, { CreateGulConfigOptions } from './createGulpConfig';
-import { processors } from './getProcessors'
 import replace from 'gulp-replace';
+import createGulpConfig, { CreateGulConfigOptions } from './createGulpConfig';
+import { processors } from './getProcessors';
 
 export interface CreatePDSGulConfigOptions extends CreateGulConfigOptions {}
 
@@ -14,7 +14,7 @@ export default function createPDSGulpConfig(options: CreatePDSGulConfigOptions) 
         if (prefixRE.test(key) || key === 'NODE_ENV') {
           return stream.pipe(replace(`process.env.${key}`, JSON.stringify(value)));
         }
-        return stream
+        return stream;
       }, stream);
     },
   };

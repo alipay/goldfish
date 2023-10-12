@@ -95,11 +95,11 @@ export const processors: Processor = {
       },
     },
   ],
-}; 
+};
 
 export default function getProcessors(type: string) {
   const { prebuild } = getUserConfig();
   const { gulp } = prebuild || {};
   const fn = gulp?.[type] || (v => v);
   return fn(processors[type]);
-};
+}

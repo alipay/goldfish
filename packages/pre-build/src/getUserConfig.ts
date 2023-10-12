@@ -1,5 +1,5 @@
-import fs from 'fs-extra'
-import path from 'path'
+import path from 'path';
+import fs from 'fs-extra';
 
 // --- config ---
 // module.exports = {
@@ -21,8 +21,8 @@ import path from 'path'
 //   },
 // };
 
-export default function getCustomConfig () {
+export default function getCustomConfig() {
   const configPath = path.resolve(process.cwd(), 'goldfish.config.js');
   if (!fs.existsSync(configPath)) return {};
   return require(configPath);
-};
+}

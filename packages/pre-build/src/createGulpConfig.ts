@@ -5,7 +5,7 @@ import micromatch from 'micromatch';
 import plumber from 'gulp-plumber';
 import { TscWatchClient } from 'tsc-watch/client';
 import utils from './utils';
-import getProcessors from './getProcessors'
+import getProcessors from './getProcessors';
 
 export interface CreateGulConfigOptions {
   projectDir: string;
