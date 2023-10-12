@@ -1,17 +1,11 @@
 import path from 'path';
 import fs from 'fs';
 import gulp from 'gulp';
-import less from 'gulp-less';
-import NpmImportPlugin from 'less-plugin-npm-import';
-import postcss from 'gulp-postcss';
-import rename from 'gulp-rename';
-import babel from 'gulp-babel';
-import replace from 'gulp-replace';
 import micromatch from 'micromatch';
 import plumber from 'gulp-plumber';
 import { TscWatchClient } from 'tsc-watch/client';
-import getBabelConfig from './getBabelConfigNext';
 import utils from './utils';
+import getProcessors from './getProcessors'
 
 export interface CreateGulConfigOptions {
   projectDir: string;
@@ -76,38 +70,24 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
     },
   };
 
-  function replaceEnv(stream: NodeJS.ReadWriteStream) {
-    let resultStream = stream;
-    if (process.env.NODE_ENV) {
-      resultStream = resultStream.pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV)));
-    }
-    if (process.env.GOLDFISH_ENV) {
-      resultStream = resultStream.pipe(replace('process.env.GOLDFISH_ENV', JSON.stringify(process.env.GOLDFISH_ENV)));
-    }
-    return resultStream;
-  }
+  function complieProcess(files, type) {
+    const processors = getProcessors(type);
 
-  function commonStream(files: string[], cb: (stream: NodeJS.ReadWriteStream) => NodeJS.ReadWriteStream) {
-    let stream = cb(replaceEnv(gulp.src(files, { base: options.baseDir })).pipe(plumber(utils.error)));
-    stream = stream.pipe(gulp.dest(options.distDir));
-    return stream;
+    const stream = processors.reduce(
+      (stream, processor) => stream.pipe(processor.handler(options, stream)),
+      gulp.src(files, { base: options.baseDir }),
+    );
+
+    const postProcessors = [() => plumber(utils.error), () => gulp.dest(options.distDir)];
+    return postProcessors.reduce((stream, processor) => stream.pipe(processor()), stream);
   }
 
   function compileJSStream(files: string[]) {
-    return commonStream(files, stream => {
-      return stream.pipe(
-        replace('./assets/', function () {
-          return `/${this.file.relative.replace(this.file.basename, '')}assets/`;
-        }),
-      );
-    });
+    return complieProcess(files, 'js');
   }
 
   function compileTSStream(files: string[]) {
-    return commonStream(files, stream => {
-      const babelConfig = getBabelConfig({ projectDir: options.projectDir });
-      return stream.pipe(babel(babelConfig));
-    });
+    return complieProcess(files, 'ts');
   }
 
   function compileDTS(opts: { watch?: boolean; onSuccess?: () => void }) {
@@ -145,39 +125,11 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
   }
 
   function compileLessStream(files: string[]) {
-    return commonStream(files, stream => {
-      return stream
-        .pipe(
-          less({
-            javascriptEnabled: true,
-            plugins: [new NpmImportPlugin({ prefix: '~' })],
-          }),
-        )
-        .pipe(
-          postcss(file => {
-            const plugins = [require('autoprefixer')({})];
-            if (!options.disablePx2Vw) {
-              plugins.push(
-                require('postcss-px-to-viewport')({
-                  viewportWidth: /mini-antui/.test(file.relative) ? 750 / 2 : 750,
-                }),
-              );
-            }
-            return {
-              plugins,
-            };
-          }),
-        )
-        .pipe(
-          rename({
-            extname: '.acss',
-          }),
-        );
-    });
+    return complieProcess(files, 'less');
   }
 
   function copyStream(files: string[]) {
-    return gulp.src(files, { base: options.baseDir }).pipe(gulp.dest(options.distDir));
+    return complieProcess(files, 'copy');
   }
 
   function build() {
@@ -388,7 +340,6 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
     dev,
     npm,
     npmDev,
-    commonStream,
     resolveTypeScript,
     excludeDistDir,
     sourceFiles,
