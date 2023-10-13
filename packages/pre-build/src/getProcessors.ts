@@ -59,7 +59,7 @@ export const processors: Processor = {
         };
 
         return Object.entries(envMap).reduce((stream, [key, value]) => {
-          return stream.pipe(replace(key, JSON.stringify(value)));
+          return stream.pipe(replace(key, JSON.stringify(value || '')));
         }, stream);
       },
     },
@@ -81,7 +81,7 @@ export const processors: Processor = {
         };
 
         return Object.entries(envMap).reduce((stream, [key, value]) => {
-          return stream.pipe(replace(key, JSON.stringify(value)));
+          return stream.pipe(replace(key, JSON.stringify(value || '')));
         }, stream);
       },
     },
