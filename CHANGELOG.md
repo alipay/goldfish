@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0+pds](https://github.com/alipay/goldfish/compare/v2.26.1...v2.27.0+pds) (2023-10-13)
+
+
+### Bug Fixes
+
+* lint ([7a141bd](https://github.com/alipay/goldfish/commit/7a141bd1e6964728a05cb8bdf496d8d32adc54ca))
+
+
+### Features
+
+* **pre-build:** support STAGE_NAME env name ([c1f014a](https://github.com/alipay/goldfish/commit/c1f014a57db5534265a5bc7ad8dd16b6dc8b4be3))
+* **pre-build:** traverse files ([de65bca](https://github.com/alipay/goldfish/commit/de65bcaf548af9366e6687f0344e7201a320aef2))
+* remove no-use code ([5c6b5ad](https://github.com/alipay/goldfish/commit/5c6b5ada3a3abd4a8422f354c0c57644ff0c5626))
+* remove WIP ([de3010c](https://github.com/alipay/goldfish/commit/de3010cf2465005f7611b3dbb908a48d06754ea0))
+
+
+
+
+
 ## [2.26.1](https://github.com/alipay/goldfish/compare/v2.26.0...v2.26.1) (2023-05-29)
 
 
