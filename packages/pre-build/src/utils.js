@@ -5,6 +5,7 @@ const path = require('path');
 const lodash = require('lodash');
 const concurrently = require('concurrently');
 const commandExists = require('command-exists');
+const ts = require('gulp-typescript');
 
 const cwd = process.cwd();
 exports.cwd = cwd;
@@ -94,10 +95,7 @@ exports.tsconfigPath = tsconfigPath;
 function getCompiledPath(sourceFilePath, sourceType, sourceFiles) {
   const relativeSourcePath = '.' + sourceFilePath.replace(cwd, '');
   const type = sourceType.check(relativeSourcePath.replace(/^.\//, ''), sourceFiles);
-  const interTargetPath = path.resolve(
-    distDir,
-    sourceFilePath.replace(exports.baseDir + path.sep, ''),
-  );
+  const interTargetPath = path.resolve(distDir, sourceFilePath.replace(exports.baseDir + path.sep, ''));
 
   if (type === 'ts') {
     return interTargetPath.replace(/\.ts$/, '.js');
@@ -150,4 +148,14 @@ exports.execCallback = async (filePath, onSuccess) => {
   } catch (e) {
     error(e);
   }
-}
+};
+
+exports.getTSProject = () => {
+  return tsconfigPath && fs.existsSync(tsconfigPath)
+    ? ts.createProject(tsconfigPath)
+    : ts({
+        skipLibCheck: true,
+        types: ['mini-types'],
+        declaration: true,
+      });
+};
