@@ -220,7 +220,7 @@ function createDevWatcherTask(globs, sourceFiles, onComplete) {
       utils.log(`Remove file successfully: ${targetPath}.`);
     }
   });
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     watcher.on('close', resolve);
   });
 

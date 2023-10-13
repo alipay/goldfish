@@ -31,15 +31,19 @@ export default function findComponents(jsonPath: string, projectDir: string) {
         acssPath: undefined,
         jsonPath: '',
       };
+
       if (item.configPath.startsWith('/')) {
-        item.jsPath = path.resolve(projectDir, `${item.configPath.replace(/^\//, '')}.js`);
+        item.jsPath = ensurePath(path.resolve(projectDir, `${item.configPath.replace(/^\//, '')}`), ['.js', '.ts'])!;
       } else {
         const configFilePathDir = path.parse(item.configFilePath).dir;
         item.jsPath = resolveModuleInSourceDir(item.configPath, configFilePathDir, projectDir) || '';
       }
 
+      const ext = path.extname(item.jsPath);
+      const getFilePath = _ext => item.jsPath.replace(new RegExp(`\\${ext}$`), _ext);
+
       if (!fs.existsSync(item.jsPath)) {
-        item.jsPath = path.resolve(item.jsPath.replace(/\.js$/, ''), './index.js');
+        item.jsPath = path.resolve(getFilePath(''), `./index${ext}`);
         if (!fs.existsSync(item.jsPath)) {
           throw new Error(
             `Can not find the component \`${item.configPath}\` in config file: \`${item.configFilePath}\`.`,
@@ -47,9 +51,9 @@ export default function findComponents(jsonPath: string, projectDir: string) {
         }
       }
 
-      item.axmlPath = item.jsPath.replace(/\.js/, '.axml');
-      item.acssPath = ensurePath(item.jsPath.replace(/\.js/, '.acss'));
-      item.jsonPath = item.jsPath.replace(/\.js/, '.json');
+      item.axmlPath = getFilePath('.axml');
+      item.acssPath = ensurePath(getFilePath(''), ['.acss', '.less']);
+      item.jsonPath = getFilePath('.json');
 
       components.push(item, ...(item.jsonPath ? findComponents(item.jsonPath, projectDir) : []));
     }
