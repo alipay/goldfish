@@ -12,7 +12,7 @@ export default function createPDSGulpConfig(options: CreatePDSGulConfigOptions) 
     handler(_, stream) {
       return Object.entries(process.env).reduce((stream, [key, value]) => {
         if (prefixRE.test(key) || key === 'NODE_ENV') {
-          return stream.pipe(replace(`process.env.${key}`, JSON.stringify(value)));
+          return stream.pipe(replace(`process.env.${key}`, JSON.stringify(value || '')));
         }
         return stream;
       }, stream);
