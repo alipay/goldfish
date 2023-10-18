@@ -70,7 +70,6 @@ export const processors: Processor = {
       },
     },
   ],
-  copy: [],
   js: [
     {
       name: 'replace',
@@ -95,6 +94,10 @@ export const processors: Processor = {
       },
     },
   ],
+  axml: [],
+  json: [],
+  asset: [],
+  copy: [],
 };
 
 export default function getProcessors(type: string) {

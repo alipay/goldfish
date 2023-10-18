@@ -19,7 +19,7 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
   const excludeDistDir = `${options.distDir.replace(options.projectDir + path.sep, '')}/**`;
   const souceBaseDir = path.relative(options.projectDir, options.baseDir);
 
-  type SourceFiles = Record<'ts' | 'less' | 'js' | 'copy' | 'dts', string[]>;
+  type SourceFiles = Record<'ts' | 'less' | 'js' | 'copy' | 'dts' | 'axml' | 'json' | 'asset', string[]>;
   const sourceFiles: SourceFiles = {
     ts: [
       `${souceBaseDir}/**/*.ts`,
@@ -30,8 +30,12 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
     ],
     less: [`${souceBaseDir}/**/*.@(less|acss)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
     js: [`${souceBaseDir}/**/*.@(js|sjs)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
+    axml: [`${souceBaseDir}/**/*.@(axml)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
+    json: [`${souceBaseDir}/**/*.@(json|jsonc|json5)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
+    asset: [`${souceBaseDir}/**/*.@(png|svg|mp4|mp3)`, '!node_modules/**', '!scripts/**', `!${excludeDistDir}`],
     copy: [
-      `${souceBaseDir}/**/*.@(json|axml|png|svg)`,
+      // TODO: 不写一个非排除的路径, build 报错
+      `${souceBaseDir}/**/*.@(xx)`,
       '!node_modules/**',
       '!scripts/**',
       `!${excludeDistDir}`,
@@ -44,8 +48,11 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
   const npmSourceFiles: SourceFiles = {
     ts: ['src/**/*.@(ts|tsx)', '!src/**/*.d.ts'],
     js: ['src/**/*.@(js|jsx)'],
+    axml: ['src/**/*.@(axml)'],
+    json: ['src/**/*.@(json|jsonc|json5)'],
+    asset: ['src/**/*.@(png|svg|mp4|mp3)'],
     less: ['src/**/*.@(acss|less)'],
-    copy: ['src/**/*.@(json|axml|png|svg|sjs)', 'src/**/*.d.ts'],
+    copy: ['src/**/*.@(sjs)', 'src/**/*.d.ts'],
     dts: ['src/**/*.@(ts|tsx)'],
   };
 
@@ -62,6 +69,12 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
         this.typeMap[path] = 'less';
       } else if (micromatch([path], sourceFiles.js).length) {
         this.typeMap[path] = 'js';
+      } else if (micromatch([path], sourceFiles.json).length) {
+        this.typeMap[path] = 'json';
+      } else if (micromatch([path], sourceFiles.asset).length) {
+        this.typeMap[path] = 'asset';
+      } else if (micromatch([path], sourceFiles.axml).length) {
+        this.typeMap[path] = 'axml';
       } else if (micromatch([path], sourceFiles.copy).length) {
         this.typeMap[path] = 'copy';
       }
@@ -88,6 +101,18 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
 
   function compileTSStream(files: string[]) {
     return complieProcess(files, 'ts');
+  }
+
+  function compileJsonStream(files: string[]) {
+    return complieProcess(files, 'json');
+  }
+
+  function compileAxmlStream(files: string[]) {
+    return complieProcess(files, 'axml');
+  }
+
+  function compileAssetStream(files: string[]) {
+    return complieProcess(files, 'asset');
   }
 
   function compileDTS(opts: { watch?: boolean; onSuccess?: () => void }) {
@@ -143,6 +168,15 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
       },
       function less() {
         return compileLessStream(sourceFiles.less);
+      },
+      function axml() {
+        return compileAxmlStream(sourceFiles.axml);
+      },
+      function json() {
+        return compileJsonStream(sourceFiles.json);
+      },
+      function asset() {
+        return compileAssetStream(sourceFiles.asset);
       },
       function copy() {
         return copyStream(sourceFiles.copy);
@@ -201,6 +235,12 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
         stream = compileLessStream([path]);
       } else if (sourceType.check(path, sourceFiles) === 'js') {
         stream = compileJSStream([path]);
+      } else if (sourceType.check(path,sourceFiles) === 'axml' ) {
+        stream = compileAxmlStream([path]);
+      } else if (sourceType.check(path,sourceFiles) === 'json' ) { 
+        stream = compileJsonStream([path]);
+      } else if (sourceType.check(path,sourceFiles) === 'asset' ) { 
+        stream = compileAssetStream([path]);
       } else if (sourceType.check(path, sourceFiles) === 'copy') {
         stream = copyStream([path]);
       }
@@ -273,6 +313,15 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
       },
       function less() {
         return compileLessStream(npmSourceFiles.less);
+      },
+      function axml() {
+        return compileAxmlStream(npmSourceFiles.axml);
+      },
+      function json() {
+        return compileJsonStream(npmSourceFiles.json);
+      },
+      function asset() {
+        return compileLessStream(npmSourceFiles.asset);
       },
       function copy() {
         return copyStream(npmSourceFiles.copy);
