@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/alipay/goldfish/compare/v2.26.1...v2.28.0) (2023-10-24)
+
+
+### Bug Fixes
+
+* pre-build support loop component ([675cf1c](https://github.com/alipay/goldfish/commit/675cf1cefa606b47cd73000924ef3d71ce145bef))
+
+
+### Features
+
+* bump version ([1aa84c1](https://github.com/alipay/goldfish/commit/1aa84c1010147b2ff0797e853525ef30557a41c4))
+* remove WIP ([de3010c](https://github.com/alipay/goldfish/commit/de3010cf2465005f7611b3dbb908a48d06754ea0))
+
+
+
+
+
 ## [2.26.1](https://github.com/alipay/goldfish/compare/v2.26.0...v2.26.1) (2023-05-29)
 
 
