@@ -15,7 +15,7 @@ type Component = {
   jsonPath: string;
 };
 
-export default function findComponents(jsonPath: string, projectDir: string) {
+export default function findComponents(jsonPath: string, projectDir: string, findPath = new Set<string>()) {
   return fileCache.run('findComponents', jsonPath, () => {
     const json: { usingComponents?: Record<string, string> } = fs.readJSONSync(jsonPath);
     const usingComponents = json.usingComponents || {};
@@ -51,11 +51,16 @@ export default function findComponents(jsonPath: string, projectDir: string) {
         }
       }
 
+      if (findPath.has(item.jsPath)) {
+        continue;
+      }
+      findPath.add(item.jsPath);
+
       item.axmlPath = getFilePath('.axml');
       item.acssPath = ensurePath(getFilePath(''), ['.acss', '.less']);
       item.jsonPath = getFilePath('.json');
 
-      components.push(item, ...(item.jsonPath ? findComponents(item.jsonPath, projectDir) : []));
+      components.push(item, ...(item.jsonPath ? findComponents(item.jsonPath, projectDir, findPath) : []));
     }
 
     const result = lodash.uniqBy(components, component => component.jsPath);
