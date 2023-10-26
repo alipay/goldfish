@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/reactive",
-  "version": "2.27.0-pds.3",
+  "version": "2.27.0-pds.4",
   "description": "Reactive.",
   "main": "lib/index.js",
   "scripts": {
@@ -14,8 +14,8 @@
   "author": "yibuyisheng@icloud.com",
   "license": "MIT",
   "dependencies": {
-    "@goldfishjs/module-usage": "2.27.0-pds.3",
-    "@goldfishjs/utils": "2.27.0-pds.3"
+    "@goldfishjs/module-usage": "2.27.0-pds.4",
+    "@goldfishjs/utils": "2.27.0-pds.4"
   },
   "devDependencies": {
     "@types/lodash": "4.14.182",
