@@ -159,3 +159,5 @@ exports.getTSProject = () => {
         declaration: true,
       });
 };
+
+exports.noop = value => value;

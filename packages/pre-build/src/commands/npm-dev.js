@@ -1,7 +1,7 @@
 const { execCallback, log, error } = require('../utils');
 const path = require('path');
 const npm = require('./npm');
-const createGulpConfig = require('../createGulpConfig').default;
+const createGulpConfig = require('../gulp/createConfig').default;
 
 module.exports = {
   name: 'npm-dev',
@@ -24,14 +24,15 @@ module.exports = {
     await npm.handler(args);
     await execCallback(undefined, onSuccess);
 
-    const { npmDev } = createGulpConfig({
+    const { dev } = createGulpConfig({
       projectDir: cwd,
       baseDir: process.env.BASE_DIR || 'src',
       distDir: process.env.OUT_DIR || 'lib',
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
       disablePx2Vw,
+      type: 'npm',
     });
-    const { task, close } = npmDev(onSuccess);
+    const { task, close } = dev(onSuccess);
     process.on('SIGHUP', close);
     process.on('SIGINT', close);
     log(`Start watching the project: ${cwd}`);

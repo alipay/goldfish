@@ -1,13 +1,14 @@
 const path = require('path');
-const { execCallback, log, error } = require('../utils');
-const { default: excludeUselessScriptsInIntlMiniProgramInDev } = require('../excludeUselessScriptsInIntlMiniProgramInDev');
-const createPDSGulpConfig = require('../createPDSGulpConfig').default;
-const compilePDS = require('./compile-pds');
+const { error, log } = require('../utils');
+const excludeUselessScriptsInIntlMiniProgramInDev = require('../excludeUselessScriptsInIntlMiniProgramInDev').default;
+const compile = require('./compile-pds');
+const replace = require('gulp-replace');
+const createGulpConfig = require('../gulp/createConfig').default;
 
 module.exports = {
   name: 'dev-pds',
   description: 'Pre-compile the miniprogram source codes in develoment for PDS.',
-  builder: (y) => {
+  builder: y => {
     y.option('disable-copy-dependencies', {
       describe: 'Whether to copy dependencies.',
       type: 'boolean',
@@ -21,27 +22,41 @@ module.exports = {
       type: 'boolean',
     });
   },
-  async handler(args) {
+
+  async handler() {
     const disableCopyDependencies = args.disableCopyDependencies;
     const onSuccess = args.onSuccess;
     const disablePx2Vw = args.disablePx2Vw;
-
-    const cwd = process.cwd();
-
-    await compilePDS.handler({ type: 'intl', ...args });
+    await compile.handler({ type: 'intl' });
     await execCallback(undefined, onSuccess);
-
+    const cwd = process.cwd();
     const outDir = process.env.OUT_DIR || 'lib';
-    const { dev } = createPDSGulpConfig({
+    const { dev } = createGulpConfig({
       projectDir: cwd,
       baseDir: process.env.BASE_DIR || 'src',
       distDir: outDir,
-      tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
       disablePx2Vw,
+      tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
+      customFileGulp(fileGulp) {
+        const processor = {
+          name: 'pds-replace',
+          handler: (_, stream) => {
+            const prefixRE = /^GOLDFISH_APP/;
+            return Object.entries(process.env).reduce((stream, [key, value]) => {
+              if (prefixRE.test(key)) {
+                return stream.pipe(replace(`process.env.${key}`, JSON.stringify(value || '')));
+              }
+              return stream;
+            }, stream);
+          },
+        };
+
+        fileGulp.ts.processors.unshift(processor);
+        fileGulp.js.processors.unshift(processor);
+        return fileGulp;
+      },
     });
-    const { task, close } = dev(onSuccess);
-    process.on('SIGHUP', close);
-    process.on('SIGINT', close);
+    const { task } = dev();
     log(`Start watching the project: ${cwd}`);
     task(e => {
       if (e) {
@@ -51,7 +66,7 @@ module.exports = {
       }
     });
 
-    if (!disableCopyDependencies) {
+    if (disableCopyDependencies) {
       excludeUselessScriptsInIntlMiniProgramInDev(path.resolve(cwd, outDir));
     }
   },

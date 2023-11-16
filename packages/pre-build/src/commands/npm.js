@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
-const createGulpConfig = require('../createGulpConfig').default;
+const createGulpConfig = require('../gulp/createConfig').default;
 const { log, error } = require('../utils');
 
 module.exports = {
@@ -18,17 +18,18 @@ module.exports = {
     const distDir = process.env.OUT_DIR || 'lib';
     fs.removeSync(path.resolve(cwd, distDir));
 
-    const { npm } = createGulpConfig({
+    const { build } = createGulpConfig({
       projectDir: cwd,
       baseDir: process.env.BASE_DIR || 'src',
       distDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
       disablePx2Vw,
+      type: 'npm',
     });
     const taskPromise = new Promise(resolve => {
       const startTime = Date.now();
       log(`Start compiling the project: ${cwd}`);
-      npm()(e => {
+      build()(e => {
         if (e) {
           error(`Failed to compile the project: ${cwd}`, e);
         } else {

@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const { default: excludeUselessScriptsInIntlMiniProgram } = require('../excludeUselessScriptsInIntlMiniProgram');
 const { distDir: baseDistDir, log, error } = require('../utils');
-const createGulpConfig = require('../createGulpConfig').default;
+const createGulpConfig = require('../gulp/createConfig').default;
 
 module.exports = {
   name: 'compile',

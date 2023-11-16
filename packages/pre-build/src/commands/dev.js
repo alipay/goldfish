@@ -1,8 +1,8 @@
 const path = require('path');
 const { error, log } = require('../utils');
-const { default: excludeUselessScriptsInIntlMiniProgramInDev } = require('../excludeUselessScriptsInIntlMiniProgramInDev');
+const excludeUselessScriptsInIntlMiniProgramInDev = require('../excludeUselessScriptsInIntlMiniProgramInDev').default;
 const compile = require('./compile');
-const createGulpConfig = require('../createGulpConfig').default;
+const createGulpConfig = require('../gulp/createConfig').default;
 
 module.exports = {
   name: 'dev',
@@ -10,7 +10,6 @@ module.exports = {
   builder: () => {},
   async handler() {
     await compile.handler({ type: 'intl' });
-
     const cwd = process.cwd();
     const outDir = process.env.OUT_DIR || 'lib';
     const { dev } = createGulpConfig({

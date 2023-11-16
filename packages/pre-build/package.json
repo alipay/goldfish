@@ -4,6 +4,7 @@
   "main": "./lib/index.js",
   "description": "goldfish-pre-build",
   "scripts": {
+    "dev": "sh ./scripts/dev.sh",
     "build": "sh ./scripts/build.sh"
   },
   "files": [

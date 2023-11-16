@@ -1,8 +1,9 @@
 const path = require('path');
+const replace = require('gulp-replace');
 const fs = require('fs-extra');
 const { default: excludeUselessScriptsInIntlMiniProgram } = require('../excludeUselessScriptsInIntlMiniProgram');
 const { log, error } = require('../utils');
-const createPDSGulpConfig = require('../createPDSGulpConfig').default;
+const createGulpConfig = require('../gulp/createConfig').default;
 
 module.exports = {
   name: 'compile-pds',
@@ -40,12 +41,30 @@ module.exports = {
 
     fs.removeSync(path.resolve(cwd, distDir));
 
-    const { build } = createPDSGulpConfig({
+    const { build } = createGulpConfig({
       projectDir: cwd,
       baseDir: process.env.BASE_DIR || 'src',
       distDir,
       tsconfigPath: path.resolve(cwd, 'tsconfig.json'),
       disablePx2Vw,
+      customFileGulp(fileGulp) {
+        const processor = {
+          name: 'pds-replace',
+          handler: (_, stream) => {
+            const prefixRE = /^GOLDFISH_APP/;
+            return Object.entries(process.env).reduce((stream, [key, value]) => {
+              if (prefixRE.test(key)) {
+                return stream.pipe(replace(`process.env.${key}`, JSON.stringify(value || '')));
+              }
+              return stream;
+            }, stream);
+          },
+        };
+
+        fileGulp.ts.processors.unshift(processor);
+        fileGulp.js.processors.unshift(processor);
+        return fileGulp;
+      },
     });
     const taskPromise = new Promise(resolve => {
       const startTime = Date.now();
