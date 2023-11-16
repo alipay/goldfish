@@ -54,13 +54,22 @@ export default function createGulpConfig(options: CreateGulpConfigOptions) {
     const tasks = Object.keys(fileGulp)
     .map(type => {
       const { glob, processors } = fileGulp[type];
-      return function () {
+
+      const fn = function () {
         return compliePipeline({
           fileGulp: { type, processors, glob },
           travelData: processorTravelContext,
           options
         });
       };
+
+      // 赋值 name 属性
+      Object.defineProperty(fn, 'name', {
+        value: type,
+        writable: true,
+      });
+
+      return fn
     });
     return gulp.parallel(tasks);
   }
