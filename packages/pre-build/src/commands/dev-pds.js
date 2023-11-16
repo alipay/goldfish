@@ -23,11 +23,11 @@ module.exports = {
     });
   },
 
-  async handler() {
+  async handler(args) {
     const disableCopyDependencies = args.disableCopyDependencies;
     const onSuccess = args.onSuccess;
     const disablePx2Vw = args.disablePx2Vw;
-    await compile.handler({ type: 'intl' });
+    await compile.handler({ type: 'intl', ...args });
     await execCallback(undefined, onSuccess);
     const cwd = process.cwd();
     const outDir = process.env.OUT_DIR || 'lib';
