@@ -63,11 +63,8 @@ export default function createGulpConfig(options: CreateGulpConfigOptions) {
         });
       };
 
-      // 赋值 name 属性
-      Object.defineProperty(fn, 'name', {
-        value: type,
-        writable: true,
-      });
+      // gulp 抛出异常的时候可以看到是哪个任务有问题
+      fn.name = type;
 
       return fn
     });
