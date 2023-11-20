@@ -31,6 +31,12 @@ export default function findComponents(jsonPath: string, projectDir: string, fin
         acssPath: undefined,
         jsonPath: '',
       };
+
+      // skip plugin
+      if (item.configPath.startsWith('plugin://')) {
+        continue;
+      }
+
       if (item.configPath.startsWith('/')) {
         item.jsPath = path.resolve(projectDir, `${item.configPath.replace(/^\//, '')}.js`);
       } else {
