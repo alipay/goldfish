@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://github.com/alipay/goldfish/compare/v2.28.0...v2.29.0) (2023-11-20)
+
+**Note:** Version bump only for package goldfish-js
+
+
+
+
+
 # [2.28.0](https://github.com/alipay/goldfish/compare/v2.26.1...v2.28.0) (2023-10-24)
 
 

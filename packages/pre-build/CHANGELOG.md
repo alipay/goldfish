@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://github.com/alipay/goldfish/compare/v2.28.0...v2.29.0) (2023-11-20)
+
+
+### Bug Fixes
+
+* **pre-build:** skip find plugin ([fbe502e](https://github.com/alipay/goldfish/commit/fbe502e480a46ff57b4fe8e122947035ae8ab8f4))
+
+
+### Features
+
+* **pre-build:** support STAGE_NAME env name ([c1f014a](https://github.com/alipay/goldfish/commit/c1f014a57db5534265a5bc7ad8dd16b6dc8b4be3))
+
+
+
+
+
 # [2.28.0](https://github.com/alipay/goldfish/compare/v2.26.1...v2.28.0) (2023-10-24)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@goldfishjs/core",
-  "version": "2.28.0",
+  "version": "2.29.0",
   "description": "goldfish",
   "main": "index.js",
   "files": [
@@ -28,7 +28,7 @@
     "@goldfishjs/composition-api": "^2.28.0",
     "@goldfishjs/hooks": "^2.28.0",
     "@goldfishjs/module-usage": "^2.28.0",
-    "@goldfishjs/pre-build": "^2.28.0",
+    "@goldfishjs/pre-build": "^2.29.0",
     "@goldfishjs/react": "^2.28.0",
     "@goldfishjs/reactive": "^2.28.0",
     "@goldfishjs/reactive-connect": "^2.28.0",
