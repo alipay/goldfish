@@ -326,12 +326,13 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
       function copy() {
         return copyStream(npmSourceFiles.copy);
       },
+    ];
+    return gulp.series(
+      gulp.parallel(tasks),
       function compileDeclarations() {
         return compileDTS({ watch: false });
       },
-      /* eslint-enable prefer-arrow-callback */
-    ];
-    return gulp.parallel(tasks);
+    )
   }
 
   function npmDev(onSuccess?: string) {
