@@ -235,11 +235,11 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
         stream = compileLessStream([path]);
       } else if (sourceType.check(path, sourceFiles) === 'js') {
         stream = compileJSStream([path]);
-      } else if (sourceType.check(path,sourceFiles) === 'axml' ) {
+      } else if (sourceType.check(path, sourceFiles) === 'axml') {
         stream = compileAxmlStream([path]);
-      } else if (sourceType.check(path,sourceFiles) === 'json' ) { 
+      } else if (sourceType.check(path, sourceFiles) === 'json') {
         stream = compileJsonStream([path]);
-      } else if (sourceType.check(path,sourceFiles) === 'asset' ) { 
+      } else if (sourceType.check(path, sourceFiles) === 'asset') {
         stream = compileAssetStream([path]);
       } else if (sourceType.check(path, sourceFiles) === 'copy') {
         stream = copyStream([path]);
@@ -327,12 +327,9 @@ export default function createGulpConfig(options: CreateGulConfigOptions) {
         return copyStream(npmSourceFiles.copy);
       },
     ];
-    return gulp.series(
-      gulp.parallel(tasks),
-      function compileDeclarations() {
-        return compileDTS({ watch: false });
-      },
-    )
+    return gulp.series(gulp.parallel(tasks), function compileDeclarations() {
+      return compileDTS({ watch: false });
+    });
   }
 
   function npmDev(onSuccess?: string) {
