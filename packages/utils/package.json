@@ -31,12 +31,12 @@
     "@goldfishjs/module-usage": "^1.9.5",
     "@types/lodash": "^4.14.161",
     "@types/lodash-es": "^4.17.3",
-    "lodash-cli": "^4.17.5",
     "lodash-es": "^4.17.15"
   },
   "devDependencies": {
     "gulp-if": "^3.0.0",
-    "gulp-replace": "^1.0.0"
+    "gulp-replace": "^1.0.0",
+    "lodash-cli": "^4.17.5"
   },
   "registry": "https://registry.npmjs.org/"
 }
