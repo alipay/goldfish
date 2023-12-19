@@ -88,7 +88,7 @@ export default class Route extends Plugin {
     this.popWindow(pages.length - targetIndex - 1);
   }
 
-  public pushWindow(...args: Parameters<typeof route['pushWindow']>) {
+  public pushWindow(...args: Parameters<typeof route.pushWindow>) {
     return route.pushWindow(...args);
   }
 }
