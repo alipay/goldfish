@@ -21,7 +21,7 @@ export function isObservable(obj: any) {
   return obj && Object.prototype.hasOwnProperty.call(obj, OBSERVE_KEY) && obj[OBSERVE_KEY] === OBSERVE_FLAG;
 }
 
-export function definePropertySilently(...args: Parameters<typeof Object['defineProperty']>) {
+export function definePropertySilently(...args: Parameters<typeof Object.defineProperty>) {
   silent(() => {
     Object.defineProperty(...args);
   })();
